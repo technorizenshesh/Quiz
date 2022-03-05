@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">Quiz</string>
+    <string name="api_key">AIzaSyBduv61ywGy3e9mU6NJ_a7GHCf5oSbxT2w</string>
+    <string name="already_have_an_account_sign_in_now">Already have an account? <u><font color='#090F47'>Sign In Now</font></u></string>
+    <string name="dont_have_an_account_sign_in_now">Don’t have an account? <u><font color='#090F47'>Sign Up Now</font></u></string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="log_out">LOG OUT</string>
+    <string name="save_details">SAVE DETAILS</string>
+    <string name="enter_a_email">Enter a Email.</string>
+    <string name="change_password">Change Password</string>
+    <string name="enter_new_password">Enter New Password.</string>
+    <string name="enter_password">Enter Password.</string>
+    <string name="enter_confirm_new_pass">Enter Confirm Password.</string>
+    <string name="edit_details">Edit Details</string>
+    <string name="play_a_game">Lists</string>
+    <string name="view_all"><u>View All</u></string>
+    <string name="team_information">Team Information</string>
+    <string name="leader">Leader Board</string>
+    <string name="start"><u>START</u></string>
+    <string name="start1">START</string>
+    <string name="instruction">Instruction</string>
+    <string name="answer">ANSWER</string>
+    <string name="you_give_up">You Give Up</string>
+    <string name="inventory">Inventory</string>
+</resources>

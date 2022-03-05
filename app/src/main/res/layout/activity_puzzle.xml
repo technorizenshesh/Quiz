@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activities.PuzzleAct">
+    <include layout="@layout/header_layout" android:id="@+id/header"/>
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:layout_below="@id/header"
+        android:layout_above="@+id/llBottom"
+        >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".activities.PuzzleAct">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_120sdp"
+        android:src="@drawable/ic_puzzel"
+        android:scaleType="fitXY"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/poppins_medium"
+        android:textSize="@dimen/_13sdp"
+        android:layout_marginHorizontal="@dimen/_15sdp"
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Accumsan, felis netus nunc nulla tempus. Felis, tortor eu faucibus ipsum porttitor ut. Dui sed sed velit senectus vulputate eleifend. Leo ipsum fermentum felis ipsum erat sed bibendum nulla. Feugiat platea ac pulvinar aliquet cras leo ac.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Accumsan, felis netus nunc nulla tempus. Felis, tortor eu faucibus ipsum porttitor ut. Dui sed sed velit senectus vulputate eleifend. Leo ipsum fermentum felis ipsum erat sed bibendum nulla. Feugiat platea ac pulvinar aliquet cras leo ac.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Accumsan, felis netus nunc nulla tempus. Felis, tortor eu faucibus ipsum porttitor ut. Dui sed sed velit senectus vulputate eleifend. Leo ipsum."
+        />
+    </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <LinearLayout
+        android:id="@+id/llBottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_above="@id/tvMaster"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:layout_marginHorizontal="@dimen/_15sdp"
+        >
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".5"
+            android:text="@string/you_give_up"
+            android:background="@drawable/bt_bg"
+            android:textColor="@color/yellow"
+            android:layout_marginRight="@dimen/_5sdp"
+            />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".5"
+            android:text="@string/answer"
+            android:background="@drawable/bt_bg"
+            android:textColor="@color/yellow"
+            />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvMaster"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/poppins_bold"
+        android:textSize="@dimen/_13sdp"
+        android:layout_marginHorizontal="@dimen/_15sdp"
+        android:layout_marginBottom="@dimen/_10sdp"
+        android:gravity="center"
+        android:textColor="@color/purple_700"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:text="Master"
+        android:layout_alignParentBottom="true"
+        />
+</RelativeLayout>
+</layout>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/_10sdp"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/rlTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/img_event"
+        android:layout_below="@id/rlGameStatus"
+        android:layout_marginEnd="@dimen/_10sdp"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="+ 2 Minutes"
+            android:fontFamily="@font/poppins_bold"
+            android:textColor="@color/purple_700"
+            android:textSize="@dimen/_11sdp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="12/4/2021"
+            android:fontFamily="@font/poppins_bold"
+            android:textColor="@color/dark_gray"
+            />
+
+    </RelativeLayout>
+
+</LinearLayout>
+</layout>

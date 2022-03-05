@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/_15sdp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+   >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Logo"
+            android:layout_gravity="center_horizontal"
+            android:fontFamily="@font/poppins_bold"
+            android:layout_centerInParent="true"
+            android:textAllCaps="true"
+            android:layout_marginTop="@dimen/_40sdp"
+            android:textColor="@color/appcolor"
+            android:textSize="@dimen/_30sdp"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="LOGIN!"
+            android:layout_gravity="center_horizontal"
+            android:fontFamily="@font/poppins_bold"
+            android:layout_centerInParent="true"
+            android:textAllCaps="true"
+            android:layout_marginTop="@dimen/_18sdp"
+            android:textColor="@color/yellow"
+            android:textSize="@dimen/_20sdp"
+            />
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginRight="@dimen/_5sdp"
+            android:layout_marginLeft="@dimen/_5sdp"
+            app:cardCornerRadius="@dimen/_5sdp"
+            app:cardElevation="@dimen/_5sdp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/labelName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Enter a Email."
+                    app:boxStrokeWidth="0dp"
+                    android:textColorHint="@color/grey"
+                    app:boxStrokeWidthFocused="0dp"
+                    app:hintTextColor="@color/grey">
+
+                    <EditText
+                        android:id="@+id/etName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/white"
+                        android:fontFamily="@font/poppins_medium"
+                        android:textColorHint="@color/grey"
+                        android:imeOptions="actionNext"
+                        android:textColor="@color/black"
+                        android:inputType="textEmailAddress"
+                        android:textSize="@dimen/_12sdp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginRight="@dimen/_5sdp"
+            android:layout_marginLeft="@dimen/_5sdp"
+            app:cardCornerRadius="@dimen/_5sdp"
+            app:cardElevation="@dimen/_5sdp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/labelPass"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Enter a Password."
+                    app:boxStrokeWidth="0dp"
+                    android:textColorHint="@color/grey"
+                    app:boxStrokeWidthFocused="0dp"
+                    app:hintTextColor="@color/grey">
+
+                    <EditText
+                        android:id="@+id/etPass"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/white"
+                        android:fontFamily="@font/poppins_medium"
+                        android:textColorHint="@color/grey"
+                        android:imeOptions="actionNext"
+                        android:textColor="@color/black"
+                        android:inputType="textPassword"
+                        android:textSize="@dimen/_12sdp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/tvForgotPass"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Forgot Password?"
+            android:layout_gravity="end"
+            android:fontFamily="@font/poppins_regular"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:textColor="@color/appcolor"
+            android:textSize="@dimen/_12sdp"
+            />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnLogin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:textColor="@color/yellow"
+            android:text="SIGN IN"
+            android:textSize="@dimen/_13sdp"
+            android:fontFamily="@font/poppins_medium"
+            android:background="@drawable/bt_bg"/>
+
+    <TextView
+        android:id="@+id/tvSiguplink"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/dont_have_an_account_sign_in_now"
+        android:textSize="@dimen/_12sdp"
+        android:fontFamily="@font/metropolis_bold"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="@dimen/_15sdp"
+        />
+
+</LinearLayout>
