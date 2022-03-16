@@ -98,8 +98,10 @@ dependencies {
     //Google Map
     implementation 'com.google.android.gms:play-services-maps:18.0.2'
 
-
 }
+apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
+
 //plugins {
 //    id 'com.android.application'
 //}

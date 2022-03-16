@@ -19,7 +19,7 @@
             android:gravity="center"
             android:textColor="@color/black"
             android:layout_marginTop="@dimen/_20sdp"
-            android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Accumsan, felis netus nunc nulla tempus. Felis, tortor eu faucibus ipsum porttitor ut. Dui sed sed velit senectus vulputate eleifend. Leo ipsum fermentum felis ipsum erat sed bibendum nulla. Feugiat platea ac pulvinar aliquet cras leo ac.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Accumsan, felis netus nunc nulla tempus. Felis, tortor eu faucibus ipsum porttitor ut. Dui sed sed velit senectus vulputate eleifend. Leo ipsum fermentum felis ipsum erat sed bibendum nulla. Feugiat platea ac pulvinar aliquet cras leo ac.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Accumsan, felis netus nunc nulla tempus. Felis, tortor eu faucibus ipsum porttitor ut. Dui sed sed velit senectus vulputate eleifend. Leo ipsum."
+            android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Accumsan, felis netus nunc nulla tempus. Felis, tortor eu faucibus ipsum porttitor ut. Dui sed sed velit senectus vulputate eleifend. Leo ipsum fermentum felis ipsum erat sed bibendum nulla. Feugiat platea ac pulvinar aliquet cras leo ac.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Accumsan, felis netus nunc nulla tempus. Felis, tortor eu faucibus ipsum porttitor ut. Dui sed sed velit senectus vulputate eleifend. Leo ipsum fermentum felis ipsum erat sed bibendum nulla. Feugiat platea ac pulvinar aliquet cras leo ac.Lorem ipsum dolor sit amet, consectetur adipiscing elit. "
             />
 
         <androidx.appcompat.widget.AppCompatButton
@@ -30,6 +30,7 @@
             android:textColor="@color/yellow"
             android:text="@string/start1"
             android:textSize="@dimen/_13sdp"
+            android:layout_marginBottom="@dimen/_10sdp"
             android:layout_marginHorizontal="@dimen/_15sdp"
             android:fontFamily="@font/poppins_medium"
             android:background="@drawable/bt_bg"/>

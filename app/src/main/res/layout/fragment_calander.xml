@@ -45,8 +45,14 @@
             />
     </RelativeLayout>
 
-    <LinearLayout
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/nestedScroll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
         android:layout_below="@id/header"
+        >
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -66,6 +72,7 @@
                 android:textSize="@dimen/_12sdp"
                 />
             <TextView
+                android:id="@+id/tvViewAll"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/view_all"
@@ -97,6 +104,7 @@
                 android:textSize="@dimen/_12sdp"
                 />
             <TextView
+                android:id="@+id/tvViewAll1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/view_all"
@@ -116,6 +124,6 @@
             android:id="@+id/rvReomendedEvents"/>
 
     </LinearLayout>
-
+    </androidx.core.widget.NestedScrollView>
 </RelativeLayout>
 </layout>

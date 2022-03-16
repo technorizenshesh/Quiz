@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-    <LinearLayout android:layout_width="match_parent"
+<layout   xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:padding="@dimen/_15sdp"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:android="http://schemas.android.com/apk/res/android"
-
         >
 
         <TextView
@@ -24,7 +23,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="SIGN UP!"
+            android:text="@string/sign_up_1"
             android:layout_gravity="center_horizontal"
             android:fontFamily="@font/poppins_bold"
             android:layout_centerInParent="true"
@@ -51,14 +50,14 @@
                     android:id="@+id/labelName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Enter Email."
+                    android:hint="@string/enter_email"
                     app:boxStrokeWidth="0dp"
                     android:textColorHint="@color/grey"
                     app:boxStrokeWidthFocused="0dp"
                     app:hintTextColor="@color/grey">
 
                     <EditText
-                        android:id="@+id/etName"
+                        android:id="@+id/etEmail"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:backgroundTint="@color/white"
@@ -90,14 +89,14 @@
                     android:id="@+id/labelPass"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Enter Password."
+                    android:hint="@string/enter_password"
                     app:boxStrokeWidth="0dp"
                     android:textColorHint="@color/grey"
                     app:boxStrokeWidthFocused="0dp"
                     app:hintTextColor="@color/grey">
 
                     <EditText
-                        android:id="@+id/etPass"
+                        android:id="@+id/etPassword"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:backgroundTint="@color/white"
@@ -129,20 +128,20 @@
                     android:id="@+id/labelConfirmPass"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Enter confirm password."
+                    android:hint="@string/enter_confirm_password"
                     app:boxStrokeWidth="0dp"
                     android:textColorHint="@color/grey"
                     app:boxStrokeWidthFocused="0dp"
                     app:hintTextColor="@color/grey">
 
                     <EditText
-                        android:id="@+id/etConfirmPass"
+                        android:id="@+id/etConfPass"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:backgroundTint="@color/white"
                         android:fontFamily="@font/poppins_medium"
                         android:textColorHint="@color/grey"
-                        android:imeOptions="actionNext"
+                        android:imeOptions="actionDone"
                         android:textColor="@color/black"
                         android:inputType="textPassword"
                         android:textSize="@dimen/_12sdp" />
@@ -151,14 +150,13 @@
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
 
-
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnSignup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_20sdp"
             android:textColor="@color/yellow"
-            android:text="SIGN UP"
+            android:text="@string/sign_up"
             android:textSize="@dimen/_13sdp"
             android:fontFamily="@font/poppins_medium"
             android:background="@drawable/bt_bg"/>
@@ -175,4 +173,5 @@
             />
 
     </LinearLayout>
+</layout>
 

@@ -48,7 +48,6 @@ public class CalanderFragment extends Fragment {
      * @return A new instance of fragment CalanderFragment.
      */
 
-
     // TODO: Rename and change types and number of parameters
     public static CalanderFragment newInstance(String param1, String param2) {
         CalanderFragment fragment = new CalanderFragment();
@@ -77,16 +76,29 @@ public class CalanderFragment extends Fragment {
 
         binding.rvReomendedEvents.setHasFixedSize(true);
         binding.rvReomendedEvents.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
-        binding.rvReomendedEvents.setAdapter(new HomeAdapter(getActivity()));
+        binding.rvReomendedEvents.setAdapter(new HomeAdapter(getActivity(),false));
         binding.rvUpcomingEvents.setHasFixedSize(true);
         binding.rvUpcomingEvents.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
-        binding.rvUpcomingEvents.setAdapter(new HomeAdapter(getActivity()));
-
+        binding.rvUpcomingEvents.setAdapter(new HomeAdapter(getActivity(),false));
         binding.imgSearch.setOnClickListener(v ->
                 {
                     Navigation.findNavController(v).navigate(R.id.action_navigation_calander_to_searchEventsFragment);
                 }
                 );
+
+        binding.tvViewAll.setOnClickListener(v ->
+                {
+                    Navigation.findNavController(v).navigate(R.id.action_navigation_calander_to_viewAllEventsFragment);
+                }
+        );
+
+        binding.tvViewAll1.setOnClickListener(v ->
+                {
+                    Navigation.findNavController(v).navigate(R.id.action_navigation_calander_to_viewAllEventsFragment);
+                }
+
+        );
+
 
         return binding.getRoot();
     }

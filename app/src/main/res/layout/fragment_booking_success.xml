@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".fragments.BookingSuccessFragment">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/_15sdp"
+        android:background="@color/appcolor"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/booking"
+            android:layout_centerInParent="true"
+            android:textSize="@dimen/_12sdp"
+            android:textColor="@color/white"
+            android:fontFamily="@font/poppins_medium"/>
+    </RelativeLayout>
+    <ImageView
+        android:layout_width="@dimen/_200sdp"
+        android:layout_height="@dimen/_150sdp"
+        android:src="@drawable/ic_success"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/_30sdp"
+    />
+    <TextView
+        android:id="@+id/tvHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/thank_you"
+        android:layout_gravity="center_horizontal"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:textSize="@dimen/_25sdp"
+        android:textColor="@color/purple_700"
+        android:fontFamily="@font/metropolis_bold"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_marginHorizontal="@dimen/_15sdp"
+        android:layout_height="wrap_content"
+        android:text="@string/your_booking_is_successful_one_day_before_the_event_we_will_notify_you_and_for_that_keep_checking_your_email"
+        android:layout_gravity="center_horizontal"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:gravity="center"
+        android:textSize="@dimen/_12sdp"
+        android:textColor="@color/textColor"
+        android:fontFamily="@font/poppins_regular"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnGoHome"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_15sdp"
+        android:layout_marginBottom="@dimen/_20sdp"
+        android:textColor="@color/yellow"
+        android:layout_alignParentBottom="true"
+        android:text="@string/go_to_home"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:textSize="@dimen/_13sdp"
+        android:fontFamily="@font/poppins_medium"
+        android:background="@drawable/bt_bg"/>
+</LinearLayout>
+</layout>

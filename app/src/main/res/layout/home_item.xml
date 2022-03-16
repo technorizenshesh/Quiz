@@ -4,6 +4,7 @@
     android:layout_height="@dimen/_200sdp"
     android:orientation="vertical"
     android:layout_marginRight="@dimen/_5sdp"
+    android:id="@+id/rlParent"
     >
     <ImageView
         android:layout_width="match_parent"

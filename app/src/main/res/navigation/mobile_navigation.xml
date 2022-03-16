@@ -10,6 +10,12 @@
         android:name="com.my.quiz.fragments.HomeFragment"
         android:label="Home"
         tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_navigation_home_to_eventDetailFragment"
+            app:destination="@id/eventDetailFragment" />
+        <action
+            android:id="@+id/action_navigation_home_to_viewAllEventsFragment"
+            app:destination="@id/viewAllEventsFragment" />
     </fragment>
 
     <fragment
@@ -23,6 +29,9 @@
         <action
             android:id="@+id/action_navigation_calander_to_instructionFragment"
             app:destination="@id/instructionFragment" />
+        <action
+            android:id="@+id/action_navigation_calander_to_viewAllEventsFragment"
+            app:destination="@id/viewAllEventsFragment" />
     </fragment>
 
      <fragment
@@ -53,6 +62,18 @@
         <action
             android:id="@+id/action_navigation_profile_to_teamFragment"
             app:destination="@id/teamFragment" />
+        <action
+            android:id="@+id/action_navigation_profile_to_instructionFragment"
+            app:destination="@id/instructionFragment" />
+        <action
+            android:id="@+id/action_navigation_profile_to_contactUsFragment"
+            app:destination="@id/contactUsFragment" />
+        <action
+            android:id="@+id/action_navigation_profile_to_aboutUsFragment"
+            app:destination="@id/aboutUsFragment" />
+        <action
+            android:id="@+id/action_navigation_profile_to_visitWebsiteFragment"
+            app:destination="@id/visitWebsiteFragment" />
     </fragment>
     <fragment
         android:id="@+id/searchFragment"
@@ -85,5 +106,50 @@
         android:id="@+id/instructionFragment"
         android:name="com.my.quiz.fragments.InstructionFragment"
         android:label="InstructionFragment" />
+    <fragment
+        android:id="@+id/contactUsFragment"
+        android:name="com.my.quiz.fragments.ContactUsFragment"
+        android:label="ContactUsFragment" />
+    <fragment
+        android:id="@+id/aboutUsFragment"
+        android:name="com.my.quiz.fragments.AboutUsFragment"
+        android:label="fragment_about_us"
+        tools:layout="@layout/fragment_about_us" />
+    <fragment
+        android:id="@+id/eventDetailFragment"
+        android:name="com.my.quiz.fragments.EventDetailFragment"
+        android:label="EventDetailFragment" >
+        <action
+            android:id="@+id/action_eventDetailFragment_to_cartFragment"
+            app:destination="@id/cartFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/visitWebsiteFragment"
+        android:name="com.my.quiz.fragments.VisitWebsiteFragment"
+        android:label="VisitWebsiteFragment" />
+    <fragment
+        android:id="@+id/viewAllEventsFragment"
+        android:name="com.my.quiz.fragments.ViewAllEventsFragment"
+        android:label="ViewAllEventsFragment" />
+    <fragment
+        android:id="@+id/cartFragment"
+        android:name="com.my.quiz.fragments.CartFragment"
+        android:label="CartFragment" >
+        <action
+            android:id="@+id/action_cartFragment_to_cardFragment"
+            app:destination="@id/cardFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/cardFragment"
+        android:name="com.my.quiz.fragments.CardFragment"
+        android:label="CardFragment" >
+        <action
+            android:id="@+id/action_cardFragment_to_bookingSuccessFragment"
+            app:destination="@id/bookingSuccessFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/bookingSuccessFragment"
+        android:name="com.my.quiz.fragments.BookingSuccessFragment"
+        android:label="BookingSuccessFragment" />
 
 </navigation>

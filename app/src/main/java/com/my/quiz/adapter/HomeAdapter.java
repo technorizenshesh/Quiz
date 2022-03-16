@@ -208,8 +208,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.my.quiz.R;
@@ -222,14 +224,15 @@ import java.util.List;
 
 public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.SelectTimeViewHolder> {
 
-    ArrayAdapter ad;
-    private List<String> dates;
-    private Context context;
 
-    public HomeAdapter(Context context)
+    private Context context;
+    private boolean fromHome;
+
+    public HomeAdapter(Context context,boolean fromHome)
     {
-        this.dates = dates;
+
         this.context = context;
+        this.fromHome = fromHome;
     }
 
     @NonNull
@@ -243,6 +246,17 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.SelectTimeView
 
     @Override
     public void onBindViewHolder(@NonNull SelectTimeViewHolder holder, int position) {
+
+        RelativeLayout rlParent = holder.itemView.findViewById(R.id.rlParent);
+        rlParent.setOnClickListener(v ->
+                {
+                    if(fromHome)
+                    {
+                        Navigation.findNavController(v).navigate(R.id.action_navigation_home_to_eventDetailFragment);
+                    }
+                }
+                );
+
     }
     @Override
     public int getItemCount() {

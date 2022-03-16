@@ -31,6 +31,7 @@ public class HomeAct extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         ivLocation = findViewById(R.id.ivLocation);
         navView = findViewById(R.id.nav_view);
+
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.navigation_home, R.id.navigation_calander,R.id.navigation_list,R.id.navigation_profile)
                 .build();
@@ -44,9 +45,6 @@ public class HomeAct extends AppCompatActivity {
 //                    navView.getMenu().setGroupCheckable(0, false, true);
                 }
                 );
-
-
-
 
 //        navView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
 //            @Override
@@ -65,8 +63,6 @@ public class HomeAct extends AppCompatActivity {
 //                return true;
 //            }
 //        });
-
-
 
     }
 }

@@ -1,5 +1,6 @@
 package com.my.quiz.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.cardview.widget.CardView;
@@ -12,7 +13,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.my.quiz.R;
+import com.my.quiz.activities.LoginAct;
 import com.my.quiz.databinding.FragmentProfileBinding;
+import com.my.quiz.retrofit.Constant;
+import com.my.quiz.utility.SharedPreferenceUtility;
 
 import static com.my.quiz.activities.HomeAct.navView;
 
@@ -25,7 +29,6 @@ public class ProfileFragment extends Fragment {
 
 //    CardView cvEditProfile,cvChangePass,cvList;
     FragmentProfileBinding binding;
-
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -65,22 +68,16 @@ public class ProfileFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-//        navView.getMenu().setGroupCheckable(0, true, true);
         binding = DataBindingUtil.inflate(inflater,R.layout.fragment_profile, container, false);
-//        cvEditProfile = view.findViewById(R.id.cvEditProfile);
-//        cvChangePass = view.findViewById(R.id.cvChangePass);
-//        cvList = view.findViewById(R.id.cvPlayGame);
-
         binding.cvEditProfile.setOnClickListener(view1 ->
                 {
                     Navigation.findNavController(view1).navigate(R.id.action_navigation_profile_to_editProfileFragment);
                 }
                 );
+
         binding.cvChangePass.setOnClickListener(view1 ->
                 {
                     Navigation.findNavController(view1).navigate(R.id.action_navigation_profile_to_changePassFragment);
@@ -93,13 +90,49 @@ public class ProfileFragment extends Fragment {
                 }
         );
 
-//        binding.cvPlayGame.setOnClickListener(view1 ->
-//                {
-//                    Bundle bundle = new Bundle();
-//                    bundle.putString("Test","test");
-//                    Navigation.findNavController(view1).navigate(R.id.action_navigation_profile_to_navigation_list,bundle);
-//                }
-//        );
+        binding.cvInstruction.setOnClickListener(view1 ->
+                {
+                    Navigation.findNavController(view1).navigate(R.id.action_navigation_profile_to_instructionFragment);
+                }
+        );
+
+        binding.cvContactUs.setOnClickListener(view1 ->
+                {
+                    Navigation.findNavController(view1).navigate(R.id.action_navigation_profile_to_contactUsFragment);
+                }
+        );
+
+        binding.cvAboutUs.setOnClickListener(v ->
+                {
+                    Navigation.findNavController(v).navigate(R.id.action_navigation_profile_to_aboutUsFragment);
+                }
+                );
+
+        binding.cvVisiWebsite.setOnClickListener(v ->
+                {
+                    Navigation.findNavController(v).navigate(R.id.action_navigation_profile_to_visitWebsiteFragment);
+                }
+        );
+
+        binding.cvPlayGame.setOnClickListener(view1 ->
+                {
+                    Bundle bundle = new Bundle();
+                    bundle.putString("Test","test");
+                    Navigation.findNavController(view1).navigate(R.id.action_navigation_profile_to_navigation_list,bundle);
+                }
+        );
+
+        binding.btnLogout.setOnClickListener(v ->
+                {
+                    SharedPreferenceUtility.getInstance(getActivity().getApplicationContext()).putBoolean(Constant.IS_USER_LOGGED_IN, false);
+                    Intent intent = new Intent(getActivity(),
+                            LoginAct.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                    getActivity().finish();
+                }
+                );
 
         return binding.getRoot();
     }

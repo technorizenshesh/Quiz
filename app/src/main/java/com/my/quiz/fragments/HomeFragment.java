@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.view.LayoutInflater;
@@ -26,6 +27,8 @@ public class HomeFragment extends Fragment {
 
     FragmentHomeBinding binding;
 
+    private HomeAdapter homeAdapter;
+
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -47,6 +50,7 @@ public class HomeFragment extends Fragment {
      * @param param2 Parameter 2.
      * @return A new instance of fragment HomeFragment.
      */
+
     // TODO: Rename and change types and number of parameters
     public static HomeFragment newInstance(String param1, String param2) {
         HomeFragment fragment = new HomeFragment();
@@ -69,14 +73,33 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+
         binding = DataBindingUtil.inflate(inflater,R.layout.fragment_home, container, false);
         binding.rvReomendedEvents.setHasFixedSize(true);
         binding.rvReomendedEvents.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
-        binding.rvReomendedEvents.setAdapter(new HomeAdapter(getActivity()));
+        binding.rvReomendedEvents.setAdapter(new HomeAdapter(getActivity(),true));
         binding.rvUpcomingEvents.setHasFixedSize(true);
         binding.rvUpcomingEvents.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
-        binding.rvUpcomingEvents.setAdapter(new HomeAdapter(getActivity()));
+        binding.rvUpcomingEvents.setAdapter(new HomeAdapter(getActivity(),true));
+
+        binding.tvViewAll.setOnClickListener(v ->
+                {
+                    Navigation.findNavController(v).navigate(R.id.action_navigation_home_to_viewAllEventsFragment);
+                }
+                );
+
+        binding.tvViewAll1.setOnClickListener(v ->
+                {
+                    Navigation.findNavController(v).navigate(R.id.action_navigation_home_to_viewAllEventsFragment);
+                }
+        );
+
         return binding.getRoot();
     }
+
+    private void getBanners()
+    {
+
+    }
+
 }

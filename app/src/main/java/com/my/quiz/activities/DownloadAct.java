@@ -38,10 +38,8 @@ public class DownloadAct extends AppCompatActivity {
     private void showMainMenu()
     {
 
-        TextView tvInstruction,tvMap,tvINventory;
-
+        TextView tvInstruction,tvMap,tvINventory,tvFinalPuzzel;
         mDialog = new Dialog(DownloadAct.this);
-
         mDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         mDialog.getWindow().getAttributes().windowAnimations = android.R.style.Widget_Material_ListPopupWindow;
         mDialog.setContentView(R.layout.main_menu_options);
@@ -51,6 +49,7 @@ public class DownloadAct extends AppCompatActivity {
         ImageView ivCancel = mDialog.findViewById(R.id.ivCancel);
 
         tvInstruction = mDialog.findViewById(R.id.tvInstruction);
+        tvFinalPuzzel = mDialog.findViewById(R.id.tvFinalPuzzel);
         tvINventory = mDialog.findViewById(R.id.tvINventory);
         tvMap = mDialog.findViewById(R.id.tvMap);
 
@@ -78,6 +77,11 @@ public class DownloadAct extends AppCompatActivity {
                 }
         );
 
+        tvFinalPuzzel.setOnClickListener(v ->
+                {
+                    startActivity(new Intent(DownloadAct.this,FinalAct.class));
+                }
+        );
 
         lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
         lp.height = WindowManager.LayoutParams.WRAP_CONTENT;

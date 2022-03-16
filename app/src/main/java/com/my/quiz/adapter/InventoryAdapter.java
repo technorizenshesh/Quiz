@@ -204,6 +204,7 @@
 package com.my.quiz.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -215,6 +216,7 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.my.quiz.R;
+import com.my.quiz.activities.PuzzleAct;
 
 import java.util.List;
 
@@ -230,7 +232,7 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.Sele
 
     public InventoryAdapter(Context context)
     {
-        this.dates = dates;
+
         this.context = context;
     }
 
@@ -250,8 +252,7 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.Sele
 
         cvParent.setOnClickListener(v ->
                 {
-                    Navigation.findNavController(v).navigate(R.id.action_navigation_list_to_eventLocationsFragment);
-
+                    context.startActivity(new Intent(context, PuzzleAct.class));
                 }
                 );
 

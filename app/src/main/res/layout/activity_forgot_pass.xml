@@ -1,11 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
+<layout    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 <LinearLayout android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="@dimen/_15sdp"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android"
     >
+
+    <ImageView
+        android:layout_width="@dimen/_20sdp"
+        android:layout_height="@dimen/_20sdp"
+        android:id="@+id/ivBack"
+        android:padding="@dimen/_2sdp"
+        android:src="@drawable/ic_back"
+        app:tint="@color/purple_700" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -65,7 +73,7 @@
                 app:hintTextColor="@color/grey">
 
                 <EditText
-                    android:id="@+id/etName"
+                    android:id="@+id/etEmail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/white"
@@ -80,13 +88,15 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnSubmit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_20sdp"
-        android:textColor="@color/yellow"
-        android:text="Submit"
-        android:textSize="@dimen/_13sdp"
+        android:layout_marginTop="@dimen/_40sdp"
+        android:background="@drawable/bt_bg"
         android:fontFamily="@font/poppins_medium"
-        android:background="@drawable/bt_bg"/>
+        android:text="@string/submit"
+        android:textColor="@color/yellow"
+        android:textSize="@dimen/_13sdp" />
 
 </LinearLayout>
+</layout>

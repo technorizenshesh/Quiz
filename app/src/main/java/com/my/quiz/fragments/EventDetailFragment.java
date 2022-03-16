@@ -2,13 +2,16 @@ package com.my.quiz.fragments;
 
 import android.os.Bundle;
 
+import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.my.quiz.R;
+import com.my.quiz.databinding.FragmentEventDetailBinding;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -16,6 +19,8 @@ import com.my.quiz.R;
  * create an instance of this fragment.
  */
 public class EventDetailFragment extends Fragment {
+
+    FragmentEventDetailBinding binding;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -61,6 +66,15 @@ public class EventDetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_event_detail, container, false);
+
+        binding = DataBindingUtil.inflate(inflater,R.layout.fragment_event_detail, container, false);
+
+        binding.btnBookEvent.setOnClickListener(v ->
+                {
+                    Navigation.findNavController(v).navigate(R.id.action_eventDetailFragment_to_cartFragment);
+                }
+                );
+
+        return binding.getRoot();
     }
 }

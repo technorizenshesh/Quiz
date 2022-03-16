@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".fragments.EditProfileFragment">
-    <include layout="@layout/header_layout"/>
+    <include layout="@layout/header_layout" android:id="@+id/header"/>
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabLayoutEventDay"
             android:layout_width="match_parent"
@@ -33,12 +33,10 @@
             android:layout_margin="@dimen/_5sdp"
             app:cardCornerRadius="@dimen/_8sdp"
             app:cardElevation="@dimen/_5sdp">
-
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 >
-
                 <ImageView
                     android:id="@+id/img_event"
                     android:layout_width="@dimen/_90sdp"
