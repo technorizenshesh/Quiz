@@ -17,6 +17,7 @@
                 android:layout_height="@dimen/_150sdp"
                 >
                 <ImageView
+                    android:id="@+id/imgEvent"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_150sdp"
                     android:src="@drawable/crime_scene_img"
@@ -51,7 +52,7 @@
                 android:layout_height="match_parent"
                 android:fillViewport="true"
                 android:layout_below="@id/header"
-                android:layout_above="@+id/btnBookEvent"
+                android:layout_above="@+id/rlBottom"
                 >
             <LinearLayout
                 android:layout_width="match_parent"
@@ -67,6 +68,7 @@
                     android:layout_below="@id/rlGameStatus"
                     >
                     <TextView
+                        android:id="@+id/tvEventName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/time_penalties"
@@ -138,6 +140,7 @@
                     android:layout_marginTop="@dimen/_10sdp"
                     >
                     <TextView
+                        android:id="@+id/tvEventDate"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="23 July 2022"
@@ -147,9 +150,12 @@
                         android:textSize="@dimen/_12sdp"
                         />
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:id="@+id/tvEventLocation"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Nanaimo, Canada"
+                        android:gravity="end"
+                        android:layout_toRightOf="@+id/tvEventDate"
                         android:fontFamily="@font/poppins_bold"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
@@ -209,7 +215,6 @@
                                 android:textColor="@color/black"
                                 android:textSize="@dimen/_11sdp"
                                 />
-
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -242,6 +247,12 @@
             </LinearLayout>
             </androidx.core.widget.NestedScrollView>
 
+            <RelativeLayout
+                android:id="@+id/rlBottom"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_65sdp"
+                android:layout_alignParentBottom="true"
+                >
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnBookEvent"
                 android:layout_width="match_parent"
@@ -254,6 +265,22 @@
                 android:textSize="@dimen/_13sdp"
                 android:fontFamily="@font/poppins_medium"
                 android:background="@drawable/bt_bg"/>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnViewCart"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_15sdp"
+                android:layout_marginBottom="@dimen/_20sdp"
+                android:textColor="@color/yellow"
+                android:layout_alignParentBottom="true"
+                android:text="@string/view_event"
+                android:textSize="@dimen/_13sdp"
+                android:visibility="gone"
+                android:fontFamily="@font/poppins_medium"
+                android:background="@drawable/bt_bg"/>
+            </RelativeLayout>
+
 
         </RelativeLayout>
 

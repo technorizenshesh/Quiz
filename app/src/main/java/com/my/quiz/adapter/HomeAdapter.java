@@ -204,17 +204,22 @@
 package com.my.quiz.adapter;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.my.quiz.R;
+import com.my.quiz.model.SuccessResGetEvents;
 
 import java.util.List;
 
@@ -224,14 +229,14 @@ import java.util.List;
 
 public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.SelectTimeViewHolder> {
 
-
     private Context context;
     private boolean fromHome;
+    private List<SuccessResGetEvents.Result> eventsListList;
 
-    public HomeAdapter(Context context,boolean fromHome)
+    public HomeAdapter(Context context,List<SuccessResGetEvents.Result> eventsListList,boolean fromHome)
     {
-
         this.context = context;
+        this.eventsListList =eventsListList;
         this.fromHome = fromHome;
     }
 
@@ -246,21 +251,31 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.SelectTimeView
 
     @Override
     public void onBindViewHolder(@NonNull SelectTimeViewHolder holder, int position) {
-
+        ImageView ivEvents  = holder.itemView.findViewById(R.id.iv_event);
+        TextView tvEventName = holder.itemView.findViewById(R.id.tv_event_name);
         RelativeLayout rlParent = holder.itemView.findViewById(R.id.rlParent);
         rlParent.setOnClickListener(v ->
                 {
                     if(fromHome)
                     {
-                        Navigation.findNavController(v).navigate(R.id.action_navigation_home_to_eventDetailFragment);
+                        Bundle bundle = new Bundle();
+                        bundle.putString("id",eventsListList.get(position).getId());
+                        Navigation.findNavController(v).navigate(R.id.action_navigation_home_to_eventDetailFragment,bundle);
                     }
                 }
                 );
 
+        Glide .with(context)
+                .load(eventsListList.get(position).getImage())
+                .centerInside()
+                .into(ivEvents);
+
+        tvEventName.setText(eventsListList.get(position).getEventName());
+
     }
     @Override
     public int getItemCount() {
-        return 6;
+        return eventsListList.size();
     }
     public class SelectTimeViewHolder extends RecyclerView.ViewHolder {
         public SelectTimeViewHolder(@NonNull View itemView) {

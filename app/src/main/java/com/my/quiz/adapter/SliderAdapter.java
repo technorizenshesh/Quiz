@@ -31,6 +31,7 @@ public class SliderAdapter extends SliderViewAdapter<SliderAdapter.SliderAdapter
     public SliderAdapter(Context context, List<SuccessResGetBanner.Result> myProductModeListls) {
         this.context = context;
         this.myProductModeList = myProductModeListls;
+
     }
 
     @Override
@@ -42,14 +43,11 @@ public class SliderAdapter extends SliderViewAdapter<SliderAdapter.SliderAdapter
     @Override
     public void onBindViewHolder(SliderAdapterVH viewHolder, final int position) {
 
-//        SliderItem sliderItem = myProductModeList.get(position);
-        // viewHolder.textViewDescription.setText(sliderItem.getSlderName());
-        // viewHolder.textViewDescription.setTextSize(16);
-        //  viewHolder.textViewDescription.setTextColor(Color.WHITE);
         Glide.with(viewHolder.itemView)
                 .load(myProductModeList.get(position).getImage())
                 .fitCenter()
                 .into(viewHolder.imageViewBackground);
+
 
     }
 

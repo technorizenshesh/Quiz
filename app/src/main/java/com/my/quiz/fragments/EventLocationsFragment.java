@@ -152,14 +152,11 @@ public class EventLocationsFragment extends Fragment implements OnMapReadyCallba
 
     }
 
-
     private void showMainMenu()
     {
 
         TextView tvInstruction;
-
         mDialog = new Dialog(getActivity());
-
         mDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         mDialog.getWindow().getAttributes().windowAnimations = android.R.style.Widget_Material_ListPopupWindow;
         mDialog.setContentView(R.layout.main_menu_options);

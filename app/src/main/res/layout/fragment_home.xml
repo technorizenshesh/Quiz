@@ -22,6 +22,7 @@
                 android:id="@+id/imageSlider"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
+                android:layout_marginHorizontal="@dimen/_15sdp"
                 app:sliderAnimationDuration="600"
                 app:sliderAutoCycleDirection="back_and_forth"
                 app:sliderAutoCycleEnabled="true"
@@ -72,7 +73,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_8sdp"
                     android:id="@+id/rvUpcomingEvents"/>
-                <RelativeLayout
+              <!--  <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_5sdp"
@@ -101,7 +102,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_8sdp"
-                    android:id="@+id/rvReomendedEvents"/>
+                    android:id="@+id/rvReomendedEvents"/>-->
             </LinearLayout>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

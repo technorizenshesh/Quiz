@@ -12,6 +12,7 @@
             android:layout_width="@dimen/_30sdp"
             android:layout_height="@dimen/_30sdp"
             android:src="@drawable/ic_add"
+            android:visibility="gone"
             android:padding="@dimen/_8sdp"
             android:layout_alignParentRight="true"
             android:layout_margin="@dimen/_15sdp"
@@ -24,6 +25,14 @@
             android:layout_above="@id/btnPay"
             android:layout_below="@id/header"
             >
+
+            <com.braintreepayments.cardform.view.CardForm
+                android:id="@+id/card_form"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/_15sdp"
+                />
+
              <com.vinaygaba.creditcardview.CreditCardView
                  android:id="@+id/card1"
                  android:layout_width="match_parent"
@@ -36,6 +45,7 @@
                  app:cardNameTextColor="@color/white"
                  app:putChip="true"
                  app:type="auto"
+                 android:visibility="gone"
                  app:expiryDate = "02/22"
                  app:expiryDateTextColor="@color/white"
                  app:isEditable="false"

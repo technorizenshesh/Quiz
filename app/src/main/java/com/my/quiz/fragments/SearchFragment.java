@@ -1,11 +1,15 @@
 package com.my.quiz.fragments;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,21 +18,55 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.gson.Gson;
 import com.my.quiz.R;
 import com.my.quiz.databinding.FragmentSearchBinding;
+import com.my.quiz.model.SuccessResGetCart;
+import com.my.quiz.model.SuccessResNearbyEvents;
+import com.my.quiz.retrofit.ApiClient;
+import com.my.quiz.retrofit.Constant;
+import com.my.quiz.retrofit.QuizInterface;
+import com.my.quiz.utility.DataManager;
+import com.my.quiz.utility.GPSTracker;
+import com.my.quiz.utility.SharedPreferenceUtility;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import static com.my.quiz.retrofit.Constant.USER_ID;
+import static com.my.quiz.retrofit.Constant.showToast;
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link SearchFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SearchFragment extends Fragment implements OnMapReadyCallback {
+public class SearchFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
     private GoogleMap mMap;
 
     FragmentSearchBinding binding;
+
+    GPSTracker gpsTracker;
+
+    private String strLat ="",strLng ="";
+
+    private ArrayList<SuccessResNearbyEvents.Result> nearbyEventList = new ArrayList<>();
+    Marker myMarker;
+
+    Marker[] marker;
+
+    private QuizInterface apiInterface;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -51,6 +89,7 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
      * @param param2 Parameter 2.
      * @return A new instance of fragment SearchFragment.
      */
+
     // TODO: Rename and change types and number of parameters
     public static SearchFragment newInstance(String param1, String param2) {
         SearchFragment fragment = new SearchFragment();
@@ -78,8 +117,108 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        apiInterface = ApiClient.getClient().create(QuizInterface.class);
+
+        gpsTracker = new GPSTracker(getActivity());
+
+        getLocations();
+
         return binding.getRoot();
     }
+
+
+
+    public void getLocation() {
+        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
+                    Constant.LOCATION_REQUEST);
+        } else {
+            Log.e("Latittude====",gpsTracker.getLatitude()+"");
+            strLat = Double.toString(gpsTracker.getLatitude()) ;
+            strLng = Double.toString(gpsTracker.getLongitude()) ;
+        }
+    }
+
+    private void getLocations()
+    {
+
+        DataManager.getInstance().showProgressMessage(getActivity(), getString(R.string.please_wait));
+        Map<String, String> map = new HashMap<>();
+        map.put("lat", "22.7196");
+        map.put("lon", "75.857");
+
+        Call<SuccessResNearbyEvents> call = apiInterface.getNearbyEvents(map);
+
+        call.enqueue(new Callback<SuccessResNearbyEvents>() {
+            @Override
+            public void onResponse(Call<SuccessResNearbyEvents> call, Response<SuccessResNearbyEvents> response) {
+
+                DataManager.getInstance().hideProgressMessage();
+                try {
+                    SuccessResNearbyEvents data = response.body();
+                    Log.e("data", data.status);
+                    if (data.status.equals("1")) {
+                        String dataResponse = new Gson().toJson(response.body());
+                        Log.e("MapMap", "EDIT PROFILE RESPONSE" + dataResponse);
+
+                        nearbyEventList.clear();
+                        nearbyEventList.addAll(data.getResult());
+
+//                        LatLng sydney = new LatLng(-33, 150);
+                        mMap.setOnMarkerClickListener(SearchFragment.this::onMarkerClick);
+                        marker = new Marker[nearbyEventList.size()];
+
+                        int i=0;
+
+                        for (SuccessResNearbyEvents.Result result:nearbyEventList)
+                        {
+                            marker[i] = createMarker(Double.parseDouble(result.getLat()), Double.parseDouble(result.getLon()), result.getEventName(),"", R.drawable.ic_loca);
+                            i++;
+                        }
+                        LatLng sydney = new LatLng(Double.parseDouble(nearbyEventList.get(0).getLat()),Double.parseDouble(nearbyEventList.get(0).getLon()));
+
+                        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+                        mMap.animateCamera( CameraUpdateFactory.zoomTo( 17.0f ) );
+
+                    } else if (data.status.equals("0")) {
+                        showToast(getActivity(), data.message);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<SuccessResNearbyEvents> call, Throwable t) {
+                call.cancel();
+                DataManager.getInstance().hideProgressMessage();
+            }
+        });
+
+    }
+
+
+
+    protected Marker createMarker(double latitude, double longitude, String title, String snippet, int iconResID) {
+
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 9f));
+
+
+
+        BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(iconResID);
+        myMarker = mMap.addMarker(new MarkerOptions()
+                .position(new LatLng(latitude, longitude))
+                .anchor(0.5f, 0.5f)
+                .title(title)
+                .icon(icon)
+                .snippet(snippet));
+
+        return myMarker;
+
+    }
+
 
     @Override
     public void onDestroy() {
@@ -90,12 +229,17 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
     public void onMapReady(@NonNull GoogleMap googleMap) {
      mMap = googleMap;
         // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions()
-                .position(sydney)
-                .title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-        mMap.animateCamera( CameraUpdateFactory.zoomTo( 17.0f ) );
+//        LatLng sydney = new LatLng(-34, 151);
+//        mMap.addMarker(new MarkerOptions()
+//                .position(sydney)
+//                .title("Marker in Sydney"));
+//        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+//        mMap.animateCamera( CameraUpdateFactory.zoomTo( 17.0f ) );
 
+    }
+
+    @Override
+    public boolean onMarkerClick(@NonNull Marker marker) {
+        return false;
     }
 }

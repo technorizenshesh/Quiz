@@ -43,6 +43,7 @@ public class SuccessResGetBanner implements Serializable {
     }
 
     public class Result {
+
         @SerializedName("id")
         @Expose
         public String id;
@@ -55,31 +56,39 @@ public class SuccessResGetBanner implements Serializable {
         @SerializedName("date_time")
         @Expose
         public String dateTime;
+
         public String getId() {
             return id;
         }
+
         public void setId(String id) {
             this.id = id;
         }
 
-
         public String getName() {
             return name;
         }
+
         public void setName(String name) {
             this.name = name;
         }
+
         public String getImage() {
             return image;
         }
+
         public void setImage(String image) {
             this.image = image;
         }
+
         public String getDateTime() {
             return dateTime;
         }
+
         public void setDateTime(String dateTime) {
             this.dateTime = dateTime;
         }
+
     }
+    
 }

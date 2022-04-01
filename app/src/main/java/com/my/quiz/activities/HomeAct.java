@@ -22,8 +22,8 @@ import com.my.quiz.fragments.ProfileFragment;
 public class HomeAct extends AppCompatActivity {
 
    public static BottomNavigationView navView;
-    NavController navController;
-    ImageView ivLocation;
+   NavController navController;
+   ImageView ivLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

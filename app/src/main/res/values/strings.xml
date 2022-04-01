@@ -68,4 +68,12 @@
     <string name="fetching_fcm_token_failed">Fetching FCM registration token failed</string>
     <string name="please_enter_confirm_password">Please enter confirm password.</string>
     <string name="password_mismatched">Please make sure your password match.</string>
+    <string name="view_event">View Cart</string>
+    <string name="cart">Cart</string>
+
+    <string name="only">Only</string>
+    <string name="ticket_remaining">tickets remaining.</string>
+    <string name="enter_team_name">Enter Team Name</string>
+    <string name="use_a_code">Use a Code</string>
+    <string name="enter_code">Enter code</string>
 </resources>

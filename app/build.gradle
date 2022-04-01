@@ -98,6 +98,10 @@ dependencies {
     //Google Map
     implementation 'com.google.android.gms:play-services-maps:18.0.2'
 
+    //Stripe
+    implementation 'com.stripe:stripe-android:15.1.0'
+
+
 }
 apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'

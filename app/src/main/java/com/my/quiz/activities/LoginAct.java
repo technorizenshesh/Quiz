@@ -89,8 +89,6 @@ public class LoginAct extends AppCompatActivity {
 
     private void login() {
 
-        TimeZone tz = TimeZone.getDefault();
-        String id = tz.getID();
 
         DataManager.getInstance().showProgressMessage(LoginAct.this, getString(R.string.please_wait));
         Map<String, String> map = new HashMap<>();

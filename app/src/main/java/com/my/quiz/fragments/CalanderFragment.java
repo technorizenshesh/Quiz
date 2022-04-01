@@ -74,12 +74,15 @@ public class CalanderFragment extends Fragment {
 //        navView.getMenu().setGroupCheckable(0, true, true);
         binding = DataBindingUtil.inflate(inflater,R.layout.fragment_calander, container, false);
 
-        binding.rvReomendedEvents.setHasFixedSize(true);
-        binding.rvReomendedEvents.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
-        binding.rvReomendedEvents.setAdapter(new HomeAdapter(getActivity(),false));
-        binding.rvUpcomingEvents.setHasFixedSize(true);
-        binding.rvUpcomingEvents.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
-        binding.rvUpcomingEvents.setAdapter(new HomeAdapter(getActivity(),false));
+//        binding.rvReomendedEvents.setHasFixedSize(true);
+//        binding.rvReomendedEvents.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+//        binding.rvReomendedEvents.setAdapter(new HomeAdapter(getActivity(),false));
+//        binding.rvUpcomingEvents.setHasFixedSize(true);
+//        binding.rvUpcomingEvents.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+//        binding.rvUpcomingEvents.setAdapter(new HomeAdapter(getActivity(),false));
+
+
+
         binding.imgSearch.setOnClickListener(v ->
                 {
                     Navigation.findNavController(v).navigate(R.id.action_navigation_calander_to_searchEventsFragment);
