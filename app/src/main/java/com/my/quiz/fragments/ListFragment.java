@@ -56,25 +56,23 @@ import static com.my.quiz.retrofit.Constant.showToast;
  * Use the {@link ListFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
+
 public class ListFragment extends Fragment {
 
     FragmentListBinding binding;
-
     private QuizInterface apiInterface;
-
+    private ListAdapter listAdapter;
     private ArrayList<SuccessResGetMyEvents.Result> eventList = new ArrayList<>();
-
+    private ArrayList<SuccessResGetMyEvents.Result> myEventList = new ArrayList<>();
     private String strCode = "";
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
     public ListFragment() {
         // Required empty public constructor
     }
@@ -106,40 +104,37 @@ public class ListFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater,R.layout.fragment_list, container, false);
         apiInterface = ApiClient.getClient().create(QuizInterface.class);
-
+//        listAdapter = new ListAdapter(getActivity(),eventList);
         binding.tvHeader.setText(R.string.play_a_game);
         binding.imgHeader.setOnClickListener(view1 ->
                 {
                     getActivity().onBackPressed();
                 }
         );
+
         binding.rlParent.setVisibility(View.GONE);
         Bundle bundle = getArguments();
         if (bundle!=null)
         {
             binding.rlParent.setVisibility(View.VISIBLE);
         }
-        binding.rvListItems.setHasFixedSize(true);
-        binding.rvListItems.setLayoutManager(new LinearLayoutManager(getActivity()));
-        binding.rvListItems.setAdapter(new ListAdapter(getActivity()));
 
         binding.btnUseCode.setOnClickListener(v ->
                 {
                     showImageSelection();
                 }
                 );
-
-        return  binding.getRoot();
+        getMyEvents();
+        return binding.getRoot();
     }
-
     public void showImageSelection() {
         strCode = "";
-
         final Dialog dialog = new Dialog(getActivity());
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.getWindow().getAttributes().windowAnimations = android.R.style.Widget_Material_ListPopupWindow;
@@ -149,11 +144,9 @@ public class ListFragment extends Fragment {
         lp.copyFrom(window.getAttributes());
         AppCompatButton btnSubmit = dialog.findViewById(R.id.btnSubmit);
         EditText editText =  dialog.findViewById(R.id.etName);
-
         lp.width = WindowManager.LayoutParams.MATCH_PARENT;
         lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
         window.setAttributes(lp);
-
         btnSubmit.setOnClickListener(v ->
                 {
                     strCode = editText.getText().toString();
@@ -168,7 +161,6 @@ public class ListFragment extends Fragment {
                     }
                 }
                 );
-
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
     }
@@ -191,10 +183,30 @@ public class ListFragment extends Fragment {
                     if (data.status.equals("1")) {
                         String dataResponse = new Gson().toJson(response.body());
                         Log.e("MapMap", "EDIT PROFILE RESPONSE" + dataResponse);
+                        eventList.clear();
+                        myEventList.clear();
+                        myEventList.addAll(data.getResult());
 
+                        for (SuccessResGetMyEvents.Result result:myEventList)
+                        {
+                            if(!result.getEventStatus().equalsIgnoreCase("END"))
+                            {
+                                eventList.add(result);
+                            }
+                        }
+
+                        binding.rvListItems.setHasFixedSize(true);
+                        binding.rvListItems.setLayoutManager(new LinearLayoutManager(getActivity()));
+                        binding.rvListItems.setAdapter(new ListAdapter(getActivity(),eventList));
 
                     } else if (data.status.equals("0")) {
                         showToast(getActivity(), data.message);
+
+                        eventList.clear();
+                        binding.rvListItems.setHasFixedSize(true);
+                        binding.rvListItems.setLayoutManager(new LinearLayoutManager(getActivity()));
+                        binding.rvListItems.setAdapter(new ListAdapter(getActivity(),eventList));
+
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -208,7 +220,6 @@ public class ListFragment extends Fragment {
         });
 
     }
-
 
     private void addCode()
     {
@@ -239,11 +250,11 @@ public class ListFragment extends Fragment {
                     if (data.equals("1")) {
                         String dataResponse = new Gson().toJson(response.body());
                         Log.e("MapMap", "EDIT PROFILE RESPONSE" + dataResponse);
-
                         showToast(getActivity(), message);
+                        getMyEvents();
 
                     } else if (data.equals("0")) {
-                        showToast(getActivity(), message);
+                        showToast(getActivity(), jsonObject.getString("result"));
                     }else if (data.equals("2")) {
                         showToast(getActivity(), jsonObject.getString("result"));
                     }

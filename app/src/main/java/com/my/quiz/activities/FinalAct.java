@@ -17,7 +17,6 @@ public class FinalAct extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this,R.layout.activity_final);
-
         binding.header.imgHeader.setOnClickListener(v -> finish());
         binding.header.tvHeader.setText(getString(R.string.final_puzzel));
         binding.tvNext.setOnClickListener(v ->

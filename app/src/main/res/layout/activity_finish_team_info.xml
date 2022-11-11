@@ -6,7 +6,25 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         tools:context=".fragments.EditProfileFragment">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
         <include layout="@layout/header_layout" android:id="@+id/header"/>
+
+            <ImageView
+                android:id="@+id/ivHome"
+                android:layout_width="@dimen/_22sdp"
+                android:layout_height="@dimen/_22sdp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/_15sdp"
+                android:padding="@dimen/_2sdp"
+                android:src="@drawable/ic_home" />
+
+        </RelativeLayout>
+
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabLayoutEventDay"
             android:layout_width="match_parent"
@@ -54,7 +72,7 @@
                         android:text="Team Name"
                         android:fontFamily="@font/poppins_bold"
                         android:textColor="@color/yellow"
-                        android:layout_marginTop="@dimen/_10sdp"
+                        android:layout_marginTop="@dimen/_15sdp"
                         android:textSize="@dimen/_13sdp"
                         />
 
@@ -63,6 +81,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@+id/img_event"
+                        android:visibility="gone"
                         android:layout_below="@id/label"
                         android:layout_marginEnd="@dimen/_10sdp"
                         >
@@ -94,6 +113,7 @@
                         android:layout_toRightOf="@+id/img_event"
                         android:layout_below="@id/rlGameStatus"
                         android:layout_marginEnd="@dimen/_10sdp"
+                        android:layout_marginTop="@dimen/_5sdp"
                         >
                         <TextView
                             android:layout_width="wrap_content"
@@ -105,10 +125,10 @@
                             />
 
                         <TextView
+                            android:id="@+id/tvTotalTime"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
-                            android:text="34:42:22"
                             android:textColor="@color/dark_gray"
                             />
 
@@ -121,32 +141,31 @@
                         android:layout_toRightOf="@+id/img_event"
                         android:layout_below="@id/rlTime"
                         android:layout_marginEnd="@dimen/_10sdp"
+                        android:layout_marginTop="@dimen/_5sdp"
                         >
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Time Modifiers:"
+                            android:text="Total Penalities"
                             android:fontFamily="@font/poppins_medium"
                             android:textColor="@color/black"
                             android:textSize="@dimen/_11sdp"
                             />
-
                         <TextView
+                            android:id="@+id/tvTotalPenalties"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
-                            android:text="34:42:22"
                             android:textColor="@color/dark_gray"
                             />
-
                     </RelativeLayout>
-
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@+id/img_event"
                         android:layout_below="@id/rlTimeModifier"
                         android:layout_marginEnd="@dimen/_10sdp"
+                        android:visibility="gone"
                         >
                         <TextView
                             android:id="@+id/tvDate"
@@ -169,12 +188,12 @@
                     </RelativeLayout>
 
                     <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/tvTeamDetail"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_30sdp"
                         android:layout_below="@+id/img_event"
                         android:background="@drawable/blue_button_left_top_right_bottom_20"
                         android:layout_margin="@dimen/_10sdp"
-                        android:text="Team Members: 3/ 6"
                         android:textAllCaps="false"
                         android:textColor="@color/white"
                         />

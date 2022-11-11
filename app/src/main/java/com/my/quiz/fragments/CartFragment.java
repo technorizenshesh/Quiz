@@ -54,11 +54,8 @@ public class CartFragment extends Fragment {
     FragmentCartBinding binding;
     private SuccessResGetEventDetail.Result eventDetails;
     private QuizInterface apiInterface;
-
     private String cartID;
-
     private SuccessResGetCart.Result cartItems = null;
-
     private String eventId = "",strAmount = "",strCount="",strTotalAmount="",strTotalTicket="";
 
     // TODO: Rename parameter arguments, choose names that match
@@ -156,6 +153,15 @@ public class CartFragment extends Fragment {
                 {
                     int count = Integer.parseInt(strCount);
                     count++;
+
+                    if (count>6)
+                    {
+
+                        showToast(getActivity(),""+getString(R.string.only_6_tickets_per_team));
+
+                        return;
+                    }
+
                     addToCart(count+"");
                 }
                 );
@@ -284,7 +290,6 @@ public class CartFragment extends Fragment {
 //                        binding.tvCount.setText(myCartItem.getResult().get(0).getTicket());
 
                         getEventDetails();
-
                         getCart();
 
                     } else if (data.equals("0")) {

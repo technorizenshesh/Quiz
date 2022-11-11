@@ -4,13 +4,35 @@ import android.os.Bundle;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.my.quiz.R;
+import com.my.quiz.adapter.HomeAdapter;
 import com.my.quiz.databinding.FragmentSearchEventsBinding;
+import com.my.quiz.model.SuccessResGetEvents;
+import com.my.quiz.retrofit.ApiClient;
+import com.my.quiz.retrofit.QuizInterface;
+import com.my.quiz.utility.DataManager;
+
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import static com.my.quiz.retrofit.Constant.showToast;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -20,6 +42,10 @@ import com.my.quiz.databinding.FragmentSearchEventsBinding;
 public class SearchEventsFragment extends Fragment {
 
     FragmentSearchEventsBinding binding;
+    List<SuccessResGetEvents.Result> eventsList = new LinkedList<>();
+
+    private HomeAdapter homeAdapter;
+    private QuizInterface apiInterface;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -67,11 +93,61 @@ public class SearchEventsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater,R.layout.fragment_search_events, container, false);
+        apiInterface = ApiClient.getClient().create(QuizInterface.class);
+        homeAdapter = new HomeAdapter(getActivity(),eventsList,"search");
+        binding.rvUpcomingEvents.setHasFixedSize(true);
+        binding.rvUpcomingEvents.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+        binding.rvUpcomingEvents.setAdapter(homeAdapter);
         binding.ivBack.setOnClickListener(v ->
                 {
                     getActivity().onBackPressed();
                 }
                 );
+        binding.etSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    getEventsImages(binding.etSearch.getText().toString());
+                    return true;
+                }
+                return false;
+            }
+        });
         return binding.getRoot();
     }
+
+    private void getEventsImages(String event)
+    {
+        DataManager.getInstance().showProgressMessage(getActivity(), getString(R.string.please_wait));
+        Map<String,String> map = new HashMap<>();
+        map.put("event_name",event);
+        Call<SuccessResGetEvents> call = apiInterface.searchEvent(map);
+        call.enqueue(new Callback<SuccessResGetEvents>() {
+            @Override
+            public void onResponse(Call<SuccessResGetEvents> call, Response<SuccessResGetEvents> response) {
+                DataManager.getInstance().hideProgressMessage();
+                try {
+                    SuccessResGetEvents data = response.body();
+                    Log.e("data",data.status);
+                    if (data.status.equals("1")) {
+                        String dataResponse = new Gson().toJson(response.body());
+                        eventsList.clear();
+                        eventsList.addAll(data.getResult());
+                        homeAdapter.notifyDataSetChanged();
+                    } else if (data.status.equals("0")) {
+                        showToast(getActivity(), data.message);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            @Override
+            public void onFailure(Call<SuccessResGetEvents> call, Throwable t) {
+                call.cancel();
+                DataManager.getInstance().hideProgressMessage();
+            }
+        });
+
+    }
+
 }

@@ -14,7 +14,6 @@
             android:layout_height="wrap_content"
             android:padding="@dimen/_10sdp"
             >
-
             <ImageView
                 android:id="@+id/ivBack"
                 android:layout_width="@dimen/_20sdp"
@@ -23,7 +22,6 @@
                 android:layout_centerVertical="true"
                 android:padding="@dimen/_2sdp"
                 app:tint="@color/black" />
-
             <EditText
                 android:id="@+id/etSearch"
                 android:layout_width="match_parent"
@@ -32,6 +30,8 @@
                 android:drawableLeft="@drawable/ic_black_search"
                 android:padding="@dimen/_10sdp"
                 android:hint="Search"
+                android:imeOptions="actionSearch"
+                android:inputType="text"
                 android:fontFamily="@font/poppins_medium"
                 android:gravity="center_vertical"
                 android:textSize="@dimen/_12sdp"
@@ -44,8 +44,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:id="@+id/rvUsers"/>
-
+            android:layout_margin="@dimen/_15sdp"
+            android:id="@+id/rvUpcomingEvents"/>
     </LinearLayout>
 </layout>

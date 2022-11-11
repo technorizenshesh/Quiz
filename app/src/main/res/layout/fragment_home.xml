@@ -62,6 +62,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/view_all"
                     android:textAllCaps="true"
+                    android:visibility="gone"
                     android:fontFamily="@font/poppins_medium"
                     android:layout_alignParentRight="true"
                     android:textColor="@color/black"

@@ -8,7 +8,9 @@ import java.util.regex.Pattern;
 
 public class Constant {
 
-    public static final String BASE_URL = "http://technorizen.co.in/Quiz/webservice/";
+//    public static final String BASE_URL = "http://technorizen.co.in/Quiz/webservice/";
+
+    public static final String BASE_URL = "http://technorizen.com/Quiz/webservice/";
 
     public static final String USER_INFO = "user_info";
 

@@ -1,0 +1,32 @@
+package com.my.quiz.activities.game2;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
+
+import android.content.Intent;
+import android.os.Bundle;
+
+import com.my.quiz.R;
+import com.my.quiz.databinding.ActivityWelcomeMessageBinding;
+import com.my.quiz.model.SuccessResGetEvents;
+
+public class WelcomeMessageActivity extends AppCompatActivity {
+
+    ActivityWelcomeMessageBinding binding;
+    private SuccessResGetEvents.Result result;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        binding = DataBindingUtil.setContentView(this,R.layout.activity_welcome_message);
+        binding.header.tvHeader.setText(getString(R.string.welcome_to_virus));
+        binding.header.imgHeader.setOnClickListener(v -> finish());
+        binding.btnPlay.setOnClickListener(v ->
+                {
+                    startActivity(new Intent(WelcomeMessageActivity.this,Game2StartVideoAct.class).putExtra("instructionID",result));
+                }
+        );
+        result = (SuccessResGetEvents.Result) getIntent().getSerializableExtra("instructionID");
+        binding.tvInstruction.setText(result.getDescription());
+    }
+}

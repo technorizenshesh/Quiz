@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical"
+    app:cardCornerRadius="10dp"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:gravity="center"
+                android:padding="5dp"
+                android:fontFamily="@font/poppins_bold"
+                android:text="Hint"
+                android:layout_centerInParent="true"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_13sdp"
+                />
+
+            <ImageView
+                android:id="@+id/ivCancel"
+                android:layout_width="@dimen/_20sdp"
+                android:layout_height="@dimen/_20sdp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:padding="@dimen/_5sdp"
+                android:visibility="gone"
+                android:src="@drawable/ic_close" />
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:background="@color/grey" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:orientation="vertical"
+            >
+
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_toRightOf="@+id/ivWitness"
+        android:gravity="center_vertical"
+        >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvShowHint1"
+            android:text="@string/_1_show_hint1_2_minutes_penalty"
+            android:textSize="@dimen/_12sdp"
+            android:padding="@dimen/_10sdp"
+            android:fontFamily="@font/montserrat_semibold"
+            android:textColor="@color/black"
+            />
+
+        <TextView
+            android:id="@+id/tvHint1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Covid"
+            android:visibility="gone"
+            android:textSize="@dimen/_13sdp"
+            android:fontFamily="@font/poppins_regular"
+            android:layout_marginLeft="@dimen/_10sdp"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvShowHint2"
+            android:text="@string/_2_show_hint2_5_minutes_penalty"
+            android:textSize="@dimen/_12sdp"
+            android:padding="@dimen/_10sdp"
+            android:fontFamily="@font/montserrat_semibold"
+            android:textColor="@color/black"
+            />
+
+        <TextView
+            android:id="@+id/tvHint2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Covid"
+            android:visibility="gone"
+            android:textSize="@dimen/_13sdp"
+            android:fontFamily="@font/poppins_regular"
+            android:layout_marginLeft="@dimen/_10sdp"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvShowHint3"
+            android:text="@string/_3_show_hint3_10_minutes_penalty"
+            android:textSize="@dimen/_12sdp"
+            android:padding="@dimen/_10sdp"
+            android:fontFamily="@font/montserrat_semibold"
+            android:textColor="@color/black"
+            />
+
+        <TextView
+            android:id="@+id/tvHint3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Covid"
+            android:visibility="gone"
+            android:textSize="@dimen/_13sdp"
+            android:fontFamily="@font/poppins_regular"
+            android:layout_marginLeft="@dimen/_10sdp"
+            />
+
+    </LinearLayout>
+</RelativeLayout>
+        </LinearLayout>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnSubmit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/yellow"
+            android:text="@string/cancel"
+            android:textSize="@dimen/_13sdp"
+            android:padding="@dimen/_10sdp"
+            android:fontFamily="@font/poppins_medium"
+            android:background="@drawable/bt_bottom_cornor_bg"/>
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

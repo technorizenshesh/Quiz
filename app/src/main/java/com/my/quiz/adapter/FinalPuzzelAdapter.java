@@ -209,14 +209,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.my.quiz.R;
 import com.my.quiz.activities.PuzzleAct;
+import com.my.quiz.model.SuccessResGetInventory;
+import com.my.quiz.utility.FinalPuzzelInterface;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -225,10 +230,16 @@ public class FinalPuzzelAdapter extends RecyclerView.Adapter<FinalPuzzelAdapter.
     ArrayAdapter ad;
     private List<String> dates;
     private Context context;
+    private ArrayList<SuccessResGetInventory.Result> peopleList;
+    private int selectedPosition = -1;
 
-    public FinalPuzzelAdapter(Context context)
+    private FinalPuzzelInterface finalPuzzelInterface;
+
+    public FinalPuzzelAdapter(Context context,ArrayList<SuccessResGetInventory.Result> peopleList,FinalPuzzelInterface finalPuzzelInterface)
     {
         this.context = context;
+        this.peopleList = peopleList;
+        this.finalPuzzelInterface = finalPuzzelInterface;
     }
 
     @NonNull
@@ -243,10 +254,37 @@ public class FinalPuzzelAdapter extends RecyclerView.Adapter<FinalPuzzelAdapter.
     @Override
     public void onBindViewHolder(@NonNull SelectTimeViewHolder holder, int position) {
 
+        ImageView ivFinalImage = holder.itemView.findViewById(R.id.ivFinalImage);
+        ImageView ivCheckedImage = holder.itemView.findViewById(R.id.checked);
+
+        Glide.with(context)
+                .load(peopleList.get(position).getFinalPuzzleImage())
+                .centerCrop()
+                .into(ivFinalImage);
+
+        if(selectedPosition == position)
+        {
+            ivCheckedImage.setVisibility(View.VISIBLE);
+        }
+        else
+        {
+            ivCheckedImage.setVisibility(View.GONE);
+        }
+
+        ivFinalImage.setOnClickListener(v ->
+                {
+                    selectedPosition = position;
+
+                    finalPuzzelInterface.selectedFinalPuzzel(position);
+
+                    notifyDataSetChanged();
+                }
+                );
+
     }
     @Override
     public int getItemCount() {
-        return 5;
+        return peopleList.size();
     }
     public class SelectTimeViewHolder extends RecyclerView.ViewHolder {
         public SelectTimeViewHolder(@NonNull View itemView) {

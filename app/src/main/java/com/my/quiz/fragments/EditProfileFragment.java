@@ -58,14 +58,6 @@ public class EditProfileFragment extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment EditProfileFragment.
-     */
     // TODO: Rename and change types and number of parameters
     public static EditProfileFragment newInstance(String param1, String param2) {
         EditProfileFragment fragment = new EditProfileFragment();
@@ -84,6 +76,7 @@ public class EditProfileFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -125,7 +118,6 @@ public class EditProfileFragment extends Fragment {
 
         return binding.getRoot();
     }
-
 
     private boolean isValid() {
         if (strEmail.equalsIgnoreCase("")) {

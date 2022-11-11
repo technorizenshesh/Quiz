@@ -39,17 +39,13 @@ import static com.my.quiz.retrofit.Constant.showToast;
 public class SignupAct extends AppCompatActivity {
 
     ActivitySignupBinding binding;
-
     private String strEmail="",strPass="",strConfirmPass="";
-
     private QuizInterface apiInterface;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         binding = DataBindingUtil.setContentView(this,R.layout.activity_signup);
-
         apiInterface = ApiClient.getClient().create(QuizInterface.class);
 
         binding.btnSignup.setOnClickListener(v ->
@@ -59,11 +55,8 @@ public class SignupAct extends AppCompatActivity {
                     strConfirmPass = binding.etConfPass.getText().toString().trim();
 
                     if (isValid()) {
-
                         if (NetworkAvailablity.getInstance(this).checkNetworkStatus()) {
-
                             signup();
-
                         } else {
                             Toast.makeText(this, getResources().getString(R.string.msg_noInternet), Toast.LENGTH_SHORT).show();
                         }
@@ -72,7 +65,6 @@ public class SignupAct extends AppCompatActivity {
                     }
                 }
                 );
-
         binding.tvLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -119,7 +111,6 @@ public class SignupAct extends AppCompatActivity {
         });
     }
 
-
     private boolean isValid() {
         if (strEmail.equalsIgnoreCase("")) {
             binding.etEmail.setError(getString(R.string.enter_email));
@@ -139,6 +130,4 @@ public class SignupAct extends AppCompatActivity {
         }
         return true;
     }
-
-
 }

@@ -198,6 +198,7 @@
             app:cardElevation="@dimen/_5sdp">
 
             <RelativeLayout
+                android:id="@+id/rlCompletedEvents"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/_15sdp"
@@ -206,7 +207,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Teams"
+                    android:text="@string/completed_event"
                     android:fontFamily="@font/poppins_regular"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_12sdp"
@@ -222,7 +223,6 @@
 
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
-
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cvAboutUs"

@@ -53,13 +53,15 @@
                     />
                 <TextView
                     android:id="@+id/tvLocation"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Vijay Nagar"
                     android:fontFamily="@font/poppins_medium"
                     android:textColor="@color/black"
                     android:layout_toRightOf="@+id/img_event"
                     android:textSize="@dimen/_11sdp"
+                    android:singleLine="true"
+                    android:layout_marginRight="@dimen/_10sdp"
                     android:layout_below="@+id/tvDate"
                     />
                 <TextView
@@ -67,14 +69,13 @@
                     android:layout_width="wrap_content"
                     android:layout_toRightOf="@+id/img_event"
                     android:layout_height="wrap_content"
-                    android:text="UPCOMING"
+                    android:text="@string/upcoming"
                     android:fontFamily="@font/poppins_medium"
                     android:textColor="@color/yellow"
                     android:textSize="@dimen/_11sdp"
                     android:layout_below="@+id/tvLocation"
                     android:layout_marginTop="@dimen/_5sdp"
                     />
-
                 <TextView
                     android:id="@+id/tvRate"
                     android:layout_width="wrap_content"
@@ -90,7 +91,6 @@
 
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
-
 
     </LinearLayout>
 </layout>

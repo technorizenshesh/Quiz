@@ -22,12 +22,14 @@
         tools:context=".activities.PuzzleAct">
 
     <ImageView
+        android:id="@+id/ivPuzzel"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_120sdp"
         android:src="@drawable/ic_puzzel"
         android:scaleType="fitXY"
         />
     <TextView
+        android:id="@+id/tvContent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="@font/poppins_medium"
@@ -48,13 +50,16 @@
         android:orientation="horizontal"
         android:layout_above="@id/tvMaster"
         android:layout_marginTop="@dimen/_5sdp"
+        android:layout_alignParentBottom="true"
         android:layout_marginHorizontal="@dimen/_15sdp"
+        android:layout_marginBottom="@dimen/_15sdp"
         >
         <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnHint"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight=".5"
-            android:text="@string/you_give_up"
+            android:text="@string/hint"
             android:background="@drawable/bt_bg"
             android:textColor="@color/yellow"
             android:layout_marginRight="@dimen/_5sdp"
@@ -84,6 +89,7 @@
         android:textColor="@color/purple_700"
         android:layout_marginTop="@dimen/_10sdp"
         android:text="Master"
+        android:visibility="gone"
         android:layout_alignParentBottom="true"
         />
 </RelativeLayout>

@@ -32,6 +32,9 @@
         <action
             android:id="@+id/action_navigation_calander_to_viewAllEventsFragment"
             app:destination="@id/viewAllEventsFragment" />
+        <action
+            android:id="@+id/action_navigation_calander_to_eventDetailFragment"
+            app:destination="@id/eventDetailFragment" />
     </fragment>
 
      <fragment
@@ -74,12 +77,19 @@
         <action
             android:id="@+id/action_navigation_profile_to_visitWebsiteFragment"
             app:destination="@id/visitWebsiteFragment" />
+        <action
+            android:id="@+id/action_navigation_profile_to_completedPuzzelFragment"
+            app:destination="@id/completedPuzzelFragment" />
     </fragment>
     <fragment
         android:id="@+id/searchFragment"
         android:name="com.my.quiz.fragments.SearchFragment"
         android:label="fragment_search"
-        tools:layout="@layout/fragment_search" />
+        tools:layout="@layout/fragment_search" >
+        <action
+            android:id="@+id/action_searchFragment_to_eventDetailFragment"
+            app:destination="@id/eventDetailFragment" />
+    </fragment>
     <fragment
         android:id="@+id/editProfileFragment"
         android:name="com.my.quiz.fragments.EditProfileFragment"
@@ -97,7 +107,11 @@
     <fragment
         android:id="@+id/searchEventsFragment"
         android:name="com.my.quiz.fragments.SearchEventsFragment"
-        android:label="SearchEventsFragment" />
+        android:label="SearchEventsFragment" >
+        <action
+            android:id="@+id/action_searchEventsFragment_to_eventDetailFragment"
+            app:destination="@id/eventDetailFragment" />
+    </fragment>
     <fragment
         android:id="@+id/eventLocationsFragment"
         android:name="com.my.quiz.fragments.EventLocationsFragment"
@@ -151,5 +165,13 @@
         android:id="@+id/bookingSuccessFragment"
         android:name="com.my.quiz.fragments.BookingSuccessFragment"
         android:label="BookingSuccessFragment" />
+    <fragment
+        android:id="@+id/completedPuzzelFragment"
+        android:name="com.my.quiz.fragments.CompletedPuzzelFragment"
+        android:label="CompletedPuzzelFragment" >
+        <action
+            android:id="@+id/action_completedPuzzelFragment_to_teamFragment"
+            app:destination="@id/teamFragment" />
+    </fragment>
 
 </navigation>

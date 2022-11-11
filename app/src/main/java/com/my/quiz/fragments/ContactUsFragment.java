@@ -8,9 +8,28 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.my.quiz.R;
+import com.my.quiz.activities.PuzzleAct;
 import com.my.quiz.databinding.FragmentContactUsBinding;
+import com.my.quiz.retrofit.ApiClient;
+import com.my.quiz.retrofit.NetworkAvailablity;
+import com.my.quiz.retrofit.QuizInterface;
+import com.my.quiz.utility.DataManager;
+
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import static com.my.quiz.retrofit.Constant.isValidEmail;
+import static com.my.quiz.retrofit.Constant.showToast;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -20,6 +39,8 @@ import com.my.quiz.databinding.FragmentContactUsBinding;
 public class ContactUsFragment extends Fragment {
 
     FragmentContactUsBinding binding;
+
+    private QuizInterface apiInterface;
 
     private String strName="",strEmail="",strDescription="";
 
@@ -70,13 +91,92 @@ public class ContactUsFragment extends Fragment {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater,R.layout.fragment_contact_us, container, false);
 
+        apiInterface = ApiClient.getClient().create(QuizInterface.class);
+
         binding.header.imgHeader.setOnClickListener(v ->
                 {
                     getActivity().onBackPressed();
                 }
                 );
 
+        binding.btnSubmit.setOnClickListener(v ->
+                {
+
+                    strName = binding.etName.getText().toString();
+                    strEmail = binding.etEmail.getText().toString();
+                    strDescription = binding.etDescription.getText().toString();
+                    if (isValid()) {
+                        if (NetworkAvailablity.getInstance(getActivity()).checkNetworkStatus()) {
+                            contactUs();
+                        } else {
+                            Toast.makeText(getActivity(), getResources().getString(R.string.msg_noInternet), Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        Toast.makeText(getActivity(), getResources().getString(R.string.on_error), Toast.LENGTH_SHORT).show();
+                    }
+                }
+                );
         binding.header.tvHeader.setText(R.string.contact_us);
         return binding.getRoot();
     }
+
+    private boolean isValid() {
+        if (strName.equalsIgnoreCase("")) {
+            binding.etName.setError(getString(R.string.enter_name));
+            return false;
+        }else if (strEmail.equalsIgnoreCase("")) {
+            binding.etEmail.setError(getString(R.string.enter_email));
+            return false;
+        }  else if (!isValidEmail(strEmail)) {
+            binding.etEmail.setError(getString(R.string.enter_valid_email));
+            return false;
+        }else if (strDescription.equalsIgnoreCase("")) {
+            binding.etDescription.setError(getString(R.string.please_enter_desc));
+            return false;
+        }
+        return true;
+    }
+
+    public void contactUs()
+    {
+
+        DataManager.getInstance().showProgressMessage(getActivity(), getString(R.string.please_wait));
+        Map<String, String> map = new HashMap<>();
+        map.put("name", strName);
+        map.put("email", strEmail);
+        map.put("description", strDescription);
+      
+        Call<ResponseBody> call = apiInterface.addContactUs(map);
+
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                DataManager.getInstance().hideProgressMessage();
+                try {
+                    JSONObject jsonObject = new JSONObject(response.body().string());
+                    String data = jsonObject.getString("status");
+                    String message = jsonObject.getString("message");
+                    if (data.equals("1")) {
+
+                     binding.etDescription.setText("");
+                     binding.etName.setText("");
+                     binding.etEmail.setText("");
+
+                    } else if (data.equals("0")) {
+                        showToast(getActivity(), message);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                call.cancel();
+                DataManager.getInstance().hideProgressMessage();
+            }
+        });
+
+    }
+
 }

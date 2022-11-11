@@ -20,6 +20,7 @@ import com.my.quiz.databinding.FragmentBookingSuccessBinding;
  * Use the {@link BookingSuccessFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
+
 public class BookingSuccessFragment extends Fragment {
 
     FragmentBookingSuccessBinding binding;
@@ -45,6 +46,8 @@ public class BookingSuccessFragment extends Fragment {
      * @param param2 Parameter 2.
      * @return A new instance of fragment BookingSuccessFragment.
      */
+
+
     // TODO: Rename and change types and number of parameters
     public static BookingSuccessFragment newInstance(String param1, String param2) {
         BookingSuccessFragment fragment = new BookingSuccessFragment();

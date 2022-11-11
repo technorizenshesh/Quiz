@@ -204,16 +204,20 @@
 package com.my.quiz.adapter;
 
 import android.content.Context;
+import android.text.style.AlignmentSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.my.quiz.R;
+import com.my.quiz.model.SuccessResGetOtherUserData;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -226,10 +230,12 @@ public class TeamAdapter extends RecyclerView.Adapter<TeamAdapter.SelectTimeView
     private List<String> dates;
     private Context context;
 
-    public TeamAdapter(Context context)
+    private ArrayList<SuccessResGetOtherUserData.Result> otherResults;
+
+    public TeamAdapter(Context context,ArrayList<SuccessResGetOtherUserData.Result> otherResults)
     {
-        this.dates = dates;
         this.context = context;
+        this.otherResults = otherResults;
     }
 
     @NonNull
@@ -243,10 +249,21 @@ public class TeamAdapter extends RecyclerView.Adapter<TeamAdapter.SelectTimeView
 
     @Override
     public void onBindViewHolder(@NonNull SelectTimeViewHolder holder, int position) {
+
+        TextView tvTeamName,tvTime;
+
+        tvTeamName = holder.itemView.findViewById(R.id.tvTeamName);
+
+        tvTime = holder.itemView.findViewById(R.id.tvTime);
+
+        tvTeamName.setText(otherResults.get(position).getTeamName());
+
+        tvTime.setText(otherResults.get(position).getEventTotalTime());
+
     }
     @Override
     public int getItemCount() {
-        return 6;
+        return otherResults.size();
     }
     public class SelectTimeViewHolder extends RecyclerView.ViewHolder {
         public SelectTimeViewHolder(@NonNull View itemView) {

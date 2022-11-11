@@ -207,7 +207,9 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.navigation.Navigation;
@@ -216,7 +218,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.my.quiz.R;
 
 public class AllEventsAdapter extends RecyclerView.Adapter<AllEventsAdapter.SelectTimeViewHolder> {
-
     private Context context;
     public AllEventsAdapter(Context context)
     {
@@ -235,7 +236,11 @@ public class AllEventsAdapter extends RecyclerView.Adapter<AllEventsAdapter.Sele
     @Override
     public void onBindViewHolder(@NonNull SelectTimeViewHolder holder, int position) {
         RelativeLayout rlParent = holder.itemView.findViewById(R.id.rlParent);
+        TextView tvName;
+        ImageView ivLogo;
+
     }
+
     @Override
     public int getItemCount() {
         return 6;

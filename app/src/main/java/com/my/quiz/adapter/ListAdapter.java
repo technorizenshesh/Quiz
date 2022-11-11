@@ -204,11 +204,13 @@
 package com.my.quiz.adapter;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -217,8 +219,11 @@ import androidx.cardview.widget.CardView;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.my.quiz.R;
+import com.my.quiz.model.SuccessResGetMyEvents;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -233,11 +238,12 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.SelectTimeView
     ArrayAdapter ad;
     private List<String> dates;
     private Context context;
+    private ArrayList<SuccessResGetMyEvents.Result> eventList ;
 
-    public ListAdapter( Context context)
+    public ListAdapter( Context context,ArrayList<SuccessResGetMyEvents.Result> eventList)
     {
-        this.dates = dates;
-        this.context = context;
+      this.context = context;
+      this.eventList =eventList;
     }
 
     @NonNull
@@ -252,19 +258,47 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.SelectTimeView
     @Override
     public void onBindViewHolder(@NonNull SelectTimeViewHolder holder, int position) {
 
+        TextView tvEventName,tvEventDate,tvEventPrice,tvLocation,tvStatus;
+        ImageView ivEvent = holder.itemView.findViewById(R.id.img_event);
+        tvEventName = holder.itemView.findViewById(R.id.label);
+        tvEventDate = holder.itemView.findViewById(R.id.tvDate);
+        tvEventPrice = holder.itemView.findViewById(R.id.tvRate);
+        tvLocation = holder.itemView.findViewById(R.id.tvLocation);
+        tvStatus = holder.itemView.findViewById(R.id.tvStatus);
+
+        Glide.with(context)
+                .load(eventList.get(position).getImage())
+                .centerCrop()
+                .into(ivEvent);
+        tvEventName.setText(eventList.get(position).getEventName());
+
+        tvEventDate.setText(eventList.get(position).getEventDate());
+        tvEventPrice.setText(eventList.get(position).getAmount());
+        tvLocation.setText(eventList.get(position).getAddress());
+
         CardView cvParent = holder.itemView.findViewById(R.id.cvParent);
 
         cvParent.setOnClickListener(v ->
                 {
-                    Navigation.findNavController(v).navigate(R.id.action_navigation_list_to_eventLocationsFragment);
-
+                    Bundle bundle = new Bundle();
+                    bundle.putString("eventId",eventList.get(position).getId());
+                    Navigation.findNavController(v).navigate(R.id.action_navigation_list_to_eventLocationsFragment,bundle);
                 }
                 );
 
+        if(eventList.get(position).getEventStatus().equalsIgnoreCase("PENDING"))
+        {
+            tvStatus.setText(""+context.getString(R.string.upcoming));
+            tvStatus.setTextColor(context.getResources().getColor(R.color.yellow));
+        } else if(eventList.get(position).getEventStatus().equalsIgnoreCase("green"))
+        {
+            tvStatus.setText(""+context.getString(R.string.started));
+            tvStatus.setTextColor(context.getResources().getColor(R.color.green));
+        }
     }
     @Override
     public int getItemCount() {
-        return 6;
+        return eventList.size();
     }
     public class SelectTimeViewHolder extends RecyclerView.ViewHolder {
         public SelectTimeViewHolder(@NonNull View itemView) {

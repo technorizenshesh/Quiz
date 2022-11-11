@@ -208,12 +208,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.my.quiz.R;
+import com.my.quiz.model.SuccessResGetFinalTime;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -226,10 +232,13 @@ public class PanlaltiesAdapter extends RecyclerView.Adapter<PanlaltiesAdapter.Se
     private List<String> dates;
     private Context context;
 
-    public PanlaltiesAdapter(Context context)
+    private ArrayList<SuccessResGetFinalTime.Result> timePenalitiesList;
+
+    public PanlaltiesAdapter(Context context,ArrayList<SuccessResGetFinalTime.Result> timePenalitiesList)
     {
         this.dates = dates;
         this.context = context;
+        this.timePenalitiesList = timePenalitiesList;
     }
 
     @NonNull
@@ -243,10 +252,36 @@ public class PanlaltiesAdapter extends RecyclerView.Adapter<PanlaltiesAdapter.Se
 
     @Override
     public void onBindViewHolder(@NonNull SelectTimeViewHolder holder, int position) {
+
+        TextView tvPenality,tvDate;
+
+        tvPenality = holder.itemView.findViewById(R.id.tvMinutes);
+        tvDate = holder.itemView.findViewById(R.id.tvdate);
+
+        String dtStart = timePenalitiesList.get(position).getDateTime();
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat formatTo = new SimpleDateFormat("dd/MM/yyyy");
+
+        String toDate="";
+
+        try {
+            Date date = format.parse(dtStart);
+
+            toDate = formatTo.format(date);
+
+            System.out.println(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+
+        tvPenality.setText("+ "+timePenalitiesList.get(position).getTime());
+
+        tvDate.setText(toDate);
     }
     @Override
     public int getItemCount() {
-        return 6;
+        return timePenalitiesList.size();
     }
     public class SelectTimeViewHolder extends RecyclerView.ViewHolder {
         public SelectTimeViewHolder(@NonNull View itemView) {

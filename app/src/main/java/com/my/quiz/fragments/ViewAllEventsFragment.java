@@ -69,11 +69,13 @@ public class ViewAllEventsFragment extends Fragment {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater,R.layout.fragment_view_all_events, container, false);
         binding.header.tvHeader.setText(R.string.all_events);
+
         binding.header.imgHeader.setOnClickListener(v ->
                 {
                     getActivity().onBackPressed();
                 }
                 );
+
         binding.rvAllEvents.setHasFixedSize(true);
         binding.rvAllEvents.setLayoutManager(new LinearLayoutManager(getActivity()));
         binding.rvAllEvents.setAdapter(new AllEventsAdapter(getActivity()));

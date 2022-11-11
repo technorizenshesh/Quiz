@@ -62,27 +62,36 @@ public class SuccessResGetEventDetail implements Serializable {
         @SerializedName("event_date")
         @Expose
         public String eventDate;
+        @SerializedName("event_time")
+        @Expose
+        public String eventTime;
         @SerializedName("amount")
         @Expose
         public String amount;
-        @SerializedName("date_time")
-        @Expose
-        public String dateTime;
         @SerializedName("image")
         @Expose
         public String image;
         @SerializedName("total_ticket")
         @Expose
         public String totalTicket;
+        @SerializedName("event_instructions")
+        @Expose
+        public String eventInstructions;
+        @SerializedName("date_time")
+        @Expose
+        public String dateTime;
+        @SerializedName("event_status")
+        @Expose
+        public String eventStatus;
+        @SerializedName("event_start_time")
+        @Expose
+        public String eventStartTime;
         @SerializedName("booking_event_count")
         @Expose
         public String bookingEventCount;
         @SerializedName("remaining_event_count")
         @Expose
         public String remainingEventCount;
-        @SerializedName("event_status")
-        @Expose
-        public String eventStatus;
 
         public String getId() {
             return id;
@@ -132,20 +141,20 @@ public class SuccessResGetEventDetail implements Serializable {
             this.eventDate = eventDate;
         }
 
+        public String getEventTime() {
+            return eventTime;
+        }
+
+        public void setEventTime(String eventTime) {
+            this.eventTime = eventTime;
+        }
+
         public String getAmount() {
             return amount;
         }
 
         public void setAmount(String amount) {
             this.amount = amount;
-        }
-
-        public String getDateTime() {
-            return dateTime;
-        }
-
-        public void setDateTime(String dateTime) {
-            this.dateTime = dateTime;
         }
 
         public String getImage() {
@@ -164,6 +173,38 @@ public class SuccessResGetEventDetail implements Serializable {
             this.totalTicket = totalTicket;
         }
 
+        public String getEventInstructions() {
+            return eventInstructions;
+        }
+
+        public void setEventInstructions(String eventInstructions) {
+            this.eventInstructions = eventInstructions;
+        }
+
+        public String getDateTime() {
+            return dateTime;
+        }
+
+        public void setDateTime(String dateTime) {
+            this.dateTime = dateTime;
+        }
+
+        public String getEventStatus() {
+            return eventStatus;
+        }
+
+        public void setEventStatus(String eventStatus) {
+            this.eventStatus = eventStatus;
+        }
+
+        public String getEventStartTime() {
+            return eventStartTime;
+        }
+
+        public void setEventStartTime(String eventStartTime) {
+            this.eventStartTime = eventStartTime;
+        }
+
         public String getBookingEventCount() {
             return bookingEventCount;
         }
@@ -180,14 +221,6 @@ public class SuccessResGetEventDetail implements Serializable {
             this.remainingEventCount = remainingEventCount;
         }
 
-        public String getEventStatus() {
-            return eventStatus;
-        }
-
-        public void setEventStatus(String eventStatus) {
-            this.eventStatus = eventStatus;
-        }
-
     }
-    
+
 }

@@ -4,13 +4,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 
-/**
- * This class used for handling shared preferences in application.
- *
- * @author CanopusInfosystem
- * @version 1.0
- * @since 06 Jan 2020
- */
+import com.my.quiz.activities.game2.Game2InstructionAct;
+
 
 public class SharedPreferenceUtility {
     private static SharedPreferences mPref;
@@ -32,6 +27,7 @@ public class SharedPreferenceUtility {
         }
         return mRef;
     }
+
 
     /**
      * Put long value into shared preference

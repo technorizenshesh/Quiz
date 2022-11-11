@@ -29,7 +29,6 @@ public class AboutUsFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
     public AboutUsFragment() {
         // Required empty public constructor
     }
@@ -42,6 +41,7 @@ public class AboutUsFragment extends Fragment {
      * @param param2 Parameter 2.
      * @return A new instance of fragment AboutUsFragment.
      */
+
     // TODO: Rename and change types and number of parameters
     public static AboutUsFragment newInstance(String param1, String param2) {
         AboutUsFragment fragment = new AboutUsFragment();
@@ -64,10 +64,8 @@ public class AboutUsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
 
         binding = DataBindingUtil.inflate(inflater,R.layout.fragment_about_us, container, false);
-
         binding.header.tvHeader.setText(getString(R.string.about_us));
         binding.header.imgHeader.setOnClickListener(v ->
                 {
@@ -75,7 +73,9 @@ public class AboutUsFragment extends Fragment {
                 }
                 );
 
+        binding.webView.getSettings().setJavaScriptEnabled(true);
 
+        binding.webView.loadUrl("http://technorizen.co.in/Quiz/about.html");
         return binding.getRoot();
     }
 }

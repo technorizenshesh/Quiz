@@ -17,6 +17,7 @@ import com.my.quiz.databinding.FragmentVisitWebsiteBinding;
  * Use the {@link VisitWebsiteFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
+
 public class VisitWebsiteFragment extends Fragment {
 
     FragmentVisitWebsiteBinding binding;
@@ -42,6 +43,7 @@ public class VisitWebsiteFragment extends Fragment {
      * @param param2 Parameter 2.
      * @return A new instance of fragment VisitWebsiteFragment.
      */
+
     // TODO: Rename and change types and number of parameters
     public static VisitWebsiteFragment newInstance(String param1, String param2) {
         VisitWebsiteFragment fragment = new VisitWebsiteFragment();
@@ -75,9 +77,23 @@ public class VisitWebsiteFragment extends Fragment {
                 }
                 );
 
-        binding.webview.loadUrl("http://www.example.com");
 
+        binding.webview.getSettings().setBuiltInZoomControls(true);
 
+        // webView.getSettings().setJavaScriptEnabled(true);
+        //webView.loadUrl("https://care-pad.uk/carepad/uploads/images/");
+//        binding.webview.loadUrl(webUrl);
+//
+//        binding.webview.setWebViewClient(new WebViewClient() {
+//            @Override
+//            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+//                view.loadUrl(url);
+//                return true;
+//            }
+//        });
+
+//        binding.webview.getSettings().setJavaScriptEnabled(true);
+//        binding.webview.loadUrl("www.smsjuegos.com");
 
         return binding.getRoot();
     }

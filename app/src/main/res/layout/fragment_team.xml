@@ -2,11 +2,18 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-<LinearLayout android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".fragments.EditProfileFragment">
-    <include layout="@layout/header_layout" android:id="@+id/header"/>
+    <LinearLayout android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".fragments.EditProfileFragment">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+            <include layout="@layout/header_layout" android:id="@+id/header"/>
+        </RelativeLayout>
+
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabLayoutEventDay"
             android:layout_width="match_parent"
@@ -19,209 +26,212 @@
             app:tabIndicatorHeight="0dp"
             android:elevation="@dimen/_15sdp"
             />
-    <LinearLayout
-        android:id="@+id/llInfo"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="@dimen/_15sdp"
-        >
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cvEditProfile"
+        <LinearLayout
+            android:id="@+id/llInfo"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/_5sdp"
-            app:cardCornerRadius="@dimen/_8sdp"
-            app:cardElevation="@dimen/_5sdp">
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="@dimen/_15sdp"
+            >
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cvEditProfile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_5sdp"
+                app:cardCornerRadius="@dimen/_8sdp"
+                app:cardElevation="@dimen/_5sdp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    >
+
+                    <ImageView
+                        android:id="@+id/img_event"
+                        android:layout_width="@dimen/_90sdp"
+                        android:layout_height="@dimen/_120sdp"
+                        android:layout_marginRight="@dimen/_8sdp"
+                        android:background="@color/grey"
+                        android:scaleType="fitXY" />
+                    <TextView
+                        android:id="@+id/label"
+                        android:layout_toRightOf="@+id/img_event"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Team Name"
+                        android:fontFamily="@font/poppins_bold"
+                        android:textColor="@color/yellow"
+                        android:layout_marginTop="@dimen/_15sdp"
+                        android:textSize="@dimen/_13sdp"
+                        />
+
+                    <RelativeLayout
+                        android:id="@+id/rlGameStatus"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@+id/img_event"
+                        android:visibility="gone"
+                        android:layout_below="@id/label"
+                        android:layout_marginEnd="@dimen/_10sdp"
+                        >
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Game Status:"
+                            android:fontFamily="@font/poppins_medium"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_11sdp"
+                            />
+
+                        <TextView
+                            android:id="@+id/tvGameStatus"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:text="Fail"
+                            android:textColor="@color/red"
+                            />
+
+                    </RelativeLayout>
+
+
+                    <RelativeLayout
+                        android:id="@+id/rlTime"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@+id/img_event"
+                        android:layout_below="@id/rlGameStatus"
+                        android:layout_marginEnd="@dimen/_10sdp"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        >
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Total Time:"
+                            android:fontFamily="@font/poppins_medium"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_11sdp"
+                            />
+
+                        <TextView
+                            android:id="@+id/tvTotalTime"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:textColor="@color/dark_gray"
+                            />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/rlTimeModifier"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@+id/img_event"
+                        android:layout_below="@id/rlTime"
+                        android:layout_marginEnd="@dimen/_10sdp"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        >
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Total Penalities"
+                            android:fontFamily="@font/poppins_medium"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_11sdp"
+                            />
+                        <TextView
+                            android:id="@+id/tvTotalPenalties"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:textColor="@color/dark_gray"
+                            />
+                    </RelativeLayout>
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@+id/img_event"
+                        android:layout_below="@id/rlTimeModifier"
+                        android:layout_marginEnd="@dimen/_10sdp"
+                        android:visibility="gone"
+                        >
+                        <TextView
+                            android:id="@+id/tvDate"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="PIOs Found:"
+                            android:fontFamily="@font/poppins_medium"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_11sdp"
+                            />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:text="21/42"
+                            android:textColor="@color/dark_gray"
+                            />
+
+                    </RelativeLayout>
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/tvTeamDetail"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_30sdp"
+                        android:layout_below="@+id/img_event"
+                        android:background="@drawable/blue_button_left_top_right_bottom_20"
+                        android:layout_margin="@dimen/_10sdp"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white"
+                        />
+
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/img_event"
+                android:layout_below="@id/rlGameStatus"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_10sdp"
                 >
-                <ImageView
-                    android:id="@+id/img_event"
-                    android:layout_width="@dimen/_90sdp"
-                    android:layout_height="@dimen/_120sdp"
-                    android:layout_marginRight="@dimen/_8sdp"
-                    android:background="@color/grey"
-                    android:scaleType="fitXY" />
                 <TextView
-                    android:id="@+id/label"
-                    android:layout_toRightOf="@+id/img_event"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Team Name"
+                    android:text="Time Penalties"
                     android:fontFamily="@font/poppins_bold"
-                    android:textColor="@color/yellow"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:textSize="@dimen/_13sdp"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_11sdp"
                     />
 
-                <RelativeLayout
-                    android:id="@+id/rlGameStatus"
-                    android:layout_width="match_parent"
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toRightOf="@+id/img_event"
-                    android:layout_below="@id/label"
-                    android:layout_marginEnd="@dimen/_10sdp"
-                    >
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Game Status:"
-                        android:fontFamily="@font/poppins_medium"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/_11sdp"
-                        />
-
-                    <TextView
-                        android:id="@+id/tvGameStatus"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:text="Fail"
-                        android:textColor="@color/red"
-                        />
-
-                </RelativeLayout>
-
-
-                <RelativeLayout
-                    android:id="@+id/rlTime"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_toRightOf="@+id/img_event"
-                    android:layout_below="@id/rlGameStatus"
-                    android:layout_marginEnd="@dimen/_10sdp"
-                    >
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Total Time:"
-                        android:fontFamily="@font/poppins_medium"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/_11sdp"
-                        />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:text="34:42:22"
-                        android:textColor="@color/dark_gray"
-                        />
-
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:id="@+id/rlTimeModifier"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_toRightOf="@+id/img_event"
-                    android:layout_below="@id/rlTime"
-                    android:layout_marginEnd="@dimen/_10sdp"
-                    >
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Time Modifiers:"
-                        android:fontFamily="@font/poppins_medium"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/_11sdp"
-                        />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:text="34:42:22"
-                        android:textColor="@color/dark_gray"
-                        />
-
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_toRightOf="@+id/img_event"
-                    android:layout_below="@id/rlTimeModifier"
-                    android:layout_marginEnd="@dimen/_10sdp"
-                    >
-                    <TextView
-                        android:id="@+id/tvDate"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="PIOs Found:"
-                        android:fontFamily="@font/poppins_medium"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/_11sdp"
-                        />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:text="21/42"
-                        android:textColor="@color/dark_gray"
-                        />
-
-                </RelativeLayout>
-
-                <androidx.appcompat.widget.AppCompatButton
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/_30sdp"
-                    android:layout_below="@+id/img_event"
-                    android:background="@drawable/blue_button_left_top_right_bottom_20"
-                    android:layout_margin="@dimen/_10sdp"
-                    android:text="Team Members: 3/ 6"
-                    android:textAllCaps="false"
-                    android:textColor="@color/white"
+                    android:layout_alignParentRight="true"
+                    android:text="Date"
+                    android:fontFamily="@font/poppins_bold"
+                    android:textColor="@color/dark_gray"
                     />
-
             </RelativeLayout>
-        </androidx.cardview.widget.CardView>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/img_event"
-            android:layout_below="@id/rlGameStatus"
-            android:layout_marginEnd="@dimen/_10sdp"
-            android:layout_marginTop="@dimen/_10sdp"
-            >
-            <TextView
-                android:layout_width="wrap_content"
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Time Penalties"
-                android:fontFamily="@font/poppins_bold"
-                android:textColor="@color/black"
-                android:textSize="@dimen/_11sdp"
+                android:id="@+id/rvTimePanalites"
                 />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:text="Date"
-                android:fontFamily="@font/poppins_bold"
-                android:textColor="@color/dark_gray"
-                />
-        </RelativeLayout>
+        </LinearLayout>
+
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/rvTimePanalites"
+            android:id="@+id/rvteam"
+            android:visibility="gone"
             />
 
+
+
     </LinearLayout>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/rvteam"
-        android:visibility="gone"
-        />
-
-
-
-</LinearLayout>
 </layout>

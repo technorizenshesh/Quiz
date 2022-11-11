@@ -15,7 +15,23 @@
         app:cardCornerRadius="@dimen/_8sdp"
         app:cardBackgroundColor="@color/grey"
         app:cardElevation="@dimen/_5sdp">
-       </androidx.cardview.widget.CardView>
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+           <ImageView
+               android:layout_width="match_parent"
+               android:layout_height="match_parent"
+               android:id="@+id/ivFinalImage"
+               />
 
+    <ImageView
+        android:layout_width="@dimen/_20sdp"
+        android:layout_height="@dimen/_20sdp"
+        android:id="@+id/checked"
+        android:src="@drawable/ic_checked"/>
+
+</RelativeLayout>
+       </androidx.cardview.widget.CardView>
 </LinearLayout>
 </layout>

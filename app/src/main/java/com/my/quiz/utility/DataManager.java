@@ -32,9 +32,7 @@ import java.util.Date;
 
 import ir.alirezabdn.wp7progress.WP10ProgressBar;
 
-
 public class DataManager {
-
 
     private static final DataManager ourInstance = new DataManager();
 

@@ -135,7 +135,6 @@ public class EventDetailFragment extends Fragment {
         return binding.getRoot();
     }
 
-
     public void addToCart()
     {
         String userId = SharedPreferenceUtility.getInstance(getContext()).getString(USER_ID);

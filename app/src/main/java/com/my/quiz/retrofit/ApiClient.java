@@ -8,7 +8,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 import static com.my.quiz.retrofit.Constant.BASE_URL;
 
-
 public class ApiClient {
 
     public static Retrofit retrofit = null;

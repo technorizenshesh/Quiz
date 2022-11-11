@@ -1,6 +1,7 @@
 package com.my.quiz.fragments;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.cardview.widget.CardView;
@@ -25,6 +26,7 @@ import static com.my.quiz.activities.HomeAct.navView;
  * Use the {@link ProfileFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
+
 public class ProfileFragment extends Fragment {
 
 //    CardView cvEditProfile,cvChangePass,cvList;
@@ -40,16 +42,6 @@ public class ProfileFragment extends Fragment {
     public ProfileFragment() {
         // Required empty public constructor
     }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ProfileFragment.
-     */
-
     // TODO: Rename and change types and number of parameters
     public static ProfileFragment newInstance(String param1, String param2) {
         ProfileFragment fragment = new ProfileFragment();
@@ -68,10 +60,12 @@ public class ProfileFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater,R.layout.fragment_profile, container, false);
+
         binding.cvEditProfile.setOnClickListener(view1 ->
                 {
                     Navigation.findNavController(view1).navigate(R.id.action_navigation_profile_to_editProfileFragment);
@@ -110,7 +104,11 @@ public class ProfileFragment extends Fragment {
 
         binding.cvVisiWebsite.setOnClickListener(v ->
                 {
-                    Navigation.findNavController(v).navigate(R.id.action_navigation_profile_to_visitWebsiteFragment);
+//                    Navigation.findNavController(v).navigate(R.id.action_navigation_profile_to_visitWebsiteFragment);
+                    String url = "https://smsjuegos.com/";
+                    Intent i = new Intent(Intent.ACTION_VIEW);
+                    i.setData(Uri.parse(url));
+                    startActivity(i);
                 }
         );
 
@@ -121,6 +119,12 @@ public class ProfileFragment extends Fragment {
                     Navigation.findNavController(view1).navigate(R.id.action_navigation_profile_to_navigation_list,bundle);
                 }
         );
+
+        binding.rlCompletedEvents.setOnClickListener(v ->
+                {
+                    Navigation.findNavController(v).navigate(R.id.action_navigation_profile_to_completedPuzzelFragment);
+                }
+                );
 
         binding.btnLogout.setOnClickListener(v ->
                 {

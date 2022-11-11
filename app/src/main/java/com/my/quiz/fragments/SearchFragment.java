@@ -8,11 +8,13 @@ import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -117,19 +119,14 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback, Goog
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
         apiInterface = ApiClient.getClient().create(QuizInterface.class);
-
         gpsTracker = new GPSTracker(getActivity());
-
-        getLocations();
-
+        getLocation();
         return binding.getRoot();
     }
 
-
-
     public void getLocation() {
+
         if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
@@ -138,6 +135,7 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback, Goog
             Log.e("Latittude====",gpsTracker.getLatitude()+"");
             strLat = Double.toString(gpsTracker.getLatitude()) ;
             strLng = Double.toString(gpsTracker.getLongitude()) ;
+            getLocations();
         }
     }
 
@@ -146,11 +144,9 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback, Goog
 
         DataManager.getInstance().showProgressMessage(getActivity(), getString(R.string.please_wait));
         Map<String, String> map = new HashMap<>();
-        map.put("lat", "22.7196");
-        map.put("lon", "75.857");
-
+        map.put("lat", strLat);
+        map.put("lon", strLng);
         Call<SuccessResNearbyEvents> call = apiInterface.getNearbyEvents(map);
-
         call.enqueue(new Callback<SuccessResNearbyEvents>() {
             @Override
             public void onResponse(Call<SuccessResNearbyEvents> call, Response<SuccessResNearbyEvents> response) {
@@ -162,26 +158,20 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback, Goog
                     if (data.status.equals("1")) {
                         String dataResponse = new Gson().toJson(response.body());
                         Log.e("MapMap", "EDIT PROFILE RESPONSE" + dataResponse);
-
                         nearbyEventList.clear();
                         nearbyEventList.addAll(data.getResult());
-
 //                        LatLng sydney = new LatLng(-33, 150);
                         mMap.setOnMarkerClickListener(SearchFragment.this::onMarkerClick);
                         marker = new Marker[nearbyEventList.size()];
-
                         int i=0;
-
                         for (SuccessResNearbyEvents.Result result:nearbyEventList)
                         {
-                            marker[i] = createMarker(Double.parseDouble(result.getLat()), Double.parseDouble(result.getLon()), result.getEventName(),"", R.drawable.ic_loca);
+                            marker[i] = createMarker(Double.parseDouble(result.getLat()), Double.parseDouble(result.getLon()), result.getEventName(),"", R.drawable.ic_loca,i);
                             i++;
                         }
                         LatLng sydney = new LatLng(Double.parseDouble(nearbyEventList.get(0).getLat()),Double.parseDouble(nearbyEventList.get(0).getLon()));
-
                         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
                         mMap.animateCamera( CameraUpdateFactory.zoomTo( 17.0f ) );
-
                     } else if (data.status.equals("0")) {
                         showToast(getActivity(), data.message);
                     }
@@ -189,24 +179,15 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback, Goog
                     e.printStackTrace();
                 }
             }
-
             @Override
             public void onFailure(Call<SuccessResNearbyEvents> call, Throwable t) {
                 call.cancel();
                 DataManager.getInstance().hideProgressMessage();
             }
         });
-
     }
-
-
-
-    protected Marker createMarker(double latitude, double longitude, String title, String snippet, int iconResID) {
-
+    protected Marker createMarker(double latitude, double longitude, String title, String snippet, int iconResID,int position) {
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 9f));
-
-
-
         BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(iconResID);
         myMarker = mMap.addMarker(new MarkerOptions()
                 .position(new LatLng(latitude, longitude))
@@ -214,11 +195,9 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback, Goog
                 .title(title)
                 .icon(icon)
                 .snippet(snippet));
-
+        myMarker.setTag(position);
         return myMarker;
-
     }
-
 
     @Override
     public void onDestroy() {
@@ -235,11 +214,62 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback, Goog
 //                .title("Marker in Sydney"));
 //        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
 //        mMap.animateCamera( CameraUpdateFactory.zoomTo( 17.0f ) );
-
     }
 
     @Override
     public boolean onMarkerClick(@NonNull Marker marker) {
+
+        View v = getView();
+
+        int position = (Integer) marker.getTag();
+
+        Bundle bundle = new Bundle();
+        bundle.putString("id",nearbyEventList.get(position).getId());
+        Navigation.findNavController(v).navigate(R.id.action_searchFragment_to_eventDetailFragment,bundle);
+
         return false;
     }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case 1000: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Log.e("Latittude====", gpsTracker.getLatitude() + "");
+                    strLat = Double.toString(gpsTracker.getLatitude()) ;
+                    strLng = Double.toString(gpsTracker.getLongitude()) ;
+                    getLocations();
+
+//
+//                    if (isContinue) {
+//                        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+//                            // TODO: Consider calling
+//                            //    ActivityCompat#requestPermissions
+//                            // here to request the missing permissions, and then overriding
+//                            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+//                            //                                          int[] grantResults)
+//                            // to handle the case where the user grants the permission. See the documentation
+//                            // for ActivityCompat#requestPermissions for more details.
+//                            return;
+//                        }
+//                        mFusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, null);
+//                    } else {
+//                        Log.e("Latittude====", gpsTracker.getLatitude() + "");
+//
+//                        strLat = Double.toString(gpsTracker.getLatitude()) ;
+//                        strLng = Double.toString(gpsTracker.getLongitude()) ;
+//
+//                    }
+                } else {
+                    Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.permisson_denied), Toast.LENGTH_SHORT).show();
+                }
+                break;
+            }
+
+        }
+    }
+
+
 }

@@ -204,7 +204,9 @@
 package com.my.quiz.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -219,6 +221,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.my.quiz.R;
+import com.my.quiz.activities.game2.Game2StartVideoAct;
+import com.my.quiz.activities.game2.HomeScreenGame2Act;
 import com.my.quiz.model.SuccessResGetEvents;
 
 import java.util.List;
@@ -230,10 +234,10 @@ import java.util.List;
 public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.SelectTimeViewHolder> {
 
     private Context context;
-    private boolean fromHome;
+    private String fromHome;
     private List<SuccessResGetEvents.Result> eventsListList;
 
-    public HomeAdapter(Context context,List<SuccessResGetEvents.Result> eventsListList,boolean fromHome)
+    public HomeAdapter(Context context,List<SuccessResGetEvents.Result> eventsListList,String fromHome)
     {
         this.context = context;
         this.eventsListList =eventsListList;
@@ -251,27 +255,71 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.SelectTimeView
 
     @Override
     public void onBindViewHolder(@NonNull SelectTimeViewHolder holder, int position) {
-        ImageView ivEvents  = holder.itemView.findViewById(R.id.iv_event);
-        TextView tvEventName = holder.itemView.findViewById(R.id.tv_event_name);
-        RelativeLayout rlParent = holder.itemView.findViewById(R.id.rlParent);
-        rlParent.setOnClickListener(v ->
-                {
-                    if(fromHome)
+        try
+        {
+            ImageView ivEvents  = holder.itemView.findViewById(R.id.iv_event);
+            TextView tvEventName = holder.itemView.findViewById(R.id.tv_event_name);
+            RelativeLayout rlParent = holder.itemView.findViewById(R.id.rlParent);
+            rlParent.setOnClickListener(v ->
                     {
-                        Bundle bundle = new Bundle();
-                        bundle.putString("id",eventsListList.get(position).getId());
-                        Navigation.findNavController(v).navigate(R.id.action_navigation_home_to_eventDetailFragment,bundle);
+                        if(fromHome.equalsIgnoreCase("home"))
+                        {
+                            if(eventsListList.get(position).getType().equalsIgnoreCase("puzzle"))
+                            {
+                                Bundle bundle = new Bundle();
+                                bundle.putString("id",eventsListList.get(position).getId());
+                                Navigation.findNavController(v).navigate(R.id.action_navigation_home_to_eventDetailFragment,bundle);
+                            } else if(eventsListList.get(position).getType().equalsIgnoreCase("Virus"))
+                            {
+                                context.startActivity(new Intent(context, HomeScreenGame2Act.class).putExtra("instructionID",eventsListList.get(position)));
+                            }else if(eventsListList.get(position).getType().equalsIgnoreCase("crime"))
+                            {
+                                context.startActivity(new Intent(context, Game2StartVideoAct.class).putExtra("instructionID",eventsListList.get(position)));
+                            }
+
+                        }else if(fromHome.equalsIgnoreCase("cal"))
+                        {
+
+                            if(eventsListList.get(position).getType().equalsIgnoreCase("puzzle"))
+                            {
+                                Bundle bundle = new Bundle();
+                                bundle.putString("id",eventsListList.get(position).getId());
+                                Navigation.findNavController(v).navigate(R.id.action_navigation_calander_to_eventDetailFragment,bundle);
+                            } else if(eventsListList.get(position).getType().equalsIgnoreCase("Virus"))
+                            {
+                                context.startActivity(new Intent(context, HomeScreenGame2Act.class).putExtra("instructionID",eventsListList.get(position)));
+                            }else if(eventsListList.get(position).getType().equalsIgnoreCase("crime"))
+                            {
+                                context.startActivity(new Intent(context, HomeScreenGame2Act.class).putExtra("instructionID",eventsListList.get(position)));
+                            }
+
+                        }else if(fromHome.equalsIgnoreCase("search"))
+                        {
+
+                            if(eventsListList.get(position).getType().equalsIgnoreCase("puzzle"))
+                            {
+                                Bundle bundle = new Bundle();
+                                bundle.putString("id",eventsListList.get(position).getId());
+                                Navigation.findNavController(v).navigate(R.id.action_eventDetailFragment_to_cartFragment,bundle);
+                            } else if(eventsListList.get(position).getType().equalsIgnoreCase("Virus"))
+                            {
+                                context.startActivity(new Intent(context, HomeScreenGame2Act.class).putExtra("instructionID",eventsListList.get(position)));
+                            }else if(eventsListList.get(position).getType().equalsIgnoreCase("crime"))
+                            {
+                                context.startActivity(new Intent(context, HomeScreenGame2Act.class).putExtra("instructionID",eventsListList.get(position)));
+                            }
+                        }
                     }
-                }
-                );
-
-        Glide .with(context)
-                .load(eventsListList.get(position).getImage())
-                .centerInside()
-                .into(ivEvents);
-
-        tvEventName.setText(eventsListList.get(position).getEventName());
-
+            );
+            Glide .with(context)
+                    .load(eventsListList.get(position).getImage())
+                    .centerInside()
+                    .into(ivEvents);
+            tvEventName.setText(eventsListList.get(position).getEventName());
+        }catch (Exception e)
+        {
+            Log.d("TAG", "onBindViewHolder: ");
+        }
     }
     @Override
     public int getItemCount() {

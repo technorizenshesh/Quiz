@@ -209,31 +209,31 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.my.quiz.R;
 import com.my.quiz.activities.PuzzleAct;
+import com.my.quiz.model.SuccessResGetInventory;
 
+import java.util.ArrayList;
 import java.util.List;
-
-/**
- * Created by Ravindra Birla on 05,August,2021
- */
 
 public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.SelectTimeViewHolder> {
 
     ArrayAdapter ad;
-    private List<String> dates;
+    private ArrayList<SuccessResGetInventory.Result> stringArrayList;
     private Context context;
-
-    public InventoryAdapter(Context context)
+    public InventoryAdapter(Context context,ArrayList<SuccessResGetInventory.Result> stringArrayList)
     {
-
         this.context = context;
+        this.stringArrayList = stringArrayList;
     }
 
     @NonNull
@@ -247,19 +247,17 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.Sele
 
     @Override
     public void onBindViewHolder(@NonNull SelectTimeViewHolder holder, int position) {
-
-        CardView cvParent = holder.itemView.findViewById(R.id.cvParent);
-
-        cvParent.setOnClickListener(v ->
-                {
-                    context.startActivity(new Intent(context, PuzzleAct.class));
-                }
-                );
-
+        ImageView ivEvent = holder.itemView.findViewById(R.id.img_event);
+        TextView tvDescription = holder.itemView.findViewById(R.id.tvDescription);
+        Glide.with(context)
+                .load(stringArrayList.get(position).getFinalPuzzleImage())
+                .centerCrop()
+                .into(ivEvent);
+        tvDescription.setText(stringArrayList.get(position).getInstructions());
     }
     @Override
     public int getItemCount() {
-        return 6;
+        return stringArrayList.size();
     }
     public class SelectTimeViewHolder extends RecyclerView.ViewHolder {
         public SelectTimeViewHolder(@NonNull View itemView) {
