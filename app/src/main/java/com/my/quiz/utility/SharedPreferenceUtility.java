@@ -28,7 +28,6 @@ public class SharedPreferenceUtility {
         return mRef;
     }
 
-
     /**
      * Put long value into shared preference
      **/

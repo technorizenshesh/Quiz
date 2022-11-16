@@ -32,15 +32,23 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:textSize="@dimen/_14sdp"
-                android:text="You have the new "
+                android:text="@string/you_have_the_new"
                 android:textColor="@color/black"
                 android:lineSpacingMultiplier="1.1"
                 android:id="@+id/tvPuzzel"/>
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
+
     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical"
         android:id="@+id/llBottom"
+        >
+    <LinearLayout
+        android:id="@+id/llButtonHint"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/rlBottom"
@@ -78,9 +86,21 @@
         android:id="@+id/rlBottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_15sdp"
         android:layout_alignParentBottom="true"
-        >
+        android:layout_marginTop="@dimen/_15sdp">
+
+        <EditText
+            android:id="@+id/etAnswer"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_35sdp"
+            android:layout_below="@+id/tvanswer1"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_marginRight="@dimen/_10sdp"
+            android:layout_toLeftOf="@+id/btnSubmit"
+            android:background="@drawable/et_bg"
+            android:hint="@string/enter_answer"
+            android:paddingLeft="@dimen/_10sdp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/tvanswer1"
@@ -92,46 +112,35 @@
             android:textSize="@dimen/_14sdp"
             android:textStyle="bold" />
 
-        <EditText
-            android:paddingLeft="@dimen/_10sdp"
-            android:id="@+id/etAnswer"
-            android:layout_below="@+id/tvanswer1"
-            android:layout_width="match_parent"
-            android:layout_toLeftOf="@+id/btnSubmit"
-            android:layout_marginRight="@dimen/_10sdp"
-            android:layout_height="@dimen/_35sdp"
-            android:layout_marginTop="@dimen/_5sdp"
-            android:background="@drawable/et_bg"
-            android:textStyle="bold"
-            android:hint="@string/enter_answer"/>
-
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnSubmit"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/_30sdp"
+            android:layout_below="@+id/tvanswer1"
+            android:layout_alignParentRight="true"
             android:layout_marginTop="@dimen/_8sdp"
-            android:textColor="@color/white"
+            android:background="@drawable/bt_submit_bg"
             android:text="@string/submit"
-            android:layout_below="@+id/tvanswer1"
-            android:layout_alignParentRight="true"
-            android:background="@drawable/bt_submit_bg"
-            />
+            android:textColor="@color/white" />
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnNext"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/_30sdp"
-            android:layout_marginTop="@dimen/_8sdp"
-            android:textColor="@color/white"
-            android:text="@string/next"
-            android:layout_below="@+id/tvanswer1"
-            android:visibility="gone"
-            android:layout_alignParentRight="true"
-            android:background="@drawable/bt_submit_bg"
-            />
 
 
     </RelativeLayout>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnNext"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_below="@+id/tvanswer1"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:background="@drawable/bt_submit_bg"
+            android:text="@string/next"
+            android:layout_gravity="end"
+            android:visibility="gone"
+            android:textColor="@color/white" />
+
+    </LinearLayout>
 
 </RelativeLayout>
 </layout>

@@ -20,7 +20,7 @@
             android:layout_margin="10dp"
             android:gravity="center"
             android:padding="5dp"
-            android:text="Use Code"
+            android:text="@string/use_code"
             android:textColor="@color/black"
             android:textSize="15dp"
            />
@@ -59,7 +59,7 @@
             android:textColor="@color/yellow"
             android:paddingHorizontal="@dimen/_30sdp"
             android:layout_marginBottom="@dimen/_20sdp"
-            android:text="Submit"
+            android:text="@string/submit"
             android:layout_gravity="center_horizontal"
             android:textSize="@dimen/_13sdp"
             android:fontFamily="@font/poppins_medium"

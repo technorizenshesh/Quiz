@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="@dimen/_15sdp"
+    android:background="#EFEFEF"
     >
 
     <ImageView
@@ -15,10 +16,9 @@
         android:src="@drawable/ic_back"
         app:tint="@color/purple_700" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Logo"
+    <ImageView
+        android:layout_width="@dimen/_130sdp"
+        android:layout_height="@dimen/_130sdp"
         android:layout_gravity="center_horizontal"
         android:fontFamily="@font/poppins_bold"
         android:layout_centerInParent="true"
@@ -26,11 +26,12 @@
         android:layout_marginTop="@dimen/_40sdp"
         android:textColor="@color/appcolor"
         android:textSize="@dimen/_30sdp"
+        android:src="@drawable/app_icon"
         />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Forgot Password?"
+        android:text="@string/forgot_password"
         android:layout_gravity="center_horizontal"
         android:fontFamily="@font/poppins_bold"
         android:layout_centerInParent="true"
@@ -43,7 +44,7 @@
         android:id="@+id/tvSiguplink"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Enter the Email Address to receive the reset passsword link."
+        android:text="@string/enter_the_email_address_to_receive_the_reset_passsword_link"
         android:textSize="@dimen/_12sdp"
         android:fontFamily="@font/metropolis_bold"
         android:layout_marginTop="@dimen/_15sdp"

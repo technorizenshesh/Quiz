@@ -13,15 +13,16 @@
             android:padding="@dimen/_15sdp"
             android:background="@color/appcolor"
             >
+
             <TextView
                 android:id="@+id/tvHeader"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Downloading Data"
                 android:layout_centerInParent="true"
-                android:textSize="@dimen/_12sdp"
+                android:fontFamily="@font/poppins_medium"
+                android:text="@string/downloading_data"
                 android:textColor="@color/white"
-                android:fontFamily="@font/poppins_medium"/>
+                android:textSize="@dimen/_12sdp" />
             <ImageView
                 android:id="@+id/imgHeader"
                 android:layout_width="@dimen/_20sdp"
@@ -50,7 +51,7 @@
             android:gravity="center"
             android:textColor="@color/black"
             android:layout_marginTop="@dimen/_20sdp"
-            android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Accumsan, felis netus nunc nulla tempus. Felis, tortor eu faucibus ipsum porttitor ut. Dui sed sed velit senectus vulputate eleifend. Leo ipsum fermentum felis ipsum erat sed bibendum nulla. Feugiat platea ac pulvinar aliquet cras leo ac."
+            android:text="no data"
             />
 
     </LinearLayout>

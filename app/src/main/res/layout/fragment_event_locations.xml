@@ -39,53 +39,53 @@
                     android:scaleType="fitXY"
                     android:background="@color/grey"
                     />
+
                 <TextView
                     android:id="@+id/label"
-                    android:layout_toRightOf="@+id/img_event"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Khandala Treking"
-                    android:fontFamily="@font/poppins_bold"
-                    android:textColor="@color/black"
                     android:layout_marginTop="@dimen/_10sdp"
-                    android:textSize="@dimen/_13sdp"
-                    />
+                    android:layout_toRightOf="@+id/img_event"
+                    android:fontFamily="@font/poppins_bold"
+                    android:text="Khandala Treking"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_13sdp" />
+
                 <TextView
                     android:id="@+id/tvDate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Date- May 05, 2022"
-                    android:fontFamily="@font/poppins_medium"
-                    android:textColor="@color/dark_gray"
-                    android:layout_toRightOf="@+id/img_event"
                     android:layout_below="@id/label"
-                    android:textSize="@dimen/_12sdp"
-                    />
+                    android:layout_toRightOf="@+id/img_event"
+                    android:fontFamily="@font/poppins_medium"
+                    android:text="Date- May 05, 2022"
+                    android:textColor="@color/dark_gray"
+                    android:textSize="@dimen/_12sdp" />
+
                 <TextView
                     android:id="@+id/tvLocation"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Vijay Nagar"
-                    android:fontFamily="@font/poppins_medium"
-                    android:textColor="@color/black"
-                    android:layout_toRightOf="@+id/img_event"
-                    android:textSize="@dimen/_11sdp"
-                    android:layout_marginRight="@dimen/_10sdp"
-                    android:singleLine="true"
                     android:layout_below="@+id/tvDate"
-                    />
+                    android:layout_marginRight="@dimen/_10sdp"
+                    android:layout_toRightOf="@+id/img_event"
+                    android:fontFamily="@font/poppins_medium"
+                    android:singleLine="true"
+                    android:text="Vijay Nagar"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_11sdp" />
+
                 <TextView
                     android:id="@+id/tvStatus"
                     android:layout_width="wrap_content"
-                    android:layout_toRightOf="@+id/img_event"
                     android:layout_height="wrap_content"
-                    android:text="@string/start"
-                    android:fontFamily="@font/poppins_medium"
-                    android:textColor="@color/green"
-                    android:textSize="@dimen/_12sdp"
                     android:layout_below="@+id/tvLocation"
                     android:layout_marginTop="@dimen/_5sdp"
-                    />
+                    android:layout_toRightOf="@+id/img_event"
+                    android:fontFamily="@font/poppins_medium"
+                    android:text="@string/start"
+                    android:textColor="@color/green"
+                    android:textSize="@dimen/_12sdp" />
 
                 <TextView
                     android:id="@+id/tvRate"

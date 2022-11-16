@@ -36,7 +36,6 @@ import com.my.quiz.model.SuccessResGetEvents;
 public class Game2StartVideoAct extends AppCompatActivity {
 
     ImageView ivHeader;
-
     private CardView cvVideo;
     private SuccessResGetEvents.Result result;
     private AppCompatButton btnPlay;
@@ -56,7 +55,7 @@ public class Game2StartVideoAct extends AppCompatActivity {
         cvVideo = findViewById(R.id.cvBack);
         btnPlay = findViewById(R.id.btnPlay);
         result = (SuccessResGetEvents.Result) getIntent().getSerializableExtra("instructionID");
-        videoUrl =    "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4";    // result.getVideo();
+        videoUrl =     result.getVideo(); //"http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4";    //
         btnPlay.setAlpha(.5f);
 
         cvVideo.setOnClickListener(v ->
@@ -69,6 +68,8 @@ public class Game2StartVideoAct extends AppCompatActivity {
 
         btnPlay.setOnClickListener(v ->
                 {
+                    exoPlayer.stop();
+                    exoPlayer.release();
                     startActivity(new Intent(Game2StartVideoAct.this,Game2InstructionAct.class).putExtra("instructionID",result));
                 }
         );
@@ -81,7 +82,6 @@ public class Game2StartVideoAct extends AppCompatActivity {
 
             // track selector is used to navigate between
             // video using a default seekbar.
-
             TrackSelector trackSelector = new DefaultTrackSelector(new AdaptiveTrackSelection.Factory(bandwidthMeter));
 
             // we are adding our track selector to exoplayer.
@@ -133,6 +133,8 @@ public class Game2StartVideoAct extends AppCompatActivity {
 
                     if (playbackState == ExoPlayer.STATE_ENDED){
                         //player back ended
+                        exoPlayer.stop();
+                        exoPlayer.release();
                         btnPlay.setAlpha(1);
                         btnPlay.setOnClickListener(v ->
                                 {

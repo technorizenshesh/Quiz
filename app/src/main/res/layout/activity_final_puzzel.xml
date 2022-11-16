@@ -7,7 +7,10 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         tools:context=".activities.FinalPuzzelAct">
-        <include layout="@layout/header_layout" android:id="@+id/header"/>
+
+        <include
+            android:id="@+id/header"
+            layout="@layout/header_layout" />
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
@@ -25,7 +28,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="5 places"
+                    android:text="@string/_5_places"
                     android:textSize="@dimen/_12sdp"
                     android:textColor="@color/purple_700"
                     android:fontFamily="@font/montserrat_semibold"
@@ -37,7 +40,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="5 people"
+                    android:text="@string/_5_people"
                     android:textSize="@dimen/_12sdp"
                     android:textColor="@color/purple_700"
                     android:layout_marginTop="@dimen/_10sdp"
@@ -50,7 +53,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="5 objects"
+                    android:text="@string/_5_objects"
                     android:textSize="@dimen/_12sdp"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:textColor="@color/purple_700"

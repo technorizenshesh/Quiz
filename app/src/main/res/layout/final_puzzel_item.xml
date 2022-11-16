@@ -19,11 +19,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
-           <ImageView
-               android:layout_width="match_parent"
-               android:layout_height="match_parent"
-               android:id="@+id/ivFinalImage"
-               />
+
+    <ImageView
+        android:id="@+id/ivFinalImage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
     <ImageView
         android:layout_width="@dimen/_20sdp"

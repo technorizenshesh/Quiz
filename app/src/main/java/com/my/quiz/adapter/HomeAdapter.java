@@ -276,7 +276,6 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.SelectTimeView
                             {
                                 context.startActivity(new Intent(context, Game2StartVideoAct.class).putExtra("instructionID",eventsListList.get(position)));
                             }
-
                         }else if(fromHome.equalsIgnoreCase("cal"))
                         {
 

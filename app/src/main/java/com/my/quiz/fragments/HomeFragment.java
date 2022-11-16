@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.my.quiz.R;
+import com.my.quiz.activities.ChooseLanguage;
 import com.my.quiz.adapter.HomeAdapter;
 import com.my.quiz.adapter.SliderAdapter;
 import com.my.quiz.databinding.FragmentHomeBinding;
@@ -30,10 +31,12 @@ import com.my.quiz.retrofit.Constant;
 import com.my.quiz.retrofit.NetworkAvailablity;
 import com.my.quiz.retrofit.QuizInterface;
 import com.my.quiz.utility.DataManager;
+import com.my.quiz.utility.SharedPreferenceUtility;
 import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType;
 import com.smarteist.autoimageslider.SliderAnimations;
 import com.smarteist.autoimageslider.SliderView;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -156,26 +159,6 @@ public class HomeFragment extends Fragment {
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
-
-//                    if (isContinue) {
-//                        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-//                            // TODO: Consider calling
-//                            //    ActivityCompat#requestPermissions
-//                            // here to request the missing permissions, and then overriding
-//                            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-//                            //                                          int[] grantResults)
-//                            // to handle the case where the user grants the permission. See the documentation
-//                            // for ActivityCompat#requestPermissions for more details.
-//                            return;
-//                        }
-//                        mFusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, null);
-//                    } else {
-//                        Log.e("Latittude====", gpsTracker.getLatitude() + "");
-//
-//                        strLat = Double.toString(gpsTracker.getLatitude()) ;
-//                        strLng = Double.toString(gpsTracker.getLongitude()) ;
-//
-//                    }
                 } else {
                     Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.permisson_denied), Toast.LENGTH_SHORT).show();
                 }
@@ -189,7 +172,23 @@ public class HomeFragment extends Fragment {
     {
         DataManager.getInstance().showProgressMessage(getActivity(), getString(R.string.please_wait));
 
-        Call<SuccessResGetEvents> call = apiInterface.getEventsList();
+        boolean val =  SharedPreferenceUtility.getInstance(getActivity()).getBoolean(Constant.SELECTED_LANGUAGE);
+
+        String lang = "";
+
+        if(!val)
+        {
+            lang = "en";
+        } else
+        {
+            lang = "sp";
+        }
+
+        HashMap<String,String> map = new HashMap<>();
+
+        map.put("lang",lang);
+
+        Call<SuccessResGetEvents> call = apiInterface.getEventsList(map);
 
         call.enqueue(new Callback<SuccessResGetEvents>() {
             @Override

@@ -17,12 +17,11 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Profile"
-            android:fontFamily="@font/poppins_bold"
-            android:textColor="@color/white"
             android:layout_centerInParent="true"
-            android:textSize="@dimen/_13sdp"
-            />
+            android:fontFamily="@font/poppins_bold"
+            android:text="@string/profile"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_13sdp" />
 
     </RelativeLayout>
 
@@ -58,11 +57,10 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Edit Details"
                 android:fontFamily="@font/poppins_regular"
+                android:text="@string/edit_details"
                 android:textColor="@color/black"
-                android:textSize="@dimen/_12sdp"
-                />
+                android:textSize="@dimen/_12sdp" />
 
             <ImageView
                 android:layout_width="@dimen/_13sdp"
@@ -95,11 +93,10 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/change_password"
                     android:fontFamily="@font/poppins_regular"
+                    android:text="@string/change_password"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/_12sdp"
-                    />
+                    android:textSize="@dimen/_12sdp" />
 
                 <ImageView
                     android:layout_width="@dimen/_13sdp"
@@ -133,11 +130,10 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Play a Game"
                     android:fontFamily="@font/poppins_regular"
+                    android:text="@string/play_a_game"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/_12sdp"
-                    />
+                    android:textSize="@dimen/_12sdp" />
 
                 <ImageView
                     android:layout_width="@dimen/_13sdp"
@@ -170,11 +166,10 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/instructions"
                     android:fontFamily="@font/poppins_regular"
+                    android:text="@string/instructions"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/_12sdp"
-                    />
+                    android:textSize="@dimen/_12sdp" />
 
                 <ImageView
                     android:layout_width="@dimen/_13sdp"
@@ -207,11 +202,10 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/completed_event"
                     android:fontFamily="@font/poppins_regular"
+                    android:text="@string/completed_event"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/_12sdp"
-                    />
+                    android:textSize="@dimen/_12sdp" />
 
                 <ImageView
                     android:layout_width="@dimen/_13sdp"
@@ -243,11 +237,10 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="About Us"
                     android:fontFamily="@font/poppins_regular"
+                    android:text="@string/about_us"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/_12sdp"
-                    />
+                    android:textSize="@dimen/_12sdp" />
 
                 <ImageView
                     android:layout_width="@dimen/_13sdp"
@@ -280,12 +273,10 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Visit Website
-"
                     android:fontFamily="@font/poppins_regular"
+                    android:text="@string/visit_website"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/_12sdp"
-                    />
+                    android:textSize="@dimen/_12sdp" />
 
                 <ImageView
                     android:layout_width="@dimen/_13sdp"
@@ -317,11 +308,10 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Contact Us"
                     android:fontFamily="@font/poppins_regular"
+                    android:text="@string/contact_us"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/_12sdp"
-                    />
+                    android:textSize="@dimen/_12sdp" />
 
                 <ImageView
                     android:layout_width="@dimen/_13sdp"

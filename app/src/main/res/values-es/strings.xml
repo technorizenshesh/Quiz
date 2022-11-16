@@ -1,0 +1,324 @@
+<?xml version="1.0"?>
+<resources>
+
+    <string name="app_name">Prueba</string>
+
+    <string name="api_key">AIzaSyBduv61ywGy3e9mU6NJ_a7GHCf5oSbxT2w</string>
+
+    -<string name="already_have_an_account_sign_in_now">
+Ya tienes una cuenta?
+-<u>
+
+<font color="#090F47">Sign In Now</font></u>
+</string>
+
+
+    -<string name="dont_have_an_account_sign_in_now">
+No tienes una cuenta?
+
+-<u>
+
+<font color="#090F47">Regístrate ahora
+</font>
+
+</u>
+
+</string>
+
+    <string name="hello_blank_fragment">Hola fragmento en blanco</string>
+
+    <string name="log_out">CERRAR SESIÓN</string>
+
+    <string name="save_details">DETALLES GUARDAR</string>
+
+    <string name="enter_a_email">Ingrese correo electronico</string>
+
+    <string name="change_password">Cambia la contraseña</string>
+
+    <string name="finished_puzzles">Rompecabezas terminado</string>
+
+    <string name="enter_new_password">Ingrese nueva clave</string>
+
+    <string name="enter_confirm_password">Ingresar Confirmar contraseña</string>
+
+    <string name="enter_password">introduzca la contraseña</string>
+
+    <string name="enter_confirm_new_pass">Ingresar Confirmar contraseña</string>
+
+    <string name="edit_details">Editar detalles</string>
+
+    <string name="lists">Liza</string>
+
+    <string name="play_a_game">Jugar un juego</string>
+
+
+    -<string name="view_all">
+
+<u> ver todo</u>
+
+</string>
+
+    <string name="team_information">informacion del equipo</string>
+
+    <string name="leader">tabla de clasificacion</string>
+
+
+    -<string name="start">
+
+<u> COMIENZO</u>
+
+</string>
+
+    <string name="start1">COMIENZO</string>
+
+    <string name="instruction">instrucción</string>
+
+    <string name="answer">RESPONDEDOR</string>
+
+    <string name="you_give_up">Tu te rindes</string>
+
+    <string name="inventory">inventario</string>
+
+    <string name="riddle">Acertijo (Rompecabezas)</string>
+
+    <string name="enter_description">Introduce la descripción</string>
+
+    <string name="submit">Enviar</string>
+
+    <string name="login">¡ACCESO!</string>
+
+    <string name="forgot_password">¿Has olvidado tu contraseña?</string>
+
+    <string name="sign_in">Registrador</string>
+
+    <string name="enter_email">Ingrese correo electronico</string>
+
+    <string name="contact_us">Contacta con nosotras</string>
+
+    <string name="next">SIGUIENTE</string>
+
+    <string name="final_puzzel">"Enigma final"</string>
+
+    <string name="finish">FINALIZAR</string>
+
+    <string name="finished">ACABADO</string>
+
+    <string name="teams">equipos</string>
+
+    <string name="trending">Tendencias</string>
+
+    <string name="book_event">Reservar Evento</string>
+
+    <string name="pay">Pagar</string>
+
+    <string name="add_card">Agregar tarjeta</string>
+
+    <string name="go_to_home">Ir a casa</string>
+
+    <string name="thank_you">Gracias</string>
+
+    <string name="booking">Reserva</string>
+
+    <string name="your_booking_is_successful_one_day_before_the_event_we_will_notify_you_and_for_that_keep_checking_your_email">Tu reserva es exitosa, un día antes del evento te avisaremos y para eso sigue revisando tu email.</string>
+
+    <string name="webstie">Sitio web</string>
+
+    <string name="all_events">Todos los eventos</string>
+
+    <string name="enter_name">Ingrese su nombre</string>
+
+    <string name="sign_up">INSCRIBIRSE</string>
+
+    <string name="sign_up_1">¡INSCRIBIRSE!</string>
+
+    <string name="card">Tarjeta</string>
+
+    <string name="permisson_denied">Permiso denegado</string>
+
+    <string name="enter_valid_email">Por favor introduzca un correo electrónico válido</string>
+
+    <string name="please_enter_pass">Por favor, ingrese contraseña</string>
+
+    <string name="please_enter_con_pass">Por favor ingrese confirmar contraseña</string>
+
+    <string name="pass_and_confirm_pass_not_macthed">La contraseña y la contraseña de confirmación no coinciden.</string>
+
+    <string name="please_wait">Espere por favor...</string>
+
+    <string name="logged_in_success">Iniciado sesión con éxito</string>
+
+    <string name="please_enter_old_pass">Por favor, introduzca la contraseña anterior.</string>
+
+    <string name="msg_noInternet">Conexión a Internet no disponible</string>
+
+    <string name="all_permissions">Permita todos los permisos.</string>
+
+    <string name="on_error">por error</string>
+
+    <string name="fetching_fcm_token_failed">Error al obtener el token de registro de FCM</string>
+
+    <string name="please_enter_confirm_password">Por favor, introduzca la contraseña de confirmación.</string>
+
+    <string name="password_mismatched">Por favor, asegúrese de que su contraseña coincida.</string>
+
+    <string name="view_event">Ver carrito</string>
+
+    <string name="cart">Carro</string>
+
+    <string name="incorrect_answer">La respuesta es incorrecta.</string>
+
+    <string name="only">Solamente</string>
+
+    <string name="ticket_remaining">entradas restantes.</string>
+
+    <string name="enter_team_name">Ingrese el nombre del equipo</string>
+
+    <string name="use_a_code">usar un código</string>
+
+    <string name="enter_code">Introduzca el código</string>
+
+    <string name="select_places_image">Por favor seleccione una imagen de lugares</string>
+
+    <string name="select_people_image">Seleccione una imagen de personas</string>
+
+    <string name="select_object_image">Seleccione una imagen de objeto</string>
+
+    <string name="team_members_3_6">Miembros del equipo:</string>
+
+    <string name="only_6_tickets_per_team">Solo 6 entradas por equipo.</string>
+
+    <string name="completed_event">Evento completado</string>
+
+    <string name="please_enter_desc">Por favor ingrese la descripción</string>
+
+    <string name="upcoming">PRÓXIMO</string>
+
+    <string name="started">EMPEZADO</string>
+
+    <string name="completed">TERMINADO</string>
+
+    <string name="begin">Empezar</string>
+
+    <string name="play">Tocar</string>
+
+    <string name="welcome_to_virus">Bienvenido a Virus</string>
+
+    <string name="give_up">Abandonar</string>
+
+    <string name="enter_answer">Introduce la respuesta...</string>
+
+    -<string name="_1_show_hint1_2_minutes_penalty">
+1.
+<u> Mostrar pista 1 (penalización de 2 minutos)</u>
+
+</string>
+
+
+    -<string name="_2_show_hint2_5_minutes_penalty">
+2.
+<u> Mostrar pista 2 (penalización de 5 minutos)</u>
+
+</string>
+
+
+    -<string name="_3_show_hint3_10_minutes_penalty">
+3.
+<u> Mostrar pista 3 (penalización de 10 minutos)</u>
+
+</string>
+
+    <string name="give_up_message">Si te rindes, recibirás la respuesta a esta pista pero se añadirán 5 minutos a tu tiempo.</string>
+
+    <string name="test">¡Cuidadoso! \nAbra ambos tubos de ensayo con cuidado. \nVierta el antídoto en el tubo de ensayo de virus. \nNo te preocupes si te cae algo encima.\nEl virus ahora está desactivado y es inofensivo.\n¡MISIÓN COMPLETADA! \nEl mundo vuelve a estar seguro</string>
+
+    <string name="end_of_the_game">Fin del juego</string>
+
+    <string name="cancel">Cancelar</string>
+
+    <string name="congratulations_you_have_saved_the_world_from_the_next_pandemic_you_may_open_envelope_4">Felicidades, has salvado al mundo de la próxima pandemia. PUEDE ABRIR EL SOBRE</string>
+
+    <string name="downloading_data">Descarga de datos</string>
+
+    <string name="hello">Hola</string>
+
+    <string name="_5_places">5 lugares</string>
+
+    <string name="_5_people">5 personas</string>
+
+    <string name="_5_objects">5 objetos</string>
+
+    <string name="team_name">Nombre del equipo</string>
+
+    <string name="total_time">Tiempo Total:</string>
+
+    <string name="total_penalities">Sanciones totales</string>
+
+    <string name="time_penalties">Penalizaciones de tiempo</string>
+
+    <string name="enter_the_email_address_to_receive_the_reset_passsword_link">Ingrese la dirección de correo electrónico para recibir el enlace de restablecimiento de contraseña.</string>
+
+    <string name="murder_in_the_city">ASESINATO EN LA CIUDAD</string>
+
+    <string name="upcoming_events">Próximos Eventos</string>
+
+    <string name="master">Maestro</string>
+
+    <string name="you_have_the_new">tienes lo nuevo</string>
+
+    <string name="witness_found">Testigo encontrado</string>
+
+    <string name="quiz_solved">Cuestionario resuelto</string>
+
+    <string name="hint">Insinuación</string>
+
+    <string name="select_a_answer">Seleccione una respuesta</string>
+
+    <string name="option_1">Opción 1</string>
+
+    <string name="use_code">Código de uso</string>
+
+    <string name="events">Eventos</string>
+
+    <string name="tittle_event">Evento de título</string>
+
+    <string name="limited_team_places_available">Plazas de equipo limitadas disponibles...</string>
+
+    <string name="only_8_tickets_remaining">Solo quedan 8 boletos</string>
+
+    <string name="team_ticket_per_team_of_6">Boleto de equipo (por equipo de 6)</string>
+
+    <string name="rs_6_300_00">RS. 6,300.00</string>
+
+    <string name="date">Fecha</string>
+
+    <string name="location">Ubicación</string>
+
+    <string name="nanaimo_canada">Nanaimo, Canadá</string>
+
+    <string name="profile">Perfil</string>
+
+    <string name="about_us">Sobre nosotros</string>
+
+    <string name="visit_website">Visita la página web</string>
+
+    <string name="back_to_main_menu">Volver al menú principal</string>
+
+    <string name="instructions">Instrucciones</string>
+
+    <string name="map">Mapa</string>
+
+    <string name="final_puzzle">Rompecabezas final</string>
+
+    <string name="time_taken">Tiempo tomado:</string>
+
+    <string name="change_language">Cambiar idioma</string>
+
+    <string name="select_language">Seleccione el idioma</string>
+
+    <!-- Generated by Automatic String Resource Translation -->
+
+
+    <!-- https://asrt.gluege.boerde.de -->
+
+
+</resources>

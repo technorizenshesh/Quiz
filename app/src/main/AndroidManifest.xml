@@ -11,6 +11,8 @@
         android:theme="@style/Theme.Quiz"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".activities.ChooseLanguage"
+            android:exported="false" />  <activity
             android:name=".activities.game4.Game4FinalActivity"
             android:exported="false" />
         <activity
