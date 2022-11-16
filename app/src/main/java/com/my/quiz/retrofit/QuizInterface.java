@@ -10,6 +10,7 @@ import com.my.quiz.model.SuccessResGetCompletedPuzzel;
 import com.my.quiz.model.SuccessResGetEventDetail;
 import com.my.quiz.model.SuccessResGetEvents;
 import com.my.quiz.model.SuccessResGetFinalTime;
+import com.my.quiz.model.SuccessResGetInstruct;
 import com.my.quiz.model.SuccessResGetInstruction;
 import com.my.quiz.model.SuccessResGetInventory;
 import com.my.quiz.model.SuccessResGetMyEvents;
@@ -58,8 +59,9 @@ public interface QuizInterface {
     @GET("get_banner")
     Call<SuccessResGetBanner> getBanners();
 
-    @GET("get_event")
-    Call<SuccessResGetEvents> getEventsList();
+    @FormUrlEncoded
+    @POST("get_event")
+    Call<SuccessResGetEvents> getEventsList(@FieldMap Map<String, String> paramHashMap);
 
     @FormUrlEncoded
     @POST("get_event_details")
@@ -96,6 +98,10 @@ public interface QuizInterface {
     @FormUrlEncoded
     @POST("get_my_event")
     Call<SuccessResGetMyEvents> getMyEvent(@FieldMap Map<String, String> paramHashMap);
+
+    @FormUrlEncoded
+    @POST("get_intro")
+    Call<SuccessResGetInstruct> geApplicationInstruction(@FieldMap Map<String, String> paramHashMap);
 
     @FormUrlEncoded
     @POST("get_event_instructions_game")
@@ -157,8 +163,12 @@ public interface QuizInterface {
     @POST("search_product")
     Call<SuccessResGetEvents> searchEvent(@FieldMap Map<String, String> paramHashMap);
 
+//    @FormUrlEncoded
+//    @POST("get_virus_event_answer")
+//    Call<SuccessResGetVirusEvent> getVirusEvent(@FieldMap Map<String, String> paramHashMap);
+
     @FormUrlEncoded
-    @POST("get_virus_event_answer")
+    @POST("get_virus_event_answer_new")
     Call<SuccessResGetVirusEvent> getVirusEvent(@FieldMap Map<String, String> paramHashMap);
 
     @FormUrlEncoded

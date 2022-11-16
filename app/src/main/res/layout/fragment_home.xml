@@ -48,14 +48,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_5sdp"
                 >
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Upcoming Events"
                     android:fontFamily="@font/poppins_medium"
+                    android:text="@string/upcoming_events"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/_12sdp"
-                    />
+                    android:textSize="@dimen/_12sdp" />
                 <TextView
                     android:id="@+id/tvViewAll"
                     android:layout_width="wrap_content"

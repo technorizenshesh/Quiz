@@ -19,18 +19,21 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             >
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_centerInParent="true"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp"
+                android:fontFamily="@font/montserrat_semibold"
                 android:gravity="center"
                 android:padding="5dp"
-                android:fontFamily="@font/montserrat_semibold"
-                android:text="Witness found"
-                android:layout_centerInParent="true"
+                android:text="@string/witness_found"
                 android:textColor="@color/black"
-                android:textSize="15dp"
-                />
+                android:textSize="15dp" />
 
             <ImageView
                 android:id="@+id/ivCancel"
@@ -118,7 +121,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Quiz Solved"
+            android:text="@string/quiz_solved"
             android:fontFamily="@font/poppins_regular"
             android:textColor="@color/green"
             android:layout_marginTop="@dimen/_10sdp"

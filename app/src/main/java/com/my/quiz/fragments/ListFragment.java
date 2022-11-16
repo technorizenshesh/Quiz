@@ -31,6 +31,7 @@ import com.my.quiz.model.SuccessResGetEventDetail;
 import com.my.quiz.model.SuccessResGetMyEvents;
 import com.my.quiz.model.SuccessResGetMyEvents;
 import com.my.quiz.retrofit.ApiClient;
+import com.my.quiz.retrofit.Constant;
 import com.my.quiz.retrofit.QuizInterface;
 import com.my.quiz.utility.DataManager;
 import com.my.quiz.utility.SharedPreferenceUtility;
@@ -73,6 +74,7 @@ public class ListFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
     public ListFragment() {
         // Required empty public constructor
     }
@@ -111,7 +113,7 @@ public class ListFragment extends Fragment {
         binding = DataBindingUtil.inflate(inflater,R.layout.fragment_list, container, false);
         apiInterface = ApiClient.getClient().create(QuizInterface.class);
 //        listAdapter = new ListAdapter(getActivity(),eventList);
-        binding.tvHeader.setText(R.string.play_a_game);
+        binding.tvHeader.setText(R.string.lists);
         binding.imgHeader.setOnClickListener(view1 ->
                 {
                     getActivity().onBackPressed();
@@ -124,7 +126,6 @@ public class ListFragment extends Fragment {
         {
             binding.rlParent.setVisibility(View.VISIBLE);
         }
-
         binding.btnUseCode.setOnClickListener(v ->
                 {
                     showImageSelection();
@@ -167,11 +168,22 @@ public class ListFragment extends Fragment {
 
     private void getMyEvents()
     {
+        boolean val =  SharedPreferenceUtility.getInstance(getActivity()).getBoolean(Constant.SELECTED_LANGUAGE);
 
+        String lang = "";
+
+        if(!val)
+        {
+            lang = "en";
+        } else
+        {
+            lang = "sp";
+        }
         String userId = SharedPreferenceUtility.getInstance(getContext()).getString(USER_ID);
         DataManager.getInstance().showProgressMessage(getActivity(), getString(R.string.please_wait));
         Map<String,String> map = new HashMap<>();
         map.put("user_id",userId);
+        map.put("lang",lang);
         Call<SuccessResGetMyEvents> call = apiInterface.getMyEvent(map);
         call.enqueue(new Callback<SuccessResGetMyEvents>() {
             @Override

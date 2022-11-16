@@ -53,13 +53,12 @@
                 android:id="@+id/tvTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Tittle Event"
-                android:fontFamily="@font/montserrat_semibold"
-                android:textSize="@dimen/_12sdp"
-                android:textColor="@color/black"
                 android:layout_marginTop="@dimen/_13sdp"
                 android:layout_toRightOf="@id/cvImageview"
-                />
+                android:fontFamily="@font/montserrat_semibold"
+                android:text="@string/tittle_event"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12sdp" />
 
             <TextView
                 android:id="@+id/tvTotal"
@@ -130,7 +129,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Limited team places available..."
+                    android:text="@string/limited_team_places_available"
                     android:fontFamily="@font/poppins_bold"
                     android:layout_centerVertical="true"
                     android:textColor="@color/black"
@@ -151,38 +150,36 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_15sdp"
                     >
+
                     <TextView
                         android:id="@+id/tvTicket"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Only 8 tickets remaining"
                         android:fontFamily="@font/montserrat_semibold"
+                        android:text="@string/only_8_tickets_remaining"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/_11sdp"
-                        />
+                        android:textSize="@dimen/_11sdp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Team ticket (per team of 6)"
-                        android:fontFamily="@font/poppins_medium"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/_8sdp"
-                        android:layout_marginTop="@dimen/_5sdp"
                         android:layout_below="@+id/tvTicket"
-                        />
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:fontFamily="@font/poppins_medium"
+                        android:text="@string/team_ticket_per_team_of_6"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_8sdp" />
 
                     <TextView
                         android:id="@+id/tvPrice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="RS. 6,300.00"
-                        android:fontFamily="@font/poppins_bold"
-                        android:layout_centerVertical="true"
                         android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:fontFamily="@font/poppins_bold"
+                        android:text="@string/rs_6_300_00"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/_12sdp"
-                        />
+                        android:textSize="@dimen/_12sdp" />
 
                 </RelativeLayout>
 
@@ -234,15 +231,15 @@
             android:id="@+id/btnBookEvent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_40sdp"
-            android:layout_marginHorizontal="@dimen/_15sdp"
-            android:textColor="@color/yellow"
             android:layout_alignParentBottom="true"
-            android:text="@string/pay"
+            android:layout_marginHorizontal="@dimen/_15sdp"
+            android:layout_marginTop="@dimen/_40sdp"
             android:layout_marginBottom="@dimen/_25sdp"
-            android:textSize="@dimen/_13sdp"
+            android:background="@drawable/bt_bg"
             android:fontFamily="@font/poppins_medium"
-            android:background="@drawable/bt_bg"/>
+            android:text="@string/pay"
+            android:textColor="@color/yellow"
+            android:textSize="@dimen/_13sdp" />
 
     </RelativeLayout>
 

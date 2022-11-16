@@ -4,13 +4,34 @@ import android.os.Bundle;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.gson.Gson;
 import com.my.quiz.R;
+import com.my.quiz.adapter.ListAdapter;
 import com.my.quiz.databinding.FragmentInstructionBinding;
+import com.my.quiz.model.SuccessResGetInstruct;
+import com.my.quiz.model.SuccessResGetInstruct;
+import com.my.quiz.retrofit.ApiClient;
+import com.my.quiz.retrofit.Constant;
+import com.my.quiz.retrofit.QuizInterface;
+import com.my.quiz.utility.DataManager;
+import com.my.quiz.utility.SharedPreferenceUtility;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import static com.my.quiz.retrofit.Constant.USER_ID;
+import static com.my.quiz.retrofit.Constant.showToast;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -20,6 +41,9 @@ import com.my.quiz.databinding.FragmentInstructionBinding;
 public class InstructionFragment extends Fragment {
 
     FragmentInstructionBinding binding;
+
+    private QuizInterface apiInterface;
+
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -41,6 +65,7 @@ public class InstructionFragment extends Fragment {
      * @param param2 Parameter 2.
      * @return A new instance of fragment InstructionFragment.
      */
+
     // TODO: Rename and change types and number of parameters
     public static InstructionFragment newInstance(String param1, String param2) {
         InstructionFragment fragment = new InstructionFragment();
@@ -67,6 +92,8 @@ public class InstructionFragment extends Fragment {
 
         binding = DataBindingUtil.inflate(inflater,R.layout.fragment_instruction, container, false);
 
+        apiInterface = ApiClient.getClient().create(QuizInterface.class);
+
         binding.header.imgHeader.setOnClickListener(v ->
                 {
                     getActivity().onBackPressed();
@@ -74,6 +101,65 @@ public class InstructionFragment extends Fragment {
                 );
 
         binding.header.tvHeader.setText(getString(R.string.instruction));
+
+        getMyEvents();
+
         return binding.getRoot();
     }
+
+    private void getMyEvents()
+    {
+
+        boolean val =  SharedPreferenceUtility.getInstance(getActivity()).getBoolean(Constant.SELECTED_LANGUAGE);
+
+        String lang = "";
+
+        if(!val)
+        {
+            lang = "en";
+        } else
+        {
+            lang = "sp";
+        }
+
+        DataManager.getInstance().showProgressMessage(getActivity(), getString(R.string.please_wait));
+        Map<String,String> map = new HashMap<>();
+        map.put("lang","sp");
+        Call<SuccessResGetInstruct> call = apiInterface.geApplicationInstruction(map);
+        call.enqueue(new Callback<SuccessResGetInstruct>() {
+            @Override
+            public void onResponse(Call<SuccessResGetInstruct> call, Response<SuccessResGetInstruct> response) {
+                DataManager.getInstance().hideProgressMessage();
+                try {
+                    SuccessResGetInstruct data = response.body();
+                    Log.e("data",data.status);
+                    if (data.status.equals("1")) {
+                        String dataResponse = new Gson().toJson(response.body());
+                        Log.e("MapMap", "SuccessResGetInstruct" + dataResponse);
+
+                        if(!val)
+                        {
+                            binding.txtInstruct.setText(data.getResult().getContent());
+                        } else
+                        {
+                            binding.txtInstruct.setText(data.getResult().getContentSp());
+                        }
+
+                    } else if (data.status.equals("0")) {
+                        showToast(getActivity(), data.message);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            @Override
+            public void onFailure(Call<SuccessResGetInstruct> call, Throwable t) {
+                call.cancel();
+                DataManager.getInstance().hideProgressMessage();
+            }
+        });
+
+    }
+
+
 }

@@ -94,6 +94,7 @@ public class QuestionAnswerAct extends AppCompatActivity {
                 }
         );
     }
+
     private void showDialog()
     {
 

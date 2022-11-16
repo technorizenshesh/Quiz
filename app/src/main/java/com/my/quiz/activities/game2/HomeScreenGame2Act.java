@@ -25,10 +25,14 @@ public class HomeScreenGame2Act extends AppCompatActivity {
 
         binding.btnBegin.setOnClickListener(v ->
                 {
-                    startActivity(new Intent(HomeScreenGame2Act.this,WelcomeMessageActivity.class).putExtra("instructionID",result));
+                    startActivity(new Intent(HomeScreenGame2Act.this
+                            ,WelcomeMessageActivity.class).putExtra(
+                                    "instructionID",result));
                 }
                 );
+
         result = (SuccessResGetEvents.Result) getIntent().getSerializableExtra("instructionID");
+
         Glide
                 .with(HomeScreenGame2Act.this)
                 .load(result.getImage())

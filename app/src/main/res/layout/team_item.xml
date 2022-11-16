@@ -28,24 +28,23 @@
                 android:layout_toRightOf="@+id/img_event"
                 android:layout_marginEnd="@dimen/_10sdp"
                 >
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Team Name:"
-                    android:fontFamily="@font/poppins_bold"
-                    android:textColor="@color/purple_700"
-                    android:textSize="@dimen/_11sdp"
-                    />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Time Taken:"
                     android:fontFamily="@font/poppins_bold"
-                    android:layout_alignParentRight="true"
+                    android:text="@string/team_name"
                     android:textColor="@color/purple_700"
-                    android:textSize="@dimen/_11sdp"
-                    />
+                    android:textSize="@dimen/_11sdp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:fontFamily="@font/poppins_bold"
+                    android:text="@string/time_taken"
+                    android:textColor="@color/purple_700"
+                    android:textSize="@dimen/_11sdp" />
 
             </RelativeLayout>
 
@@ -57,15 +56,15 @@
                 android:layout_below="@+id/rlTime"
                 android:layout_marginTop="@dimen/_5sdp"
                 >
+
                 <TextView
                     android:id="@+id/tvTeamName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Marcus Baptista Team"
                     android:fontFamily="@font/poppins_regular"
+                    android:text="Marcus Baptista Team"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/_11sdp"
-                    />
+                    android:textSize="@dimen/_11sdp" />
 
                 <TextView
                     android:id="@+id/tvTime"

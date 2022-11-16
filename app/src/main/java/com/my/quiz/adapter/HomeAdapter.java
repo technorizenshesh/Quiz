@@ -276,7 +276,6 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.SelectTimeView
                             {
                                 context.startActivity(new Intent(context, Game2StartVideoAct.class).putExtra("instructionID",eventsListList.get(position)));
                             }
-
                         }else if(fromHome.equalsIgnoreCase("cal"))
                         {
 
@@ -287,10 +286,12 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.SelectTimeView
                                 Navigation.findNavController(v).navigate(R.id.action_navigation_calander_to_eventDetailFragment,bundle);
                             } else if(eventsListList.get(position).getType().equalsIgnoreCase("Virus"))
                             {
-                                context.startActivity(new Intent(context, HomeScreenGame2Act.class).putExtra("instructionID",eventsListList.get(position)));
+                                context.startActivity(new Intent(context, HomeScreenGame2Act.class).putExtra("instructionID"
+                                        ,eventsListList.get(position)));
                             }else if(eventsListList.get(position).getType().equalsIgnoreCase("crime"))
                             {
-                                context.startActivity(new Intent(context, HomeScreenGame2Act.class).putExtra("instructionID",eventsListList.get(position)));
+                                context.startActivity(new Intent(context, HomeScreenGame2Act.class).putExtra(
+                                        "instructionID",eventsListList.get(position)));
                             }
 
                         }else if(fromHome.equalsIgnoreCase("search"))
@@ -303,10 +304,12 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.SelectTimeView
                                 Navigation.findNavController(v).navigate(R.id.action_eventDetailFragment_to_cartFragment,bundle);
                             } else if(eventsListList.get(position).getType().equalsIgnoreCase("Virus"))
                             {
-                                context.startActivity(new Intent(context, HomeScreenGame2Act.class).putExtra("instructionID",eventsListList.get(position)));
+                                context.startActivity(new Intent(context, HomeScreenGame2Act.class).putExtra("instructionID"
+                                        ,eventsListList.get(position)));
                             }else if(eventsListList.get(position).getType().equalsIgnoreCase("crime"))
                             {
-                                context.startActivity(new Intent(context, HomeScreenGame2Act.class).putExtra("instructionID",eventsListList.get(position)));
+                                context.startActivity(new Intent(context, HomeScreenGame2Act.class).putExtra("instructionID",
+                                        eventsListList.get(position)));
                             }
                         }
                     }

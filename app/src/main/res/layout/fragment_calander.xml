@@ -12,37 +12,49 @@
         android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/_15sdp"
         android:background="@color/appcolor"
         >
 
-        <TextView
+        <ImageView
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"
+            android:fontFamily="@font/poppins_bold"
+            android:src="@drawable/app_icon"
+            android:scaleType="fitXY"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:layout_marginLeft="@dimen/_10sdp"
+            />
+
+     <!--   <TextView
             android:id="@+id/tvtitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="LOGO"
-            android:textSize="@dimen/_12sdp"
             android:layout_centerVertical="true"
+            android:fontFamily="@font/poppins_bold"
+            android:text="LOGO"
             android:textColor="@color/white"
-            android:fontFamily="@font/poppins_bold"/>
+            android:textSize="@dimen/_12sdp" />-->
+
         <TextView
             android:id="@+id/tvHeader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Events"
             android:layout_centerInParent="true"
-            android:textSize="@dimen/_12sdp"
+            android:fontFamily="@font/poppins_bold"
+            android:text="@string/events"
             android:textColor="@color/white"
-            android:fontFamily="@font/poppins_bold"/>
+            android:textSize="@dimen/_12sdp" />
+
         <ImageView
             android:id="@+id/imgSearch"
             android:layout_width="@dimen/_20sdp"
             android:layout_height="@dimen/_20sdp"
-            android:padding="@dimen/_2sdp"
             android:layout_alignParentRight="true"
-            android:src="@drawable/ic_search_white"
-
-            />
+            android:padding="@dimen/_2sdp"
+            android:layout_marginRight="@dimen/_10sdp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_search_white" />
     </RelativeLayout>
 
     <androidx.core.widget.NestedScrollView
@@ -117,7 +129,6 @@
                 android:textSize="@dimen/_12sdp"
                 />
         </RelativeLayout>
-
 
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"

@@ -1,6 +1,9 @@
 package com.my.quiz.activities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -13,6 +16,8 @@ import androidx.appcompat.app.AppCompatDelegate;
 import com.my.quiz.R;
 import com.my.quiz.retrofit.Constant;
 import com.my.quiz.utility.SharedPreferenceUtility;
+
+import java.util.Locale;
 
 import static android.content.ContentValues.TAG;
 
@@ -34,6 +39,16 @@ public class SplashAct extends AppCompatActivity {
 
         double lat2 = 22.70238589271261;
         double lng2 = 75.87113264003577;
+
+        boolean val =  SharedPreferenceUtility.getInstance(SplashAct.this).getBoolean(Constant.SELECTED_LANGUAGE);
+
+        if(!val)
+        {
+            updateResources(SplashAct.this,"en");
+        }else
+        {
+            updateResources(SplashAct.this,"es");
+        }
 
         double distance = distance(lat1, lng1, lat2, lng2);
 
@@ -68,6 +83,14 @@ public class SplashAct extends AppCompatActivity {
         return dist; // output distance, in MILES
     }
 
+    private static void updateResources(Context context, String language) {
+        Locale locale = new Locale(language);
+        Locale.setDefault(locale);
+        Resources resources = context.getResources();
+        Configuration configuration = resources.getConfiguration();
+        configuration.locale = locale;
+        resources.updateConfiguration(configuration, resources.getDisplayMetrics());
+    }
 
  /*   public void show()
     {
@@ -91,7 +114,6 @@ public class SplashAct extends AppCompatActivity {
         }
     }*/
 
-
     private void finds() {
 
         new Handler().postDelayed(new Runnable() {
@@ -101,7 +123,8 @@ public class SplashAct extends AppCompatActivity {
                     startActivity(new Intent(SplashAct.this, HomeAct.class));
                     finish();
                 } else {
-                    startActivity(new Intent(SplashAct.this, LoginAct.class));
+                   // startActivity(new Intent(SplashAct.this, LoginAct.class));
+                    startActivity(new Intent(SplashAct.this, ChooseLanguage.class));
                     finish();
                 }
             }

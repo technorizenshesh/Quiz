@@ -7,7 +7,10 @@
         tools:context=".fragments.InstructionFragment"
         android:orientation="vertical"
         >
-        <include layout="@layout/header_layout" android:id="@+id/header"/>
+
+        <include
+            android:id="@+id/header"
+            layout="@layout/header_layout" />
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
@@ -48,16 +51,16 @@
             android:layout_marginHorizontal="@dimen/_15sdp"
             android:fontFamily="@font/poppins_medium"
             android:background="@drawable/bt_bg"/>
+
         <TextView
             android:id="@+id/tvNext"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:text="@string/next"
-            android:fontFamily="@font/metropolis_bold"
-            android:textSize="@dimen/_12sdp"
-            android:textColor="@color/purple_700"
             android:layout_above="@id/btnTime"
-            />
+            android:layout_centerHorizontal="true"
+            android:fontFamily="@font/metropolis_bold"
+            android:text="@string/next"
+            android:textColor="@color/purple_700"
+            android:textSize="@dimen/_12sdp" />
     </RelativeLayout>
 </layout>

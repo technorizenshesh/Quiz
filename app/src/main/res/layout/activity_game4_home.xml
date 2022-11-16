@@ -20,7 +20,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:fontFamily="@font/poppins_medium"
-                android:text="MURDER IN THE CITY"
+                android:text="@string/murder_in_the_city"
                 android:textColor="@color/white"
                 android:textSize="@dimen/_12sdp" />
             <ImageView

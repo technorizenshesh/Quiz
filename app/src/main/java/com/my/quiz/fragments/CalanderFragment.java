@@ -23,6 +23,7 @@ import com.my.quiz.retrofit.NetworkAvailablity;
 import com.my.quiz.retrofit.QuizInterface;
 import com.my.quiz.utility.DataManager;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -131,7 +132,11 @@ public class CalanderFragment extends Fragment {
     {
         DataManager.getInstance().showProgressMessage(getActivity(), getString(R.string.please_wait));
 
-        Call<SuccessResGetEvents> call = apiInterface.getEventsList();
+        HashMap<String,String> map = new HashMap<>();
+
+        map.put("lang","sp");
+
+        Call<SuccessResGetEvents> call = apiInterface.getEventsList(map);
 
         call.enqueue(new Callback<SuccessResGetEvents>() {
             @Override

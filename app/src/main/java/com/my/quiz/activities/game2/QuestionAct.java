@@ -89,12 +89,25 @@ public class QuestionAct extends AppCompatActivity {
         );
 
         binding.etAnswer.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
-
         binding.btnSubmit.setOnClickListener(v ->
                 {
                     if(!binding.etAnswer.getText().toString().equalsIgnoreCase(""))
                     {
                         submitAnswer(binding.etAnswer.getText().toString());
+                    }
+                }
+                );
+        binding.btnNext.setOnClickListener(v ->
+                {
+                    if(position == instructionList.size()-1)
+                    {
+                        startActivity(new Intent(QuestionAct.this, MissionCompletedAct.class).putExtra("instructionID",result));
+                        finishAffinity();
+                    }
+                    else
+                    {
+                        position = position+1;
+                        setEventQuestions(position);
                     }
                 }
                 );
@@ -108,9 +121,7 @@ public class QuestionAct extends AppCompatActivity {
         map.put("ans", answer);
         map.put("event_id", instructionList.get(position).getEventId());
         map.put("user_id", userId);
-
         Call<ResponseBody> call = apiInterface.submitVirusAnswer(map);
-
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -164,7 +175,7 @@ public class QuestionAct extends AppCompatActivity {
         DataManager.getInstance().showProgressMessage(this, getString(R.string.please_wait));
         Map<String, String> map = new HashMap<>();
         map.put("event_id", result.getId());
-        map.put("user_id", userId);
+        map.put("lang", "sp");
         Call<SuccessResGetVirusEvent> call = apiInterface.getVirusEvent(map);
         call.enqueue(new Callback<SuccessResGetVirusEvent>() {
             @Override
@@ -178,7 +189,7 @@ public class QuestionAct extends AppCompatActivity {
                         Log.e("MapMap", "EDIT PROFILE RESPONSE" + dataResponse);
                         instructionList.clear();
                         instructionList.addAll(data.getResult());
-                        setEventQuestions(0);
+                        setEventQuestions(17);
                     } else if (data.status.equals("0")) {
                         showToast(QuestionAct.this, data.message);
                     }
@@ -204,6 +215,19 @@ public class QuestionAct extends AppCompatActivity {
                 .centerCrop()
                 .into(binding.ivPuzzel);
         binding.tvPuzzel.setText(instructionList.get(position).getInstructions());
+
+        if(instructionList.get(position).getOptionAns().equalsIgnoreCase("None"))
+        {
+            binding.rlBottom.setVisibility(View.GONE);
+            binding.llButtonHint.setVisibility(View.GONE);
+            binding.btnNext.setVisibility(View.VISIBLE);
+        } else
+        {
+            binding.rlBottom.setVisibility(View.VISIBLE);
+            binding.llButtonHint.setVisibility(View.VISIBLE);
+            binding.btnNext.setVisibility(View.GONE);
+        }
+
     }
 
     private void showHints()
@@ -234,30 +258,26 @@ public class QuestionAct extends AppCompatActivity {
         );
         if(hint1)
         {
-            tvHint1.setVisibility(View.VISIBLE);
+           tvHint1.setVisibility(View.VISIBLE);
         } if(hint2)
-    {
-        tvHint2.setVisibility(View.VISIBLE);
-    }
+         {
+           tvHint2.setVisibility(View.VISIBLE);
+         }
         if(hint3)
         {
-            tvHint3.setVisibility(View.VISIBLE);
+           tvHint3.setVisibility(View.VISIBLE);
         }
-
         tvSHowHint1.setOnClickListener(v ->
                 {
                     addHintPanalties(1);
                 }
         );
-
         tvSHowHint2.setOnClickListener(v ->
                 {
                     addHintPanalties(2);
                 }
         );
-
         tvSHowHint3.setVisibility(View.GONE);
-
         lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
         lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
         window.setAttributes(lp);
@@ -326,5 +346,4 @@ public class QuestionAct extends AppCompatActivity {
             }
         });
     }
-
 }

@@ -21,15 +21,16 @@
                 android:padding="@dimen/_15sdp"
                 android:background="@color/appcolor"
                 >
+
                 <TextView
                     android:id="@+id/tvHeader"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/add_card"
                     android:layout_centerInParent="true"
-                    android:textSize="@dimen/_12sdp"
+                    android:fontFamily="@font/poppins_medium"
+                    android:text="@string/add_card"
                     android:textColor="@color/white"
-                    android:fontFamily="@font/poppins_medium"/>
+                    android:textSize="@dimen/_12sdp" />
                 <ImageView
                     android:id="@+id/imgHeader"
                     android:layout_width="@dimen/_20sdp"
@@ -148,22 +149,24 @@
                 -->
 
         </LinearLayout>
+
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnAdd"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/bt_bg"
             android:layout_alignParentBottom="true"
-            android:layout_marginTop="@dimen/_8sdp"
-            android:textAllCaps="false"
-            android:padding="@dimen/_10sdp"
-            android:fontFamily="@font/montserrat_semibold"
-            android:textSize="@dimen/_12sdp"
-            android:textColor="@color/white"
             android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/_15sdp"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:layout_marginEnd="@dimen/_15sdp"
+            android:layout_marginBottom="@dimen/_15sdp"
+            android:background="@drawable/bt_bg"
+            android:fontFamily="@font/montserrat_semibold"
+            android:padding="@dimen/_10sdp"
             android:text="@string/add_card"
-            android:layout_margin="@dimen/_15sdp"
-            />
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_12sdp" />
 
     </RelativeLayout>
 </layout>

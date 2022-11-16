@@ -88,7 +88,7 @@
         android:gravity="center"
         android:textColor="@color/purple_700"
         android:layout_marginTop="@dimen/_10sdp"
-        android:text="Master"
+        android:text="@string/master"
         android:visibility="gone"
         android:layout_alignParentBottom="true"
         />

@@ -12,14 +12,15 @@
         android:padding="@dimen/_15sdp"
         android:background="@color/appcolor"
         >
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/booking"
             android:layout_centerInParent="true"
-            android:textSize="@dimen/_12sdp"
+            android:fontFamily="@font/poppins_medium"
+            android:text="@string/booking"
             android:textColor="@color/white"
-            android:fontFamily="@font/poppins_medium"/>
+            android:textSize="@dimen/_12sdp" />
     </RelativeLayout>
     <ImageView
         android:layout_width="@dimen/_200sdp"

@@ -60,20 +60,22 @@
 <!--                android:layout_height="wrap_content"-->
 <!--                android:id="@+id/rvCards"/>-->
         </LinearLayout>
+
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnPay"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/bt_bg"
-            android:textAllCaps="false"
-            android:text="@string/pay"
-            android:textSize="@dimen/_12sdp"
-            android:fontFamily="@font/montserrat_semibold"
-            android:textColor="@color/white"
             android:layout_alignParentBottom="true"
-            android:layout_marginTop="@dimen/_25sdp"
-            android:layout_margin="@dimen/_15sdp"
-            />
+            android:layout_marginStart="@dimen/_15sdp"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:layout_marginEnd="@dimen/_15sdp"
+            android:layout_marginBottom="@dimen/_15sdp"
+            android:background="@drawable/bt_bg"
+            android:fontFamily="@font/montserrat_semibold"
+            android:text="@string/pay"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_12sdp" />
 
     </RelativeLayout>
 </layout>

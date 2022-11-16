@@ -34,16 +34,16 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginRight="@dimen/_10sdp"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:background="@drawable/green_button_left_top_right_bottom_20"
                     android:paddingHorizontal="@dimen/_15sdp"
                     android:paddingVertical="@dimen/_2sdp"
-                    android:textSize="@dimen/_12sdp"
-                    android:background="@drawable/green_button_left_top_right_bottom_20"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginBottom="@dimen/_10sdp"
-                    android:layout_marginRight="@dimen/_10sdp"
                     android:text="@string/trending"
                     android:textColor="@color/white"
-                    android:layout_alignParentBottom="true"/>
+                    android:textSize="@dimen/_12sdp" />
 
             </RelativeLayout>
 
@@ -67,16 +67,16 @@
                     android:layout_toRightOf="@+id/img_event"
                     android:layout_below="@id/rlGameStatus"
                     >
+
                     <TextView
                         android:id="@+id/tvEventName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/time_penalties"
-                        android:fontFamily="@font/poppins_bold"
                         android:layout_centerVertical="true"
+                        android:fontFamily="@font/poppins_bold"
+                        android:text="@string/time_penalties"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/_12sdp"
-                        />
+                        android:textSize="@dimen/_12sdp" />
 
                     <RatingBar
                         style="?android:attr/ratingBarStyleIndicator"
@@ -104,32 +104,31 @@
                     android:layout_below="@id/rlGameStatus"
                     android:layout_marginTop="@dimen/_15sdp"
                     >
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Date"
-                        android:fontFamily="@font/montserrat_semibold"
-                        android:layout_centerVertical="true"
-                        android:drawablePadding="@dimen/_5sdp"
-                        android:gravity="center"
-                        android:textColor="@color/textColor"
-                        android:textSize="@dimen/_12sdp"
-                        android:drawableLeft="@drawable/ic_today_24"
-                        />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Location"
-                        android:fontFamily="@font/montserrat_semibold"
                         android:layout_centerVertical="true"
+                        android:drawableLeft="@drawable/ic_today_24"
                         android:drawablePadding="@dimen/_5sdp"
+                        android:fontFamily="@font/montserrat_semibold"
                         android:gravity="center"
-                        android:layout_alignParentRight="true"
+                        android:text="@string/date"
                         android:textColor="@color/textColor"
-                        android:textSize="@dimen/_12sdp"
+                        android:textSize="@dimen/_12sdp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
                         android:drawableRight="@drawable/ic_location_on_24"
-                        />
+                        android:drawablePadding="@dimen/_5sdp"
+                        android:fontFamily="@font/montserrat_semibold"
+                        android:gravity="center"
+                        android:text="@string/location"
+                        android:textColor="@color/textColor"
+                        android:textSize="@dimen/_12sdp" />
 
                 </RelativeLayout>
                 <RelativeLayout
@@ -149,19 +148,19 @@
                         android:textColor="@color/black"
                         android:textSize="@dimen/_12sdp"
                         />
+
                     <TextView
                         android:id="@+id/tvEventLocation"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Nanaimo, Canada"
-                        android:gravity="end"
-                        android:layout_toRightOf="@+id/tvEventDate"
-                        android:fontFamily="@font/poppins_bold"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
+                        android:layout_toRightOf="@+id/tvEventDate"
+                        android:fontFamily="@font/poppins_bold"
+                        android:gravity="end"
+                        android:text="@string/nanaimo_canada"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/_12sdp"
-                        />
+                        android:textSize="@dimen/_12sdp" />
                 </RelativeLayout>
 
                 <View
@@ -185,7 +184,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Limited team places available..."
+                            android:text="@string/limited_team_places_available"
                             android:fontFamily="@font/poppins_bold"
                             android:layout_centerVertical="true"
                             android:textColor="@color/black"
@@ -206,25 +205,25 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/_15sdp"
                             >
+
                             <TextView
                                 android:id="@+id/tvTicket"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Only 8 tickets remaining"
                                 android:fontFamily="@font/montserrat_semibold"
+                                android:text="@string/only_8_tickets_remaining"
                                 android:textColor="@color/black"
-                                android:textSize="@dimen/_11sdp"
-                                />
+                                android:textSize="@dimen/_11sdp" />
+
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Team ticket (per team of 6)"
-                                android:fontFamily="@font/poppins_medium"
-                                android:textColor="@color/black"
-                                android:textSize="@dimen/_8sdp"
-                                android:layout_marginTop="@dimen/_5sdp"
                                 android:layout_below="@+id/tvTicket"
-                                />
+                                android:layout_marginTop="@dimen/_5sdp"
+                                android:fontFamily="@font/poppins_medium"
+                                android:text="@string/team_ticket_per_team_of_6"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_8sdp" />
 
                             <TextView
                                 android:id="@+id/tvPrice"
@@ -253,18 +252,19 @@
                 android:layout_height="@dimen/_65sdp"
                 android:layout_alignParentBottom="true"
                 >
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btnBookEvent"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/_15sdp"
-                android:layout_marginBottom="@dimen/_20sdp"
-                android:textColor="@color/yellow"
-                android:layout_alignParentBottom="true"
-                android:text="@string/book_event"
-                android:textSize="@dimen/_13sdp"
-                android:fontFamily="@font/poppins_medium"
-                android:background="@drawable/bt_bg"/>
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btnBookEvent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginHorizontal="@dimen/_15sdp"
+                    android:layout_marginBottom="@dimen/_20sdp"
+                    android:background="@drawable/bt_bg"
+                    android:fontFamily="@font/poppins_medium"
+                    android:text="@string/book_event"
+                    android:textColor="@color/yellow"
+                    android:textSize="@dimen/_13sdp" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnViewCart"
