@@ -6,6 +6,7 @@ import androidx.databinding.DataBindingUtil;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.bumptech.glide.Glide;
 import com.my.quiz.R;
 import com.my.quiz.databinding.ActivityWelcomeMessageBinding;
 import com.my.quiz.model.SuccessResGetEvents;
@@ -23,10 +24,14 @@ public class WelcomeMessageActivity extends AppCompatActivity {
         binding.header.imgHeader.setOnClickListener(v -> finish());
         binding.btnPlay.setOnClickListener(v ->
                 {
-                    startActivity(new Intent(WelcomeMessageActivity.this,Game2StartVideoAct.class).putExtra("instructionID",result));
+                    startActivity(new Intent(WelcomeMessageActivity.this
+                            ,Game2StartVideoAct.class).putExtra("instructionID",result));
                 }
         );
         result = (SuccessResGetEvents.Result) getIntent().getSerializableExtra("instructionID");
         binding.tvInstruction.setText(result.getDescription());
+        Glide.with(this).load(result.getDescription_image())
+                .into(binding.descriptionImage);
+
     }
 }

@@ -54,7 +54,8 @@ public class Game2StartVideoAct extends AppCompatActivity {
         ivHeader = findViewById(R.id.ivBack);
         cvVideo = findViewById(R.id.cvBack);
         btnPlay = findViewById(R.id.btnPlay);
-        result = (SuccessResGetEvents.Result) getIntent().getSerializableExtra("instructionID");
+        result = (SuccessResGetEvents.Result) getIntent().
+                getSerializableExtra("instructionID");
         videoUrl =     result.getVideo(); //"http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4";    //
         btnPlay.setAlpha(.5f);
 
@@ -70,7 +71,9 @@ public class Game2StartVideoAct extends AppCompatActivity {
                 {
                     exoPlayer.stop();
                     exoPlayer.release();
-                    startActivity(new Intent(Game2StartVideoAct.this,Game2InstructionAct.class).putExtra("instructionID",result));
+                    startActivity(new Intent(
+                            Game2StartVideoAct.this,Game2InstructionAct.class)
+                            .putExtra("instructionID",result));
                 }
         );
 
@@ -182,4 +185,23 @@ public class Game2StartVideoAct extends AppCompatActivity {
         }
 
     }
+
+    @Override
+    protected void onPause() {
+if (exoPlayer!=null){
+    exoPlayer.stop();
+    exoPlayer.release();
+}
+        super.onPause();
+    }
+
+    @Override
+    protected void onStop() {
+        if (exoPlayer!=null){
+            exoPlayer.stop();
+            exoPlayer.release();
+        }
+        super.onStop();
+    }
+
 }

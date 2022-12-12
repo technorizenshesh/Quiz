@@ -63,17 +63,14 @@ No tienes una cuenta?
     <string name="leader">tabla de clasificacion</string>
 
 
-    -<string name="start">
+    <string name="start">COMENZAR</string>
 
-<u> COMIENZO</u>
-
-</string>
 
     <string name="start1">COMIENZO</string>
 
-    <string name="instruction">instrucción</string>
+    <string name="instruction">INSTRUCCIONES</string>
 
-    <string name="answer">RESPONDEDOR</string>
+    <string name="answer">RESPUESTA</string>
 
     <string name="you_give_up">Tu te rindes</string>
 
@@ -83,7 +80,7 @@ No tienes una cuenta?
 
     <string name="enter_description">Introduce la descripción</string>
 
-    <string name="submit">Enviar</string>
+    <string name="submit">ENVIAR</string>
 
     <string name="login">¡ACCESO!</string>
 
@@ -199,13 +196,15 @@ No tienes una cuenta?
 
     <string name="begin">Empezar</string>
 
-    <string name="play">Tocar</string>
+    <string name="play">COMENZAR</string>
 
     <string name="welcome_to_virus">Bienvenido a Virus</string>
 
-    <string name="give_up">Abandonar</string>
+    <string name="give_up">Me Rindo</string>
+    <string name="give_up_title">¿Te Rindes?</string>
 
-    <string name="enter_answer">Introduce la respuesta...</string>
+
+    <string name="enter_answer">Escribe Respuesta …</string>
 
     -<string name="_1_show_hint1_2_minutes_penalty">
 1.
@@ -227,7 +226,8 @@ No tienes una cuenta?
 
 </string>
 
-    <string name="give_up_message">Si te rindes, recibirás la respuesta a esta pista pero se añadirán 5 minutos a tu tiempo.</string>
+    <string name="give_up_message"
+        > Si te rindes, se te dará la respuesta pero se te penalizará con 10 minutos en tu tiempo. </string>
 
     <string name="test">¡Cuidadoso! \nAbra ambos tubos de ensayo con cuidado. \nVierta el antídoto en el tubo de ensayo de virus. \nNo te preocupes si te cae algo encima.\nEl virus ahora está desactivado y es inofensivo.\n¡MISIÓN COMPLETADA! \nEl mundo vuelve a estar seguro</string>
 
@@ -235,7 +235,7 @@ No tienes una cuenta?
 
     <string name="cancel">Cancelar</string>
 
-    <string name="congratulations_you_have_saved_the_world_from_the_next_pandemic_you_may_open_envelope_4">Felicidades, has salvado al mundo de la próxima pandemia. PUEDE ABRIR EL SOBRE</string>
+    <string name="congratulations_you_have_saved_the_world_from_the_next_pandemic_you_may_open_envelope_4">¡FELICIDADES! Acaban de salvar al mundo de una potencial pandemia.Asegúrate de sacar fotos y subirlo a tus redes sociales</string>
 
     <string name="downloading_data">Descarga de datos</string>
 
@@ -269,7 +269,7 @@ No tienes una cuenta?
 
     <string name="quiz_solved">Cuestionario resuelto</string>
 
-    <string name="hint">Insinuación</string>
+    <string name="hint">PISTAS</string>
 
     <string name="select_a_answer">Seleccione una respuesta</string>
 
@@ -320,5 +320,6 @@ No tienes una cuenta?
 
     <!-- https://asrt.gluege.boerde.de -->
 
-
+    <string name="yes">ACEPTAR</string>
+    <string name="no">CANCELAR</string>
 </resources>

@@ -11,11 +11,13 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.InputFilter;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -38,7 +40,11 @@ import com.my.quiz.utility.SharedPreferenceUtility;
 import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
+
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -46,7 +52,7 @@ import retrofit2.Response;
 import static com.my.quiz.retrofit.Constant.USER_ID;
 import static com.my.quiz.retrofit.Constant.showToast;
 
-public class QuestionAct extends AppCompatActivity {
+public class QuestionAct extends AppCompatActivity  {
 
     private QuizInterface apiInterface;
     private ArrayList<SuccessResGetVirusEvent.Result> instructionList = new ArrayList<>();
@@ -56,37 +62,151 @@ public class QuestionAct extends AppCompatActivity {
     private Dialog dialog;
     private boolean hint1 = false, hint2=false, hint3 =false;
     TextView tvSHowHint1,tvSHowHint2,tvSHowHint3,tvHint1,tvHint2,tvHint3;
+    // on the stopwatch.
+    private int seconds = 0;
+
+    // Is the stopwatch running?
+    private boolean running=true;
+
+    private boolean wasRunning;
+    @Override
+    protected void onPause()
+    {
+        super.onPause();
+        wasRunning = running;
+        running = false;
+    }
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+        if (wasRunning) {
+            running = true;
+        }
+    }
+    private void runTimer(int mnts)
+    {
+
+        final Handler handler
+                = new Handler();
+
+        handler.post(new Runnable() {
+            @Override
+
+            public void run()
+            {
+                int hours = seconds / 3600;
+                int minutes = (seconds % 3600) / 60+mnts;
+                int secs = seconds % 60;
+
+                // Format the seconds into hours, minutes,
+                // and seconds.
+                String time
+                        = String
+                        .format(Locale.getDefault(),
+                                "%d:%02d:%02d", hours,
+                                minutes, secs);
+
+                // Set the text view text.
+                Log.e("TAG", "run: "+time );
+                binding.timeView.setText(time);
+
+                // If running is true, increment the
+                // seconds variable.
+                if (running) {
+                    seconds++;
+                }
+
+                // Post the code again
+                // with a delay of 1 second.
+                handler.postDelayed(this, 1000);
+            }
+        });
+    }
+
+    // Save the state of the stopwatch
+    // if it's about to be destroyed.
+    @Override
+    public void onSaveInstanceState(
+            Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+        savedInstanceState
+                .putInt("seconds", seconds);
+        savedInstanceState
+                .putBoolean("running", running);
+        savedInstanceState
+                .putBoolean("wasRunning", wasRunning);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this,R.layout.activity_question);
+        if (savedInstanceState != null) {
+
+            // Get the previous state of the stopwatch
+            // if the activity has been
+            // destroyed and recreated.
+            seconds
+                    = savedInstanceState
+                    .getInt("seconds");
+            running
+                    = savedInstanceState
+                    .getBoolean("running");
+            wasRunning
+                    = savedInstanceState
+                    .getBoolean("wasRunning");
+        }
+
         apiInterface = ApiClient.getClient().create(QuizInterface.class);
         position = 0;
         result = (SuccessResGetEvents.Result) getIntent().getSerializableExtra("instructionID");
         getInstruction();
-
+        runTimer(0);
         binding.tvHint.setOnClickListener(v ->
                 {
                     showHints();
                 }
                 );
 
-        binding.tvGiveup.setOnClickListener(v ->
-                {
-                    new AlertDialog.Builder(QuestionAct.this)
-                            .setTitle(getString(R.string.give_up))
-                            .setMessage(getString(R.string.give_up_message))
-                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    addHintPanalties(3);
-                                }
-                            })
-                            .setNegativeButton(android.R.string.no, null)
-                            .setIcon(android.R.drawable.ic_dialog_alert)
-                            .show();
-                }
-        );
+
+                    binding.tvGiveup.setOnClickListener(v ->
+                            {
+                                final Dialog  dialogq = new Dialog(QuestionAct.this);
+                                dialogq.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                                dialogq.getWindow().getAttributes().windowAnimations
+                                        = android.R.style.Widget_Material_ListPopupWindow;
+                                dialogq.setContentView(R.layout.dialog_give_up);
+                                WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+                                Window window = dialogq.getWindow();
+                                lp.copyFrom(window.getAttributes());
+                                Button ivSubmit= dialogq.findViewById(R.id.btnSubmit);
+                                ivSubmit.setOnClickListener(D ->
+                                        {
+                                            addHintPanalties(3);
+                                            dialogq.dismiss();
+                                        }
+                                );
+                                Button ivCancel = dialogq.findViewById(R.id.btncncel);
+                                ivCancel.setOnClickListener(D ->
+                                        {
+                                            dialogq.dismiss();
+                                        }
+                                );
+                                lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
+                                lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+                                window.setAttributes(lp);
+                                dialogq.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                                dialogq.show();
+
+
+                            }
+                    );
+
+
+
+
+
 
         binding.etAnswer.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
         binding.btnSubmit.setOnClickListener(v ->
@@ -101,7 +221,8 @@ public class QuestionAct extends AppCompatActivity {
                 {
                     if(position == instructionList.size()-1)
                     {
-                        startActivity(new Intent(QuestionAct.this, MissionCompletedAct.class).putExtra("instructionID",result));
+                        startActivity(new Intent(QuestionAct.this,
+                                MissionCompletedAct.class).putExtra("instructionID",result));
                         finishAffinity();
                     }
                     else
@@ -134,7 +255,8 @@ public class QuestionAct extends AppCompatActivity {
                         binding.etAnswer.setText("");
                         if(position == instructionList.size()-1)
                         {
-                            startActivity(new Intent(QuestionAct.this, MissionCompletedAct.class).putExtra("instructionID",result));
+                            startActivity(new Intent(QuestionAct.this,
+                                    MissionCompletedAct.class).putExtra("instructionID",result));
                             finishAffinity();
                         }
                         else
@@ -148,7 +270,8 @@ public class QuestionAct extends AppCompatActivity {
                         binding.etAnswer.setText("");
                         if(position == instructionList.size()-1)
                         {
-                            startActivity(new Intent(QuestionAct.this, MissionCompletedAct.class).putExtra("instructionID",result));
+                            startActivity(new Intent(QuestionAct.this,
+                                    MissionCompletedAct.class).putExtra("instructionID",result));
                             finishAffinity();
                         }
                         else
@@ -212,7 +335,7 @@ public class QuestionAct extends AppCompatActivity {
         hint3 =  false;
         Glide.with(QuestionAct.this)
                 .load(instructionList.get(position).getImage())
-                .centerCrop()
+                .fitCenter()
                 .into(binding.ivPuzzel);
         binding.tvPuzzel.setText(instructionList.get(position).getInstructions());
 
@@ -346,4 +469,5 @@ public class QuestionAct extends AppCompatActivity {
             }
         });
     }
+
 }

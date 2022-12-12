@@ -137,4 +137,8 @@
     <string name="time_taken">Time Taken:</string>
     <string name="change_language">Change Language</string>
     <string name="select_language">Select Language</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="give_up_title">Give up</string>
+
 </resources>

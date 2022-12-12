@@ -77,6 +77,9 @@ public class SuccessResGetEvents implements Serializable {
         @SerializedName("event_instructions")
         @Expose
         public String eventInstructions;
+        @SerializedName("event_instructions1")
+        @Expose
+        public String event_instructions1;
         @SerializedName("date_time")
         @Expose
         public String dateTime;
@@ -89,6 +92,25 @@ public class SuccessResGetEvents implements Serializable {
         @SerializedName("video")
         @Expose
         public String video;
+        @SerializedName("description_image")
+        @Expose
+        public String description_image;
+
+        public String getEvent_instructions1() {
+            return event_instructions1;
+        }
+
+        public void setEvent_instructions1(String event_instructions1) {
+            this.event_instructions1 = event_instructions1;
+        }
+
+        public String getDescription_image() {
+            return description_image;
+        }
+
+        public void setDescription_image(String description_image) {
+            this.description_image = description_image;
+        }
 
         public String getId() {
             return id;

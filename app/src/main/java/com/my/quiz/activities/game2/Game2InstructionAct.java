@@ -48,12 +48,16 @@ public class Game2InstructionAct extends AppCompatActivity {
                 }
                 );
         binding.header.tvHeader.setText(getString(R.string.instruction));
-        result = (SuccessResGetEvents.Result) getIntent().getSerializableExtra("instructionID");
+        result = (SuccessResGetEvents.Result) getIntent().getSerializableExtra
+                ("instructionID");
         Glide.with(this)
                 .load(result.getImage())
                 .centerCrop()
                 .into(binding.ivGame);
-        binding.tvInstruction.setText(result.getEventInstructions());
+        if (result.getEvent_instructions1()!=null){
+        binding.tvInstruction.setText(result.getEvent_instructions1());}else {
+            binding.tvInstruction.setText(result.getEventInstructions());
+        }
         binding.btnStart.setOnClickListener(v ->
                 {
                     if(result.getType().equalsIgnoreCase("crime"))
@@ -86,11 +90,14 @@ public class Game2InstructionAct extends AppCompatActivity {
                     String data = jsonObject.getString("status");
                     String message = jsonObject.getString("message");
                     if (data.equals("1")) {
-                        startActivity(new Intent(Game2InstructionAct.this,QuestionAct.class).putExtra("instructionID",result));
+                        startActivity(new Intent(
+                                Game2InstructionAct.this,QuestionAct.class)
+                                .putExtra("instructionID",result));
                     } else if (data.equals("0")) {
                         showToast(Game2InstructionAct.this, message);
                     }else if (data.equals("2")) {
-                        showToast(Game2InstructionAct.this, jsonObject.getString("result"));
+                        showToast(Game2InstructionAct.this,
+                                jsonObject.getString("result"));
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
