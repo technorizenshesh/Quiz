@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.my.quiz">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.smsjuegos.quiz">
 
     <application
         android:allowBackup="true"
@@ -11,8 +12,16 @@
         android:theme="@style/Theme.Quiz"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".activities.PrivacyPolicyAct"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".activities.ChooseLanguage"
-            android:exported="false" />  <activity
+            android:exported="false" />
+        <activity
             android:name=".activities.game4.Game4FinalActivity"
             android:exported="false" />
         <activity
@@ -21,80 +30,97 @@
         <activity
             android:name=".activities.game4.Game4HomeAct"
             android:exported="false" />
-        <activity android:name=".activities.game2.MissionCompletedAct" />
+        <activity
+            android:name=".activities.game2.MissionCompletedAct"
+            android:exported="false" />
         <activity
             android:name=".activities.game2.QuestionAct"
             android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".activities.game2.Game2PuzzelAct"
             android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".activities.game2.Game2InstructionAct"
             android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".activities.game2.Game2StartVideoAct"
             android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".activities.game2.WelcomeMessageActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".activities.game2.HomeScreenGame2Act"
             android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".activities.FinishTeamInfo"
             android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".activities.FinalPuzzelAct"
             android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".activities.FinalAct"
             android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".activities.InventoryAct"
             android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".activities.PuzzleAct"
             android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".activities.MapAct"
             android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".activities.InstrutionAct"
             android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".activities.DownloadAct"
             android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".activities.GeoLocationAct"
             android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
         <activity
@@ -136,9 +162,12 @@
         <activity
             android:name=".activities.LoginAct"
             android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".MainActivity" />
+        <activity
+            android:name="com.smsjuegos.quiz.MainActivity"
+            android:exported="false" />
 
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
@@ -152,10 +181,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" tools:ignore="ScopedStorage" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-
-    <uses-permission android:name="com.google.android.providers.gsf.permission.    READ_GSERVICES" />
-
 </manifest>

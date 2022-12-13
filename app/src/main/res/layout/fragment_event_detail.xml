@@ -14,14 +14,13 @@
             <RelativeLayout
                 android:id="@+id/header"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_150sdp"
+                android:layout_height="@dimen/_170sdp"
                 >
                 <ImageView
                     android:id="@+id/imgEvent"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_150sdp"
-                    android:src="@drawable/crime_scene_img"
-                    android:scaleType="fitXY"
+                    android:layout_height="@dimen/_170sdp"
+                    android:scaleType="fitCenter"
                     />
 
                 <ImageView
@@ -142,7 +141,7 @@
                         android:id="@+id/tvEventDate"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="23 July 2022"
+                        android:text=""
                         android:fontFamily="@font/poppins_bold"
                         android:layout_centerVertical="true"
                         android:textColor="@color/black"

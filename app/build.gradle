@@ -3,28 +3,21 @@ plugins {
 }
 
 android {
-    compileSdkVersion 30
-    buildToolsVersion "30.0.3"
-    lintOptions {
-        checkReleaseBuilds false
-        // Or, if you prefer, you can continue to check for errors in release builds,
-        // but continue the build even when errors are found:
-        abortOnError false
-    }
+    buildToolsVersion '30.0.3'
+    compileSdk 33
     defaultConfig {
-        applicationId "com.my.quiz"
+        applicationId "com.smsjuegos.quiz"
         minSdkVersion 23
-        targetSdkVersion 30
-        versionCode 1
-        versionName "1.0"
+        targetSdkVersion 33
+        versionCode 3
+        versionName "1.1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
-    dataBinding {
-        enabled true
-    }
     buildFeatures {
+        dataBinding true
         viewBinding true
     }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -32,10 +25,9 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
-
     repositories {
         maven { url 'https://jitpack.io' }
     }
@@ -43,22 +35,18 @@ android {
 
 dependencies {
 
-    implementation 'androidx.appcompat:appcompat:1.3.0'
-    implementation 'com.google.android.material:material:1.3.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    implementation 'androidx.appcompat:appcompat:1.6.0'
+    implementation 'com.google.android.material:material:1.7.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    testImplementation 'junit:junit:4.+'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
-
-
-
-
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
     implementation 'com.intuit.sdp:sdp-android:1.0.6'
     implementation 'de.hdodenhof:circleimageview:3.1.0'
     implementation 'com.hbb20:ccp:2.3.9'
-    implementation 'androidx.navigation:navigation-fragment:2.3.3'
-    implementation 'androidx.navigation:navigation-ui:2.3.3'
+    implementation 'androidx.navigation:navigation-fragment:2.5.3'
+    implementation 'androidx.navigation:navigation-ui:2.5.3'
     implementation 'com.github.smarteist:autoimageslider:1.4.0-appcompat'
     implementation 'com.vinaygaba:creditcardview:1.0.4'
     // Retrofit
@@ -66,28 +54,26 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-scalars:2.9.0'
     implementation 'com.github.shadowalker77:wp7progressbar:1.0.5'
 
-    // Import the Firebase BoM
-    implementation platform('com.google.firebase:firebase-bom:28.1.0')
+    /* // Import the Firebase BoM
+     implementation platform('com.google.firebase:firebase-bom:28.1.0')
 
-    // When using the BoM, you don't specify versions in Firebase library dependencies
-    // Declare the dependency for the Firebase SDK for Google Analytics
-    implementation 'com.google.firebase:firebase-analytics'
+     // When using the BoM, you don't specify versions in Firebase library dependencies
+     // Declare the dependency for the Firebase SDK for Google Analytics
+     implementation 'com.google.firebase:firebase-analytics'
 
-    // Declare the dependencies for any other desired Firebase products
-    // For example, declare the dependencies for Firebase Authentication and Cloud Firestore
-    implementation 'com.google.firebase:firebase-auth'
-    implementation 'com.google.firebase:firebase-firestore'
-    // Import the BoM for the Firebase platform
-    implementation platform('com.google.firebase:firebase-bom:28.1.0')
-    // Declare the dependencies for the Firebase Cloud Messaging and Analytics libraries
-    // When using the BoM, you don't specify versions in Firebase library dependencies
-    implementation 'com.google.firebase:firebase-messaging'
-    implementation 'com.google.firebase:firebase-analytics'
+     // Declare the dependencies for any other desired Firebase products
+     // For example, declare the dependencies for Firebase Authentication and Cloud Firestore
+     implementation 'com.google.firebase:firebase-auth'
+     implementation 'com.google.firebase:firebase-firestore'
+     // Import the BoM for the Firebase platform
+     implementation platform('com.google.firebase:firebase-bom:28.1.0')
+     // Declare the dependencies for the Firebase Cloud Messaging and Analytics libraries
+     // When using the BoM, you don't specify versions in Firebase library dependencies
+     implementation 'com.google.firebase:firebase-messaging'
+     implementation 'com.google.firebase:firebase-analytics'*/
     //Glide Dependency
-    implementation 'com.github.bumptech.glide:glide:4.12.0'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
-    //Google Map
-    implementation 'com.google.android.gms:play-services-maps:17.0.1'
+    implementation 'com.github.bumptech.glide:glide:4.13.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.13.0'
     //CardForm
     implementation 'com.braintreepayments:card-form:5.0.0'
     //GIF imageview
@@ -102,192 +88,9 @@ dependencies {
 
     //Exo library
     implementation 'com.google.android.exoplayer:exoplayer:2.7.3'
+    implementation 'org.sufficientlysecure:html-textview:4.0'
 
 
 }
-apply plugin: 'com.google.gms.google-services'
-
-//plugins {
-//    id 'com.android.application'
-//}
-//
-//android {
-//    compileSdkVersion 31
-//    buildToolsVersion "31.0.0"
-//
-//    defaultConfig {
-//        applicationId "com.my.quiz"
-//        minSdkVersion 21
-//        targetSdkVersion 31
-//        versionCode 1
-//        versionName "1.0"
-//        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-//    }
-//    buildFeatures {
-//        dataBinding true
-//        viewBinding true
-//        // for view binding:
-//        // viewBinding true
-//    }
-//    buildTypes {
-//        release {
-//            minifyEnabled false
-//            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-//        }
-//    }
-//    compileOptions {
-//        sourceCompatibility JavaVersion.VERSION_1_8
-//        targetCompatibility JavaVersion.VERSION_1_8
-//    }
-//    repositories {
-//        maven { url 'https://jitpack.io' }
-//    }
-//}
-//
-//dependencies {
-//    implementation 'androidx.appcompat:appcompat:1.4.1'
-//    implementation 'com.google.android.material:material:1.5.0'
-//    implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
-//    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-//    testImplementation 'junit:junit:4.+'
-//    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
-//    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
-//    //Glide Dependency
-//    implementation 'com.github.bumptech.glide:glide:4.12.0'
-//    annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
-//    //Country Code picker
-//    implementation 'com.hbb20:ccp:2.3.9'
-//    //Circular image
-//    implementation 'de.hdodenhof:circleimageview:3.1.0'
-//    //dp formate
-//    implementation 'com.intuit.sdp:sdp-android:1.0.6'
-//    //Navigation
-//    implementation 'androidx.navigation:navigation-fragment:2.3.5'
-//    implementation 'androidx.navigation:navigation-ui:2.3.5'
-//    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.3.1'
-//    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1'
-//    //Credit Card
-//    implementation 'com.vinaygaba:creditcardview:1.0.4'
-//    //CardForm
-//    implementation 'com.braintreepayments:card-form:5.2.0'
-//    // Retrofit
-//    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
-//    implementation 'com.squareup.retrofit2:converter-scalars:2.9.0'
-//    implementation 'com.google.code.gson:gson:2.9.0'
-//
-//    // retrofit2 /app/build.gradle dependencies
-//    implementation 'com.squareup.retrofit2:retrofit:2.7.0'
-//
-//    // Import the Firebase BoM
-//    implementation platform('com.google.firebase:firebase-bom:29.1.0')
-//    // When using the BoM, you don't specify versions in Firebase library dependencies
-//    // Declare the dependency for the Firebase SDK for Google Analytics
-//    implementation 'com.google.firebase:firebase-analytics'
-//    // Also declare the dependency for the Google Play services library and specify its version
-//    implementation 'com.google.android.gms:play-services-auth:19.0.0'
-//    // Declare the dependency for the Firebase Authentication library
-//    // When using the BoM, you don't specify versions in Firebase library dependencies
-//    implementation 'com.google.firebase:firebase-auth'
-//    //Progress Bar
-//    implementation 'com.github.shadowalker77:wp7progressbar:1.0.5'
-//    implementation 'com.google.firebase:firebase-messaging'
-//
-//    //MVVM dependencies
-//    implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0'
-//
-//    //Autoimage Slider
-//    implementation 'com.github.smarteist:autoimageslider:1.4.0-appcompat'
-//
-//
-//}
-
-//plugins {
-//    id 'com.android.application'
-//}
-//
-//android {
-//    compileSdkVersion 31
-//    buildToolsVersion "31.0.0"
-//
-//    defaultConfig {
-//        applicationId "com.technorizon.splurge"
-//        minSdkVersion 21
-//        targetSdkVersion 31
-//        versionCode 1
-//        versionName "1.0"
-//        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-//    }
-//    buildFeatures {
-//        dataBinding true
-//        viewBinding true
-//        // for view binding:
-//        // viewBinding true
-//    }
-//    buildTypes {
-//        release {
-//            minifyEnabled false
-//            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-//        }
-//    }
-//    compileOptions {
-//        sourceCompatibility JavaVersion.VERSION_1_8
-//        targetCompatibility JavaVersion.VERSION_1_8
-//    }
-//    repositories {
-//        maven { url 'https://jitpack.io' }
-//    }
-//}
-//
-//dependencies {
-//    implementation 'androidx.appcompat:appcompat:1.4.1'
-//    implementation 'com.google.android.material:material:1.5.0'
-//    implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
-//    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-//    testImplementation 'junit:junit:4.+'
-//    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
-//    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
-//    //Glide Dependency
-//    implementation 'com.github.bumptech.glide:glide:4.12.0'
-//    annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
-//    //Country Code picker
-//    implementation 'com.hbb20:ccp:2.3.9'
-//    //Circular image
-//    implementation 'de.hdodenhof:circleimageview:3.1.0'
-//    //dp formate
-//    implementation 'com.intuit.sdp:sdp-android:1.0.6'
-//    //Navigation
-//    implementation 'androidx.navigation:navigation-fragment:2.3.5'
-//    implementation 'androidx.navigation:navigation-ui:2.3.5'
-//    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.3.1'
-//    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1'
-//    //Credit Card
-//    implementation 'com.vinaygaba:creditcardview:1.0.4'
-//    //CardForm
-//    implementation 'com.braintreepayments:card-form:5.2.0'
-//    // Retrofit
-//    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
-//    implementation 'com.squareup.retrofit2:converter-scalars:2.9.0'
-//    implementation 'com.google.code.gson:gson:2.9.0'
-//
-//    // retrofit2 /app/build.gradle dependencies
-//    implementation 'com.squareup.retrofit2:retrofit:2.7.0'
-//
-//    // Import the Firebase BoM
-//    implementation platform('com.google.firebase:firebase-bom:29.1.0')
-//    // When using the BoM, you don't specify versions in Firebase library dependencies
-//    // Declare the dependency for the Firebase SDK for Google Analytics
-//    implementation 'com.google.firebase:firebase-analytics'
-//    // Also declare the dependency for the Google Play services library and specify its version
-//    implementation 'com.google.android.gms:play-services-auth:19.0.0'
-//    // Declare the dependency for the Firebase Authentication library
-//    // When using the BoM, you don't specify versions in Firebase library dependencies
-//    implementation 'com.google.firebase:firebase-auth'
-//    //Progress Bar
-//    implementation 'com.github.shadowalker77:wp7progressbar:1.0.5'
-//    implementation 'com.google.firebase:firebase-messaging'
-//
-//    //MVVM dependencies
-//    implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0'
-//
-//}
-//apply plugin: 'com.google.gms.google-services'  // Google Services plugin
+//apply plugin: 'com.google.gms.google-services'
+//  release pass-- quiz@22

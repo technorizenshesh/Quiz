@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <resources>
 
-    <string name="app_name">Prueba</string>
+    <string name="app_name">Secret Mission Society</string>
 
     <string name="api_key">AIzaSyBduv61ywGy3e9mU6NJ_a7GHCf5oSbxT2w</string>
 
@@ -27,13 +27,13 @@ No tienes una cuenta?
 
     <string name="hello_blank_fragment">Hola fragmento en blanco</string>
 
-    <string name="log_out">CERRAR SESIÓN</string>
+    <string name="log_out">Cerrar sesión</string>
 
     <string name="save_details">DETALLES GUARDAR</string>
 
     <string name="enter_a_email">Ingrese correo electronico</string>
 
-    <string name="change_password">Cambia la contraseña</string>
+    <string name="change_password">Cambiar Contraseña</string>
 
     <string name="finished_puzzles">Rompecabezas terminado</string>
 
@@ -45,11 +45,11 @@ No tienes una cuenta?
 
     <string name="enter_confirm_new_pass">Ingresar Confirmar contraseña</string>
 
-    <string name="edit_details">Editar detalles</string>
+    <string name="edit_details">Editar</string>
 
     <string name="lists">Liza</string>
 
-    <string name="play_a_game">Jugar un juego</string>
+    <string name="play_a_game">Jugar una experiencia</string>
 
 
     -<string name="view_all">
@@ -90,7 +90,7 @@ No tienes una cuenta?
 
     <string name="enter_email">Ingrese correo electronico</string>
 
-    <string name="contact_us">Contacta con nosotras</string>
+    <string name="contact_us">Contáctanos</string>
 
     <string name="next">SIGUIENTE</string>
 
@@ -235,7 +235,7 @@ No tienes una cuenta?
 
     <string name="cancel">Cancelar</string>
 
-    <string name="congratulations_you_have_saved_the_world_from_the_next_pandemic_you_may_open_envelope_4">¡FELICIDADES! Acaban de salvar al mundo de una potencial pandemia.Asegúrate de sacar fotos y subirlo a tus redes sociales</string>
+    <string name="congratulations_you_have_saved_the_world_from_the_next_pandemic_you_may_open_envelope_4">¡FELICIDADES!Acaban de salvar al mundo de una potencial pandemia.Asegúrate de sacar fotos y subirlo a tus redes sociales</string>
 
     <string name="downloading_data">Descarga de datos</string>
 
@@ -259,7 +259,7 @@ No tienes una cuenta?
 
     <string name="murder_in_the_city">ASESINATO EN LA CIUDAD</string>
 
-    <string name="upcoming_events">Próximos Eventos</string>
+    <string name="upcoming_events">Catálogo de Experiencias</string>
 
     <string name="master">Maestro</string>
 
@@ -295,11 +295,11 @@ No tienes una cuenta?
 
     <string name="nanaimo_canada">Nanaimo, Canadá</string>
 
-    <string name="profile">Perfil</string>
+    <string name="profile">PERFIL</string>
 
     <string name="about_us">Sobre nosotros</string>
 
-    <string name="visit_website">Visita la página web</string>
+    <string name="visit_website">Visita nuestro sitio</string>
 
     <string name="back_to_main_menu">Volver al menú principal</string>
 
@@ -311,7 +311,7 @@ No tienes una cuenta?
 
     <string name="time_taken">Tiempo tomado:</string>
 
-    <string name="change_language">Cambiar idioma</string>
+    <string name="change_language">Change Language</string>
 
     <string name="select_language">Seleccione el idioma</string>
 
@@ -322,4 +322,9 @@ No tienes una cuenta?
 
     <string name="yes">ACEPTAR</string>
     <string name="no">CANCELAR</string>
+    <string name="please_enter_code">Por favor ingrese el código</string>
+    <string name="tickets_remaining">boletos restantes</string>
+    <string name="datal"><![CDATA[<p><font color=#666666>Continúa si estás de acuerdo con nuestra</font><font color=#5856F2>  <b><u>Términos y condiciones</u></b></font><font color=#666666> y el <u></font><b><font color=#5856F2>Política de privacidad </font></u></b></font></p>]]></string>
+    <string name="privacy">de privacidad </string>
+
 </resources>

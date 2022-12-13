@@ -6,9 +6,13 @@
 <LinearLayout android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="@dimen/_15sdp"
     android:background="#EFEFEF"
+   ><LinearLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/_15sdp"
    >
+
         <ImageView
             android:layout_width="@dimen/_130sdp"
             android:layout_height="@dimen/_130sdp"
@@ -118,12 +122,23 @@
             android:textColor="@color/appcolor"
             android:textSize="@dimen/_12sdp"
             />
+    <TextView
+        android:layout_margin="@dimen/_5sdp"
+        android:id="@+id/prvc"
+        android:padding="@dimen/_10sdp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:gravity="center"
+        android:fontFamily="@font/poppins_bold"
+        android:textSize="@dimen/_8sdp"
 
+        />
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnLogin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_10sdp"
             android:textColor="@color/yellow"
             android:text="@string/sign_in"
             android:textSize="@dimen/_13sdp"
@@ -139,5 +154,7 @@
         android:gravity="center_horizontal"
         android:layout_marginTop="@dimen/_15sdp"
         />
+
+</LinearLayout>
 </LinearLayout>
 </layout>

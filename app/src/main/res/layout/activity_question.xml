@@ -151,15 +151,20 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_120sdp" />
 
-                <TextView
-                    android:id="@+id/tvPuzzel"
+                <WebView
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:id="@+id/webView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:lineSpacingMultiplier="1.1"
-                    android:text="@string/you_have_the_new"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_14sdp" />
+                    />
+
+                <ImageView
+                    android:layout_margin="@dimen/_10sdp"
+                    android:visibility="gone"
+                    android:id="@+id/ivshare"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_120sdp"
+                    android:src="@drawable/share"/>
             </LinearLayout>
 
         </androidx.core.widget.NestedScrollView>

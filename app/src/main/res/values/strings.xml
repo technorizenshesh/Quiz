@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Quiz</string>
+    <string name="app_name">Secret Mission Society</string>
     <string name="api_key">AIzaSyBduv61ywGy3e9mU6NJ_a7GHCf5oSbxT2w</string>
     <string name="already_have_an_account_sign_in_now">Already have an account? <u><font color='#090F47'>Sign In Now</font></u></string>
     <string name="dont_have_an_account_sign_in_now">Don’t have an account? <u><font color='#090F47'>Sign Up Now</font></u></string>
@@ -140,5 +140,10 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="give_up_title">Give up</string>
+    <string name="please_enter_code">Please enter code</string>
+    <string name="tickets_remaining">tickets remaining</string>
+    <string name="datal"><![CDATA[<p><font color=#666666>Continue if you agree to our</font><font color=#5856F2>  <b><u>Terms & Conditions</u></b></font><font color=#666666> and the <u></font><b><font color=#5856F2>Privacy Policy</font></u></b></font></p>]]></string>
+    <string name="privacy">Privacy Policy</string>
+
 
 </resources>

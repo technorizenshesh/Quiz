@@ -47,7 +47,7 @@
                 android:imeOptions="actionNext"
                 android:hint="@string/enter_code"
                 android:textColor="@color/black"
-                android:inputType="textEmailAddress"
+                android:inputType="number"
                 android:textSize="@dimen/_12sdp" />
 
         </LinearLayout>

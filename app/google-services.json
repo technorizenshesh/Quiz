@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:408702061573:android:974bbb37914779bde3606c",
         "android_client_info": {
-          "package_name": "com.my.quiz"
+          "package_name": "com.smsjuegos.quiz"
         }
       },
       "oauth_client": [
@@ -17,7 +17,7 @@
           "client_id": "408702061573-qib8nmgo8e9nnl33dou62jqsticmkth1.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.my.quiz",
+            "package_name": "com.smsjuegos.quiz",
             "certificate_hash": "be053cf6e79e8a61ba7f5be6681e8978782d7b5e"
           }
         },

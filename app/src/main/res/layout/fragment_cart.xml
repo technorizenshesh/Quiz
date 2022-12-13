@@ -42,7 +42,6 @@
                     android:id="@+id/roundedImageView"
                     android:layout_width="@dimen/_60sdp"
                     android:layout_height="@dimen/_70sdp"
-                    android:src="@drawable/crime_scene_img"
                     android:background="@color/white"
                     android:scaleType="centerCrop"
                     />

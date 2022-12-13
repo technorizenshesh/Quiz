@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.my.quiz.fragments.HomeFragment"
+        android:name="com.smsjuegos.quiz.fragments.HomeFragment"
         android:label="Home"
         tools:layout="@layout/fragment_home">
         <action
@@ -20,7 +20,7 @@
 
     <fragment
         android:id="@+id/navigation_calander"
-        android:name="com.my.quiz.fragments.CalanderFragment"
+        android:name="com.smsjuegos.quiz.fragments.CalanderFragment"
         android:label="Search"
         tools:layout="@layout/fragment_calander" >
         <action
@@ -39,7 +39,7 @@
 
      <fragment
         android:id="@+id/navigation_list"
-        android:name="com.my.quiz.fragments.ListFragment"
+        android:name="com.smsjuegos.quiz.fragments.ListFragment"
         android:label="Cart"
         tools:layout="@layout/fragment_list" >
          <action
@@ -49,7 +49,7 @@
 
     <fragment
         android:id="@+id/navigation_profile"
-        android:name="com.my.quiz.fragments.ProfileFragment"
+        android:name="com.smsjuegos.quiz.fragments.ProfileFragment"
         android:label="User"
         tools:layout="@layout/fragment_profile" >
 
@@ -83,7 +83,7 @@
     </fragment>
     <fragment
         android:id="@+id/searchFragment"
-        android:name="com.my.quiz.fragments.SearchFragment"
+        android:name="com.smsjuegos.quiz.fragments.SearchFragment"
         android:label="fragment_search"
         tools:layout="@layout/fragment_search" >
         <action
@@ -92,83 +92,97 @@
     </fragment>
     <fragment
         android:id="@+id/editProfileFragment"
-        android:name="com.my.quiz.fragments.EditProfileFragment"
+        android:name="com.smsjuegos.quiz.fragments.EditProfileFragment"
         android:label="fragment_edit_profile"
         tools:layout="@layout/fragment_edit_profile" />
     <fragment
         android:id="@+id/changePassFragment"
-        android:name="com.my.quiz.fragments.ChangePassFragment"
+        android:name="com.smsjuegos.quiz.fragments.ChangePassFragment"
         android:label="fragment_change_pass"
         tools:layout="@layout/fragment_change_pass" />
     <fragment
         android:id="@+id/teamFragment"
-        android:name="com.my.quiz.fragments.TeamFragment"
-        android:label="TeamFragment" />
+        android:name="com.smsjuegos.quiz.fragments.TeamFragment"
+        android:label="TeamFragment"
+        tools:layout="@layout/fragment_team"/>
     <fragment
         android:id="@+id/searchEventsFragment"
-        android:name="com.my.quiz.fragments.SearchEventsFragment"
-        android:label="SearchEventsFragment" >
+        android:name="com.smsjuegos.quiz.fragments.SearchEventsFragment"
+        android:label="SearchEventsFragment"
+        tools:layout="@layout/fragment_search_events">
         <action
             android:id="@+id/action_searchEventsFragment_to_eventDetailFragment"
             app:destination="@id/eventDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/eventLocationsFragment"
-        android:name="com.my.quiz.fragments.EventLocationsFragment"
-        android:label="EventLocationsFragment" />
+        android:name="com.smsjuegos.quiz.fragments.EventLocationsFragment"
+        android:label="EventLocationsFragment"
+        tools:layout="@layout/fragment_event_locations"/>
     <fragment
         android:id="@+id/instructionFragment"
-        android:name="com.my.quiz.fragments.InstructionFragment"
-        android:label="InstructionFragment" />
+        android:name="com.smsjuegos.quiz.fragments.InstructionFragment"
+        android:label="InstructionFragment"
+        tools:layout="@layout/fragment_instruction"/>
     <fragment
         android:id="@+id/contactUsFragment"
-        android:name="com.my.quiz.fragments.ContactUsFragment"
-        android:label="ContactUsFragment" />
+        android:name="com.smsjuegos.quiz.fragments.ContactUsFragment"
+        android:label="ContactUsFragment"
+        tools:layout="@layout/fragment_contact_us"/>
     <fragment
         android:id="@+id/aboutUsFragment"
-        android:name="com.my.quiz.fragments.AboutUsFragment"
+        android:name="com.smsjuegos.quiz.fragments.AboutUsFragment"
         android:label="fragment_about_us"
         tools:layout="@layout/fragment_about_us" />
     <fragment
         android:id="@+id/eventDetailFragment"
-        android:name="com.my.quiz.fragments.EventDetailFragment"
-        android:label="EventDetailFragment" >
+        android:name="com.smsjuegos.quiz.fragments.EventDetailFragment"
+        android:label="EventDetailFragment"
+        tools:layout="@layout/fragment_event_detail">
         <action
             android:id="@+id/action_eventDetailFragment_to_cartFragment"
-            app:destination="@id/cartFragment" />
+            app:destination="@id/cartFragment"
+            />
     </fragment>
     <fragment
         android:id="@+id/visitWebsiteFragment"
-        android:name="com.my.quiz.fragments.VisitWebsiteFragment"
-        android:label="VisitWebsiteFragment" />
+        android:name="com.smsjuegos.quiz.fragments.VisitWebsiteFragment"
+        android:label="VisitWebsiteFragment"
+        tools:layout="@layout/fragment_visit_website"/>
     <fragment
         android:id="@+id/viewAllEventsFragment"
-        android:name="com.my.quiz.fragments.ViewAllEventsFragment"
-        android:label="ViewAllEventsFragment" />
+        android:name="com.smsjuegos.quiz.fragments.ViewAllEventsFragment"
+        android:label="ViewAllEventsFragment"
+        tools:layout="@layout/fragment_view_all_events"
+        />
     <fragment
         android:id="@+id/cartFragment"
-        android:name="com.my.quiz.fragments.CartFragment"
-        android:label="CartFragment" >
+        android:name="com.smsjuegos.quiz.fragments.CartFragment"
+        android:label="CartFragment"
+        tools:layout="@layout/fragment_cart">
         <action
             android:id="@+id/action_cartFragment_to_cardFragment"
             app:destination="@id/cardFragment" />
     </fragment>
     <fragment
         android:id="@+id/cardFragment"
-        android:name="com.my.quiz.fragments.CardFragment"
-        android:label="CardFragment" >
+        android:name="com.smsjuegos.quiz.fragments.CardFragment"
+        android:label="CardFragment"
+        tools:layout="@layout/fragment_card">
         <action
             android:id="@+id/action_cardFragment_to_bookingSuccessFragment"
             app:destination="@id/bookingSuccessFragment" />
     </fragment>
     <fragment
         android:id="@+id/bookingSuccessFragment"
-        android:name="com.my.quiz.fragments.BookingSuccessFragment"
-        android:label="BookingSuccessFragment" />
+        android:name="com.smsjuegos.quiz.fragments.BookingSuccessFragment"
+        android:label="BookingSuccessFragment"
+        tools:layout="@layout/fragment_booking_success"/>
     <fragment
         android:id="@+id/completedPuzzelFragment"
-        android:name="com.my.quiz.fragments.CompletedPuzzelFragment"
-        android:label="CompletedPuzzelFragment" >
+        android:name="com.smsjuegos.quiz.fragments.CompletedPuzzelFragment"
+        android:label="CompletedPuzzelFragment"
+        tools:layout="@layout/fragment_completed_puzzel">
         <action
             android:id="@+id/action_completedPuzzelFragment_to_teamFragment"
             app:destination="@id/teamFragment" />
