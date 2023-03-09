@@ -4,8 +4,11 @@ import android.Manifest;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -143,14 +146,13 @@ public class EventLocationsFragment extends Fragment implements OnMapReadyCallba
 
         binding.tvStatus.setOnClickListener(v ->
                 {
+                    showImageSelection();
 
-                    Date currentDateTime = new Date();
-
+                    /*Date currentDateTime = new Date();
                     if (eventDateTime.compareTo(currentDateTime) <= 0) {
-                        showImageSelection();
                     } else {
 
-                    }
+                    }*/
                 }
         );
 
@@ -211,7 +213,7 @@ public class EventLocationsFragment extends Fragment implements OnMapReadyCallba
 
     private void setLocation()
     {
-        BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_loca);
+        BitmapDescriptor icon =bitmapDescriptorFromVector(R.drawable.ic_loca);
         LatLng sydney = new LatLng(Double.parseDouble(strLat), Double.parseDouble(strLng));
         mMap.addMarker(new MarkerOptions()
                 .position(sydney)
@@ -220,7 +222,14 @@ public class EventLocationsFragment extends Fragment implements OnMapReadyCallba
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
         mMap.animateCamera( CameraUpdateFactory.zoomTo( 17.0f ) );
     }
-
+    private BitmapDescriptor bitmapDescriptorFromVector( int vectorResId) {
+        Drawable vectorDrawable = requireContext().getDrawable(vectorResId);
+        vectorDrawable.setBounds(0, 0, vectorDrawable.getIntrinsicWidth(), vectorDrawable.getIntrinsicHeight());
+        Bitmap bitmap = Bitmap.createBitmap(vectorDrawable.getIntrinsicWidth(), vectorDrawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        vectorDrawable.draw(canvas);
+        return BitmapDescriptorFactory.fromBitmap(bitmap);
+    }
     private void getEventDetails()
     {
         String userId = SharedPreferenceUtility.getInstance(getContext()).getString(USER_ID);

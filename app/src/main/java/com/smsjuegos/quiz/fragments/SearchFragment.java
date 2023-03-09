@@ -2,6 +2,9 @@ package com.smsjuegos.quiz.fragments;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -184,10 +187,17 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback, Goog
                 DataManager.getInstance().hideProgressMessage();
             }
         });
+    } private BitmapDescriptor bitmapDescriptorFromVector( int vectorResId) {
+        Drawable vectorDrawable = requireContext().getDrawable(vectorResId);
+        vectorDrawable.setBounds(0, 0, vectorDrawable.getIntrinsicWidth(), vectorDrawable.getIntrinsicHeight());
+        Bitmap bitmap = Bitmap.createBitmap(vectorDrawable.getIntrinsicWidth(), vectorDrawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        vectorDrawable.draw(canvas);
+        return BitmapDescriptorFactory.fromBitmap(bitmap);
     }
     protected Marker createMarker(double latitude, double longitude, String title, String snippet, int iconResID,int position) {
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 9f));
-        BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(iconResID);
+        BitmapDescriptor icon = bitmapDescriptorFromVector(iconResID);
         myMarker = mMap.addMarker(new MarkerOptions()
                 .position(new LatLng(latitude, longitude))
                 .anchor(0.5f, 0.5f)
@@ -213,7 +223,15 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback, Goog
 //                .title("Marker in Sydney"));
 //        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
 //        mMap.animateCamera( CameraUpdateFactory.zoomTo( 17.0f ) );
-
+      /*  if (ActivityCompat.checkSelfPermission(requireActivity()
+                , Manifest.permission.ACCESS_FINE_LOCATION) !=
+                PackageManager.PERMISSION_GRANTED && ActivityCompat.
+                checkSelfPermission(requireActivity()
+                        , Manifest.permission.ACCESS_COARSE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        googleMap.setMyLocationEnabled(true);*/
         LatLng sydney = new LatLng(19.432651, -99.133587);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
         mMap.animateCamera( CameraUpdateFactory.zoomTo( 14.0f ) );
