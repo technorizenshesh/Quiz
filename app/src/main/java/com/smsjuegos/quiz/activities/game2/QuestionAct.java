@@ -358,7 +358,6 @@ public class QuestionAct extends AppCompatActivity {
 
     private void showHints() {
         seconds=seconds+3;
-
         AppCompatButton btnCancel;
         dialog = new Dialog(QuestionAct.this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);

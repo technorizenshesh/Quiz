@@ -22,13 +22,14 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.smsjuegos.quiz.retrofit.Constant.USER_ID;
 import static com.smsjuegos.quiz.retrofit.Constant.showToast;
 
 public class InstrutionAct extends AppCompatActivity {
 
     ActivityInstrutionBinding binding;
     private QuizInterface apiInterface;
-    private String eventId;
+    private String eventId,eventCode;
     private SuccessResGetInstruction.Result instruction = null;
 
     @Override
@@ -43,6 +44,8 @@ public class InstrutionAct extends AppCompatActivity {
                 );
         binding.header.tvHeader.setText(getString(R.string.instruction));
         eventId = getIntent().getExtras().getString("eventId");
+        eventCode = getIntent().getExtras().getString("eventCode");
+
         getEventDetails();
     }
 
@@ -63,12 +66,16 @@ public class InstrutionAct extends AppCompatActivity {
         {
             lang = "sp";
         }
+
         HashMap<String,String> map = new HashMap<>();
         map.put("lang",lang);
         map.put("event_id", eventId);
+        String userId = SharedPreferenceUtility.getInstance(this).getString(USER_ID);
+        map.put("event_code", eventCode);
+        map.put("user_id", userId);
         Call<SuccessResGetInstruction> call = apiInterface.getInstruction(map);
 
-        call.enqueue(new Callback<SuccessResGetInstruction>() {
+        call.enqueue(new Callback<>() {
             @Override
             public void onResponse(Call<SuccessResGetInstruction> call, Response<SuccessResGetInstruction> response) {
 
@@ -79,7 +86,13 @@ public class InstrutionAct extends AppCompatActivity {
                     if (data.status.equals("1")) {
                         String dataResponse = new Gson().toJson(response.body());
                         Log.e("MapMap", "EDIT PROFILE RESPONSE" + dataResponse);
-                        binding.tvInstruction.setText(data.getResult().get(0).getInstructions());
+                        //   binding.tvInstruction.setText(data.getResult().get(0).getInstructions());
+                        final String encoding = "UTF-8";
+                        final String mimeType = "text/html";
+
+                        // binding.tvInstruction.setText(data.getResult().get(0).getInstructions());
+                        binding.tvInstruction.loadDataWithBaseURL("", data.getResult().get(0).getInstructions(),
+                                mimeType, encoding, "");
                     } else if (data.status.equals("0")) {
                         showToast(InstrutionAct.this, data.message);
                     }

@@ -1,4 +1,6 @@
 package com.smsjuegos.quiz.activities;
+import static android.content.ContentValues.TAG;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.databinding.DataBindingUtil;
@@ -12,7 +14,9 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.webkit.WebView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -54,7 +58,8 @@ public class PuzzleAct extends AppCompatActivity {
     private Context context;
     private SuccessResAddAnswer.Result answerResult  = null;
     private String eventCode;
-
+    final String mimeType = "text/html";
+    final String encoding = "UTF-8";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,7 +89,13 @@ public class PuzzleAct extends AppCompatActivity {
                 .centerInside()
                 .into(binding.ivPuzzel);
 
-        binding.tvContent.setText(result.getInstructions());
+      //  binding.tvContent.setText(result.getInstructions());
+
+        // binding.tvInstruction.setText(data.getResult().get(0).getInstructions());
+
+        Log.e(TAG, "result.getInstructions()result.getInstructions(): "+result.getInstructions() );
+        binding.tvContent.loadDataWithBaseURL("", result.getInstructions(),
+                mimeType, encoding, "");
         binding.btnHint.setOnClickListener(v ->
                 {
                     showHints();
@@ -159,7 +170,8 @@ public class PuzzleAct extends AppCompatActivity {
         dialog.show();
     }
 
-    TextView tvSHowHint1,tvSHowHint2,tvSHowHint3,tvHint1,tvHint2,tvHint3;
+    TextView tvSHowHint1,tvSHowHint2,tvSHowHint3;
+     WebView tvHint1,tvHint2,tvHint3;
 
     private void showHints()
     {
@@ -170,7 +182,7 @@ public class PuzzleAct extends AppCompatActivity {
         selectedAnswer = "";
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.getWindow().getAttributes().windowAnimations = android.R.style.Widget_Material_ListPopupWindow;
-        dialog.setContentView(R.layout.dialog_hint);
+        dialog.setContentView(R.layout.dialog_hint_web);
         WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
         Window window = dialog.getWindow();
         lp.copyFrom(window.getAttributes());
@@ -184,10 +196,12 @@ public class PuzzleAct extends AppCompatActivity {
         tvHint1 = dialog.findViewById(R.id.tvHint1);
         tvHint2 = dialog.findViewById(R.id.tvHint2);
         tvHint3 = dialog.findViewById(R.id.tvHint3);
-
-        tvHint1.setText(result.getInstructionsHint1());
-        tvHint2.setText(result.getInstructionsHint2());
-        tvHint3.setText(result.getInstructionsHint3());
+      tvHint1.loadDataWithBaseURL("", result.getInstructionsHint1(), mimeType, encoding, "");
+      tvHint2.loadDataWithBaseURL("", result.getInstructionsHint2(), mimeType, encoding, "");
+        tvHint3.loadDataWithBaseURL("", result.getInstructionsHint3(), mimeType, encoding, "");
+       // tvHint1.setText(result.getInstructionsHint1());
+       // tvHint2.setText(result.getInstructionsHint2());
+       // tvHint3.setText(result.getInstructionsHint3());
 
                 ivCancel.setOnClickListener(v ->
                 {
@@ -379,7 +393,12 @@ public class PuzzleAct extends AppCompatActivity {
         lp.copyFrom(window.getAttributes());
         ImageView ivCancel = dialog.findViewById(R.id.ivCancel);
         ImageView ivPuzzel = dialog.findViewById(R.id.ivWitness);
-        ivCancel.setOnClickListener(v ->
+        LinearLayout go_to_map = dialog.findViewById(R.id.go_to_map);
+        go_to_map.setOnClickListener(v ->
+                {
+                   onBackPressed();
+                }
+        ); ivCancel.setOnClickListener(v ->
                 {
                     dialog.dismiss();
                 }

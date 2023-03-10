@@ -31,6 +31,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.smsjuegos.quiz.retrofit.Constant.USER_ID;
 import static com.smsjuegos.quiz.retrofit.Constant.showToast;
 
 public class DownloadAct extends AppCompatActivity {
@@ -41,14 +42,14 @@ public class DownloadAct extends AppCompatActivity {
 
     private QuizInterface apiInterface;
 
-    private String eventId,eventCode;
+    private String eventId, eventCode;
 
     private SuccessResGetInstruction.Result instruction = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this,R.layout.activity_download);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_download);
 
         apiInterface = ApiClient.getClient().create(QuizInterface.class);
 
@@ -57,18 +58,19 @@ public class DownloadAct extends AppCompatActivity {
                 {
                     showMainMenu();
                 }
-                );
+        );
 
         eventId = getIntent().getExtras().getString("eventId");
         eventCode = getIntent().getExtras().getString("eventCode");
+
+        Log.e("TAG", "eventIdeventIdeventIdeventId: "+eventId );
+        Log.e("TAG", "eventCodeeventCodeeventCode: "+eventCode );
         getEventDetails();
 
     }
 
-    private void showMainMenu()
-    {
-
-        TextView tvInstruction,tvMap,tvINventory,tvFinalPuzzel;
+    private void showMainMenu() {
+        TextView tvInstruction, tvMap, tvINventory, tvFinalPuzzel;
         mDialog = new Dialog(DownloadAct.this);
         mDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         mDialog.getWindow().getAttributes().windowAnimations = android.R.style.Widget_Material_ListPopupWindow;
@@ -77,7 +79,6 @@ public class DownloadAct extends AppCompatActivity {
         Window window = mDialog.getWindow();
         lp.copyFrom(window.getAttributes());
         ImageView ivCancel = mDialog.findViewById(R.id.ivCancel);
-
         tvInstruction = mDialog.findViewById(R.id.tvInstruction);
         tvFinalPuzzel = mDialog.findViewById(R.id.tvFinalPuzzel);
         tvINventory = mDialog.findViewById(R.id.tvINventory);
@@ -91,32 +92,31 @@ public class DownloadAct extends AppCompatActivity {
 
         tvInstruction.setOnClickListener(v ->
                 {
-                    startActivity(new Intent(DownloadAct.this,InstrutionAct.class)
-                            .putExtra("eventId",eventId));
+                    startActivity(new Intent(DownloadAct.this, InstrutionAct.class)
+                            .putExtra("eventId", eventId).putExtra("eventCode", eventCode));
                 }
         );
 
         tvMap.setOnClickListener(v ->
                 {
-                    startActivity(new Intent(DownloadAct.this,MapAct.class)
-                            .putExtra("eventId",eventId).putExtra("eventCode",eventCode));
+                    startActivity(new Intent(DownloadAct.this, MapAct.class)
+                            .putExtra("eventId", eventId).putExtra("eventCode", eventCode));
                 }
-                );
+        );
 
         tvINventory.setOnClickListener(v ->
                 {
-                    startActivity(new Intent(DownloadAct.this,InventoryAct.class)
-                            .putExtra("eventId",eventId).putExtra("eventCode",eventCode));
+                    startActivity(new Intent(DownloadAct.this, InventoryAct.class)
+                            .putExtra("eventId", eventId).putExtra("eventCode", eventCode));
                 }
         );
 
         tvFinalPuzzel.setOnClickListener(v ->
                 {
-                    startActivity(new Intent(DownloadAct.this,FinalPuzzelAct.class)
-                            .putExtra("eventId",eventId).putExtra("eventCode",eventCode));
+                    startActivity(new Intent(DownloadAct.this, FinalPuzzelAct.class)
+                            .putExtra("eventId", eventId).putExtra("eventCode", eventCode));
                 }
         );
-
         lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
         lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
         window.setAttributes(lp);
@@ -124,27 +124,24 @@ public class DownloadAct extends AppCompatActivity {
         mDialog.show();
     }
 
-    private void getEventDetails()
-    {
-
-
+    private void getEventDetails() {
         DataManager.getInstance().showProgressMessage(this, getString(R.string.please_wait));
-        boolean val =  SharedPreferenceUtility.getInstance(getApplicationContext()).getBoolean(Constant.SELECTED_LANGUAGE);
+        boolean val = SharedPreferenceUtility.getInstance(getApplicationContext()).getBoolean(Constant.SELECTED_LANGUAGE);
         String lang = "";
 
-        if(!val)
-        {
+        if (!val) {
             lang = "en";
-        } else
-        {
+        } else {
             lang = "sp";
         }
+        String userId = SharedPreferenceUtility.getInstance(this).getString(USER_ID);
         Map<String, String> map = new HashMap<>();
         map.put("event_id", eventId);
-        map.put("lang",lang);
+        map.put("lang", lang);
+        map.put("event_code", eventCode);
+        map.put("user_id", userId);
         Call<SuccessResGetInstruction> call = apiInterface.getInstruction(map);
-
-        call.enqueue(new Callback<SuccessResGetInstruction>() {
+        call.enqueue(new Callback<>() {
             @Override
             public void onResponse(Call<SuccessResGetInstruction> call, Response<SuccessResGetInstruction> response) {
 
@@ -156,8 +153,11 @@ public class DownloadAct extends AppCompatActivity {
                         String dataResponse = new Gson().toJson(response.body());
                         Log.e("MapMap", "EDIT PROFILE RESPONSE" + dataResponse);
 
-
-                        binding.tvInstruction.setText(data.getResult().get(0).getInstructions());
+                        final String mimeType = "text/html";
+                        final String encoding = "UTF-8";
+                        // binding.tvInstruction.setText(data.getResult().get(0).getInstructions());
+                      /*  binding.tvInstruction.loadDataWithBaseURL("", data.getResult().get(0).getInstructions(),
+                                mimeType, encoding, "");*/
 
                     } else if (data.status.equals("0")) {
                         showToast(DownloadAct.this, data.message);

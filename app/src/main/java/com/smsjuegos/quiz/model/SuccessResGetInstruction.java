@@ -110,6 +110,17 @@ public class SuccessResGetInstruction implements Serializable {
         @SerializedName("event_type")
         @Expose
         public String eventType;
+        @SerializedName("answer_status")
+        @Expose
+        public String answer_status;
+
+        public String getAnswer_status() {
+            return answer_status;
+        }
+
+        public void setAnswer_status(String answer_status) {
+            this.answer_status = answer_status;
+        }
 
         public String getId() {
             return id;

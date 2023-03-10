@@ -71,14 +71,15 @@ public class EventLocationsFragment extends Fragment implements OnMapReadyCallba
 
     FragmentEventLocationsBinding binding;
     private QuizInterface apiInterface;
-    String eventStartTime="";
+    String eventStartTime = "";
     private Date eventDateTime = null;
     GPSTracker gpsTracker;
     private SuccessResGetEventDetail.Result eventDetails;
     private GoogleMap mMap;
-    private String eventId="",strLat= "", strLng="",strEventCode="";
-    private Dialog dialog,mDialog;
+    private String eventId = "", strLat = "", strLng = "", strEventCode = "";
+    private Dialog dialog, mDialog;
     private String strCode = "";
+    private String strCodeTeam = "";
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -91,6 +92,7 @@ public class EventLocationsFragment extends Fragment implements OnMapReadyCallba
     public EventLocationsFragment() {
         // Required empty public constructor
     }
+
     public static EventLocationsFragment newInstance(String param1, String param2) {
         EventLocationsFragment fragment = new EventLocationsFragment();
         Bundle args = new Bundle();
@@ -114,7 +116,7 @@ public class EventLocationsFragment extends Fragment implements OnMapReadyCallba
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
-        binding = DataBindingUtil.inflate(inflater,R.layout.fragment_event_locations, container, false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_event_locations, container, false);
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -122,8 +124,7 @@ public class EventLocationsFragment extends Fragment implements OnMapReadyCallba
         apiInterface = ApiClient.getClient().create(QuizInterface.class);
         Bundle bundle = getArguments();
 
-        if(bundle!=null)
-        {
+        if (bundle != null) {
             eventId = bundle.getString("eventId");
         }
 
@@ -159,9 +160,9 @@ public class EventLocationsFragment extends Fragment implements OnMapReadyCallba
             ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
                     Constant.LOCATION_REQUEST);
         } else {
-            Log.e("Latittude====",gpsTracker.getLatitude()+"");
-            strLat = Double.toString(gpsTracker.getLatitude()) ;
-            strLng = Double.toString(gpsTracker.getLongitude()) ;
+            Log.e("Latittude====", gpsTracker.getLatitude() + "");
+            strLat = Double.toString(gpsTracker.getLatitude());
+            strLng = Double.toString(gpsTracker.getLongitude());
             setLocation();
         }
     }
@@ -175,8 +176,8 @@ public class EventLocationsFragment extends Fragment implements OnMapReadyCallba
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     Log.e("Latittude====", gpsTracker.getLatitude() + "");
-                    strLat = Double.toString(gpsTracker.getLatitude()) ;
-                    strLng = Double.toString(gpsTracker.getLongitude()) ;
+                    strLat = Double.toString(gpsTracker.getLatitude());
+                    strLng = Double.toString(gpsTracker.getLongitude());
                     setLocation();
 //                    if (isContinue) {
 //                        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -205,20 +206,20 @@ public class EventLocationsFragment extends Fragment implements OnMapReadyCallba
         }
     }
 
-    private void setLocation()
-    {
-        BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_loca);
-        LatLng sydney = new LatLng(Double.parseDouble(strLat), Double.parseDouble(strLng));
+    private void setLocation() {
+        BitmapDescriptor icon = BitmapDescriptorFactory.
+                fromResource(R.drawable.ic_loca);
+        LatLng sydney = new LatLng(Double.parseDouble(strLat),
+                Double.parseDouble(strLng));
         mMap.addMarker(new MarkerOptions()
                 .position(sydney)
                 .icon(icon)
-                );
+        );
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-        mMap.animateCamera( CameraUpdateFactory.zoomTo( 17.0f ) );
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(17.0f));
     }
 
-    private void getEventDetails()
-    {
+    private void getEventDetails() {
         String userId = SharedPreferenceUtility.getInstance(getContext()).getString(USER_ID);
         DataManager.getInstance().showProgressMessage(getActivity(), getString(R.string.please_wait));
         Map<String, String> map = new HashMap<>();
@@ -246,6 +247,7 @@ public class EventLocationsFragment extends Fragment implements OnMapReadyCallba
                     e.printStackTrace();
                 }
             }
+
             @Override
             public void onFailure(Call<SuccessResGetEventDetail> call, Throwable t) {
                 call.cancel();
@@ -254,8 +256,7 @@ public class EventLocationsFragment extends Fragment implements OnMapReadyCallba
         });
     }
 
-    public void setEventDetails()
-    {
+    public void setEventDetails() {
         binding.label.setText(eventDetails.getEventName());
         binding.tvRate.setText(eventDetails.getAmount());
         binding.tvDate.setText(eventDetails.getEventDate());
@@ -265,7 +266,7 @@ public class EventLocationsFragment extends Fragment implements OnMapReadyCallba
                 .load(eventDetails.getImage())
                 .centerCrop()
                 .into(binding.imgEvent);
-        eventStartTime = eventDetails.getEventDate()+" "+eventDetails.getEventTime();
+        eventStartTime = eventDetails.getEventDate() + " " + eventDetails.getEventTime();
 
 //        String dtStart = eventStartTime;
         String dtStart = eventStartTime;
@@ -287,7 +288,6 @@ public class EventLocationsFragment extends Fragment implements OnMapReadyCallba
         getLocation();
 
 
-
     }
 
     private void fullScreenDialog() {
@@ -296,7 +296,7 @@ public class EventLocationsFragment extends Fragment implements OnMapReadyCallba
 
         dialog.setContentView(R.layout.downloading_layout);
 
-        ImageView ivBack,ivOption;
+        ImageView ivBack, ivOption;
 
         ivBack = dialog.findViewById(R.id.imgHeader);
         ivOption = dialog.findViewById(R.id.imgOptions);
@@ -312,14 +312,13 @@ public class EventLocationsFragment extends Fragment implements OnMapReadyCallba
                     showMainMenu();
 
                 }
-                );
+        );
 
         dialog.show();
 
     }
 
-    private void showMainMenu()
-    {
+    private void showMainMenu() {
 
         TextView tvInstruction;
         mDialog = new Dialog(getActivity());
@@ -337,13 +336,13 @@ public class EventLocationsFragment extends Fragment implements OnMapReadyCallba
                 {
                     mDialog.dismiss();
                 }
-                );
+        );
 
         tvInstruction.setOnClickListener(v ->
                 {
                     Navigation.findNavController(v).navigate(R.id.action_navigation_calander_to_instructionFragment);
                 }
-                );
+        );
 
         lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
         lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
@@ -354,19 +353,20 @@ public class EventLocationsFragment extends Fragment implements OnMapReadyCallba
     }
 
 
-
     public void showImageSelection() {
         try {
             strCode = "";
+            strCodeTeam = "";
             final Dialog dialog = new Dialog(requireActivity());
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
             dialog.getWindow().getAttributes().windowAnimations = android.R.style.Widget_Material_ListPopupWindow;
-            dialog.setContentView(R.layout.dialog_use_code);
+            dialog.setContentView(R.layout.dialog_use_code_add_team);
             WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
             Window window = dialog.getWindow();
             lp.copyFrom(window.getAttributes());
             AppCompatButton btnSubmit = dialog.findViewById(R.id.btnSubmit);
-            EditText editText =  dialog.findViewById(R.id.etName);
+            EditText editText = dialog.findViewById(R.id.etName);
+            EditText et_team_Name = dialog.findViewById(R.id.et_team_Name);
             lp.width = WindowManager.LayoutParams.MATCH_PARENT;
             lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
             window.setAttributes(lp);
@@ -374,23 +374,25 @@ public class EventLocationsFragment extends Fragment implements OnMapReadyCallba
             btnSubmit.setOnClickListener(v ->
                     {
                         strCode = editText.getText().toString();
-                        if(!strCode.equalsIgnoreCase(""))
-                        {
+                        strCodeTeam = et_team_Name.getText().toString();
 
+                        if (strCodeTeam.equalsIgnoreCase("")) {
+                            showToast(getActivity(), "Please enter Team Name");
+
+                        } else
+                            if (!strCode.equalsIgnoreCase("")) {
                             addeventStartTime();
                             dialog.dismiss();
 
-                        }
-                        else
-                        {
-                            showToast(getActivity(),"Please enter code");
+                        } else {
+                            showToast(getActivity(), "Please enter code");
                         }
                     }
             );
 
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             dialog.show();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             Toast.makeText(requireContext(), "Unsupported Device", Toast.LENGTH_SHORT).show();
 
@@ -399,14 +401,14 @@ public class EventLocationsFragment extends Fragment implements OnMapReadyCallba
     }
 
 
-    public void addeventStartTime()
-    {
+    public void addeventStartTime() {
         String userId = SharedPreferenceUtility.getInstance(getContext()).getString(USER_ID);
         DataManager.getInstance().showProgressMessage(getActivity(), getString(R.string.please_wait));
         Map<String, String> map = new HashMap<>();
         map.put("event_id", eventId);
         map.put("user_id", userId);
         map.put("event_code", strCode);
+        map.put("team_name", strCodeTeam);
         Call<ResponseBody> call = apiInterface.addStartTime(map);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
@@ -426,11 +428,11 @@ public class EventLocationsFragment extends Fragment implements OnMapReadyCallba
 
                         startActivity(new Intent(getActivity(),
                                 DownloadAct.class)
-                                .putExtra("eventId",eventId).putExtra("eventCode",strCode));
+                                .putExtra("eventId", eventId).putExtra("eventCode", strCode));
 
                     } else if (data.equals("0")) {
                         showToast(getActivity(), message);
-                    }else if (data.equals("2")) {
+                    } else if (data.equals("2")) {
                         showToast(getActivity(), jsonObject.getString("result"));
                     }
                 } catch (Exception e) {

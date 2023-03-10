@@ -165,7 +165,8 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback, Goog
                         int i=0;
                         for (SuccessResNearbyEvents.Result result:nearbyEventList)
                         {
-                            marker[i] = createMarker(Double.parseDouble(result.getLat()), Double.parseDouble(result.getLon()), result.getEventName(),"", R.drawable.ic_loca,i);
+                            marker[i] = createMarker(Double.parseDouble(result.getLat()),
+                                    Double.parseDouble(result.getLon()), result.getEventName(),"", R.drawable.ic_loca,i);
                             i++;
                         }
                      /*   LatLng sydney = new LatLng(Double.parseDouble(nearbyEventList.get(0).getLat()),Double.parseDouble(nearbyEventList.get(0).getLon()));

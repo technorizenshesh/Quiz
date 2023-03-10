@@ -8,10 +8,12 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".activities.InventoryAct">
-    <include layout="@layout/header_layout" android:id="@+id/header"/>
+    <include layout="@layout/header_layout"
+        android:id="@+id/header"/>
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:nestedScrollingEnabled="false"
         android:id="@+id/rvINventory"/>
 </LinearLayout>
 

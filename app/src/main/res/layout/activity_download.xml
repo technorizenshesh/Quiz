@@ -4,7 +4,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical"
         >
         <RelativeLayout
@@ -39,9 +39,13 @@
                 android:src="@drawable/ic_option"/>
 
         </RelativeLayout>
-
-        <TextView
-
+        <ImageView
+            android:id="@+id/ivPuzzel"
+            android:layout_width="match_parent"
+            android:src="@drawable/inst_popup"
+            android:scaleType="fitXY"
+            android:layout_height="@dimen/_270sdp" />
+      <!--  <WebView
             android:id="@+id/tvInstruction"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -50,8 +54,17 @@
             android:layout_marginHorizontal="@dimen/_15sdp"
             android:gravity="center"
             android:textColor="@color/black"
-            android:layout_marginTop="@dimen/_20sdp"
-            android:text="no data"
+            android:layout_marginTop="@dimen/_15sdp"
+            />-->
+        <TextView
+            android:id="@+id/tvInstruction"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_medium"
+            android:textSize="@dimen/_14sdp"
+            android:textColor="@color/black"
+            android:layout_margin="@dimen/_10sdp"
+            android:text="@string/haz_click_en_el_men_de_arriba_n_click_en_mapa_para_ver_ubicaciones_n_click_en_inventario_para_ver_pistas_encontradas_n_click_en_rompecabezas_final_para_lograr_terminar_el_reto"
             />
 
     </LinearLayout>

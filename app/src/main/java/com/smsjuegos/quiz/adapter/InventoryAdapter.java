@@ -203,11 +203,19 @@
 
 package com.smsjuegos.quiz.adapter;
 
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.graphics.Rect;
+import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.webkit.WebView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -225,8 +233,8 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.Sele
     ArrayAdapter ad;
     private ArrayList<SuccessResGetInventory.Result> stringArrayList;
     private Context context;
-    public InventoryAdapter(Context context,ArrayList<SuccessResGetInventory.Result> stringArrayList)
-    {
+
+    public InventoryAdapter(Context context, ArrayList<SuccessResGetInventory.Result> stringArrayList) {
         this.context = context;
         this.stringArrayList = stringArrayList;
     }
@@ -235,25 +243,70 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.Sele
     @Override
     public SelectTimeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View listItem= layoutInflater.inflate(R.layout.inventory_item, parent, false);
+        View listItem = layoutInflater.inflate(R.layout.inventory_item, parent, false);
         SelectTimeViewHolder viewHolder = new SelectTimeViewHolder(listItem);
         return viewHolder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull SelectTimeViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull SelectTimeViewHolder holder, @SuppressLint("RecyclerView") int position) {
         ImageView ivEvent = holder.itemView.findViewById(R.id.img_event);
-        TextView tvDescription = holder.itemView.findViewById(R.id.tvDescription);
+        WebView tvDescription = holder.itemView.findViewById(R.id.tvDescription);
         Glide.with(context)
                 .load(stringArrayList.get(position).getFinalPuzzleImage())
                 .centerCrop()
                 .into(ivEvent);
-        tvDescription.setText(stringArrayList.get(position).getInstructions());
+        final String mimeType = "text/html";
+        final String encoding = "UTF-8";
+        tvDescription.setVerticalScrollBarEnabled(true);
+        tvDescription.loadDataWithBaseURL("", stringArrayList.get(position).getInstructions(), mimeType, encoding, "");
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Rect displayRectangle = new Rect();
+                Window window = ((Activity) context).getWindow();
+                window.getDecorView().getWindowVisibleDisplayFrame(displayRectangle);
+                final AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.CustomAlertDialog);
+                ViewGroup viewGroup = ((Activity) context).findViewById(android.R.id.content);
+                View dialogView = LayoutInflater.from(v.getContext()).inflate(R.layout.inventory_details, viewGroup, false);
+                dialogView.setMinimumWidth((int) (displayRectangle.width() ));
+                dialogView.setMinimumHeight((int) (displayRectangle.height()));
+                builder.setView(dialogView);
+                final AlertDialog alertDialog = builder.create();
+                ImageView image = dialogView.findViewById(R.id.image);
+                WebView tvInstruction = dialogView.findViewById(R.id.tvInstruction);
+
+                Glide.with(context)
+                        .load(stringArrayList.get(position).getFinalPuzzleImage())
+                        .centerCrop()
+                        .into(image);
+                final String mimeType = "text/html";
+                final String encoding = "UTF-8";
+                tvInstruction.setVerticalScrollBarEnabled(true);
+                 if (stringArrayList.get(position).getHint_discovered().equalsIgnoreCase("")){
+                     tvInstruction.loadDataWithBaseURL("", stringArrayList.get(position).getInstructions(), mimeType, encoding, "");
+
+                 }else {
+                     tvInstruction.loadDataWithBaseURL("", stringArrayList.get(position).getHint_discovered(), mimeType, encoding, "");
+                 }
+                Button buttonOk = dialogView.findViewById(R.id.btnok);
+                buttonOk.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        alertDialog.dismiss();
+                    }
+                });
+                alertDialog.show();
+            }
+        });
+        // tvDescription.setText(stringArrayList.get(position).getInstructions());
     }
+
     @Override
     public int getItemCount() {
         return stringArrayList.size();
     }
+
     public class SelectTimeViewHolder extends RecyclerView.ViewHolder {
         public SelectTimeViewHolder(@NonNull View itemView) {
             super(itemView);

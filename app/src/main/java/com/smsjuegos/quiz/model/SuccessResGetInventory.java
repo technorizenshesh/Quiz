@@ -107,6 +107,17 @@ public class SuccessResGetInventory implements Serializable {
         @SerializedName("final_puzzle_status")
         @Expose
         public String finalPuzzleStatus;
+        @SerializedName("hint_discovered")
+        @Expose
+        public String hint_discovered;
+
+        public String getHint_discovered() {
+            return hint_discovered;
+        }
+
+        public void setHint_discovered(String hint_discovered) {
+            this.hint_discovered = hint_discovered;
+        }
 
         public String getId() {
             return id;

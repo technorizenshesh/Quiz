@@ -10,7 +10,8 @@
 
         <include layout="@layout/header_layout" android:id="@+id/header"/>
 
-        <TextView
+
+        <WebView
             android:id="@+id/tvInstruction"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -19,9 +20,8 @@
             android:layout_marginHorizontal="@dimen/_15sdp"
             android:gravity="center"
             android:textColor="@color/black"
-            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_15sdp"
             />
-
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnDownload"
             android:layout_width="match_parent"

@@ -121,16 +121,16 @@ public class FinalPuzzelAct extends AppCompatActivity {
                                      puzzelComplete();
                                 }else
                                 {
-                                    showToast(FinalPuzzelAct.this,"Wrong images selected.");
+                                    showToast(FinalPuzzelAct.this,getString(R.string.wrong_image));
                                 }
                             }else
                             {
-                                showToast(FinalPuzzelAct.this,"Wrong images selected.");
+                                showToast(FinalPuzzelAct.this,getString(R.string.wrong_image));
                             }
 
                         }else
                         {
-                            showToast(FinalPuzzelAct.this,"Wrong images selected.");
+                            showToast(FinalPuzzelAct.this,getString(R.string.wrong_image));
                         }
                     }
                 }
@@ -292,10 +292,8 @@ public class FinalPuzzelAct extends AppCompatActivity {
         Map<String, String> map = new HashMap<>();
         map.put("event_id", eventId);
         map.put("event_code", eventCode);
-
         Call<ResponseBody> call = apiInterface.puzzelCompleted(map);
-
-        call.enqueue(new Callback<ResponseBody>() {
+        call.enqueue(new Callback<>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
 
@@ -311,10 +309,10 @@ public class FinalPuzzelAct extends AppCompatActivity {
 
                     if (data.equals("1")) {
 
-                        startActivity(new Intent(FinalPuzzelAct.this,FinishTeamInfo.class)
-                                .putExtra("from","1")
-                                .putExtra("eventId",eventId)
-                                .putExtra("eventCode",eventCode));
+                        startActivity(new Intent(FinalPuzzelAct.this, FinishTeamInfo.class)
+                                .putExtra("from", "1")
+                                .putExtra("eventId", eventId)
+                                .putExtra("eventCode", eventCode));
 
                     } else if (data.equals("0")) {
                         showToast(FinalPuzzelAct.this, message);

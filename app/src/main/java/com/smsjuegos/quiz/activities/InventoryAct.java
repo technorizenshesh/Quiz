@@ -2,9 +2,12 @@ package com.smsjuegos.quiz.activities;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
+import android.view.View;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -53,7 +56,32 @@ public class InventoryAct extends AppCompatActivity {
         binding.rvINventory.setHasFixedSize(true);
         binding.rvINventory.setLayoutManager(new LinearLayoutManager(InventoryAct.this));
         binding.rvINventory.setAdapter(inventoryAdapter);
+        binding.rvINventory.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
+            @Override
+            public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
+                if(rv.getChildCount() > 0) {
+                    View childView = rv.findChildViewUnder(e.getX(), e.getY());
+                        int action = e.getAction();
+                        switch (action) {
+                            case MotionEvent.ACTION_DOWN:
+                                rv.requestDisallowInterceptTouchEvent(true);
 
+                    }
+                }
+
+                return false;
+            }
+
+            @Override
+            public void onTouchEvent(RecyclerView rv, MotionEvent e) {
+
+            }
+
+            @Override
+            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+
+            }
+        });
         if(eventCode.equalsIgnoreCase("game4") )
         {
             if (NetworkAvailablity.getInstance(this).checkNetworkStatus()) {
@@ -92,7 +120,7 @@ public class InventoryAct extends AppCompatActivity {
         map.put("event_code", eventCode);
         Call<SuccessResGetInventory> call = apiInterface.getAllInventory(map);
 
-        call.enqueue(new Callback<SuccessResGetInventory>() {
+        call.enqueue(new Callback<>() {
             @Override
             public void onResponse(Call<SuccessResGetInventory> call, Response<SuccessResGetInventory> response) {
 
@@ -103,7 +131,6 @@ public class InventoryAct extends AppCompatActivity {
                     if (data.status.equals("1")) {
                         String dataResponse = new Gson().toJson(response.body());
                         Log.e("MapMap", "EDIT PROFILE RESPONSE" + dataResponse);
-
                         stringArrayList.clear();
                         stringArrayList.addAll(data.getResult());
 

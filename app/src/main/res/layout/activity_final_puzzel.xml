@@ -28,12 +28,23 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="@string/final_pzl_txts"
+                    android:layout_margin="@dimen/_10sdp"
+                    android:textSize="@dimen/_13sdp"
+                    android:textColor="@color/purple_700"
+                    android:fontFamily="@font/montserrat_semibold"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:text="@string/_5_places"
+                    android:layout_marginTop="@dimen/_5sdp"
                     android:textSize="@dimen/_12sdp"
                     android:textColor="@color/purple_700"
                     android:fontFamily="@font/montserrat_semibold"
                     />
                 <androidx.recyclerview.widget.RecyclerView
+                    android:layout_marginTop="@dimen/_1sdp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/rvPlaces"/>

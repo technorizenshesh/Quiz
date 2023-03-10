@@ -28,18 +28,11 @@
         android:src="@drawable/ic_puzzel"
         android:scaleType="fitXY"
         />
-    <TextView
-        android:id="@+id/tvContent"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/poppins_medium"
-        android:textSize="@dimen/_13sdp"
-        android:layout_marginHorizontal="@dimen/_15sdp"
-        android:gravity="center"
-        android:textColor="@color/black"
-        android:layout_marginTop="@dimen/_20sdp"
-        android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Accumsan, felis netus nunc nulla tempus. Felis, tortor eu faucibus ipsum porttitor ut. Dui sed sed velit senectus vulputate eleifend. Leo ipsum fermentum felis ipsum erat sed bibendum nulla. Feugiat platea ac pulvinar aliquet cras leo ac.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Accumsan, felis netus nunc nulla tempus. Felis, tortor eu faucibus ipsum porttitor ut. Dui sed sed velit senectus vulputate eleifend. Leo ipsum fermentum felis ipsum erat sed bibendum nulla. Feugiat platea ac pulvinar aliquet cras leo ac.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Accumsan, felis netus nunc nulla tempus. Felis, tortor eu faucibus ipsum porttitor ut. Dui sed sed velit senectus vulputate eleifend. Leo ipsum."
-        />
+        <WebView
+            android:id="@+id/tvContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
     </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 

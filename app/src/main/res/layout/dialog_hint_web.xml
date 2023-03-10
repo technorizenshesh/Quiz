@@ -80,7 +80,7 @@
                         android:textColor="@color/black"
                         />
 
-                    <TextView
+                    <WebView
                         android:id="@+id/tvHint1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -102,7 +102,7 @@
                         android:textColor="@color/black"
                         />
 
-                    <TextView
+                    <WebView
                         android:id="@+id/tvHint2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -124,7 +124,7 @@
                         android:textColor="@color/black"
                         />
 
-                    <TextView
+                    <WebView
                         android:id="@+id/tvHint3"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
