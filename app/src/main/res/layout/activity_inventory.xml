@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,11 +11,65 @@
     tools:context=".activities.InventoryAct">
     <include layout="@layout/header_layout"
         android:id="@+id/header"/>
-    <androidx.recyclerview.widget.RecyclerView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        >
+    <LinearLayout
+        android:layout_margin="@dimen/_2sdp"
+        android:padding="@dimen/_2sdp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:nestedScrollingEnabled="false"
         android:id="@+id/rvINventory"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/_5_places"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:textSize="@dimen/_12sdp"
+        android:textColor="@color/purple_700"
+        android:fontFamily="@font/montserrat_semibold"
+        />
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_marginTop="@dimen/_1sdp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/rvPlaces"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/_5_people"
+        android:textSize="@dimen/_12sdp"
+        android:textColor="@color/purple_700"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:fontFamily="@font/montserrat_semibold"
+        />
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/rvPeople"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/_5_objects"
+        android:textSize="@dimen/_12sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:textColor="@color/purple_700"
+        android:fontFamily="@font/montserrat_semibold"
+        />
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/rvObjects"/>
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>
+
 </LinearLayout>
 
 </layout>

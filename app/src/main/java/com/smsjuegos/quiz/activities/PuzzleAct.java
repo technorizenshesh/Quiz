@@ -363,7 +363,7 @@ public class PuzzleAct extends AppCompatActivity {
 
                     } else if (data.equals("0")) {
                         String result = jsonObject.getString("result");
-                        showToast(PuzzleAct.this, result);
+                        showToast(PuzzleAct.this, getString(R.string.wrong_answere));
                     }else if (data.equals("2")) {
                         answerSuccess();
                     }

@@ -118,6 +118,7 @@ public class HomeFragment extends Fragment {
     }
     private void getEventsImages()
     {
+        binding.rvUpcomingEvents.showShimmerAdapter();
         DataManager.getInstance().showProgressMessage(getActivity(), getString(R.string.please_wait));
         boolean val =  SharedPreferenceUtility.getInstance(getActivity()).getBoolean(Constant.SELECTED_LANGUAGE);
         String lang = "";
@@ -145,6 +146,7 @@ public class HomeFragment extends Fragment {
                         eventsList.clear();
                         eventsList.addAll(data.getResult());
                         homeAdapter.notifyDataSetChanged();
+                        binding.rvUpcomingEvents.hideShimmerAdapter();
 
                     } else if (data.status.equals("0")) {
                         showToast(getActivity(), data.message);

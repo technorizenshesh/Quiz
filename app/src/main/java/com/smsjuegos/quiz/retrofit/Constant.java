@@ -18,6 +18,7 @@ public class Constant {
     public static final String PLAY_PAUSE = "playPause";
     public static final String USER_ID = "userID";
     public static final String EVENT_CODE = "event_code";
+    public static final String FCMID = "fcm_id";
     public static final int LOCATION_REQUEST = 1000;
     public static final int GPS_REQUEST = 1001;
     public static String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";

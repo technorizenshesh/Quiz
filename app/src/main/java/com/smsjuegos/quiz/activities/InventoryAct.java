@@ -1,14 +1,15 @@
 package com.smsjuegos.quiz.activities;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.databinding.DataBindingUtil;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+
+import static com.smsjuegos.quiz.retrofit.Constant.USER_ID;
+import static com.smsjuegos.quiz.retrofit.Constant.showToast;
 
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MotionEvent;
-import android.view.View;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.google.gson.Gson;
 import com.smsjuegos.quiz.R;
@@ -30,32 +31,59 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.smsjuegos.quiz.retrofit.Constant.USER_ID;
-import static com.smsjuegos.quiz.retrofit.Constant.showToast;
-
 public class InventoryAct extends AppCompatActivity {
 
     ActivityInventoryBinding binding;
     private ArrayList<SuccessResGetInventory.Result> stringArrayList = new ArrayList<>();
+    private ArrayList<SuccessResGetInventory.Result> placeList = new ArrayList<>();
+    private ArrayList<SuccessResGetInventory.Result> peopleList = new ArrayList<>();
+    private ArrayList<SuccessResGetInventory.Result> objectList = new ArrayList<>();
     private InventoryAdapter inventoryAdapter;
+    private InventoryAdapter inventoryAdapterplace;
+    private InventoryAdapter inventoryAdapterperple;
+    private InventoryAdapter inventoryAdapterobject;
     private QuizInterface apiInterface;
-    private String eventId,eventCode;
-    
+    private String eventId, eventCode;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding  = DataBindingUtil.setContentView(this,R.layout.activity_inventory);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_inventory);
         binding.header.imgHeader.setOnClickListener(v -> finish());
         binding.header.tvHeader.setText(getString(R.string.inventory));
         apiInterface = ApiClient.getClient().create(QuizInterface.class);
-
         eventId = getIntent().getExtras().getString("eventId");
         eventCode = getIntent().getExtras().getString("eventCode");
 
-        inventoryAdapter = new InventoryAdapter(InventoryAct.this,stringArrayList);
-        binding.rvINventory.setHasFixedSize(true);
-        binding.rvINventory.setLayoutManager(new LinearLayoutManager(InventoryAct.this));
-        binding.rvINventory.setAdapter(inventoryAdapter);
+
+        // eventId = "1";
+        //  eventCode = "969107";
+        //    inventoryAdapter = new InventoryAdapter(InventoryAct.this,stringArrayList);
+        //    binding.rvINventory.setHasFixedSize(true);
+        //   binding.rvINventory.setLayoutManager(new LinearLayoutManager(InventoryAct.this));
+        //  binding.rvINventory.setAdapter(inventoryAdapter);
+
+        inventoryAdapterplace = new InventoryAdapter(InventoryAct.this, placeList);
+        binding.rvPlaces.setHasFixedSize(true);
+        binding.rvPlaces.setLayoutManager(new LinearLayoutManager(InventoryAct.this));
+        binding.rvPlaces.setAdapter(inventoryAdapterplace);
+
+
+        inventoryAdapterperple = new InventoryAdapter(InventoryAct.this, peopleList);
+        binding.rvPeople.setHasFixedSize(true);
+        binding.rvPeople.setLayoutManager(new LinearLayoutManager(InventoryAct.this));
+        binding.rvPeople.setAdapter(inventoryAdapterperple);
+
+
+        inventoryAdapterobject = new InventoryAdapter(InventoryAct.this, objectList);
+        binding.rvObjects.setHasFixedSize(true);
+        binding.rvObjects.setLayoutManager(new LinearLayoutManager(InventoryAct.this));
+        binding.rvObjects.setAdapter(inventoryAdapterobject);
+
+
+
+
+/*
         binding.rvINventory.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
             @Override
             public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
@@ -82,16 +110,14 @@ public class InventoryAct extends AppCompatActivity {
 
             }
         });
-        if(eventCode.equalsIgnoreCase("game4") )
-        {
+*/
+        if (eventCode.equalsIgnoreCase("game4")) {
             if (NetworkAvailablity.getInstance(this).checkNetworkStatus()) {
                 getGame4Inventory();
             } else {
                 Toast.makeText(this, getResources().getString(R.string.msg_noInternet), Toast.LENGTH_SHORT).show();
             }
-        }
-        else
-        {
+        } else {
             if (NetworkAvailablity.getInstance(this).checkNetworkStatus()) {
                 getInventory();
             } else {
@@ -100,18 +126,15 @@ public class InventoryAct extends AppCompatActivity {
         }
     }
 
-    private void getInventory()
-    {
+    private void getInventory() {
 
         DataManager.getInstance().showProgressMessage(this, getString(R.string.please_wait));
-        boolean val =  SharedPreferenceUtility.getInstance(getApplicationContext()).getBoolean(Constant.SELECTED_LANGUAGE);
+        boolean val = SharedPreferenceUtility.getInstance(getApplicationContext()).getBoolean(Constant.SELECTED_LANGUAGE);
         String lang = "";
 
-        if(!val)
-        {
+        if (!val) {
             lang = "en";
-        } else
-        {
+        } else {
             lang = "sp";
         }
         Map<String, String> map = new HashMap<>();
@@ -133,13 +156,30 @@ public class InventoryAct extends AppCompatActivity {
                         Log.e("MapMap", "EDIT PROFILE RESPONSE" + dataResponse);
                         stringArrayList.clear();
                         stringArrayList.addAll(data.getResult());
+                        ArrayList<SuccessResGetInventory.Result> ArrayList = new ArrayList<>();
+                        ArrayList.clear();
+                        ArrayList.addAll(data.getResult());
+                        if (ArrayList.size() >= 1) {
+                            for (int i = 0; i < ArrayList.size(); i++) {
+                                SuccessResGetInventory.Result res = ArrayList.get(i);
+                                if (res.getType().equalsIgnoreCase("Places")) {
+                                    placeList.add(res);
+                                } else if (res.getType().equalsIgnoreCase("People")) {
+                                    peopleList.add(res);
+                                } else if (res.getType().equalsIgnoreCase("Objects")) {
+                                    objectList.add(res);
+                                }
+                            }
 
-                        inventoryAdapter.notifyDataSetChanged();
+                            inventoryAdapterplace.notifyDataSetChanged();
+                            inventoryAdapterperple.notifyDataSetChanged();
+                            inventoryAdapterobject.notifyDataSetChanged();}
+                    //    inventoryAdapter.notifyDataSetChanged();
 
                     } else if (data.status.equals("0")) {
                         showToast(InventoryAct.this, data.message);
                         stringArrayList.clear();
-                        inventoryAdapter.notifyDataSetChanged();
+                      //  inventoryAdapter.notifyDataSetChanged();
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -154,18 +194,15 @@ public class InventoryAct extends AppCompatActivity {
         });
     }
 
-    private void getGame4Inventory()
-    {
+    private void getGame4Inventory() {
         String userId = SharedPreferenceUtility.getInstance(this).getString(USER_ID);
         DataManager.getInstance().showProgressMessage(this, getString(R.string.please_wait));
-        boolean val =  SharedPreferenceUtility.getInstance(getApplicationContext()).getBoolean(Constant.SELECTED_LANGUAGE);
+        boolean val = SharedPreferenceUtility.getInstance(getApplicationContext()).getBoolean(Constant.SELECTED_LANGUAGE);
         String lang = "";
 
-        if(!val)
-        {
+        if (!val) {
             lang = "en";
-        } else
-        {
+        } else {
             lang = "sp";
         }
         Map<String, String> map = new HashMap<>();
@@ -186,16 +223,33 @@ public class InventoryAct extends AppCompatActivity {
                     if (data.status.equals("1")) {
                         String dataResponse = new Gson().toJson(response.body());
                         Log.e("MapMap", "EDIT PROFILE RESPONSE" + dataResponse);
+                        ArrayList<SuccessResGetInventory.Result> ArrayList = new ArrayList<>();
+                        ArrayList.clear();
+                        ArrayList.addAll(data.getResult());
+                        if (ArrayList.size() >= 1) {
+                            for (int i = 0; i < ArrayList.size(); i++) {
+                                SuccessResGetInventory.Result res = ArrayList.get(i);
+                                if (res.getType().equalsIgnoreCase("Places")) {
+                                    placeList.add(res);
+                                } else if (res.getType().equalsIgnoreCase("People")) {
+                                    peopleList.add(res);
+                                } else if (res.getType().equalsIgnoreCase("Objects")) {
+                                    objectList.add(res);
+                                }
+                            }
 
-                        stringArrayList.clear();
-                        stringArrayList.addAll(data.getResult());
+                            inventoryAdapterplace.notifyDataSetChanged();
+                            inventoryAdapterperple.notifyDataSetChanged();
+                            inventoryAdapterobject.notifyDataSetChanged();
+                        }
 
-                        inventoryAdapter.notifyDataSetChanged();
+
+                        // inventoryAdapter.notifyDataSetChanged();
 
                     } else if (data.status.equals("0")) {
                         showToast(InventoryAct.this, data.message);
                         stringArrayList.clear();
-                        inventoryAdapter.notifyDataSetChanged();
+                        // inventoryAdapter.notifyDataSetChanged();
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

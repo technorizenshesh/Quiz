@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    >
-    <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
@@ -43,26 +43,30 @@
                 <EditText
                     android:id="@+id/etName"
                     android:layout_width="match_parent"
-                    android:digits="1234567890"
                     android:layout_height="wrap_content"
+                    android:digits="1234567890"
+                    android:minHeight="48dp"
                     android:fontFamily="@font/poppins_medium"
-                    android:textColorHint="@color/grey"
-                    android:imeOptions="actionNext"
                     android:hint="@string/enter_code"
-                    android:textColor="@color/black"
+                    android:imeOptions="actionNext"
                     android:inputType="number"
-                    android:textSize="@dimen/_12sdp" />
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/grey"
+                    android:textSize="@dimen/_12sdp"
+                    tools:ignore="TouchTargetSizeCheck" />
+
                 <EditText
-                    android:layout_marginTop="@dimen/_15sdp"
                     android:id="@+id/et_team_Name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_15sdp"
                     android:fontFamily="@font/poppins_medium"
-                    android:textColorHint="@color/grey"
-                    android:imeOptions="actionNext"
                     android:hint="@string/enter_team_name"
-                    android:textColor="@color/black"
+                    android:imeOptions="actionNext"
                     android:inputType="text"
+                    android:minHeight="48dp"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/grey"
                     android:textSize="@dimen/_12sdp" />
             </LinearLayout>
 

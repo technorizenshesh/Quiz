@@ -17,6 +17,17 @@ public class SuccessResGetInstruction implements Serializable {
     @SerializedName("status")
     @Expose
     public String status;
+    @SerializedName("event_instructions")
+    @Expose
+    public String event_instructions;
+
+    public String getEvent_instructions() {
+        return event_instructions;
+    }
+
+    public void setEvent_instructions(String event_instructions) {
+        this.event_instructions = event_instructions;
+    }
 
     public List<Result> getResult() {
         return result;

@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="@dimen/_140sdp"
     android:layout_height="@dimen/_200sdp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:id="@+id/rlParent"
-    >
+    android:id="@+id/rlParent">
 
-    <ImageView
+    <com.google.android.material.imageview.ShapeableImageView
         android:layout_margin="@dimen/_5sdp"
         android:id="@+id/iv_event"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="fitXY"
-        android:src="@drawable/ic_home1" />
+        app:shapeAppearanceOverlay="@style/roundedImageViewRounded"
+        android:src="@color/grey" />
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/_1sdp"
@@ -26,7 +26,6 @@
         android:id="@+id/tv_event_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hanumantiya Lake"
         android:fontFamily="@font/poppins_medium"
         android:textColor="@color/white"
         android:textSize="@dimen/_11sdp"

@@ -1,20 +1,20 @@
 {
   "project_info": {
-    "project_number": "408702061573",
-    "project_id": "quiz-6cdf0",
-    "storage_bucket": "quiz-6cdf0.appspot.com"
+    "project_number": "91016890646",
+    "project_id": "secretmissionsocity",
+    "storage_bucket": "secretmissionsocity.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:408702061573:android:974bbb37914779bde3606c",
+        "mobilesdk_app_id": "1:91016890646:android:f46f9a52b073b15fc42837",
         "android_client_info": {
           "package_name": "com.smsjuegos.quiz"
         }
       },
       "oauth_client": [
         {
-          "client_id": "408702061573-qib8nmgo8e9nnl33dou62jqsticmkth1.apps.googleusercontent.com",
+          "client_id": "91016890646-ljnfrelvu4ttdeasjts585d23lkhpc50.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.smsjuegos.quiz",
@@ -22,20 +22,20 @@
           }
         },
         {
-          "client_id": "408702061573-k3lsl3k43o7g79q7bev6vdob6m3kg6sv.apps.googleusercontent.com",
+          "client_id": "91016890646-13e2gtf8e6ibq0dn9i0gbcraa4vp2248.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyA6jFpTG-dy0PNrFkVEvUydKggkEecwSfM"
+          "current_key": "AIzaSyDMIaE6AAExF-eMKXlfE8ZxOnBOmRe2yW0"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "408702061573-k3lsl3k43o7g79q7bev6vdob6m3kg6sv.apps.googleusercontent.com",
+              "client_id": "91016890646-13e2gtf8e6ibq0dn9i0gbcraa4vp2248.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

@@ -64,16 +64,26 @@
                     android:textAllCaps="true"
                     android:visibility="gone"
                     android:fontFamily="@font/poppins_medium"
-                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_12sdp"
                     />
             </RelativeLayout>
-                <androidx.recyclerview.widget.RecyclerView
+               <!-- <androidx.recyclerview.widget.RecyclerView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_8sdp"
-                    android:id="@+id/rvUpcomingEvents"/>
+                    android:id="@+id/rvUpcomingEvents"/>-->
+                <com.cooltechworks.views.shimmer.ShimmerRecyclerView
+                    android:id="@+id/rvUpcomingEvents"                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:shimmer_demo_child_count="10"
+                    app:shimmer_demo_grid_child_count="2"
+                    app:shimmer_demo_layout="@layout/home_item"
+                    app:shimmer_demo_layout_manager_type="grid"
+                    app:shimmer_demo_angle="20"
+                    />
+
               <!--  <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

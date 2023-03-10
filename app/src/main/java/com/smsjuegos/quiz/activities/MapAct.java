@@ -7,6 +7,7 @@ import androidx.core.app.ActivityCompat;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -17,6 +18,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.gson.Gson;
@@ -59,12 +61,33 @@ public class MapAct extends AppCompatActivity implements OnMapReadyCallback, Goo
         mapFragment.getMapAsync(this);
         eventId = getIntent().getExtras().getString("eventId");
         eventCode = getIntent().getExtras().getString("eventCode");
+   //  eventId ="1";
+      //  eventCode = "969107";
+    }
+
+    @Override
+    protected void onResume() {
+        getInstruction();
+
+        super.onResume();
     }
 
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
         mMap = googleMap;
+        try {
+            // Customise the styling of the base map using a JSON object defined
+            // in a raw resource file.
+            boolean success = mMap.setMapStyle(
+                    MapStyleOptions.loadRawResourceStyle(
+                            this, R.raw.mapstyp));
 
+            if (!success) {
+                Log.e("MapsActivityRaw", "Style parsing failed.");
+            }
+        } catch (Resources.NotFoundException e) {
+            Log.e("MapsActivityRaw", "Can't find style.", e);
+        }
         if (ActivityCompat.checkSelfPermission(MapAct.this
                 , Manifest.permission.ACCESS_FINE_LOCATION) !=
                 PackageManager.PERMISSION_GRANTED && ActivityCompat.
@@ -74,7 +97,6 @@ public class MapAct extends AppCompatActivity implements OnMapReadyCallback, Goo
             return;
         }
         googleMap.setMyLocationEnabled(true);
-        getInstruction();
     }
 
     @Override
@@ -88,7 +110,9 @@ public class MapAct extends AppCompatActivity implements OnMapReadyCallback, Goo
         }
         else
         {
-            startActivity(new Intent(MapAct.this,PuzzleAct.class)
+
+            Log.e("TAG", "onMarkerClick: "+instructionList.get(position) );
+           startActivity(new Intent(MapAct.this,PuzzleAct.class)
                     .putExtra("instructionID",instructionList.get(position))
                     .putExtra("eventCode",eventCode));
         }
@@ -130,18 +154,23 @@ public class MapAct extends AppCompatActivity implements OnMapReadyCallback, Goo
                         mMap.setOnMarkerClickListener(MapAct.this::onMarkerClick);
                         marker = new Marker[instructionList.size()];
                         int i = 0;
+
                         for (SuccessResGetInstruction.Result result : instructionList) {
+
                             if (result.getAnswer_status().equalsIgnoreCase("1")){
                                 marker[i] = createMarker(i, Double.parseDouble(result.getLat()), Double.parseDouble(result.getLon()),
-                                        "Quiz " + i, "", R.drawable.ic_loca_green);
+                                        getString(R.string.quiz) + i, "", R.drawable.flag_green);
 
                             }else {
-                            marker[i] = createMarker(i, Double.parseDouble(result.getLat()), Double.parseDouble(result.getLon()), "Quiz " + i, "", R.drawable.ic_loca);
-                            i++;}
+                            marker[i] = createMarker(i, Double.parseDouble(result.getLat()),
+                                    Double.parseDouble(result.getLon()),
+                                    getString(R.string.quiz) + i, "", R.drawable.flag_red);
+                            }
+                            i++;
                         }
                         LatLng sydney = new LatLng(Double.parseDouble(instructionList.get(0).getLat()), Double.parseDouble(instructionList.get(0).getLon()));
                         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-                        mMap.animateCamera(CameraUpdateFactory.zoomTo(12));
+                        mMap.animateCamera(CameraUpdateFactory.zoomTo(13));
                     } else if (data.status.equals("0")) {
                         showToast(MapAct.this, data.message);
                     }
@@ -158,9 +187,10 @@ public class MapAct extends AppCompatActivity implements OnMapReadyCallback, Goo
         });
     }
 
-    protected Marker createMarker(int position,double latitude, double longitude, String title, String snippet, int iconResID) {
+    protected Marker createMarker(int position,double latitude, double longitude, String title,
+                                  String snippet, int iconResID) {
         BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(iconResID);
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 9f));
+        //mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 9f));
         myMarker = mMap.addMarker(new MarkerOptions()
                 .position(new LatLng(latitude, longitude))
                 .anchor(0.5f, 0.5f)

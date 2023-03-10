@@ -87,11 +87,10 @@ public class InstrutionAct extends AppCompatActivity {
                         String dataResponse = new Gson().toJson(response.body());
                         Log.e("MapMap", "EDIT PROFILE RESPONSE" + dataResponse);
                         //   binding.tvInstruction.setText(data.getResult().get(0).getInstructions());
-                        final String encoding = "UTF-8";
+                      final String encoding = "UTF-8";
                         final String mimeType = "text/html";
-
                         // binding.tvInstruction.setText(data.getResult().get(0).getInstructions());
-                        binding.tvInstruction.loadDataWithBaseURL("", data.getResult().get(0).getInstructions(),
+                        binding.tvInstruction.loadDataWithBaseURL("", data.getEvent_instructions(),
                                 mimeType, encoding, "");
                     } else if (data.status.equals("0")) {
                         showToast(InstrutionAct.this, data.message);

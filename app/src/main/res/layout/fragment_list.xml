@@ -38,6 +38,17 @@
         android:textSize="@dimen/_13sdp"
         android:fontFamily="@font/poppins_medium"
         android:background="@drawable/bt_bg"/>
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btngenerateCode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/yellow"
+        android:layout_marginStart="@dimen/_30sdp"
+        android:layout_marginEnd="@dimen/_30sdp"
+        android:text="Generate Test Code"
+        android:textSize="@dimen/_13sdp"
+        android:fontFamily="@font/poppins_medium"
+        android:background="@drawable/bt_bg"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"

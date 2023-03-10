@@ -209,6 +209,8 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Rect;
 import android.media.Image;
+import android.text.Html;
+import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -251,7 +253,7 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.Sele
     @Override
     public void onBindViewHolder(@NonNull SelectTimeViewHolder holder, @SuppressLint("RecyclerView") int position) {
         ImageView ivEvent = holder.itemView.findViewById(R.id.img_event);
-        WebView tvDescription = holder.itemView.findViewById(R.id.tvDescription);
+        TextView tvDescription = holder.itemView.findViewById(R.id.tvDescription);
         Glide.with(context)
                 .load(stringArrayList.get(position).getFinalPuzzleImage())
                 .centerCrop()
@@ -259,7 +261,13 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.Sele
         final String mimeType = "text/html";
         final String encoding = "UTF-8";
         tvDescription.setVerticalScrollBarEnabled(true);
-        tvDescription.loadDataWithBaseURL("", stringArrayList.get(position).getInstructions(), mimeType, encoding, "");
+        tvDescription.setText(Html.fromHtml(stringArrayList.get(position).getHint_discovered()));
+        tvDescription.setMovementMethod(new ScrollingMovementMethod());
+
+        tvDescription.setOnClickListener(v -> {
+    holder.itemView.performClick();
+});
+       // tvDescription.loadDataWithBaseURL("", stringArrayList.get(position).getInstructions(), mimeType, encoding, "");
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

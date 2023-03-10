@@ -12,6 +12,7 @@
 
     <ImageView
         android:id="@+id/image"
+        android:layout_marginTop="@dimen/_15sdp"
         android:layout_marginStart="@dimen/_10sdp"
         android:layout_marginEnd="@dimen/_10sdp"
         android:layout_width="match_parent"

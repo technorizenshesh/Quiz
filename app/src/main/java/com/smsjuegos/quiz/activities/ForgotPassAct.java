@@ -63,7 +63,7 @@ public class ForgotPassAct extends AppCompatActivity {
         Map<String,String> map = new HashMap<>();
         map.put("email",strEmail);
         Call<SuccessResForgetPassword> call = apiInterface.forgotPassword(map);
-        call.enqueue(new Callback<SuccessResForgetPassword>() {
+        call.enqueue(new Callback<>() {
             @Override
             public void onResponse(Call<SuccessResForgetPassword> call, Response<SuccessResForgetPassword> response) {
 
@@ -73,8 +73,9 @@ public class ForgotPassAct extends AppCompatActivity {
                     if (data.status.equals("1")) {
                         String dataResponse = new Gson().toJson(response.body());
                         Log.e("MapMap", "EDIT PROFILE RESPONSE" + dataResponse);
-                        Toast.makeText(ForgotPassAct.this,"Please check mail",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ForgotPassAct.this, R.string.password_sended, Toast.LENGTH_SHORT).show();
                         binding.etEmail.setText("");
+finish();
                     } else if (data.status.equals("0")) {
                         showToast(ForgotPassAct.this, data.message);
                     }

@@ -1,40 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout  xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".fragments.InstructionFragment"
-        android:orientation="vertical"
         >
-
-        <include layout="@layout/header_layout" android:id="@+id/header"/>
-
-
-        <WebView
-            android:id="@+id/tvInstruction"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/poppins_medium"
-            android:textSize="@dimen/_13sdp"
-            android:layout_marginHorizontal="@dimen/_15sdp"
-            android:gravity="center"
-            android:textColor="@color/black"
-            android:layout_marginTop="@dimen/_15sdp"
-            />
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnDownload"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_20sdp"
-            android:textColor="@color/yellow"
-            android:text="@string/start1"
-            android:textSize="@dimen/_13sdp"
-            android:visibility="gone"
-            android:layout_marginBottom="@dimen/_10sdp"
-            android:layout_marginHorizontal="@dimen/_15sdp"
-            android:fontFamily="@font/poppins_medium"
-            android:background="@drawable/bt_bg"/>
+            android:layout_height="match_parent"
+            tools:context=".fragments.InstructionFragment"
+            android:orientation="vertical"
+            >
 
-    </LinearLayout>
+            <include layout="@layout/header_layout" android:id="@+id/header"/>
+
+
+            <WebView
+                android:id="@+id/tvInstruction"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_medium"
+                android:textSize="@dimen/_15sdp"
+                android:layout_marginHorizontal="@dimen/_15sdp"
+                android:gravity="start"
+                android:text="@string/instt"
+                android:textColor="@color/black"
+                android:layout_marginTop="@dimen/_15sdp"
+                />
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnDownload"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:textColor="@color/yellow"
+                android:text="@string/start1"
+                android:textSize="@dimen/_13sdp"
+                android:visibility="gone"
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:layout_marginHorizontal="@dimen/_15sdp"
+                android:fontFamily="@font/poppins_medium"
+                android:background="@drawable/bt_bg"/>
+
+        </LinearLayout>
+
+    </ScrollView>
 </layout>

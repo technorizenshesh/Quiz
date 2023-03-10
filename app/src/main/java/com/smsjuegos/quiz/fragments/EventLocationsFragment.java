@@ -40,6 +40,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.gson.Gson;
 import com.smsjuegos.quiz.R;
+import com.smsjuegos.quiz.activities.DeclimarActivity;
 import com.smsjuegos.quiz.activities.DownloadAct;
 import com.smsjuegos.quiz.databinding.FragmentEventLocationsBinding;
 import com.smsjuegos.quiz.model.SuccessResGetEventDetail;
@@ -427,7 +428,7 @@ public class EventLocationsFragment extends Fragment implements OnMapReadyCallba
                     if (data.equals("1")) {
 
                         startActivity(new Intent(getActivity(),
-                                DownloadAct.class)
+                                DeclimarActivity.class)
                                 .putExtra("eventId", eventId).putExtra("eventCode", strCode));
 
                     } else if (data.equals("0")) {
