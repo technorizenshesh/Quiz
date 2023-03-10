@@ -70,7 +70,7 @@ No tienes una cuenta?
 
     <string name="instruction">INSTRUCCIONES</string>
 
-    <string name="answer">RESPUESTA</string>
+    <string name="answer">RESPONDE</string>
 
     <string name="you_give_up">Tu te rindes</string>
 
@@ -124,9 +124,9 @@ No tienes una cuenta?
 
     <string name="enter_name">Ingrese su nombre</string>
 
-    <string name="sign_up">INSCRIBIRSE</string>
+    <string name="sign_up">Crear Cuenta</string>
 
-    <string name="sign_up_1">¡INSCRIBIRSE!</string>
+    <string name="sign_up_1">REGISTRATE</string>
 
     <string name="card">Tarjeta</string>
 
@@ -237,7 +237,7 @@ No tienes una cuenta?
 
     <string name="congratulations_you_have_saved_the_world_from_the_next_pandemic_you_may_open_envelope_4">¡FELICIDADES!Acaban de salvar al mundo de una potencial pandemia.Asegúrate de sacar fotos y subirlo a tus redes sociales</string>
 
-    <string name="downloading_data">Descarga de datos</string>
+    <string name="downloading_data">Instrucciones</string>
 
     <string name="hello">Hola</string>
 
@@ -265,9 +265,9 @@ No tienes una cuenta?
 
     <string name="you_have_the_new">tienes lo nuevo</string>
 
-    <string name="witness_found">Testigo encontrado</string>
+    <string name="witness_found">Acertijo Resuelto</string>
 
-    <string name="quiz_solved">Cuestionario resuelto</string>
+    <string name="quiz_solved">Pista Encontrada</string>
 
     <string name="hint">PISTAS</string>
 
@@ -326,15 +326,6 @@ No tienes una cuenta?
     <string name="tickets_remaining">boletos restantes</string>
     <string name="datal"><![CDATA[<p><font color=#666666>Continúa si estás de acuerdo con nuestra</font><font color=#5856F2>  <b><u>Términos y condiciones</u></b></font><font color=#666666> y el <u></font><b><font color=#5856F2>Política de privacidad </font></u></b></font></p>]]></string>
     <string name="privacy">de privacidad </string>
-    <string name="notice">Descargo de Responsabilidad
- 
-Yo, como usuario de la aplicación Secret Mission Society, por medio de la presente declaro que:
-Tengo la mayoría de edad y que soy legalmente capaz para suscribir y asumir el presente descargo de responsabilidad, así como el de los menores de edad bajo mi cargo.
-Entiendo y acepto que, la práctica de turismo y recreación en las áreas públicas de la ciudad de México, implican un riesgo que no puede ser completamente eliminado aun cuando exista prevención, cuidados, precaución instrucción o experiencia, lo que podrá conllevar a sufrir lesiones físicas leves, moderadas y severas, o inclusive la muerte, por lo tanto, es una decisión libre y voluntaria la práctica de la misma.
-Conozco el contenido del presente formulario, así como todas las normas y disposiciones establecidas en el reglamento interno del área en dónde se llevará a cabo la actividad turística / recreativa; en consecuencia, acepto respetar y cumplir las mismas en mi visita al área de tránsito en donde se llevará a cabo el juego.
-Entiendo que debo estar al pendiente del entorno ya que no es un espacio controlado.  El juego / actividad se lleva a cabo en vías públicas donde existe tránsito de automóviles y de personas que son ajenas a la activada que se lleva a cabo.
-Soy consciente del riesgo que conlleva la práctica de estas actividades dentro de la zona metropolitana y los riesgos inherentes a esta área, por ello, me comprometo a mantener un comportamiento responsable que no aumente los riesgos para mi integridad y de las personas a mi cargo.
-En caso de incumplimiento de los parámetros normativos, así como también con el Reglamento interno del área para los visitantes, que causen un incidente en contra de mi integridad, del Patrimonio Nacional del Estado y de los bienes e infraestructura del área, asumiré los costos y gastos administrativos, operativos y logísticos generados por dicha acción.
-Por último, permito el libre uso de mi nombre y cualquier dato de mi persona obtenida durante mi recorrido dentro del área de tránsito de turismo y actividad recreativa, para fines estadísticos, y turísticos.   Entiendo que, los términos del presente formulario son de obligatorio cumplimiento y que he firmado este documento por mi propia voluntad. Declaro que toda la información detallada es veraz y de comprobación por parte de la Autoridad competente, por lo cual me comprometo a asumir la responsabilidad administrativa, civil y/o penal que de la misma se derive, incluso por daños a terceros.
-Al dar clic en el siguiente botón, antes de comenzar la activad, acepto lo antes aquí descrito. </string>
+    <string name="event_date_exp">Event data is expired</string>
+
 </resources>

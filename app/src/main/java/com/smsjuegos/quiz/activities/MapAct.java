@@ -4,9 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -136,16 +133,9 @@ public class MapAct extends AppCompatActivity implements OnMapReadyCallback, Goo
             }
         });
     }
-    private BitmapDescriptor bitmapDescriptorFromVector( int vectorResId) {
-        Drawable vectorDrawable = getApplicationContext().getDrawable(vectorResId);
-        vectorDrawable.setBounds(0, 0, vectorDrawable.getIntrinsicWidth(), vectorDrawable.getIntrinsicHeight());
-        Bitmap bitmap = Bitmap.createBitmap(vectorDrawable.getIntrinsicWidth(), vectorDrawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bitmap);
-        vectorDrawable.draw(canvas);
-        return BitmapDescriptorFactory.fromBitmap(bitmap);
-    }
+
     protected Marker createMarker(int position,double latitude, double longitude, String title, String snippet, int iconResID) {
-        BitmapDescriptor icon = bitmapDescriptorFromVector(iconResID);
+        BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(iconResID);
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 9f));
         myMarker = mMap.addMarker(new MarkerOptions()
                 .position(new LatLng(latitude, longitude))

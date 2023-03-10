@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
@@ -187,16 +188,16 @@ public class ListFragment extends Fragment {
 
         Call<ResponseBody> call = apiInterface.applyCode(map);
 
-        call.enqueue(new Callback<ResponseBody>() {
+        call.enqueue(new Callback<>() {
             @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+            public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
 
                 DataManager.getInstance().hideProgressMessage();
                 try {
 
                     JSONObject jsonObject = new JSONObject(response.body().string());
 
-                    Log.d(TAG, "onResponse: "+jsonObject);
+                    Log.d(TAG, "onResponse: " + jsonObject);
 
                     String data = jsonObject.getString("status");
 
@@ -210,7 +211,7 @@ public class ListFragment extends Fragment {
 
                     } else if (data.equals("0")) {
                         showToast(getActivity(), jsonObject.getString("result"));
-                    }else if (data.equals("2")) {
+                    } else if (data.equals("2")) {
                         showToast(getActivity(), jsonObject.getString("result"));
                     }
                 } catch (Exception e) {
@@ -219,7 +220,7 @@ public class ListFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
+            public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
                 call.cancel();
                 DataManager.getInstance().hideProgressMessage();
             }

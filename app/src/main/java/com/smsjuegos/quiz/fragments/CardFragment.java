@@ -293,12 +293,10 @@ public class CardFragment extends Fragment {
                     String message = jsonObject.getString("message");
 
                     if (data.equals("1")) {
-                        String dataResponse = new Gson().toJson(response.body());
-                        Log.e("MapMap", "EDIT PROFILE RESPONSE" + dataResponse);
-
+                      //  String dataResponse = new Gson().toJson(response.body());
+                     //   Log.e("MapMap", "EDIT PROFILE RESPONSE" + dataResponse);
                         startActivity(new Intent(getActivity(), HomeAct.class));
                         getActivity().finish();
-
 //                        getActivity().onBackPressed();
 
                     } else if (data.equals("0")) {

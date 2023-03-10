@@ -27,7 +27,7 @@
             android:layout_height="@dimen/_55sdp"
             android:elevation="@dimen/_5sdp"
             app:itemIconTint="@drawable/bottom_nav_icon_color_selector"
-            android:background="@color/appcolor"
+            android:background="@color/black"
             app:labelVisibilityMode="unlabeled"
             app:menu="@menu/bottom_nav_menu" />
     </RelativeLayout>

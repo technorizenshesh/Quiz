@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_navigation_home_to_viewAllEventsFragment"
             app:destination="@id/viewAllEventsFragment" />
+        <action
+            android:id="@+id/action_navigation_profile_to_navigation_list"
+            app:destination="@id/navigation_list" />
     </fragment>
 
     <fragment
@@ -35,6 +38,9 @@
         <action
             android:id="@+id/action_navigation_calander_to_eventDetailFragment"
             app:destination="@id/eventDetailFragment" />
+        <action
+            android:id="@+id/action_navigation_profile_to_navigation_list"
+            app:destination="@id/navigation_list" />
     </fragment>
 
      <fragment
@@ -113,6 +119,9 @@
         <action
             android:id="@+id/action_searchEventsFragment_to_eventDetailFragment"
             app:destination="@id/eventDetailFragment" />
+        <action
+            android:id="@+id/action_navigation_profile_to_navigation_list"
+            app:destination="@id/navigation_list" />
     </fragment>
     <fragment
         android:id="@+id/eventLocationsFragment"

@@ -1,14 +1,14 @@
 package com.smsjuegos.quiz.fragments;
 
+import static android.content.ContentValues.TAG;
+
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -66,11 +66,7 @@ import retrofit2.Response;
 import static com.smsjuegos.quiz.retrofit.Constant.USER_ID;
 import static com.smsjuegos.quiz.retrofit.Constant.showToast;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link EventLocationsFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class EventLocationsFragment extends Fragment implements OnMapReadyCallback {
 
     FragmentEventLocationsBinding binding;
@@ -95,17 +91,6 @@ public class EventLocationsFragment extends Fragment implements OnMapReadyCallba
     public EventLocationsFragment() {
         // Required empty public constructor
     }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment EventLocationsFragment.
-     */
-
-    // TODO: Rename and change types and number of parameters
     public static EventLocationsFragment newInstance(String param1, String param2) {
         EventLocationsFragment fragment = new EventLocationsFragment();
         Bundle args = new Bundle();
@@ -147,13 +132,22 @@ public class EventLocationsFragment extends Fragment implements OnMapReadyCallba
         binding.tvStatus.setOnClickListener(v ->
                 {
                     showImageSelection();
-
-                    /*Date currentDateTime = new Date();
-                    if (eventDateTime.compareTo(currentDateTime) <= 0) {
-                    } else {
-
-                    }*/
                 }
+                /*    try {
+
+
+                    Date currentDateTime = new Date();
+                    Log.e(TAG, "onCreateView: "+currentDateTime );
+                    Log.e(TAG, "eventDateTime: "+eventDateTime );
+                    Log.e(TAG, "eventDateTime: "+eventDateTime.compareTo(currentDateTime)  );
+                    if (eventDateTime.compareTo(currentDateTime) >= 0) {
+                    } else {
+                    //    Toast.makeText(requireContext(), getString(R.string.event_date_exp), Toast.LENGTH_SHORT).show();
+                    }
+                }catch (Exception e){
+}                   //     Toast.makeText(requireContext(), getString(R.string.event_date_exp), Toast.LENGTH_SHORT).show();
+
+                }*/
         );
 
         return binding.getRoot();
@@ -213,7 +207,7 @@ public class EventLocationsFragment extends Fragment implements OnMapReadyCallba
 
     private void setLocation()
     {
-        BitmapDescriptor icon =bitmapDescriptorFromVector(R.drawable.ic_loca);
+        BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_loca);
         LatLng sydney = new LatLng(Double.parseDouble(strLat), Double.parseDouble(strLng));
         mMap.addMarker(new MarkerOptions()
                 .position(sydney)
@@ -222,14 +216,7 @@ public class EventLocationsFragment extends Fragment implements OnMapReadyCallba
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
         mMap.animateCamera( CameraUpdateFactory.zoomTo( 17.0f ) );
     }
-    private BitmapDescriptor bitmapDescriptorFromVector( int vectorResId) {
-        Drawable vectorDrawable = requireContext().getDrawable(vectorResId);
-        vectorDrawable.setBounds(0, 0, vectorDrawable.getIntrinsicWidth(), vectorDrawable.getIntrinsicHeight());
-        Bitmap bitmap = Bitmap.createBitmap(vectorDrawable.getIntrinsicWidth(), vectorDrawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bitmap);
-        vectorDrawable.draw(canvas);
-        return BitmapDescriptorFactory.fromBitmap(bitmap);
-    }
+
     private void getEventDetails()
     {
         String userId = SharedPreferenceUtility.getInstance(getContext()).getString(USER_ID);
@@ -240,7 +227,8 @@ public class EventLocationsFragment extends Fragment implements OnMapReadyCallba
         Call<SuccessResGetEventDetail> call = apiInterface.getEventDetails(map);
         call.enqueue(new Callback<SuccessResGetEventDetail>() {
             @Override
-            public void onResponse(Call<SuccessResGetEventDetail> call, Response<SuccessResGetEventDetail> response) {
+            public void onResponse(Call<SuccessResGetEventDetail> call,
+                                   Response<SuccessResGetEventDetail> response) {
 
                 DataManager.getInstance().hideProgressMessage();
                 try {
@@ -281,7 +269,7 @@ public class EventLocationsFragment extends Fragment implements OnMapReadyCallba
 
 //        String dtStart = eventStartTime;
         String dtStart = eventStartTime;
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm aa");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm aa");
         try {
             eventDateTime = format.parse(dtStart);
         } catch (ParseException e) {
@@ -368,41 +356,46 @@ public class EventLocationsFragment extends Fragment implements OnMapReadyCallba
 
 
     public void showImageSelection() {
+        try {
+            strCode = "";
+            final Dialog dialog = new Dialog(requireActivity());
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.getWindow().getAttributes().windowAnimations = android.R.style.Widget_Material_ListPopupWindow;
+            dialog.setContentView(R.layout.dialog_use_code);
+            WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+            Window window = dialog.getWindow();
+            lp.copyFrom(window.getAttributes());
+            AppCompatButton btnSubmit = dialog.findViewById(R.id.btnSubmit);
+            EditText editText =  dialog.findViewById(R.id.etName);
+            lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+            lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+            window.setAttributes(lp);
 
-        strCode = "";
-        final Dialog dialog = new Dialog(getActivity());
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.getWindow().getAttributes().windowAnimations = android.R.style.Widget_Material_ListPopupWindow;
-        dialog.setContentView(R.layout.dialog_use_code);
-        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-        Window window = dialog.getWindow();
-        lp.copyFrom(window.getAttributes());
-        AppCompatButton btnSubmit = dialog.findViewById(R.id.btnSubmit);
-        EditText editText =  dialog.findViewById(R.id.etName);
-
-        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
-        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        window.setAttributes(lp);
-
-        btnSubmit.setOnClickListener(v ->
-                {
-                    strCode = editText.getText().toString();
-                    if(!strCode.equalsIgnoreCase(""))
+            btnSubmit.setOnClickListener(v ->
                     {
+                        strCode = editText.getText().toString();
+                        if(!strCode.equalsIgnoreCase(""))
+                        {
 
-                        addeventStartTime();
-                        dialog.dismiss();
+                            addeventStartTime();
+                            dialog.dismiss();
 
+                        }
+                        else
+                        {
+                            showToast(getActivity(),"Please enter code");
+                        }
                     }
-                    else
-                    {
-                        showToast(getActivity(),"Please enter code");
-                    }
-                }
-        );
+            );
 
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        dialog.show();
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            dialog.show();
+        }catch (Exception e){
+            e.printStackTrace();
+            Toast.makeText(requireContext(), "Unsupported Device", Toast.LENGTH_SHORT).show();
+
+        }
+
     }
 
 

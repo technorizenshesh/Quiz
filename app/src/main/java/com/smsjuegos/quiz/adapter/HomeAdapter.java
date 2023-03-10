@@ -264,7 +264,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.SelectTimeView
                              //  openWeb();
                              Bundle bundle = new Bundle();
                                 bundle.putString("id", eventsListList.get(position).getId());
-                                Navigation.findNavController(v).navigate(R.id.action_navigation_home_to_eventDetailFragment
+                                Navigation.findNavController(v).navigate(R.id.action_navigation_profile_to_navigation_list
                                         , bundle);
                           }
                             else if (eventsListList.get(position).getType().equalsIgnoreCase("Virus")) {
@@ -291,7 +291,11 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.SelectTimeView
                                 bundle.putString("id", eventsListList.get(position).getId());
                                 Navigation.findNavController(v).navigate(R.id.action_navigation_calander_to_eventDetailFragment, bundle);
                          */
-                                openWeb();
+                              //  openWeb();
+                                Bundle bundle = new Bundle();
+                                bundle.putString("id", eventsListList.get(position).getId());
+                                Navigation.findNavController(v).navigate(R.id.action_navigation_profile_to_navigation_list
+                                        , bundle);
                             }
                             else
                                 if (eventsListList.get(position).getType().equalsIgnoreCase("Virus")) {
@@ -317,7 +321,12 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.SelectTimeView
                             if (fromHome.equalsIgnoreCase("search")) {
                             if (eventsListList.get(position).getType().equalsIgnoreCase("puzzle"))
                             {
-                                openWeb();
+                                Bundle bundle = new Bundle();
+                                bundle.putString("id", eventsListList.get(position).getId());
+                                Navigation.findNavController(v).navigate(R.id.action_navigation_profile_to_navigation_list
+                                        , bundle);
+
+                                //  openWeb();
                               /*  Bundle bundle = new Bundle();
                                 bundle.putString("id", eventsListList.get(position).getId());
                                 Navigation.findNavController(v).navigate(R.id.action_eventDetailFragment_to_cartFragment, bundle);
