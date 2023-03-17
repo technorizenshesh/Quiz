@@ -275,7 +275,11 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.SelectTimeView
                             }
                             else if (eventsListList.get(position).getType().equalsIgnoreCase("crime")) {
                               //  context.startActivity(new Intent(context, Game2StartVideoAct.class).putExtra("instructionID", eventsListList.get(position)));
-                                openWeb();
+                              //  openWeb();
+                                Bundle bundle = new Bundle();
+                                bundle.putString("id", eventsListList.get(position).getId());
+                                Navigation.findNavController(v).navigate(R.id.action_navigation_profile_to_navigation_list
+                                        , bundle);
                             }
                             else if (eventsListList.get(position).getType().equalsIgnoreCase("Amenaza_Nuclear")) {
                               //  context.startActivity(new Intent(context, Game2StartVideoAct.class).putExtra("instructionID", eventsListList.get(position)));
@@ -303,8 +307,11 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.SelectTimeView
                                         , eventsListList.get(position)));
                             }
                                 else if (eventsListList.get(position).getType().equalsIgnoreCase("crime")) {
-
-                                    openWeb();
+                                    Bundle bundle = new Bundle();
+                                    bundle.putString("id", eventsListList.get(position).getId());
+                                    Navigation.findNavController(v).navigate(R.id.action_navigation_profile_to_navigation_list
+                                            , bundle);
+                                    //openWeb();
                             /*    context.startActivity(new Intent(context, HomeScreenGame2Act.class).putExtra(
                                         "instructionID", eventsListList.get(position)));
                           */  }
@@ -341,7 +348,11 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.SelectTimeView
                                     if (eventsListList.get(position).getType().equalsIgnoreCase("crime")) {
                               /*  context.startActivity(new Intent(context, HomeScreenGame2Act.class).putExtra("instructionID",
                                         eventsListList.get(position)));*/
-                                openWeb();
+                                        Bundle bundle = new Bundle();
+                                        bundle.putString("id", eventsListList.get(position).getId());
+                                        Navigation.findNavController(v).navigate(R.id.action_navigation_profile_to_navigation_list
+                                                , bundle);
+                                        //    openWeb();
                             }
                            else
                                     if (eventsListList.get(position).getType().equalsIgnoreCase("Amenaza_Nuclear")) {

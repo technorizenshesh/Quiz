@@ -360,5 +360,6 @@ Ten cuidado!, estás en un lugar público no controlado.  Ten cuidado al cruzar 
     <string name="password_sended">Por favor revise el buzón le hemos enviado su nueva contraseña</string>
     <string name="wrong_answere">Respuesta incorrecta 5 minutos de penalización de tiempo añadida</string>
     <string name="quiz">Prueba  </string>
+    <string name="minuts">minutos</string>
 
 </resources>

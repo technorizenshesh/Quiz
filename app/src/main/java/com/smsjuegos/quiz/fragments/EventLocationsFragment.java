@@ -58,6 +58,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -73,6 +74,7 @@ public class EventLocationsFragment extends Fragment implements OnMapReadyCallba
     FragmentEventLocationsBinding binding;
     private QuizInterface apiInterface;
     String eventStartTime = "";
+    String event_code = "";
     private Date eventDateTime = null;
     GPSTracker gpsTracker;
     private SuccessResGetEventDetail.Result eventDetails;
@@ -81,6 +83,7 @@ public class EventLocationsFragment extends Fragment implements OnMapReadyCallba
     private Dialog dialog, mDialog;
     private String strCode = "";
     private String strCodeTeam = "";
+    private String event_status = "";
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -127,6 +130,7 @@ public class EventLocationsFragment extends Fragment implements OnMapReadyCallba
 
         if (bundle != null) {
             eventId = bundle.getString("eventId");
+            event_code = bundle.getString("event_code");
         }
 
         getEventDetails();
@@ -225,6 +229,7 @@ public class EventLocationsFragment extends Fragment implements OnMapReadyCallba
         DataManager.getInstance().showProgressMessage(getActivity(), getString(R.string.please_wait));
         Map<String, String> map = new HashMap<>();
         map.put("event_id", eventId);
+        map.put("event_code", event_code);
         map.put("user_id", userId);
         Call<SuccessResGetEventDetail> call = apiInterface.getEventDetails(map);
         call.enqueue(new Callback<SuccessResGetEventDetail>() {
@@ -263,7 +268,7 @@ public class EventLocationsFragment extends Fragment implements OnMapReadyCallba
         binding.tvDate.setText(eventDetails.getEventDate());
         binding.tvLocation.setText(eventDetails.getAddress());
 
-        Glide.with(getActivity())
+        Glide.with(requireActivity())
                 .load(eventDetails.getImage())
                 .centerCrop()
                 .into(binding.imgEvent);
@@ -371,7 +376,21 @@ public class EventLocationsFragment extends Fragment implements OnMapReadyCallba
             lp.width = WindowManager.LayoutParams.MATCH_PARENT;
             lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
             window.setAttributes(lp);
+if (eventDetails.eventStatus.equalsIgnoreCase("false")){
+    et_team_Name.setVisibility(View.VISIBLE);
 
+}else {
+if (eventDetails.team_name.equalsIgnoreCase("")){
+
+}else {
+    et_team_Name.setVisibility(View.VISIBLE);
+    et_team_Name.setClickable(false);
+    et_team_Name.setFocusable(false);
+    et_team_Name.setInputType(0);
+    et_team_Name.setText(eventDetails.getTeam_name());
+}
+
+}
             btnSubmit.setOnClickListener(v ->
                     {
                         strCode = editText.getText().toString();

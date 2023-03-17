@@ -329,6 +329,38 @@ public class PuzzleAct extends AppCompatActivity {
             }
         });
     }
+    public void addPanalties(int penalty)
+    {
+
+        String userId = SharedPreferenceUtility.getInstance(this).getString(USER_ID);
+        Map<String, String> map = new HashMap<>();
+        map.put("event_id", result.getEventId());
+        map.put("event_instructions_id", result.getId());
+        map.put("time", ""+penalty);
+        map.put("event_code", eventCode);
+        map.put("hint_type", penalty+"");
+        map.put("user_id", userId);
+        Call<ResponseBody> call = apiInterface.addPanalties(map);
+
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                try {
+                    JSONObject jsonObject = new JSONObject(response.body().string());
+                    String data = jsonObject.getString("status");
+                    String message = jsonObject.getString("message");
+
+                                  } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                call.cancel();
+            }
+        });
+    }
 
     public void submitAnswer(String answer)
     {
@@ -364,6 +396,7 @@ public class PuzzleAct extends AppCompatActivity {
                     } else if (data.equals("0")) {
                         String result = jsonObject.getString("result");
                         showToast(PuzzleAct.this, getString(R.string.wrong_answere));
+                        addPanalties(5);
                     }else if (data.equals("2")) {
                         answerSuccess();
                     }

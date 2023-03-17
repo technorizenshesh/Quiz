@@ -31,6 +31,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.smsjuegos.quiz.retrofit.Constant.USER_ID;
 import static com.smsjuegos.quiz.retrofit.Constant.showToast;
 
 public class FinalPuzzelAct extends AppCompatActivity {
@@ -122,34 +123,64 @@ public class FinalPuzzelAct extends AppCompatActivity {
                                 }else
                                 {
                                     showToast(FinalPuzzelAct.this,getString(R.string.wrong_image));
+                                    addPanalties(5);
                                 }
                             }else
                             {
                                 showToast(FinalPuzzelAct.this,getString(R.string.wrong_image));
+                                addPanalties(5);
+
                             }
 
                         }else
                         {
                             showToast(FinalPuzzelAct.this,getString(R.string.wrong_image));
+                            addPanalties(5);
+
                         }
                     }
                 }
                 );
     }
+    public void addPanalties(int penalty) {
+        String userId = SharedPreferenceUtility.getInstance(this).getString(USER_ID);
+        Map<String, String> map = new HashMap<>();
+        map.put("event_id", eventId);
+        map.put("event_instructions_id","1");
+        map.put("time", ""+penalty);
+        map.put("event_code", eventCode);
+        map.put("hint_type", penalty+"");
+        map.put("user_id", userId);
+        Call<ResponseBody> call = apiInterface.addPanalties(map);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                try {
+                    JSONObject jsonObject = new JSONObject(response.body().string());
+                    String data = jsonObject.getString("status");
+                    String message = jsonObject.getString("message");
 
-    private void getPeople()
-    {
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                call.cancel();
+            }
+        });
+    }
+    private void getPeople() {
         DataManager.getInstance().showProgressMessage(this, getString(R.string.please_wait));
         Map<String, String> map = new HashMap<>();
         map.put("event_id", eventId);
         map.put("event_code", eventCode);
         map.put("type", "People");
         Call<SuccessResGetInventory> call = apiInterface.getInventory(map);
-
         call.enqueue(new Callback<SuccessResGetInventory>() {
             @Override
             public void onResponse(Call<SuccessResGetInventory> call, Response<SuccessResGetInventory> response) {
-
                 DataManager.getInstance().hideProgressMessage();
                 try {
                     SuccessResGetInventory data = response.body();
@@ -164,12 +195,7 @@ public class FinalPuzzelAct extends AppCompatActivity {
                         showToast(FinalPuzzelAct.this, data.message);
                         peopleList.clear();
                         peopleAdapter.notifyDataSetChanged();
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-
+                    }} catch (Exception e) {e.printStackTrace();}}
             @Override
             public void onFailure(Call<SuccessResGetInventory> call, Throwable t) {
                 call.cancel();
@@ -309,7 +335,8 @@ public class FinalPuzzelAct extends AppCompatActivity {
 
                     if (data.equals("1")) {
 
-                        startActivity(new Intent(FinalPuzzelAct.this, FinishTeamInfo.class)
+                        startActivity(new Intent(FinalPuzzelAct.this,
+                                FinishTeamInfo.class)
                                 .putExtra("from", "1")
                                 .putExtra("eventId", eventId)
                                 .putExtra("eventCode", eventCode));

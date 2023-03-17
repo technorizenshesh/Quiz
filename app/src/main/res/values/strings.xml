@@ -179,6 +179,7 @@ Be careful! You are in an uncontrolled public place. Be careful when crossing th
     <string name="password_sended">Please check mailbox we have sent your new password</string>
     <string name="wrong_answere">Wrong Answer 2 min Time Penalty Added</string>
     <string name="quiz">Quiz  </string>
+    <string name="minuts">minutes</string>
 
 
 </resources>

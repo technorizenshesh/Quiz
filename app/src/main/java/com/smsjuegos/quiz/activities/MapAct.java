@@ -59,22 +59,23 @@ public class MapAct extends AppCompatActivity implements OnMapReadyCallback, Goo
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-        eventId = getIntent().getExtras().getString("eventId");
-        eventCode = getIntent().getExtras().getString("eventCode");
-   //  eventId ="1";
-      //  eventCode = "969107";
+      eventId = getIntent().getExtras().getString("eventId");
+      eventCode = getIntent().getExtras().getString("eventCode");
+      //   eventId ="1";
+      //   eventCode = "969107";
     }
 
     @Override
     protected void onResume() {
         getInstruction();
-
         super.onResume();
     }
 
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
         mMap = googleMap;
+        mMap.clear();
+
         try {
             // Customise the styling of the base map using a JSON object defined
             // in a raw resource file.
@@ -102,7 +103,8 @@ public class MapAct extends AppCompatActivity implements OnMapReadyCallback, Goo
     @Override
     public boolean onMarkerClick(@NonNull Marker marker) {
         int position = (int) (marker.getTag());
-        if(instructionList.get(position).getEventType().equalsIgnoreCase("crime"))
+
+      if(instructionList.get(position).getEventType().equalsIgnoreCase("crime"))
         {
             startActivity(new Intent(MapAct.this, QuestionAnswerAct.class).
                     putExtra("instructionID",instructionList.get(position))
@@ -156,21 +158,16 @@ public class MapAct extends AppCompatActivity implements OnMapReadyCallback, Goo
                         int i = 0;
 
                         for (SuccessResGetInstruction.Result result : instructionList) {
-
                             if (result.getAnswer_status().equalsIgnoreCase("1")){
                                 marker[i] = createMarker(i, Double.parseDouble(result.getLat()), Double.parseDouble(result.getLon()),
-                                        getString(R.string.quiz) + i, "", R.drawable.flag_green);
-
+                                        "#" + i, "", R.drawable.flag_green);
                             }else {
                             marker[i] = createMarker(i, Double.parseDouble(result.getLat()),
                                     Double.parseDouble(result.getLon()),
-                                    getString(R.string.quiz) + i, "", R.drawable.flag_red);
-                            }
-                            i++;
-                        }
+                                    "#" + i, "", R.drawable.flag_red);}
+                            i++;}
                         LatLng sydney = new LatLng(Double.parseDouble(instructionList.get(0).getLat()), Double.parseDouble(instructionList.get(0).getLon()));
-                        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-                        mMap.animateCamera(CameraUpdateFactory.zoomTo(13));
+                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney,15));mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
                     } else if (data.status.equals("0")) {
                         showToast(MapAct.this, data.message);
                     }

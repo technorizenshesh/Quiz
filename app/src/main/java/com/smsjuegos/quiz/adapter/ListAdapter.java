@@ -277,6 +277,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.SelectTimeView
                 {
                     Bundle bundle = new Bundle();
                     bundle.putString("eventId",eventList.get(position).getId());
+                    bundle.putString("event_code",eventList.get(position).getEventCode());
                     Navigation.findNavController(v).navigate(R.id.action_navigation_list_to_eventLocationsFragment,bundle);
                 }
                 );

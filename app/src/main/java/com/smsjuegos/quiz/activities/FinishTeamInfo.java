@@ -58,7 +58,8 @@ public class FinishTeamInfo extends AppCompatActivity {
         teamAdapter = new TeamAdapter(this,otherResults);
         binding.ivHome.setOnClickListener(v ->
                 {
-                    startActivity(new Intent(FinishTeamInfo.this,HomeAct.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK));
+                    startActivity(new Intent(FinishTeamInfo.this,HomeAct.class)
+                            .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK));
                 }
                 );
         binding.header.imgHeader.setOnClickListener(v -> finish());
@@ -72,56 +73,39 @@ public class FinishTeamInfo extends AppCompatActivity {
         fromWhere = getIntent().getExtras().getString("from");
         if(fromWhere.equalsIgnoreCase("1"))
         {
-
             binding.tabLayoutEventDay.setVisibility(View.VISIBLE);
-
             eventId = getIntent().getExtras().getString("eventId");
             eventCode = getIntent().getExtras().getString("eventCode");
-
-            binding.tabLayoutEventDay.addTab(binding.tabLayoutEventDay.newTab().setText(R.string.team_information));
-            binding.tabLayoutEventDay.addTab(binding.tabLayoutEventDay.newTab().setText(R.string.leader));
+            binding.tabLayoutEventDay.addTab(binding.tabLayoutEventDay.newTab()
+                    .setText(R.string.team_information));
+            binding.tabLayoutEventDay.addTab(binding.tabLayoutEventDay.newTab()
+                    .setText(R.string.leader));
             binding.tabLayoutEventDay.setTabGravity(TabLayout.GRAVITY_FILL);
 
             binding.tabLayoutEventDay.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
                 @Override
                 public void onTabSelected(TabLayout.Tab tab) {
                     int currentTabSelected= tab.getPosition();
-                    if (currentTabSelected==0)
-                    {
+                    if (currentTabSelected==0) {
                         binding.llInfo.setVisibility(View.VISIBLE);
                         binding.rvteam.setVisibility(View.GONE);
-                        getMyPuzzelFinishInfo();
-                    }
-                    else
-                    {
+                        getMyPuzzelFinishInfo();} else {
                         binding.llInfo.setVisibility(View.GONE);
                         binding.rvteam.setVisibility(View.VISIBLE);
-                        getOtherFinishInfo();
-                    }
-                }
+                        getOtherFinishInfo();}}
                 @Override
                 public void onTabUnselected(TabLayout.Tab tab) {
                 }
                 @Override
-                public void onTabReselected(TabLayout.Tab tab) {
-                }
-            });
-
-            if (NetworkAvailablity.getInstance(this).checkNetworkStatus()) {
-                getMyPuzzelFinishInfo();
-            } else {
-                Toast.makeText(this, getResources().getString(R.string.msg_noInternet), Toast.LENGTH_SHORT).show();
-            }
+                public void onTabReselected(TabLayout.Tab tab) {}});
+            if (NetworkAvailablity.getInstance(this).checkNetworkStatus()) {getMyPuzzelFinishInfo();} else {Toast.makeText(this, getResources().getString(R.string.msg_noInternet), Toast.LENGTH_SHORT).show();}
         }
 
         else if(fromWhere.equalsIgnoreCase("4"))
         {
-
             binding.tabLayoutEventDay.setVisibility(View.GONE);
-
             eventId = getIntent().getExtras().getString("eventId");
             eventCode = getIntent().getExtras().getString("eventCode");
-
             binding.tabLayoutEventDay.addTab(binding.tabLayoutEventDay.newTab().setText(R.string.team_information));
             binding.tabLayoutEventDay.setTabGravity(TabLayout.GRAVITY_FILL);
 
@@ -283,7 +267,7 @@ public class FinishTeamInfo extends AppCompatActivity {
 
         String teamDetail = getString(R.string.team_members_3_6)+" "+successResGetFinalTime.getTotalTicket()+"/6";
 
-        binding.tvTotalPenalties.setText(successResGetFinalTime.getPenaltyTime()+" minutes");
+        binding.tvTotalPenalties.setText(successResGetFinalTime.getPenaltyTime()+getString(R.string.minuts));
         binding.tvTotalTime.setText(totalTime);
         binding.tvTeamDetail.setText(teamDetail);
         Glide.with(FinishTeamInfo.this)

@@ -46,7 +46,6 @@
                     android:layout_marginTop="@dimen/_10sdp"
                     android:layout_toRightOf="@+id/img_event"
                     android:fontFamily="@font/poppins_bold"
-                    android:text="Khandala Treking"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_13sdp" />
 
@@ -57,7 +56,6 @@
                     android:layout_below="@id/label"
                     android:layout_toRightOf="@+id/img_event"
                     android:fontFamily="@font/poppins_medium"
-                    android:text="Date- May 05, 2022"
                     android:textColor="@color/dark_gray"
                     android:textSize="@dimen/_12sdp" />
 
@@ -70,7 +68,6 @@
                     android:layout_toRightOf="@+id/img_event"
                     android:fontFamily="@font/poppins_medium"
                     android:singleLine="true"
-                    android:text="Vijay Nagar"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_11sdp" />
 
@@ -90,7 +87,6 @@
                     android:id="@+id/tvRate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="$20"
                     android:fontFamily="@font/poppins_bold"
                     android:textColor="@color/yellow"
                     android:layout_marginRight="@dimen/_5sdp"

@@ -91,6 +91,17 @@ public class SuccessResGetEventDetail implements Serializable {
         @SerializedName("remaining_event_count")
         @Expose
         public String remainingEventCount;
+        @SerializedName("team_name")
+        @Expose
+        public String team_name;
+
+        public String getTeam_name() {
+            return team_name;
+        }
+
+        public void setTeam_name(String team_name) {
+            this.team_name = team_name;
+        }
 
         public String getId() {
             return id;

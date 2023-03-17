@@ -60,10 +60,10 @@ public class DownloadAct extends AppCompatActivity {
                 }
         );
 
-      // eventId = getIntent().getExtras().getString("eventId");
-      //  eventCode = getIntent().getExtras().getString("eventCode");
-          eventId = "1";
-         eventCode = "969107";
+       eventId = getIntent().getExtras().getString("eventId");
+        eventCode = getIntent().getExtras().getString("eventCode");
+      //    eventId = "1";
+       //  eventCode = "969107";
 
         Log.e("TAG", "eventIdeventIdeventIdeventId: "+eventId );
         Log.e("TAG", "eventCodeeventCodeeventCode: "+eventCode );
