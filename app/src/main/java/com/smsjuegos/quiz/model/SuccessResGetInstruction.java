@@ -124,6 +124,17 @@ public class SuccessResGetInstruction implements Serializable {
         @SerializedName("answer_status")
         @Expose
         public String answer_status;
+        @SerializedName("timer")
+        @Expose
+        public String timer;
+
+        public String getTimer() {
+            return timer;
+        }
+
+        public void setTimer(String timer) {
+            this.timer = timer;
+        }
 
         public String getAnswer_status() {
             return answer_status;
@@ -309,6 +320,35 @@ public class SuccessResGetInstruction implements Serializable {
             this.eventType = eventType;
         }
 
+        @Override
+        public String toString() {
+            return "Result{" +
+                    "id='" + id + '\'' +
+                    ", eventId='" + eventId + '\'' +
+                    ", instructions='" + instructions + '\'' +
+                    ", instructionsHint1='" + instructionsHint1 + '\'' +
+                    ", instructionsHint2='" + instructionsHint2 + '\'' +
+                    ", instructionsHint3='" + instructionsHint3 + '\'' +
+                    ", address='" + address + '\'' +
+                    ", lat='" + lat + '\'' +
+                    ", lon='" + lon + '\'' +
+                    ", dateTime='" + dateTime + '\'' +
+                    ", image='" + image + '\'' +
+                    ", optionA='" + optionA + '\'' +
+                    ", optionB='" + optionB + '\'' +
+                    ", optionC='" + optionC + '\'' +
+                    ", optionD='" + optionD + '\'' +
+                    ", optionAns='" + optionAns + '\'' +
+                    ", eventAns='" + eventAns + '\'' +
+                    ", finalPuzzleImage='" + finalPuzzleImage + '\'' +
+                    ", eventCode='" + eventCode + '\'' +
+                    ", type='" + type + '\'' +
+                    ", finalPuzzleStatus='" + finalPuzzleStatus + '\'' +
+                    ", eventType='" + eventType + '\'' +
+                    ", answer_status='" + answer_status + '\'' +
+                    ", timer='" + timer + '\'' +
+                    '}';
+        }
     }
 
 }

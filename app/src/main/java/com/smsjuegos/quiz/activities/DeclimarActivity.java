@@ -13,7 +13,7 @@ import com.smsjuegos.quiz.databinding.ActivityDeclimarBinding;
 
 public class DeclimarActivity extends AppCompatActivity {
 ActivityDeclimarBinding binding ;
-    private String eventId, eventCode;
+    private String eventId, eventCode,disclaimer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,9 +23,15 @@ ActivityDeclimarBinding binding ;
          if (getIntent().getExtras()!=null){
              eventId = getIntent().getExtras().getString("eventId");
              eventCode = getIntent().getExtras().getString("eventCode");
+             disclaimer = getIntent().getExtras().getString("disclaimer");
 
              Log.e("TAG", "eventIdeventIdeventIdeventId: "+eventId );
              Log.e("TAG", "eventCodeeventCodeeventCode: "+eventCode );
+             final String encoding = "UTF-8";
+             final String mimeType = "text/html";
+             // binding.tvInstruction.setText(data.getResult().get(0).getInstructions());
+             binding.tvInstruction.loadDataWithBaseURL("", disclaimer,
+                     mimeType, encoding, "");
          }
        //  binding.tvInstruction.setText(getString(R.string.desclemer) );
          binding.btnDownload.setOnClickListener(v -> {

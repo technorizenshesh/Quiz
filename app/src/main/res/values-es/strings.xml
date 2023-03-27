@@ -327,7 +327,7 @@ No tienes una cuenta?
     <string name="datal"><![CDATA[<p><font color=#666666>Continúa si estás de acuerdo con nuestra</font><font color=#5856F2>  <b><u>Términos y condiciones</u></b></font><font color=#666666> y el <u></font><b><font color=#5856F2>Política de privacidad </font></u></b></font></p>]]></string>
     <string name="privacy">de privacidad </string>
     <string name="event_date_exp">Los datos del evento han caducado</string>
-    <string name="haz_click_en_el_men_de_arriba_n_click_en_mapa_para_ver_ubicaciones_n_click_en_inventario_para_ver_pistas_encontradas_n_click_en_rompecabezas_final_para_lograr_terminar_el_reto">Haz Click en el menú de arriba. \n * Click en Mapa para ver ubicaciones.\n * Click en Inventario para ver pistas encontradas \n * Click en Rompecabezas final para lograr terminar el reto</string>
+    <string name="haz_click_en_el_men_de_arriba_n_click_en_mapa_para_ver_ubicaciones_n_click_en_inventario_para_ver_pistas_encontradas_n_click_en_rompecabezas_final_para_lograr_terminar_el_reto">Click on the menu above. \n * Click on Map to see locations.\n * Click on Inventory to see clues found \n * Click on Final Puzzle to finish the challenge</string>
     <string name="go_to_map">Regresa al Mapa</string>
     <string name="final_pzl_txts">Aquí acumularás las pistas encontradas.  Para resolver el acertijo final, ELIJE una persona, un objeto y un lugar que de acuerdo a las pistas de INVENTARIO te revelarán el paradero del TESORO AZTECA.  Si no respondes bien, se te penalizará con tiempo. </string>
     <string name="wrong_image">Imágenes incorrectas seleccionadas penalización Tiempo Añadido 5 min.</string>

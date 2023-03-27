@@ -1,9 +1,18 @@
 package com.smsjuegos.quiz.fragments;
 
+import static com.smsjuegos.quiz.retrofit.Constant.LATITUDE;
+import static com.smsjuegos.quiz.retrofit.Constant.LONGITUDE;
+import static com.smsjuegos.quiz.retrofit.Constant.showToast;
+
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.core.app.ActivityCompat;
 import androidx.databinding.DataBindingUtil;
@@ -11,14 +20,12 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Toast;
-
 import com.google.gson.Gson;
+import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType;
+import com.smarteist.autoimageslider.SliderAnimations;
+import com.smarteist.autoimageslider.SliderView;
 import com.smsjuegos.quiz.R;
+import com.smsjuegos.quiz.activities.LoginAct;
 import com.smsjuegos.quiz.adapter.HomeAdapter;
 import com.smsjuegos.quiz.adapter.SliderAdapter;
 import com.smsjuegos.quiz.databinding.FragmentHomeBinding;
@@ -29,10 +36,8 @@ import com.smsjuegos.quiz.retrofit.Constant;
 import com.smsjuegos.quiz.retrofit.NetworkAvailablity;
 import com.smsjuegos.quiz.retrofit.QuizInterface;
 import com.smsjuegos.quiz.utility.DataManager;
+import com.smsjuegos.quiz.utility.GPSTracker;
 import com.smsjuegos.quiz.utility.SharedPreferenceUtility;
-import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType;
-import com.smarteist.autoimageslider.SliderAnimations;
-import com.smarteist.autoimageslider.SliderView;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -42,8 +47,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.smsjuegos.quiz.retrofit.Constant.showToast;
-
 public class HomeFragment extends Fragment {
     FragmentHomeBinding binding;
     List<SuccessResGetBanner.Result> bannersList = new LinkedList<>();
@@ -51,25 +54,28 @@ public class HomeFragment extends Fragment {
     private HomeAdapter homeAdapter;
     private QuizInterface apiInterface;
     private SliderAdapter adapter;
-
+GPSTracker gpsTracker ;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = DataBindingUtil.inflate(inflater,R.layout.fragment_home, container, false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home,
+                container, false);
         apiInterface = ApiClient.getClient().create(QuizInterface.class);
-       homeAdapter = new HomeAdapter(getActivity(),eventsList,"home");
+        gpsTracker = new GPSTracker(requireActivity());
+        homeAdapter = new HomeAdapter(getActivity(), eventsList, "home");
         binding.rvUpcomingEvents.setHasFixedSize(true);
         binding.rvUpcomingEvents.setLayoutManager(new GridLayoutManager(getActivity(),
                 2));
         binding.rvUpcomingEvents.setAdapter(homeAdapter);
         binding.tvViewAll.setOnClickListener(v ->
                 {
-                    Navigation.findNavController(v).navigate(R.id.action_navigation_home_to_viewAllEventsFragment);
+                    Navigation.findNavController(v).navigate(R.id
+                            .action_navigation_home_to_viewAllEventsFragment);
                 }
-                );
+        );
 
         getLocation();
-        adapter = new SliderAdapter(getContext(),bannersList);
+        adapter = new SliderAdapter(getContext(), bannersList);
         binding.imageSlider.setSliderAdapter(adapter);
         binding.imageSlider.setIndicatorAnimation(IndicatorAnimationType.WORM); //set indicator animation by using SliderLayout.IndicatorAnimations. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!
         binding.imageSlider.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
@@ -88,6 +94,7 @@ public class HomeFragment extends Fragment {
         }
         return binding.getRoot();
     }
+
     public void getLocation() {
         if (ActivityCompat.checkSelfPermission(getActivity(),
                 Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
@@ -98,16 +105,26 @@ public class HomeFragment extends Fragment {
                             Manifest.permission.ACCESS_COARSE_LOCATION},
                     Constant.LOCATION_REQUEST);
         } else {
+            if (gpsTracker.canGetLocation()){
+                SharedPreferenceUtility.getInstance(requireActivity()).putString(Constant.LATITUDE, gpsTracker.getLatitude()+"");
+                SharedPreferenceUtility.getInstance(requireActivity()).putString(Constant.LONGITUDE, gpsTracker.getLongitude()+"");
+                String lon = SharedPreferenceUtility.getInstance(getContext()).getString(LONGITUDE);
+                String lat = SharedPreferenceUtility.getInstance(getContext()).getString(LATITUDE);
+
+                Log.e("TAG", "getLocation:  latlatlat  "+lat );
+                Log.e("TAG", "getLocation:lonlon "+lon );
+            }
         }
     }
+
     @Override
-    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         switch (requestCode) {
             case 1000: {
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
+                    getLocation();
                 } else {
                     Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.permisson_denied), Toast.LENGTH_SHORT).show();
                 }
@@ -116,22 +133,20 @@ public class HomeFragment extends Fragment {
 
         }
     }
-    private void getEventsImages()
-    {
+
+    private void getEventsImages() {
         binding.rvUpcomingEvents.showShimmerAdapter();
         DataManager.getInstance().showProgressMessage(getActivity(), getString(R.string.please_wait));
-        boolean val =  SharedPreferenceUtility.getInstance(getActivity()).getBoolean(Constant.SELECTED_LANGUAGE);
+        boolean val = SharedPreferenceUtility.getInstance(getActivity()).getBoolean(Constant.SELECTED_LANGUAGE);
         String lang = "";
 
-        if(!val)
-        {
+        if (!val) {
             lang = "en";
-        } else
-        {
+        } else {
             lang = "sp";
         }
-        HashMap<String,String> map = new HashMap<>();
-        map.put("lang",lang);
+        HashMap<String, String> map = new HashMap<>();
+        map.put("lang", lang);
         Call<SuccessResGetEvents> call = apiInterface.getEventsList(map);
         call.enqueue(new Callback<SuccessResGetEvents>() {
             @Override
@@ -140,7 +155,7 @@ public class HomeFragment extends Fragment {
                 DataManager.getInstance().hideProgressMessage();
                 try {
                     SuccessResGetEvents data = response.body();
-                    Log.e("data",data.status);
+                    Log.e("data", data.status);
                     if (data.status.equals("1")) {
                         String dataResponse = new Gson().toJson(response.body());
                         eventsList.clear();
@@ -166,6 +181,7 @@ public class HomeFragment extends Fragment {
         });
 
     }
+
     private void getBannerList() {
         DataManager.getInstance().showProgressMessage(getActivity(), getString(R.string.please_wait));
         Call<SuccessResGetBanner> call = apiInterface.getBanners();
@@ -175,11 +191,10 @@ public class HomeFragment extends Fragment {
                 DataManager.getInstance().hideProgressMessage();
                 try {
                     SuccessResGetBanner data = response.body();
-                    Log.e("data",data.status);
+                    Log.e("data", data.status);
                     if (data.status.equals("1")) {
                         String dataResponse = new Gson().toJson(response.body());
                         bannersList.clear();
-
                         bannersList.addAll(data.getResult());
                         adapter.notifyDataSetChanged();
 

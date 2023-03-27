@@ -1,6 +1,9 @@
 package com.smsjuegos.quiz.fragments;
 
-import static android.content.ContentValues.TAG;
+import static com.smsjuegos.quiz.retrofit.Constant.LATITUDE;
+import static com.smsjuegos.quiz.retrofit.Constant.LONGITUDE;
+import static com.smsjuegos.quiz.retrofit.Constant.USER_ID;
+import static com.smsjuegos.quiz.retrofit.Constant.showToast;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -10,14 +13,6 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.widget.AppCompatButton;
-import androidx.core.app.ActivityCompat;
-import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,6 +23,13 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatButton;
+import androidx.core.app.ActivityCompat;
+import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -41,7 +43,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.gson.Gson;
 import com.smsjuegos.quiz.R;
 import com.smsjuegos.quiz.activities.DeclimarActivity;
-import com.smsjuegos.quiz.activities.DownloadAct;
 import com.smsjuegos.quiz.databinding.FragmentEventLocationsBinding;
 import com.smsjuegos.quiz.model.SuccessResGetEventDetail;
 import com.smsjuegos.quiz.retrofit.ApiClient;
@@ -58,16 +59,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import static com.smsjuegos.quiz.retrofit.Constant.USER_ID;
-import static com.smsjuegos.quiz.retrofit.Constant.showToast;
-
 
 public class EventLocationsFragment extends Fragment implements OnMapReadyCallback {
 
@@ -84,6 +80,7 @@ public class EventLocationsFragment extends Fragment implements OnMapReadyCallba
     private String strCode = "";
     private String strCodeTeam = "";
     private String event_status = "";
+    private  Double Distanc;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -116,13 +113,11 @@ public class EventLocationsFragment extends Fragment implements OnMapReadyCallba
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_event_locations, container, false);
-        SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager()
-                .findFragmentById(R.id.map);
+        SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
         gpsTracker = new GPSTracker(getActivity());
         apiInterface = ApiClient.getClient().create(QuizInterface.class);
@@ -135,8 +130,11 @@ public class EventLocationsFragment extends Fragment implements OnMapReadyCallba
 
         getEventDetails();
 
-        binding.tvStatus.setOnClickListener(v ->
-                {
+        binding.tvStatus.setOnClickListener(v -> {
+                   /* if (Distanc>5){
+                        Toast.makeText(requireActivity(), Distanc.toString(), Toast.LENGTH_SHORT).show();
+                        return;
+                    }*/
                     showImageSelection();
                 }
                 /*    try {
@@ -153,22 +151,19 @@ public class EventLocationsFragment extends Fragment implements OnMapReadyCallba
                 }catch (Exception e){
 }                   //     Toast.makeText(requireContext(), getString(R.string.event_date_exp), Toast.LENGTH_SHORT).show();
 
-                }*/
-        );
+                }*/);
 
         return binding.getRoot();
     }
 
     private void getLocation() {
-        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
-                    Constant.LOCATION_REQUEST);
+        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, Constant.LOCATION_REQUEST);
         } else {
             Log.e("Latittude====", gpsTracker.getLatitude() + "");
             strLat = Double.toString(gpsTracker.getLatitude());
             strLng = Double.toString(gpsTracker.getLongitude());
-            setLocation();
+            // setLocation();
         }
     }
 
@@ -178,12 +173,11 @@ public class EventLocationsFragment extends Fragment implements OnMapReadyCallba
 
             case 1000: {
                 // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     Log.e("Latittude====", gpsTracker.getLatitude() + "");
                     strLat = Double.toString(gpsTracker.getLatitude());
                     strLng = Double.toString(gpsTracker.getLongitude());
-                    setLocation();
+                    //   setLocation();
 //                    if (isContinue) {
 //                        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 //                            // TODO: Consider calling
@@ -212,30 +206,43 @@ public class EventLocationsFragment extends Fragment implements OnMapReadyCallba
     }
 
     private void setLocation() {
-        BitmapDescriptor icon = BitmapDescriptorFactory.
-                fromResource(R.drawable.ic_loca);
-        LatLng sydney = new LatLng(Double.parseDouble(strLat),
-                Double.parseDouble(strLng));
-        mMap.addMarker(new MarkerOptions()
-                .position(sydney)
-                .icon(icon)
-        );
+        BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_loca);
+        LatLng sydney = new LatLng(Double.parseDouble(eventDetails.lat), Double.parseDouble(eventDetails.lon));
+        mMap.addMarker(new MarkerOptions().position(sydney).icon(icon));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
         mMap.animateCamera(CameraUpdateFactory.zoomTo(17.0f));
+        try {
+
+
+        /*  Distanc=  DataManager.distanceInKm( sydney.latitude,sydney.longitude,19.429612948473434,
+                  -99.19726243783843);*/
+          //Distanc=  DataManager.distanceInKm(sydney.latitude,sydney.longitude,gpsTracker.getLatitude(),gpsTracker.getLongitude());
+
+        }catch (Exception e){
+e.printStackTrace();
+            Log.e("TAG", "setLocation: "+e.toString() );
+        }
     }
 
     private void getEventDetails() {
         String userId = SharedPreferenceUtility.getInstance(getContext()).getString(USER_ID);
         DataManager.getInstance().showProgressMessage(getActivity(), getString(R.string.please_wait));
+        boolean val = SharedPreferenceUtility.getInstance(getActivity()).getBoolean(Constant.SELECTED_LANGUAGE);
+        String lang = "";
         Map<String, String> map = new HashMap<>();
         map.put("event_id", eventId);
         map.put("event_code", event_code);
         map.put("user_id", userId);
+        if (!val) {
+            lang = "en";
+        } else {
+            lang = "sp";
+        }
+        map.put("lang", lang);
         Call<SuccessResGetEventDetail> call = apiInterface.getEventDetails(map);
         call.enqueue(new Callback<SuccessResGetEventDetail>() {
             @Override
-            public void onResponse(Call<SuccessResGetEventDetail> call,
-                                   Response<SuccessResGetEventDetail> response) {
+            public void onResponse(Call<SuccessResGetEventDetail> call, Response<SuccessResGetEventDetail> response) {
 
                 DataManager.getInstance().hideProgressMessage();
                 try {
@@ -246,6 +253,7 @@ public class EventLocationsFragment extends Fragment implements OnMapReadyCallba
                         Log.e("MapMap", "EDIT PROFILE RESPONSE" + dataResponse);
                         eventDetails = data.getResult();
                         setEventDetails();
+                        setLocation();
                     } else if (data.status.equals("0")) {
                         showToast(getActivity(), data.message);
                     }
@@ -268,10 +276,7 @@ public class EventLocationsFragment extends Fragment implements OnMapReadyCallba
         binding.tvDate.setText(eventDetails.getEventDate());
         binding.tvLocation.setText(eventDetails.getAddress());
 
-        Glide.with(requireActivity())
-                .load(eventDetails.getImage())
-                .centerCrop()
-                .into(binding.imgEvent);
+        Glide.with(requireActivity()).load(eventDetails.getImage()).centerCrop().into(binding.imgEvent);
         eventStartTime = eventDetails.getEventDate() + " " + eventDetails.getEventTime();
 
 //        String dtStart = eventStartTime;
@@ -290,7 +295,13 @@ public class EventLocationsFragment extends Fragment implements OnMapReadyCallba
 
         mMap = googleMap;
         // Add a marker in Sydney and move the camera
-
+        if (ActivityCompat.checkSelfPermission(requireActivity()
+                , Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(requireActivity(),
+                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        mMap.setMyLocationEnabled(true);
         getLocation();
 
 
@@ -307,18 +318,14 @@ public class EventLocationsFragment extends Fragment implements OnMapReadyCallba
         ivBack = dialog.findViewById(R.id.imgHeader);
         ivOption = dialog.findViewById(R.id.imgOptions);
 
-        ivBack.setOnClickListener(v ->
-                {
-                    dialog.dismiss();
-                }
-        );
-        ivOption.setOnClickListener(v ->
-                {
+        ivBack.setOnClickListener(v -> {
+            dialog.dismiss();
+        });
+        ivOption.setOnClickListener(v -> {
 
-                    showMainMenu();
+            showMainMenu();
 
-                }
-        );
+        });
 
         dialog.show();
 
@@ -338,17 +345,13 @@ public class EventLocationsFragment extends Fragment implements OnMapReadyCallba
 
         tvInstruction = mDialog.findViewById(R.id.tvInstruction);
 
-        ivCancel.setOnClickListener(v ->
-                {
-                    mDialog.dismiss();
-                }
-        );
+        ivCancel.setOnClickListener(v -> {
+            mDialog.dismiss();
+        });
 
-        tvInstruction.setOnClickListener(v ->
-                {
-                    Navigation.findNavController(v).navigate(R.id.action_navigation_calander_to_instructionFragment);
-                }
-        );
+        tvInstruction.setOnClickListener(v -> {
+            Navigation.findNavController(v).navigate(R.id.action_navigation_calander_to_instructionFragment);
+        });
 
         lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
         lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
@@ -376,39 +379,38 @@ public class EventLocationsFragment extends Fragment implements OnMapReadyCallba
             lp.width = WindowManager.LayoutParams.MATCH_PARENT;
             lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
             window.setAttributes(lp);
-if (eventDetails.eventStatus.equalsIgnoreCase("false")){
-    et_team_Name.setVisibility(View.VISIBLE);
+            if (eventDetails.eventStatus.equalsIgnoreCase("false")) {
+                et_team_Name.setVisibility(View.VISIBLE);
 
-}else {
-if (eventDetails.team_name.equalsIgnoreCase("")){
+            } else {
+                if (eventDetails.team_name.equalsIgnoreCase("")) {
 
-}else {
-    et_team_Name.setVisibility(View.VISIBLE);
-    et_team_Name.setClickable(false);
-    et_team_Name.setFocusable(false);
-    et_team_Name.setInputType(0);
-    et_team_Name.setText(eventDetails.getTeam_name());
-}
+                } else {
+                    et_team_Name.setVisibility(View.VISIBLE);
+                    et_team_Name.setClickable(false);
+                    et_team_Name.setFocusable(false);
+                    et_team_Name.setInputType(0);
+                    et_team_Name.setText(eventDetails.getTeam_name());
+                }
 
-}
-            btnSubmit.setOnClickListener(v ->
-                    {
-                        strCode = editText.getText().toString();
-                        strCodeTeam = et_team_Name.getText().toString();
+            }
+            btnSubmit.setOnClickListener(v -> {
+                Log.e("TAG", "showImageSelection: Distanc"+ Distanc);
 
-                        if (strCodeTeam.equalsIgnoreCase("")) {
-                            showToast(getActivity(), "Please enter Team Name");
+                strCode = editText.getText().toString();
+                strCodeTeam = et_team_Name.getText().toString();
 
-                        } else
-                            if (!strCode.equalsIgnoreCase("")) {
-                            addeventStartTime();
-                            dialog.dismiss();
+                if (strCodeTeam.equalsIgnoreCase("")) {
+                    showToast(getActivity(), "Please enter Team Name");
 
-                        } else {
-                            showToast(getActivity(), "Please enter code");
-                        }
-                    }
-            );
+                } else if (!strCode.equalsIgnoreCase("")) {
+                    addeventStartTime();
+                    dialog.dismiss();
+
+                } else {
+                    showToast(getActivity(), "Please enter code");
+                }
+            });
 
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             dialog.show();
@@ -423,12 +425,18 @@ if (eventDetails.team_name.equalsIgnoreCase("")){
 
     public void addeventStartTime() {
         String userId = SharedPreferenceUtility.getInstance(getContext()).getString(USER_ID);
+        String lon = SharedPreferenceUtility.getInstance(getContext()).getString(LONGITUDE);
+        String lat = SharedPreferenceUtility.getInstance(getContext()).getString(LATITUDE);
         DataManager.getInstance().showProgressMessage(getActivity(), getString(R.string.please_wait));
         Map<String, String> map = new HashMap<>();
         map.put("event_id", eventId);
         map.put("user_id", userId);
         map.put("event_code", strCode);
         map.put("team_name", strCodeTeam);
+   //   map.put("lat", lat);
+  //    map.put("lon", lon);
+       map.put("lat" ,"19.429612948473434");
+       map.put("lon" ,"-99.19726243783850");
         Call<ResponseBody> call = apiInterface.addStartTime(map);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
@@ -443,15 +451,16 @@ if (eventDetails.team_name.equalsIgnoreCase("")){
                     String data = jsonObject.getString("status");
 
                     String message = jsonObject.getString("message");
+                    String result = jsonObject.getString("result");
 
                     if (data.equals("1")) {
 
-                        startActivity(new Intent(getActivity(),
-                                DeclimarActivity.class)
-                                .putExtra("eventId", eventId).putExtra("eventCode", strCode));
+                        startActivity(new Intent(getActivity(), DeclimarActivity.class).putExtra("eventId", eventId)
+
+                                .putExtra("eventCode", strCode).putExtra("disclaimer", eventDetails.disclaimer));
 
                     } else if (data.equals("0")) {
-                        showToast(getActivity(), message);
+                        showToast(getActivity(), result);
                     } else if (data.equals("2")) {
                         showToast(getActivity(), jsonObject.getString("result"));
                     }

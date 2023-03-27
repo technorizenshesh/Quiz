@@ -15,4 +15,5 @@
     <color name="red">#FA0707</color>
     <color name="green">#00AE69</color>
     <color name="blue">#0000ff</color>
+    <color name="trans">#000000FF</color>
 </resources>

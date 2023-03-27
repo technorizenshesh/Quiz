@@ -94,6 +94,17 @@ public class SuccessResGetEventDetail implements Serializable {
         @SerializedName("team_name")
         @Expose
         public String team_name;
+        @SerializedName("disclaimer")
+        @Expose
+        public String disclaimer;
+
+        public String getDisclaimer() {
+            return disclaimer;
+        }
+
+        public void setDisclaimer(String disclaimer) {
+            this.disclaimer = disclaimer;
+        }
 
         public String getTeam_name() {
             return team_name;

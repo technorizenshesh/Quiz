@@ -204,7 +204,9 @@
 package com.smsjuegos.quiz.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -219,6 +221,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.smsjuegos.quiz.R;
+import com.smsjuegos.quiz.activities.game2.HomeScreenGame2Act;
 import com.smsjuegos.quiz.model.SuccessResGetMyEvents;
 
 import java.util.ArrayList;
@@ -274,12 +277,21 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.SelectTimeView
         CardView cvParent = holder.itemView.findViewById(R.id.cvParent);
 
         cvParent.setOnClickListener(v ->
+
                 {
+                    Log.e("TAG", "onBindViewHolder:eventList.get(position).getId()eventList.get(position).getId() "+eventList.get(position).getId() );
+                    // if (eventList.get(position).getEventName().equalsIgnoreCase("7")
+                    //       ){
+                    //     context.startActivity(new Intent(context, HomeScreenGame2Act.class)
+                   //              .putExtra("instructionID", eventList.get(position)));
+
+                  //   }else {
                     Bundle bundle = new Bundle();
                     bundle.putString("eventId",eventList.get(position).getId());
                     bundle.putString("event_code",eventList.get(position).getEventCode());
                     Navigation.findNavController(v).navigate(R.id.action_navigation_list_to_eventLocationsFragment,bundle);
-                }
+               // }
+    }
                 );
 
         if(eventList.get(position).getEventStatus().equalsIgnoreCase("PENDING"))

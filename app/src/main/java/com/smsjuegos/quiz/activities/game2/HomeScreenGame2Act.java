@@ -1,5 +1,6 @@
 package com.smsjuegos.quiz.activities.game2;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.databinding.DataBindingUtil;
@@ -48,9 +49,6 @@ boolean IsCodeAvailable;
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this,R.layout.activity_home_screen_game2);
         apiInterface = ApiClient.getClient().create(QuizInterface.class);
-
-
-
         result = (SuccessResGetEvents.Result) getIntent().getSerializableExtra("instructionID");
         is_Apply();
         Glide
@@ -166,7 +164,7 @@ boolean IsCodeAvailable;
         map.put("event_id", result.getId());
         map.put("lang","en");
         Call<EventCodeResSuccess> call = apiInterface.get_event_code(map);
-        call.enqueue(new Callback<EventCodeResSuccess>() {
+        call.enqueue(new Callback<>() {
             @Override
             public void onResponse(Call<EventCodeResSuccess> call, Response<EventCodeResSuccess> response) {
                 DataManager.getInstance().hideProgressMessage();
@@ -175,9 +173,9 @@ boolean IsCodeAvailable;
                         SharedPreferenceUtility.getInstance(HomeScreenGame2Act
                                 .this).putString(Constant.EVENT_CODE,
                                 response.body().getResult().getEventCode());
-                        IsCodeAvailable= true;
-                    } else  {
-                        IsCodeAvailable= false;
+                        IsCodeAvailable = true;
+                    } else {
+                        IsCodeAvailable = false;
                         showToast(HomeScreenGame2Act.this, response.body().getMessage());
                     }
 
@@ -188,7 +186,7 @@ boolean IsCodeAvailable;
             }
 
             @Override
-            public void onFailure(Call<EventCodeResSuccess> call, Throwable t) {
+            public void onFailure(@NonNull Call<EventCodeResSuccess> call, Throwable t) {
                 call.cancel();
                 DataManager.getInstance().hideProgressMessage();
             }

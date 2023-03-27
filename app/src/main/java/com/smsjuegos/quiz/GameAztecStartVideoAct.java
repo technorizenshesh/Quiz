@@ -40,10 +40,7 @@ public class GameAztecStartVideoAct extends AppCompatActivity {
     private CardView cvVideo;
     private SuccessResGetEvents.Result result;
     private AppCompatButton btnPlay;
-
-    // creating a variable for exoplayerview.
     SimpleExoPlayerView exoPlayerView;
-    // creating a variable for exoplayer
     SimpleExoPlayer exoPlayer;
     private String videoUrl;
     private String eventId, eventCode;
@@ -66,13 +63,12 @@ public class GameAztecStartVideoAct extends AppCompatActivity {
             Log.e("TAG", "eventIdeventIdeventIdeventId: "+eventId );
             Log.e("TAG", "eventCodeeventCodeeventCode: "+ eventCode );
         }else {
-            eventId="4";
-                    eventCode="441812";
+         //   eventId="4";
+               //     eventCode="441812";
         }
       //  videoUrl="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4";
         videoUrl="https://firebasestorage.googleapis.com/v0/b/secretmissionsocity.appspot.com/o/IMG_2279%20(3).mov?alt=media&token=b3e9a553-4b65-4f2b-a4d4-86ed921c7c7b";
         btnPlay.setAlpha(.5f);
-
         cvVideo.setOnClickListener(v ->
                 {
                     exoPlayer.stop();

@@ -59,10 +59,10 @@ public class MapAct extends AppCompatActivity implements OnMapReadyCallback, Goo
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-      eventId = getIntent().getExtras().getString("eventId");
-      eventCode = getIntent().getExtras().getString("eventCode");
-      //   eventId ="1";
-      //   eventCode = "969107";
+    //  eventId = getIntent().getExtras().getString("eventId");
+    //  eventCode = getIntent().getExtras().getString("eventCode");
+         eventId ="5";
+         eventCode = "885429";
     }
 
     @Override

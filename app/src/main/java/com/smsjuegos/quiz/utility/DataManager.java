@@ -12,6 +12,7 @@ import android.media.ExifInterface;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.util.Base64;
+import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
@@ -94,7 +95,22 @@ public class DataManager {
         }
 */
 
+    public static double distanceInKm(double lat1, double lon1, double lat2, double lon2) {
+        Log.e("TAG", "distanceInKm: lat1--  "+lat1 );
+        Log.e("TAG", "distanceInKm: lon1--  "+lon1 );
+        Log.e("TAG", "distanceInKm: lat2--  "+lat2 );
+        Log.e("TAG", "distanceInKm: lon2--  "+lon2 );
+        double latDistance = Math.toRadians(lat2 - lat1);
+        double lonDistance = Math.toRadians(lon2 - lon1);
+        double a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2)
+                + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2))
+                * Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        double distance = 6371 * c;
+        Log.e("TAG", "distanceInKm: distance--  "+distance );
 
+        return distance;
+    }
         public static String getRealPathFromURI(Activity activity, Uri contentUri) {
             //TODO: get realpath from uri
             String stringPath = null;

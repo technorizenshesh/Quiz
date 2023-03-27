@@ -18,6 +18,7 @@ import com.smsjuegos.quiz.model.SuccessResGetVirusEvent;
 import com.smsjuegos.quiz.model.SuccessResLogin;
 import com.smsjuegos.quiz.model.SuccessResNearbyEvents;
 import com.smsjuegos.quiz.model.SuccessResSignup;
+
 import java.util.Map;
 
 import okhttp3.ResponseBody;
@@ -107,6 +108,7 @@ public interface QuizInterface {
     @FormUrlEncoded
     @POST("event_start_time")
     Call<ResponseBody> addStartTime(@FieldMap Map<String, String> paramHashMap);
+
     @FormUrlEncoded
     @POST("add_hint")
     Call<ResponseBody> addPanalties(@FieldMap Map<String, String> paramHashMap);
@@ -198,12 +200,15 @@ public interface QuizInterface {
     @FormUrlEncoded
     @POST("event_end_time_game4")
     Call<ResponseBody> Game4Completed(@FieldMap Map<String, String> paramHashMap);
+
     @FormUrlEncoded
     @POST("virus_event_apply_code")
     Call<ResponseBody> virus_event_apply_code(@FieldMap Map<String, String> paramHashMap);
+
     @FormUrlEncoded
     @POST("get_event_code")
     Call<EventCodeResSuccess> get_event_code(@FieldMap Map<String, String> paramHashMap);
+
     @FormUrlEncoded
     @POST("get_term_conditions")
     Call<SuccessResGetPP> getPrivacyPolicy(@FieldMap Map<String, String> paramHashMap);

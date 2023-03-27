@@ -143,11 +143,14 @@ public class ListFragment extends Fragment {
                         Log.e("MapMap", "EDIT PROFILE RESPONSE" + dataResponse);
                         eventList.clear();
                         myEventList.clear();
-                        myEventList.addAll(data.getResult());
 
+                        myEventList.addAll(data.getResult());
                         for (SuccessResGetMyEvents.Result result : myEventList) {
                             if (!result.getEventStatus().equalsIgnoreCase("END")) {
-                                eventList.add(result);
+                                if (!result.getId().equalsIgnoreCase("4")
+                                        &&!result.getId().equalsIgnoreCase("7")) {
+                                    eventList.add(result);
+                                }
                             }
                         }
 

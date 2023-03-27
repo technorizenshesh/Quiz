@@ -21,6 +21,8 @@ public class Constant {
     public static final String FCMID = "fcm_id";
     public static final int LOCATION_REQUEST = 1000;
     public static final int GPS_REQUEST = 1001;
+    public static final String LATITUDE = "latitude";
+    public static final String LONGITUDE = "longitude";
     public static String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
 
     public static boolean isValidEmail(CharSequence target) {
