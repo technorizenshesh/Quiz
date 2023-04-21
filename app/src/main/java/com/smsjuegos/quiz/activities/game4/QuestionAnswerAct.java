@@ -8,6 +8,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
@@ -26,6 +27,9 @@ import androidx.appcompat.widget.AppCompatButton;
 import androidx.databinding.DataBindingUtil;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.gson.Gson;
 import com.smsjuegos.quiz.R;
 import com.smsjuegos.quiz.databinding.ActivityQuestionAnswerBinding;
@@ -34,11 +38,14 @@ import com.smsjuegos.quiz.model.SuccessResGetInstruction;
 import com.smsjuegos.quiz.retrofit.ApiClient;
 import com.smsjuegos.quiz.retrofit.QuizInterface;
 import com.smsjuegos.quiz.utility.DataManager;
+import com.smsjuegos.quiz.utility.DirectionsJSONParser;
 import com.smsjuegos.quiz.utility.SharedPreferenceUtility;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import okhttp3.ResponseBody;
@@ -47,7 +54,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class QuestionAnswerAct extends AppCompatActivity {
-
     ActivityQuestionAnswerBinding binding;
     private Dialog dialog;
     private QuizInterface apiInterface;
@@ -61,7 +67,9 @@ public class QuestionAnswerAct extends AppCompatActivity {
     private CountDownTimer CountdownTimer;
     final String mimeType = "text/html";
     final String encoding = "UTF-8";
-
+    RadioGroup radioGroup;
+    RadioButton radioButton1, radioButton2, radioButton3, radioButton4;
+    AppCompatButton submit;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,9 +82,7 @@ public class QuestionAnswerAct extends AppCompatActivity {
         result = (SuccessResGetInstruction.Result) getIntent().getSerializableExtra("instructionID");
         Log.e(TAG, "onCreate:resultresultresultresultresultresultresultresultresult " + result.toString());
         eventCode = getIntent().getExtras().getString("eventCode");
-
         binding.header.tvHeader.setText(getString(R.string.riddle));
-
         binding.btnAnswer.setOnClickListener(v -> {
             showDialog();
         });
@@ -87,7 +93,7 @@ public class QuestionAnswerAct extends AppCompatActivity {
         binding.btnHint.setOnClickListener(v -> {
             showHints();
         });
-        try {
+
 
 
             Log.e(TAG, "result.getTimer(result.getTimer(: " + result.getTimer());
@@ -96,34 +102,41 @@ public class QuestionAnswerAct extends AppCompatActivity {
                 binding.timeLay.setVisibility(View.GONE);
             } else {
                 binding.timeLay.setVisibility(View.VISIBLE);
-                CountdownTimer = new CountDownTimer(Long.parseLong(result.getTimer()), 1000) {
-                    public void onTick(long millisUntilFinished) {
-                        binding.timeView.setText("" + millisUntilFinished / 1000);
-                    }
+                Log.e(TAG, "onCreateonCreateonCreateonCreateonCreateonCreate: " + result.getTimer());
+                try {
+                showTime( result.getTimer());
+                } catch (Exception e) {
+                    Log.e(TAG, "Exception: "+e.getLocalizedMessage() );
+                    Log.e(TAG, "Exception: "+e.getCause() );
+                    Log.e(TAG, "Exception: "+e.getMessage() );
+                    e.printStackTrace();
+                }
+            }
 
-                    public void onFinish() {
-                        binding.timeView.setText("Time's up!");
-                        addPanalties(10);
-                    }
-                };
-                CountdownTimer.start();
 
+    }
+    private void showTime(String time) {
+        long t = Long.parseLong(time);
+        long s = t*1000;
+        new CountDownTimer(s, 1000) {
+
+            public void onTick(long millisUntilFinished) {
+                binding.timeView.setText("" + millisUntilFinished / 1000);
+            }
+            public void onFinish() {
+                binding.timeView.setText("Time's up!");
+                addPanalties(10,"fine");
 
             }
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        }.start();
     }
-
     private RadioButton selectedRadioButton;
 
     private void showDialog() {
         dialog = new Dialog(this);
         selectedAnswer = "";
-        RadioGroup radioGroup;
-        RadioButton radioButton1, radioButton2, radioButton3, radioButton4;
-        AppCompatButton submit;
+
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.getWindow().getAttributes().windowAnimations = android.R.style.Widget_Material_ListPopupWindow;
         dialog.setContentView(R.layout.dialog_select_answer);
@@ -310,7 +323,7 @@ public class QuestionAnswerAct extends AppCompatActivity {
         });
     }
 
-    public void addPanalties(int penalty) {
+    public void addPanalties(int penalty ,String fine) {
         String userId = SharedPreferenceUtility.getInstance(this).getString(USER_ID);
         Map<String, String> map = new HashMap<>();
         map.put("event_id", result.getEventId());
@@ -328,6 +341,13 @@ public class QuestionAnswerAct extends AppCompatActivity {
                     JSONObject jsonObject = new JSONObject(response.body().string());
                     String data = jsonObject.getString("status");
                     String message = jsonObject.getString("message");
+                    if (!fine.equalsIgnoreCase("")){
+                        selectedAnswer= result.getOptionAns();
+                        submitAnswer(selectedAnswer);
+
+
+                        Log.e(TAG, "selectedAnswerselectedAnswerselectedAnswerselectedAnswer: "+selectedAnswer );
+                    }
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -343,7 +363,6 @@ public class QuestionAnswerAct extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        CountdownTimer.cancel();
         super.onDestroy();
     }
 
@@ -380,7 +399,7 @@ public class QuestionAnswerAct extends AppCompatActivity {
                     } else if (data.equals("0")) {
                         String result = jsonObject.getString("result");
                         showToast(QuestionAnswerAct.this, getString(R.string.wrong_answere));
-                        addPanalties(2);
+                        addPanalties(2,"");
                     } else if (data.equals("2")) {
                         answerSuccess();
                     }
@@ -398,7 +417,12 @@ public class QuestionAnswerAct extends AppCompatActivity {
     }
 
     private void answerSuccess() {
+        if (result.getArrival_time().equalsIgnoreCase("0")){
 
+        }else {
+            SharedPreferenceUtility.getInstance(getApplicationContext()).putString("NevId",result.id);
+            SharedPreferenceUtility.getInstance(getApplicationContext()).putString("ArrTime",result.getArrival_time());
+        }
         dialog = new Dialog(this);
         selectedAnswer = "";
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);

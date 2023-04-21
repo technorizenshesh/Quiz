@@ -58,6 +58,9 @@ public class SuccessResGetInstruction implements Serializable {
         @SerializedName("id")
         @Expose
         public String id;
+        @SerializedName("arrival_time")
+        @Expose
+        public String arrival_time;
         @SerializedName("event_id")
         @Expose
         public String eventId;
@@ -127,6 +130,14 @@ public class SuccessResGetInstruction implements Serializable {
         @SerializedName("timer")
         @Expose
         public String timer;
+
+        public String getArrival_time() {
+            return arrival_time;
+        }
+
+        public void setArrival_time(String arrival_time) {
+            this.arrival_time = arrival_time;
+        }
 
         public String getTimer() {
             return timer;

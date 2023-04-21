@@ -101,6 +101,7 @@ public class DownloadAct extends AppCompatActivity {
 
         tvMap.setOnClickListener(v ->
                 {
+                    SharedPreferenceUtility.getInstance(getApplicationContext()).putString("NevId","");
                     startActivity(new Intent(DownloadAct.this, MapAct.class)
                             .putExtra("eventId", eventId).putExtra("eventCode", eventCode));
                 }

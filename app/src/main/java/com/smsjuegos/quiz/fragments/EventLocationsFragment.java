@@ -433,10 +433,10 @@ e.printStackTrace();
         map.put("user_id", userId);
         map.put("event_code", strCode);
         map.put("team_name", strCodeTeam);
-   //   map.put("lat", lat);
-  //    map.put("lon", lon);
-       map.put("lat" ,"19.429612948473434");
-       map.put("lon" ,"-99.19726243783850");
+   map.put("lat", lat);
+   map.put("lon", lon);
+     //  map.put("lat" ,"19.429612948473434");
+     //  map.put("lon" ,"-99.19726243783850");
         Call<ResponseBody> call = apiInterface.addStartTime(map);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
