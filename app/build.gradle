@@ -81,6 +81,7 @@ dependencies {
     implementation 'com.github.sharish:ShimmerRecyclerView:v1.3'
     def lottieVersion = "3.4.0"
     implementation "com.airbnb.android:lottie:$lottieVersion"
+   // implementation 'com.github.developeramit3:ApiCall:8f4053a663'
 
 }
 //apply plugin: 'com.google.gms.google-services'

@@ -5,6 +5,7 @@ import static com.smsjuegos.quiz.retrofit.Constant.showToast;
 import static com.smsjuegos.quiz.utility.DataManager.downloadUrl;
 
 import android.Manifest;
+import android.animation.ValueAnimator;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
@@ -12,6 +13,11 @@ import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.view.animation.LinearInterpolator;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -29,7 +35,10 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.android.gms.maps.model.SquareCap;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 import com.smsjuegos.quiz.R;
 import com.smsjuegos.quiz.activities.game4.QuestionAnswerAct;
@@ -39,6 +48,7 @@ import com.smsjuegos.quiz.retrofit.Constant;
 import com.smsjuegos.quiz.retrofit.QuizInterface;
 import com.smsjuegos.quiz.utility.DataManager;
 import com.smsjuegos.quiz.utility.DirectionsJSONParser;
+import com.smsjuegos.quiz.utility.DrawPollyLine;
 import com.smsjuegos.quiz.utility.SharedPreferenceUtility;
 
 import org.json.JSONObject;
@@ -59,7 +69,7 @@ public class MapAct extends AppCompatActivity implements OnMapReadyCallback, Goo
     private String eventId, eventCode, strtlat = "", strtlang = "", endlat = "", endlang = "";
     private ArrayList<SuccessResGetInstruction.Result> instructionList = new ArrayList<>();
     private QuizInterface apiInterface;
-
+    private Snackbar snackbar ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,10 +78,10 @@ public class MapAct extends AppCompatActivity implements OnMapReadyCallback, Goo
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-        eventId = getIntent().getExtras().getString("eventId");
-        eventCode = getIntent().getExtras().getString("eventCode");
-        //  eventId ="5";
-        //  eventCode = "885429";
+        //   eventId = getIntent().getExtras().getString("eventId");
+        //   eventCode = getIntent().getExtras().getString("eventCode");
+       eventId ="5";
+       eventCode = "885429";
     }
 
     @Override
@@ -178,14 +188,17 @@ public class MapAct extends AppCompatActivity implements OnMapReadyCallback, Goo
                                 if (SharedPreferenceUtility.getInstance(getApplicationContext()).getString("NevId").equalsIgnoreCase(result.id)) {
                                     strtlat   = result.getLat();
                                     strtlang = result.getLon();
-                                    endlat    = data.getResult().get(i + 1).getLat();
-                                    endlang  = data.getResult().get(i + 1).getLon();
-                                    Log.e("TAG", "SharedPreferenceUtility: "+   strtlat+
-                                            strtlang+
-                                                    endlat+
-                                                    endlang );
+                                 //   endlat    = data.getResult().get(i + 1).getLat();
+                                  //  endlang  = data.getResult().get(i + 1).getLon();
+                                    Log.e("TAG", "SharedPreferenceUtility: "+   strtlat+ strtlang+ endlat+ endlang );
 
                                 }
+                                 if ((Integer.parseInt(SharedPreferenceUtility.getInstance(getApplicationContext()).getString("NevId")))+1==Integer.parseInt(result.id)){
+                                     endlat    = result.getLat();
+                                     endlang  =  result.getLon();
+
+
+                                 }
                             }
 
                         }
@@ -194,9 +207,67 @@ public class MapAct extends AppCompatActivity implements OnMapReadyCallback, Goo
                         mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
                         try {
                             if (strtlang.equalsIgnoreCase("") ){}else {
-                                 List<LatLng>latLngs = new ArrayList<>();
-                                latLngs.add(new LatLng(Double.parseDouble(strtlat),Double.parseDouble(strtlang)));
-                                drawPolyLineOnMap(latLngs);
+                            //     List<LatLng>latLngs = new ArrayList<>();
+                                LatLng  latLngs1=  new LatLng(Double.parseDouble(strtlat),Double.parseDouble(strtlang));
+                                LatLng  latLngs2=  new LatLng(Double.parseDouble(endlat),Double.parseDouble(endlang));
+                               // latLngs.add(new LatLng(Double.parseDouble(endlat),Double.parseDouble(endlang)));
+                           //     drawPolyLineOnMap(latLngs);
+
+                                DrawPollyLine.get(getApplicationContext())
+                                        .setOrigin(latLngs1)
+                                        .setDestination(latLngs2)
+                                        .execute(latLngs -> {
+                                            PolylineOptions options = new PolylineOptions();
+                                            options.addAll(latLngs);
+                                            options.color(Color.BLACK);
+                                            options.width(8);
+                                            options.startCap(new SquareCap());
+                                            options.endCap(new SquareCap());
+                                            Polyline line = mMap.addPolyline(options);
+
+                                          ValueAnimator valueAnimator = ValueAnimator.ofInt(0, 100);
+                                            valueAnimator.setDuration(2000); // 2 seconds
+                                            valueAnimator.setRepeatCount(ValueAnimator.INFINITE);
+                                            valueAnimator.setRepeatMode(ValueAnimator.RESTART);
+                                            valueAnimator.addUpdateListener(animator -> {
+                                                int alpha = (int) animator.getAnimatedValue();
+                                                line.setColor(Color.argb(alpha, 0, 0, 0));
+                                            });
+                                            valueAnimator.start();
+                                            LatLngBounds.Builder builder = new LatLngBounds.Builder();
+                                                builder.include(latLngs1);
+                                            final LatLngBounds bounds = builder.build();
+                                            CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 100);
+                                            mMap.animateCamera(cu);
+                                          /*  Snackbar.make(getWindow().getDecorView().getRootView()
+                                                    ,"",Snackbar.LENGTH_INDEFINITE).show();
+                                            SharedPreferenceUtility.getInstance(getApplicationContext()).putString("NevId","");*/
+
+                                            // create an instance of the snackbar
+                                            snackbar = Snackbar.make(getWindow().getDecorView().getRootView()
+                                                    , "", Snackbar.LENGTH_INDEFINITE);
+                                            View customSnackView = getLayoutInflater().inflate(R.layout.custom_snackbar_view, null);
+                                            snackbar.getView().setBackgroundColor(Color.TRANSPARENT);
+                                            // now change the layout of the snackbar
+                                            Snackbar.SnackbarLayout snackbarLayout = (Snackbar.SnackbarLayout) snackbar.getView();
+                                            snackbarLayout.setPadding(0, 0, 0, 0);
+                                            TextView textView2 = customSnackView.findViewById(R.id.textView2);
+                                            textView2.setText("You have only "+SharedPreferenceUtility.getInstance(getApplicationContext()).getString("ArrTime")+" Minutes To Reach Next CheckPoint Hurry up!");
+                                            Button bGotoWebsite = customSnackView.findViewById(R.id.gotoWebsiteButton);
+                                            bGotoWebsite.setOnClickListener(new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View v) {
+                                                    Toast.makeText(getApplicationContext(), "Reaching Check....", Toast.LENGTH_SHORT).show();
+                                                    snackbar.dismiss();
+                                                }
+                                            });
+                                            snackbarLayout.addView(customSnackView, 0);
+
+                                            snackbar.show();
+
+                                        });
+
+
 
                             }
                         } catch (Exception e) {
@@ -224,7 +295,7 @@ public class MapAct extends AppCompatActivity implements OnMapReadyCallback, Goo
         polyOptions.width(5);
         polyOptions.addAll(list);
 
-        mMap.clear();
+       // mMap.clear();
         mMap.addPolyline(polyOptions);
 
         LatLngBounds.Builder builder = new LatLngBounds.Builder();
