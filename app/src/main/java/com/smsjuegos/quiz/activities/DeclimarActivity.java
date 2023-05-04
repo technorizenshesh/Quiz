@@ -1,32 +1,37 @@
 package com.smsjuegos.quiz.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.databinding.DataBindingUtil;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
+
 import com.smsjuegos.quiz.GameAztecStartVideoAct;
 import com.smsjuegos.quiz.R;
 import com.smsjuegos.quiz.databinding.ActivityDeclimarBinding;
+import com.smsjuegos.quiz.model.SuccessResGetEventDetail;
 
 public class DeclimarActivity extends AppCompatActivity {
 ActivityDeclimarBinding binding ;
-    private String eventId, eventCode,disclaimer;
+    private String eventId, eventCode, disclaimer;
+    private SuccessResGetEventDetail.Result eventDetails;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_declimar);
          binding = DataBindingUtil.setContentView(this,R.layout.activity_declimar);
-         if (getIntent().getExtras()!=null){
-             eventId = getIntent().getExtras().getString("eventId");
+         if (getIntent().getExtras()!=null) {
+             Intent intent = this.getIntent();
+             Bundle bundle = intent.getExtras();
+             eventDetails = (SuccessResGetEventDetail.Result) bundle.getSerializable("instructionID");
+             eventId = eventDetails.getId();
              eventCode = getIntent().getExtras().getString("eventCode");
-             disclaimer = getIntent().getExtras().getString("disclaimer");
+             disclaimer = eventDetails.getDisclaimer();
 
-             Log.e("TAG", "eventIdeventIdeventIdeventId: "+eventId );
-             Log.e("TAG", "eventCodeeventCodeeventCode: "+eventCode );
+             Log.e("TAG", "eventDetailseventDetailseventDetails: " + eventId);
+             Log.e("TAG", "eventDetailseventDetailseventDetails: " + eventCode);
              final String encoding = "UTF-8";
              final String mimeType = "text/html";
              // binding.tvInstruction.setText(data.getResult().get(0).getInstructions());
@@ -35,8 +40,14 @@ ActivityDeclimarBinding binding ;
          }
        //  binding.tvInstruction.setText(getString(R.string.desclemer) );
          binding.btnDownload.setOnClickListener(v -> {
+            /* Bundle bundle = new Bundle();
+             bundle.putSerializable("instructionID", );
+           */
              startActivity(new Intent(getApplicationContext(),
                      GameAztecStartVideoAct.class)
+                     // .putExtras(bundle )
+                     .putExtra("videoUrl", eventDetails.getVideo())
+                     .putExtra("eventId", eventId)
                      .putExtra("eventId", eventId)
                      .putExtra("eventCode", eventCode));
             /* startActivity(new Intent(getApplicationContext(),

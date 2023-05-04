@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -396,7 +397,6 @@ e.printStackTrace();
             }
             btnSubmit.setOnClickListener(v -> {
                 Log.e("TAG", "showImageSelection: Distanc"+ Distanc);
-
                 strCode = editText.getText().toString();
                 strCodeTeam = et_team_Name.getText().toString();
 
@@ -438,7 +438,7 @@ e.printStackTrace();
      //  map.put("lat" ,"19.429612948473434");
      //  map.put("lon" ,"-99.19726243783850");
         Call<ResponseBody> call = apiInterface.addStartTime(map);
-        call.enqueue(new Callback<ResponseBody>() {
+        call.enqueue(new Callback<>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
 
@@ -454,15 +454,21 @@ e.printStackTrace();
                     String result = jsonObject.getString("result");
 
                     if (data.equals("1")) {
-
-                        startActivity(new Intent(getActivity(), DeclimarActivity.class).putExtra("eventId", eventId)
-
-                                .putExtra("eventCode", strCode).putExtra("disclaimer", eventDetails.disclaimer));
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("instructionID", eventDetails);
+                        startActivity(new Intent(getActivity(), DeclimarActivity.class)
+                                        .putExtras(bundle)
+                                        .putExtra("eventId", eventId)
+                                        .putExtra("eventCode", strCode)
+                                /*   .putExtra("disclaimer", eventDetails.disclaimer)*/);
 
                     } else if (data.equals("0")) {
                         showToast(getActivity(), result);
                     } else if (data.equals("2")) {
                         showToast(getActivity(), jsonObject.getString("result"));
+                    }
+                    if (data.equals("3")) {
+                        showDialog();
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -475,6 +481,29 @@ e.printStackTrace();
                 DataManager.getInstance().hideProgressMessage();
             }
         });
+    }
+
+    private void showDialog() {
+        final Dialog dialogq = new Dialog(requireActivity());
+        dialogq.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialogq.getWindow().getAttributes().windowAnimations
+                = android.R.style.Widget_Material_ListPopupWindow;
+        dialogq.setContentView(R.layout.dialog_already_comp);
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        Window window = dialogq.getWindow();
+        lp.copyFrom(window.getAttributes());
+
+        Button ivCancel = dialogq.findViewById(R.id.btncncel);
+        ivCancel.setOnClickListener(D ->
+                {
+                    dialogq.dismiss();
+                }
+        );
+        lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        window.setAttributes(lp);
+        dialogq.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialogq.show();
     }
 
 }

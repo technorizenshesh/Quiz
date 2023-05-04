@@ -1,12 +1,15 @@
 package com.smsjuegos.quiz.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.databinding.DataBindingUtil;
-import androidx.recyclerview.widget.GridLayoutManager;
+import static com.smsjuegos.quiz.retrofit.Constant.USER_ID;
+import static com.smsjuegos.quiz.retrofit.Constant.showToast;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
+import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.google.gson.Gson;
 import com.smsjuegos.quiz.R;
@@ -30,9 +33,6 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import static com.smsjuegos.quiz.retrofit.Constant.USER_ID;
-import static com.smsjuegos.quiz.retrofit.Constant.showToast;
 
 public class FinalPuzzelAct extends AppCompatActivity {
 
@@ -337,6 +337,7 @@ public class FinalPuzzelAct extends AppCompatActivity {
 
                         startActivity(new Intent(FinalPuzzelAct.this,
                                 FinishTeamInfo.class)
+                                .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK)
                                 .putExtra("from", "1")
                                 .putExtra("eventId", eventId)
                                 .putExtra("eventCode", eventCode));
@@ -359,5 +360,8 @@ public class FinalPuzzelAct extends AppCompatActivity {
         });
     }
 
-
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
 }

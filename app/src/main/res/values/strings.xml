@@ -39,6 +39,7 @@
     <string name="finish">FINISH</string>
     <string name="finished">FINISHED</string>
     <string name="teams">Teams</string>
+    <string name="team">Team :</string>
     <string name="trending">Trending</string>
     <string name="book_event">Book Event</string>
     <string name="pay">Pay</string>
@@ -180,6 +181,7 @@ Be careful! You are in an uncontrolled public place. Be careful when crossing th
     <string name="wrong_answere">Wrong Answer 2 min Time Penalty Added</string>
     <string name="quiz">Quiz  </string>
     <string name="minuts">minutes</string>
+    <string name="already_completed">"You Have already completed the puzzle you can not participate again "</string>
 
 
 </resources>

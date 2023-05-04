@@ -53,7 +53,8 @@ public class DrawPollyLine {
         String str_origin = "origin=" + origin.latitude + "," + origin.longitude;
         String str_dest = "destination=" + dest.latitude + "," + dest.longitude;
         String sensor = "sensor=false";
-        String parameters = str_origin + "&" + str_dest + "&" + sensor + "&key=" + "AIzaSyAAjp4wuz5FyteoKH3Yp7Cv8pS1K86fJw0";
+        //String parameters = str_origin + "&" + str_dest + "&" + sensor + "&key=" + "AIzaSyAAjp4wuz5FyteoKH3Yp7Cv8pS1K86fJw0";
+        String parameters = str_origin + "&" + str_dest + "&" + sensor + "&key=" + "AIzaSyCjm3GS5HaNLYXnxqqF_IhsufMpQgcx8T0";
         String output = "json";
         String url = "" + output + "?" + parameters;
         Log.e("PathURL", "====>" + url);

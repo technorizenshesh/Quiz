@@ -41,7 +41,7 @@ public class SuccessResGetEventDetail implements Serializable {
         this.status = status;
     }
 
-    public class Result {
+    public class Result implements Serializable {
 
         @SerializedName("id")
         @Expose
@@ -97,6 +97,17 @@ public class SuccessResGetEventDetail implements Serializable {
         @SerializedName("disclaimer")
         @Expose
         public String disclaimer;
+        @SerializedName("video")
+        @Expose
+        public String video;
+
+        public String getVideo() {
+            return video;
+        }
+
+        public void setVideo(String video) {
+            this.video = video;
+        }
 
         public String getDisclaimer() {
             return disclaimer;

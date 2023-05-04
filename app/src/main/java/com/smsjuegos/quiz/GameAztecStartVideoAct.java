@@ -31,11 +31,9 @@ import com.google.android.exoplayer2.upstream.BandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
 import com.smsjuegos.quiz.activities.DownloadAct;
-import com.smsjuegos.quiz.activities.game2.Game2InstructionAct;
 import com.smsjuegos.quiz.model.SuccessResGetEvents;
 
 public class GameAztecStartVideoAct extends AppCompatActivity {
-
     ImageView ivHeader;
     private CardView cvVideo;
     private SuccessResGetEvents.Result result;
@@ -54,39 +52,35 @@ public class GameAztecStartVideoAct extends AppCompatActivity {
         cvVideo = findViewById(R.id.cvBack);
         btnPlay = findViewById(R.id.btnPlay);
        /* result = (SuccessResGetEvents.Result) getIntent().
-                getSerializableExtra("instructionID");*/
-       // videoUrl =     result.getVideo();
-        if (getIntent().getExtras()!=null){
+                getSerializableExtra("instructionID");
+         =     result.getVideo();
+*/
+        Log.e("TAG", "onCreate: " + videoUrl);
+        if (getIntent().getExtras() != null) {
             eventId = getIntent().getExtras().getString("eventId");
             eventCode = getIntent().getExtras().getString("eventCode");
+            videoUrl = getIntent().getExtras().getString("videoUrl");
 
-            Log.e("TAG", "eventIdeventIdeventIdeventId: "+eventId );
-            Log.e("TAG", "eventCodeeventCodeeventCode: "+ eventCode );
-        }else {
-         //   eventId="4";
-               //     eventCode="441812";
+            Log.e("TAG", "eventIdeventIdeventIdeventId: " + eventId);
+            Log.e("TAG", "eventCodeeventCodeeventCode: " + eventCode);
+        } else {
+            //   eventId="4";
+            //     eventCode="441812";
         }
-      //  videoUrl="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4";
-        videoUrl="https://firebasestorage.googleapis.com/v0/b/secretmissionsocity.appspot.com/o/IMG_2279%20(3).mov?alt=media&token=b3e9a553-4b65-4f2b-a4d4-86ed921c7c7b";
+        //  videoUrl="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4";
+        //  videoUrl="https://firebasestorage.googleapis.com/v0/b/secretmissionsocity.appspot.com/o/IMG_2279%20(3).mov?alt=media&token=b3e9a553-4b65-4f2b-a4d4-86ed921c7c7b";
         btnPlay.setAlpha(.5f);
-        cvVideo.setOnClickListener(v ->
-                {
-                    exoPlayer.stop();
-                    exoPlayer.release();
-                    finish();
-                }
-        );
+        cvVideo.setOnClickListener(v -> {
+            exoPlayer.stop();
+            exoPlayer.release();
+            finish();
+        });
 
-        btnPlay.setOnClickListener(v ->
-                {
-                    exoPlayer.stop();
-                    exoPlayer.release();
-                    startActivity(new Intent(getApplicationContext(),
-                            DownloadAct.class)
-                            .putExtra("eventId", eventId)
-                            .putExtra("eventCode", eventCode));
-                }
-        );
+        btnPlay.setOnClickListener(v -> {
+            exoPlayer.stop();
+            exoPlayer.release();
+            startActivity(new Intent(getApplicationContext(), DownloadAct.class).putExtra("eventId", eventId).putExtra("eventCode", eventCode));
+        });
 
         exoPlayerView = findViewById(R.id.idExoPlayerVIew);
         try {
@@ -145,19 +139,14 @@ public class GameAztecStartVideoAct extends AppCompatActivity {
                 @Override
                 public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
 
-                    if (playbackState == ExoPlayer.STATE_ENDED){
+                    if (playbackState == ExoPlayer.STATE_ENDED) {
                         //player back ended
                         exoPlayer.stop();
                         exoPlayer.release();
                         btnPlay.setAlpha(1);
-                        btnPlay.setOnClickListener(v ->
-                                {
-                                    startActivity(new Intent(getApplicationContext(),
-                                            DownloadAct.class)
-                                            .putExtra("eventId", eventId)
-                                            .putExtra("eventCode", eventCode));
-                                }
-                        );
+                        btnPlay.setOnClickListener(v -> {
+                            startActivity(new Intent(getApplicationContext(), DownloadAct.class).putExtra("eventId", eventId).putExtra("eventCode", eventCode));
+                        });
                     }
                 }
 
@@ -202,20 +191,28 @@ public class GameAztecStartVideoAct extends AppCompatActivity {
 
     @Override
     protected void onPause() {
-if (exoPlayer!=null){
-    exoPlayer.stop();
-    exoPlayer.release();
-}
+        if (exoPlayer != null) {
+            exoPlayer.stop();
+            exoPlayer.release();
+        }
         super.onPause();
     }
 
     @Override
     protected void onStop() {
-        if (exoPlayer!=null){
+        if (exoPlayer != null) {
             exoPlayer.stop();
             exoPlayer.release();
         }
         super.onStop();
     }
 
+    @Override
+    protected void onDestroy() {
+        if (exoPlayer != null) {
+            exoPlayer.stop();
+            exoPlayer.release();
+        }
+        super.onDestroy();
+    }
 }

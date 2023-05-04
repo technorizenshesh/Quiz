@@ -1,13 +1,17 @@
 package com.smsjuegos.quiz.activities.game2;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.databinding.DataBindingUtil;
+import static com.smsjuegos.quiz.retrofit.Constant.EVENT_CODE;
+import static com.smsjuegos.quiz.retrofit.Constant.USER_ID;
+import static com.smsjuegos.quiz.retrofit.Constant.showToast;
 
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
 
 import com.bumptech.glide.Glide;
 import com.google.android.exoplayer2.ExoPlaybackException;
@@ -49,10 +53,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.smsjuegos.quiz.retrofit.Constant.EVENT_CODE;
-import static com.smsjuegos.quiz.retrofit.Constant.USER_ID;
-import static com.smsjuegos.quiz.retrofit.Constant.showToast;
-
 public class MissionCompletedAct extends AppCompatActivity {
 
     ActivityMissionCompletedBinding binding;
@@ -81,7 +81,8 @@ public class MissionCompletedAct extends AppCompatActivity {
         binding.btnfinish.setOnClickListener(v ->
                 {
                     startActivity(new Intent(MissionCompletedAct.
-                            this,FinishTeamInfo.class)
+                            this, FinishTeamInfo.class)
+                            .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK)
                             .putExtra("from","4")
                             .putExtra("eventId",result.getId()));
                     finishAffinity();
@@ -117,7 +118,8 @@ public class MissionCompletedAct extends AppCompatActivity {
                         binding.secondVid.setVisibility(View.VISIBLE);
                          }else {
                              startActivity(new Intent(MissionCompletedAct.
-                                     this,FinishTeamInfo.class)
+                                     this, FinishTeamInfo.class)
+                                     .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK)
                                      .putExtra("from","4")
                                      .putExtra("eventId",result.getId()));
                              finishAffinity();
@@ -208,7 +210,8 @@ public class MissionCompletedAct extends AppCompatActivity {
                         binding.btnfinish.setOnClickListener(v ->
                                 {
                                     startActivity(new Intent(MissionCompletedAct.
-                                            this,FinishTeamInfo.class)
+                                            this, FinishTeamInfo.class)
+                                            .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK)
                                             .putExtra("from","4")
                                             .putExtra("eventId",result.getId()));
                                     finishAffinity();

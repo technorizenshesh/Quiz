@@ -1,14 +1,17 @@
 package com.smsjuegos.quiz.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.databinding.DataBindingUtil;
-import androidx.recyclerview.widget.LinearLayoutManager;
+import static com.smsjuegos.quiz.retrofit.Constant.USER_ID;
+import static com.smsjuegos.quiz.retrofit.Constant.showToast;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.tabs.TabLayout;
@@ -25,7 +28,6 @@ import com.smsjuegos.quiz.retrofit.QuizInterface;
 import com.smsjuegos.quiz.utility.DataManager;
 import com.smsjuegos.quiz.utility.SharedPreferenceUtility;
 
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -33,9 +35,6 @@ import java.util.Map;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import static com.smsjuegos.quiz.retrofit.Constant.USER_ID;
-import static com.smsjuegos.quiz.retrofit.Constant.showToast;
 
 public class FinishTeamInfo extends AppCompatActivity {
 
@@ -61,7 +60,7 @@ public class FinishTeamInfo extends AppCompatActivity {
                     startActivity(new Intent(FinishTeamInfo.this,HomeAct.class)
                             .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK));
                 }
-                );
+        );
         binding.header.imgHeader.setOnClickListener(v -> finish());
         binding.header.tvHeader.setText(R.string.teams);
         binding.rvTimePanalites.setHasFixedSize(true);
@@ -70,10 +69,12 @@ public class FinishTeamInfo extends AppCompatActivity {
         binding.rvteam.setHasFixedSize(true);
         binding.rvteam.setLayoutManager(new LinearLayoutManager(this));
         binding.rvteam.setAdapter(teamAdapter);
+        //  fromWhere="1";
         fromWhere = getIntent().getExtras().getString("from");
-        if(fromWhere.equalsIgnoreCase("1"))
-        {
+        if (fromWhere.equalsIgnoreCase("1")) {
             binding.tabLayoutEventDay.setVisibility(View.VISIBLE);
+            //  eventId = "1";
+            //  eventCode ="986524";
             eventId = getIntent().getExtras().getString("eventId");
             eventCode = getIntent().getExtras().getString("eventCode");
             binding.tabLayoutEventDay.addTab(binding.tabLayoutEventDay.newTab()
@@ -85,7 +86,7 @@ public class FinishTeamInfo extends AppCompatActivity {
             binding.tabLayoutEventDay.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
                 @Override
                 public void onTabSelected(TabLayout.Tab tab) {
-                    int currentTabSelected= tab.getPosition();
+                    int currentTabSelected = tab.getPosition();
                     if (currentTabSelected==0) {
                         binding.llInfo.setVisibility(View.VISIBLE);
                         binding.rvteam.setVisibility(View.GONE);
@@ -258,22 +259,15 @@ public class FinishTeamInfo extends AppCompatActivity {
         });
     }
 
-    private void setEventDetail()
-    {
-
+    private void setEventDetail() {
         binding.label.setText(successResGetFinalTime.getEventDetails().getEventName());
-
+        binding.etTeamName.setText(successResGetFinalTime.getTeamName());
         String totalTime = successResGetFinalTime.getEventTotalTime();
-
-        String teamDetail = getString(R.string.team_members_3_6)+" "+successResGetFinalTime.getTotalTicket()+"/6";
-
-        binding.tvTotalPenalties.setText(successResGetFinalTime.getPenaltyTime()+getString(R.string.minuts));
+        String teamDetail = getString(R.string.team_members_3_6) + " " + successResGetFinalTime.getTotalTicket() + "/6";
+        binding.tvTotalPenalties.setText(successResGetFinalTime.getPenaltyTime() + getString(R.string.minuts));
         binding.tvTotalTime.setText(totalTime);
         binding.tvTeamDetail.setText(teamDetail);
-        Glide.with(FinishTeamInfo.this)
-                .load(successResGetFinalTime.getEventDetails().getImage())
-                .centerCrop()
-                .into(binding.imgEvent);
+        Glide.with(FinishTeamInfo.this).load(successResGetFinalTime.getEventDetails().getImage()).centerCrop().into(binding.imgEvent);
     }
 
     private void getOtherFinishInfo()
@@ -291,7 +285,7 @@ public class FinishTeamInfo extends AppCompatActivity {
                     Log.e("data", data.status);
                     if (data.status.equals("1")) {
                         String dataResponse = new Gson().toJson(response.body());
-                        Log.e("MapMap", "EDIT PROFILE RESPONSE" + dataResponse);
+                        Log.e("MapMap", "teamAdapter teamAdapter teamAdapter" + dataResponse);
 
                         otherResults.clear();
                         otherResults.addAll(data.getResult());
@@ -307,6 +301,7 @@ public class FinishTeamInfo extends AppCompatActivity {
                     e.printStackTrace();
                 }
             }
+
             @Override
             public void onFailure(Call<SuccessResGetOtherUserData> call, Throwable t) {
                 call.cancel();
@@ -315,5 +310,11 @@ public class FinishTeamInfo extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(FinishTeamInfo.this, HomeAct.class)
+                .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
 
+        super.onBackPressed();
+    }
 }

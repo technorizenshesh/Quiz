@@ -95,6 +95,9 @@
         <action
             android:id="@+id/action_searchFragment_to_eventDetailFragment"
             app:destination="@id/eventDetailFragment" />
+        <action
+            android:id="@+id/action_searchFragment_to_navigation_list"
+            app:destination="@id/navigation_list" />
     </fragment>
     <fragment
         android:id="@+id/editProfileFragment"

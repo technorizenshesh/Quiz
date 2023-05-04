@@ -14,7 +14,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -78,10 +77,10 @@ public class MapAct extends AppCompatActivity implements OnMapReadyCallback, Goo
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-        //   eventId = getIntent().getExtras().getString("eventId");
-        //   eventCode = getIntent().getExtras().getString("eventCode");
-       eventId ="5";
-       eventCode = "885429";
+        eventId = getIntent().getExtras().getString("eventId");
+        eventCode = getIntent().getExtras().getString("eventCode");
+        //      eventId ="5";
+        //      eventCode = "885429";
     }
 
     @Override
@@ -166,7 +165,7 @@ public class MapAct extends AppCompatActivity implements OnMapReadyCallback, Goo
                         Log.e("MapMap", "EDIT PROFILE RESPONSE" + dataResponse);
                         instructionList.clear();
                         instructionList.addAll(data.getResult());
-                        mMap.setOnMarkerClickListener(MapAct.this::onMarkerClick);
+                        mMap.setOnMarkerClickListener(MapAct.this);
                         marker = new Marker[instructionList.size()];
                         int i = 0;
 
@@ -268,7 +267,6 @@ public class MapAct extends AppCompatActivity implements OnMapReadyCallback, Goo
                                         });
 
 
-
                             }
                         } catch (Exception e) {
 
@@ -276,6 +274,12 @@ public class MapAct extends AppCompatActivity implements OnMapReadyCallback, Goo
 
                     } else if (data.status.equals("0")) {
                         showToast(MapAct.this, data.message);
+                    } else if (data.status.equals("2")) {
+                        showToast(MapAct.this, data.message);
+                        Thread.sleep(5000);
+                        startActivity(new Intent(MapAct.this, HomeAct.class)
+                                .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
+
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
