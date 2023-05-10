@@ -116,12 +116,22 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/forgot_password"
-            android:layout_gravity="end"
+            android:layout_gravity="start"
             android:fontFamily="@font/poppins_regular"
             android:layout_marginTop="@dimen/_8sdp"
             android:textColor="@color/appcolor"
             android:textSize="@dimen/_12sdp"
             />
+    <TextView
+        android:id="@+id/tvSiguplink"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/dont_have_an_account_sign_in_now"
+        android:textSize="@dimen/_16sdp"
+        android:fontFamily="@font/metropolis_bold"
+        android:gravity="center_horizontal"
+         android:layout_marginTop="@dimen/_15sdp"
+        />
     <TextView
         android:layout_margin="@dimen/_5sdp"
         android:id="@+id/prvc"
@@ -144,16 +154,7 @@
             android:textSize="@dimen/_13sdp"
             android:fontFamily="@font/poppins_medium"
             android:background="@drawable/bt_bg"/>
-    <TextView
-        android:id="@+id/tvSiguplink"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/dont_have_an_account_sign_in_now"
-        android:textSize="@dimen/_12sdp"
-        android:fontFamily="@font/metropolis_bold"
-        android:gravity="center_horizontal"
-        android:layout_marginTop="@dimen/_15sdp"
-        />
+
 
 </LinearLayout>
 </ScrollView>

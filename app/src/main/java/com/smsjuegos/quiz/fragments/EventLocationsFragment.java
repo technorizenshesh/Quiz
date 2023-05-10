@@ -115,15 +115,13 @@ public class EventLocationsFragment extends Fragment implements OnMapReadyCallba
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_event_locations, container, false);
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
+        assert mapFragment != null;
         mapFragment.getMapAsync(this);
         gpsTracker = new GPSTracker(getActivity());
         apiInterface = ApiClient.getClient().create(QuizInterface.class);
         Bundle bundle = getArguments();
-
         if (bundle != null) {
             eventId = bundle.getString("eventId");
             event_code = bundle.getString("event_code");
@@ -136,7 +134,17 @@ public class EventLocationsFragment extends Fragment implements OnMapReadyCallba
                         Toast.makeText(requireActivity(), Distanc.toString(), Toast.LENGTH_SHORT).show();
                         return;
                     }*/
-                    showImageSelection();
+
+
+            if (eventDetails.team_name.equalsIgnoreCase("")) {
+                showImageSelection();
+            } else {
+                strCode = event_code;
+                strCodeTeam = eventDetails.team_name;
+
+                addeventStartTime();
+
+                  }
                 }
                 /*    try {
 
@@ -171,7 +179,6 @@ public class EventLocationsFragment extends Fragment implements OnMapReadyCallba
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         switch (requestCode) {
-
             case 1000: {
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -211,7 +218,7 @@ public class EventLocationsFragment extends Fragment implements OnMapReadyCallba
         LatLng sydney = new LatLng(Double.parseDouble(eventDetails.lat), Double.parseDouble(eventDetails.lon));
         mMap.addMarker(new MarkerOptions().position(sydney).icon(icon));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(17.0f));
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(12.0f));
         try {
 
 
@@ -421,6 +428,66 @@ e.printStackTrace();
         }
 
     }
+/*
+    public void showImageSelection() {
+        try {
+            strCode = "";
+            strCodeTeam = "";
+            final Dialog dialog = new Dialog(requireActivity());
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.getWindow().getAttributes().windowAnimations = android.R.style.Widget_Material_ListPopupWindow;
+            dialog.setContentView(R.layout.dialog_use_code_add_team);
+            WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+            Window window = dialog.getWindow();
+            lp.copyFrom(window.getAttributes());
+            AppCompatButton btnSubmit = dialog.findViewById(R.id.btnSubmit);
+            EditText editText = dialog.findViewById(R.id.etName);
+            EditText et_team_Name = dialog.findViewById(R.id.et_team_Name);
+            lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+            lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+            window.setAttributes(lp);
+            if (eventDetails.eventStatus.equalsIgnoreCase("false")) {
+                et_team_Name.setVisibility(View.VISIBLE);
+
+            } else {
+                if (eventDetails.team_name.equalsIgnoreCase("")) {
+
+                } else {
+                    et_team_Name.setVisibility(View.VISIBLE);
+                    et_team_Name.setClickable(false);
+                    et_team_Name.setFocusable(false);
+                    et_team_Name.setInputType(0);
+                    et_team_Name.setText(eventDetails.getTeam_name());
+                }
+
+            }
+            btnSubmit.setOnClickListener(v -> {
+                Log.e("TAG", "showImageSelection: Distanc"+ Distanc);
+                strCode = editText.getText().toString();
+                strCodeTeam = et_team_Name.getText().toString();
+
+                if (strCodeTeam.equalsIgnoreCase("")) {
+                    showToast(getActivity(), "Please enter Team Name");
+
+                } else if (!strCode.equalsIgnoreCase("")) {
+                    addeventStartTime();
+                    dialog.dismiss();
+
+                } else {
+                    showToast(getActivity(), "Please enter code");
+                }
+            });
+
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            dialog.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(requireContext(), "Unsupported Device", Toast.LENGTH_SHORT).show();
+
+        }
+
+    }
+*/
 
 
     public void addeventStartTime() {
@@ -441,9 +508,7 @@ e.printStackTrace();
         call.enqueue(new Callback<>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-
                 DataManager.getInstance().hideProgressMessage();
-
                 try {
 
                     JSONObject jsonObject = new JSONObject(response.body().string());

@@ -94,7 +94,7 @@ public class MapAct extends AppCompatActivity implements OnMapReadyCallback, Goo
         mMap = googleMap;
         mMap.clear();
 
-        try {
+      /*  try {
             // Customise the styling of the base map using a JSON object defined
             // in a raw resource file.
             boolean success = mMap.setMapStyle(
@@ -106,7 +106,7 @@ public class MapAct extends AppCompatActivity implements OnMapReadyCallback, Goo
             }
         } catch (Resources.NotFoundException e) {
             Log.e("MapsActivityRaw", "Can't find style.", e);
-        }
+        }*/
         if (ActivityCompat.checkSelfPermission(MapAct.this
                 , Manifest.permission.ACCESS_FINE_LOCATION) !=
                 PackageManager.PERMISSION_GRANTED && ActivityCompat.

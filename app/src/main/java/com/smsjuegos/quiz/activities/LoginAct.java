@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Toast;
 
@@ -88,6 +89,15 @@ public class LoginAct extends AppCompatActivity {
                 startActivity(new Intent(LoginAct.this, PrivacyPolicyAct.class));
 
             }
+        });
+
+        binding.etPass.setOnKeyListener((v, keyCode, event) -> {
+            if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
+                    (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                 binding.btnLogin.performClick();
+                return true;
+            }
+            return false;
         });
     }
 

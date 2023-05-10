@@ -100,6 +100,28 @@ public class SuccessResGetEventDetail implements Serializable {
         @SerializedName("video")
         @Expose
         public String video;
+        @SerializedName("intro_image")
+        @Expose
+        public String intro_image;
+        @SerializedName("intro")
+        @Expose
+        public String intro;
+
+        public String getIntro_image() {
+            return intro_image;
+        }
+
+        public void setIntro_image(String intro_image) {
+            this.intro_image = intro_image;
+        }
+
+        public String getIntro() {
+            return intro;
+        }
+
+        public void setIntro(String intro) {
+            this.intro = intro;
+        }
 
         public String getVideo() {
             return video;
