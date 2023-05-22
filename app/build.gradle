@@ -3,6 +3,7 @@ plugins {
 }
 
 android {
+    namespace = "com.smsjuegos.quiz"
     buildToolsVersion '30.0.3'
     compileSdk 33
     defaultConfig {

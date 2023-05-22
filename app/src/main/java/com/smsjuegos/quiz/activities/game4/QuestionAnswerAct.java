@@ -6,12 +6,13 @@ import static com.smsjuegos.quiz.retrofit.Constant.showToast;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -22,14 +23,12 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.databinding.DataBindingUtil;
 
 import com.bumptech.glide.Glide;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.gson.Gson;
 import com.smsjuegos.quiz.R;
 import com.smsjuegos.quiz.databinding.ActivityQuestionAnswerBinding;
@@ -38,14 +37,11 @@ import com.smsjuegos.quiz.model.SuccessResGetInstruction;
 import com.smsjuegos.quiz.retrofit.ApiClient;
 import com.smsjuegos.quiz.retrofit.QuizInterface;
 import com.smsjuegos.quiz.utility.DataManager;
-import com.smsjuegos.quiz.utility.DirectionsJSONParser;
 import com.smsjuegos.quiz.utility.SharedPreferenceUtility;
 
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import okhttp3.ResponseBody;
@@ -68,6 +64,9 @@ public class QuestionAnswerAct extends AppCompatActivity {
     final String mimeType = "text/html";
     final String encoding = "UTF-8";
     RadioGroup radioGroup;
+    LinearLayout timeLay;
+    TextView timeView;
+
     RadioButton radioButton1, radioButton2, radioButton3, radioButton4;
     AppCompatButton submit;
     @Override
@@ -96,23 +95,6 @@ public class QuestionAnswerAct extends AppCompatActivity {
 
 
 
-            Log.e(TAG, "result.getTimer(result.getTimer(: " + result.getTimer());
-            if (result.getTimer().equalsIgnoreCase("0")) {
-
-                binding.timeLay.setVisibility(View.GONE);
-            } else {
-                binding.timeLay.setVisibility(View.VISIBLE);
-                Log.e(TAG, "onCreateonCreateonCreateonCreateonCreateonCreate: " + result.getTimer());
-                try {
-                showTime( result.getTimer());
-                } catch (Exception e) {
-                    Log.e(TAG, "Exception: "+e.getLocalizedMessage() );
-                    Log.e(TAG, "Exception: "+e.getCause() );
-                    Log.e(TAG, "Exception: "+e.getMessage() );
-                    e.printStackTrace();
-                }
-            }
-
 
     }
     private void showTime(String time) {
@@ -121,10 +103,19 @@ public class QuestionAnswerAct extends AppCompatActivity {
         new CountDownTimer(s, 1000) {
 
             public void onTick(long millisUntilFinished) {
-                binding.timeView.setText("" + millisUntilFinished / 1000);
+
+                long seconds = millisUntilFinished / 1000;
+                long minutes = seconds / 60; // Divide seconds by 60 to get minutes
+                long remainingSeconds = seconds % 60; // Calculate remaining seconds
+
+                //System.out.println(seconds + " seconds is equal to " + minutes + " minutes and " +  + " seconds.");
+                timeView.setText(minutes + ":" + remainingSeconds);
+
             }
             public void onFinish() {
-                binding.timeView.setText("Time's up!");
+                timeView.setText(R.string.time_s_up);
+                dialog.setCancelable(true);
+                dialog.dismiss();
                 addPanalties(10,"fine");
 
             }
@@ -136,16 +127,18 @@ public class QuestionAnswerAct extends AppCompatActivity {
     private void showDialog() {
         dialog = new Dialog(this);
         selectedAnswer = "";
-
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(false);
         dialog.getWindow().getAttributes().windowAnimations = android.R.style.Widget_Material_ListPopupWindow;
-        dialog.setContentView(R.layout.dialog_select_answer);
+        dialog.setContentView(R.layout.dialog_select_answer_crime);
         WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
         Window window = dialog.getWindow();
         lp.copyFrom(window.getAttributes());
         ImageView ivCancel = dialog.findViewById(R.id.ivCancel);
         radioGroup = dialog.findViewById(R.id.radioGroup);
         submit = dialog.findViewById(R.id.btnSubmit);
+        timeLay = dialog.findViewById(R.id.time_lay);
+        timeView = dialog.findViewById(R.id.time_view);
         radioButton1 = dialog.findViewById(R.id.radio_button_0);
         radioButton2 = dialog.findViewById(R.id.radio_button_1);
         radioButton3 = dialog.findViewById(R.id.radio_button_2);
@@ -158,8 +151,24 @@ public class QuestionAnswerAct extends AppCompatActivity {
             dialog.dismiss();
         });
 
-        submit.setOnClickListener(v -> {
+        Log.e(TAG, "result.getTimer(result.getTimer(: " + result.getTimer());
+        if (result.getTimer().equalsIgnoreCase("0")) {
 
+            timeLay.setVisibility(View.GONE);
+        } else {
+            timeLay.setVisibility(View.VISIBLE);
+            Log.e(TAG, "onCreateonCreateonCreateonCreateonCreateonCreate: " + result.getTimer());
+            try {
+                showTime( result.getTimer());
+            } catch (Exception e) {
+                Log.e(TAG, "Exception: "+e.getLocalizedMessage() );
+                Log.e(TAG, "Exception: "+e.getCause() );
+                Log.e(TAG, "Exception: "+e.getMessage() );
+                e.printStackTrace();
+            }
+        }
+
+        submit.setOnClickListener(v -> {
             selectedAnswer = "";
             int selectedId = radioGroup.getCheckedRadioButtonId();
             selectedRadioButton = (RadioButton) dialog.findViewById(selectedId);
@@ -179,10 +188,35 @@ public class QuestionAnswerAct extends AppCompatActivity {
                 submitAnswer(selectedAnswer);
             }
         });
-        lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
-        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.MATCH_PARENT;
         window.setAttributes(lp);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+/*
+        dialog.setOnKeyListener((dialog, keyCode, event) -> {
+            if(keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP){
+                AlertDialog.Builder builder = new AlertDialog.Builder(QuestionAnswerAct.this);
+                builder.setMessage(R.string.are_you_sure_you_want_to_cancel)
+                        .setCancelable(false)
+                        .setPositiveButton(getApplicationContext().getString(R.string.yes), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                               // cancel_by_user_API();
+                                dialog.cancel();
+                            }
+                        }).setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        });
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
+            }
+            return false;
+        });
+*/
         dialog.show();
     }
 
@@ -192,7 +226,6 @@ public class QuestionAnswerAct extends AppCompatActivity {
     private void showHints() {
 
         AppCompatButton appCompatButton;
-
         dialog = new Dialog(this);
         selectedAnswer = "";
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -393,7 +426,7 @@ public class QuestionAnswerAct extends AppCompatActivity {
                     if (data.equals("1")) {
                         String dataResponse = new Gson().toJson(response.body());
                         Log.e("MapMap", "EDIT PROFILE RESPONSE" + dataResponse);
-
+                        dialog.dismiss();
                         answerSuccess();
 
                     } else if (data.equals("0")) {

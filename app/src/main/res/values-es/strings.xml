@@ -359,5 +359,6 @@ Ten cuidado!, estás en un lugar público no controlado.  Ten cuidado al cruzar 
     <string name="minuts">minutos</string>
     <string name="already_completed">Ya has completado el puzzle no puedes volver a participar </string>
     <string name="introduction">Introducción</string>
+    <string name="time_s_up">Se acabó el tiempo</string>
 
 </resources>

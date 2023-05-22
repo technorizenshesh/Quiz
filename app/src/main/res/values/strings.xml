@@ -183,6 +183,7 @@ Be careful! You are in an uncontrolled public place. Be careful when crossing th
     <string name="minuts">minutes</string>
     <string name="already_completed">"You Have already completed the puzzle you can not participate again "</string>
     <string name="introduction">Introduction</string>
+    <string name="time_s_up">Time\'s up!</string>
 
 
 </resources>
