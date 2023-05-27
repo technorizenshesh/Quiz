@@ -8,7 +8,6 @@ import android.Manifest;
 import android.animation.ValueAnimator;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -31,7 +30,6 @@ import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
-import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
@@ -121,8 +119,15 @@ public class MapAct extends AppCompatActivity implements OnMapReadyCallback, Goo
     @Override
     public boolean onMarkerClick(@NonNull Marker marker) {
         int position = (int) (marker.getTag());
-
+        Log.e("TAG", "onMarkerClick: position" + position);
+        Log.e("TAG",
+                "onMarkerClick: instructionList.get(position).getEventType()---" + instructionList.get(position).getEventType());
         if (instructionList.get(position).getEventType().equalsIgnoreCase("crime")) {
+       //     startActivity(new Intent(MapAct.this, QuestionAnswerAct.class).
+        //            putExtra("instructionID", instructionList.get(position))
+       //             .putExtra("eventCode", eventCode));
+            Toast.makeText(getApplicationContext(), ""+position, Toast.LENGTH_SHORT).show();
+        } else if (instructionList.get(position).getEventType().equalsIgnoreCase("codigo_frida")) {
             startActivity(new Intent(MapAct.this, QuestionAnswerAct.class).
                     putExtra("instructionID", instructionList.get(position))
                     .putExtra("eventCode", eventCode));
@@ -170,11 +175,16 @@ public class MapAct extends AppCompatActivity implements OnMapReadyCallback, Goo
                         int i = 0;
 
                         for (SuccessResGetInstruction.Result result : instructionList) {
+
                             if (result.getAnswer_status().equalsIgnoreCase("1")) {
-                                marker[i] = createMarker(i, Double.parseDouble(result.getLat()), Double.parseDouble(result.getLon()),
+                                if (result.getLat().equalsIgnoreCase("")) return;
+                                else marker[i] = createMarker(i, Double.parseDouble(result.getLat()), Double.parseDouble(result.getLon()),
                                         "#" + i, "", R.drawable.flag_green);
                             } else {
-                                marker[i] = createMarker(i, Double.parseDouble(result.getLat()),
+
+                                if (result.getLat().equalsIgnoreCase("")) return;
+                                else
+                                    marker[i] = createMarker(i, Double.parseDouble(result.getLat()),
                                         Double.parseDouble(result.getLon()),
                                         "#" + i, "", R.drawable.flag_red);
                             }
@@ -205,7 +215,9 @@ public class MapAct extends AppCompatActivity implements OnMapReadyCallback, Goo
                         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 15));
                         mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
                         try {
-                            if (strtlang.equalsIgnoreCase("") ){}else {
+                            if (strtlang.equalsIgnoreCase("") ){
+
+                            }else {
                             //     List<LatLng>latLngs = new ArrayList<>();
                                 LatLng  latLngs1=  new LatLng(Double.parseDouble(strtlat),Double.parseDouble(strtlang));
                                 LatLng  latLngs2=  new LatLng(Double.parseDouble(endlat),Double.parseDouble(endlang));
@@ -269,7 +281,9 @@ public class MapAct extends AppCompatActivity implements OnMapReadyCallback, Goo
 
                             }
                         } catch (Exception e) {
-
+                            Log.e("TAG", "onResponse: "+e.getLocalizedMessage());
+                            Log.e("TAG", "onResponse: "+e.getMessage());
+                            Log.e("TAG", "onResponse: "+e.getCause());
                         }
 
                     } else if (data.status.equals("0")) {

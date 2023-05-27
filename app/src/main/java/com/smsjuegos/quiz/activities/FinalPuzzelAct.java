@@ -59,6 +59,8 @@ public class FinalPuzzelAct extends AppCompatActivity {
         binding = DataBindingUtil.setContentView(this,R.layout.activity_final_puzzel);
         binding.header.imgHeader.setOnClickListener(v -> finish());
         binding.header.tvHeader.setText(getString(R.string.final_puzzel));
+        binding.tvContent.getSettings().setBuiltInZoomControls(true);
+
 
         peopleAdapter = new FinalPuzzelAdapter(FinalPuzzelAct.this, peopleList, new FinalPuzzelInterface() {
             @Override
@@ -96,9 +98,9 @@ public class FinalPuzzelAct extends AppCompatActivity {
         binding.rvPlaces.setLayoutManager(new GridLayoutManager(FinalPuzzelAct.this,3));
         binding.rvPlaces.setAdapter(placesAdapter);
 
-        getObject();
+       // getObject();
         getPeople();
-        getPlaces();
+      //  getPlaces();
 
         binding.btnFinsh.setOnClickListener(v ->
                 {
@@ -173,10 +175,19 @@ public class FinalPuzzelAct extends AppCompatActivity {
     }
     private void getPeople() {
         DataManager.getInstance().showProgressMessage(this, getString(R.string.please_wait));
+        boolean val = SharedPreferenceUtility.getInstance(getApplicationContext()).getBoolean(Constant.SELECTED_LANGUAGE);
+        String lang = "";
+
+        if (!val) {
+            lang = "en";
+        } else {
+            lang = "sp";
+        }
         Map<String, String> map = new HashMap<>();
         map.put("event_id", eventId);
         map.put("event_code", eventCode);
-        map.put("type", "People");
+        map.put("lang", lang);
+       // map.put("type", "People");
         Call<SuccessResGetInventory> call = apiInterface.getInventory(map);
         call.enqueue(new Callback<SuccessResGetInventory>() {
             @Override
@@ -185,12 +196,44 @@ public class FinalPuzzelAct extends AppCompatActivity {
                 try {
                     SuccessResGetInventory data = response.body();
                     Log.e("data", data.status);
+                    final String mimeType = "text/html";
+                    final String encoding = "UTF-8";
+                    binding.tvContent.loadDataWithBaseURL("", data.getNotice(), mimeType, encoding, "");
+
                     if (data.status.equals("1")) {
+
                         String dataResponse = new Gson().toJson(response.body());
                         Log.e("MapMap", "EDIT PROFILE RESPONSE" + dataResponse);
                         peopleList.clear();
-                        peopleList.addAll(data.getResult());
-                        peopleAdapter.notifyDataSetChanged();
+                        placesList.clear();
+                        objectList.clear();
+                      //  peopleList.addAll(data.getResult());
+                     //   peopleAdapter.notifyDataSetChanged();
+                        ArrayList<SuccessResGetInventory.Result> ArrayListss = new ArrayList<>();
+                        ArrayListss.clear();
+                        ArrayListss.addAll(data.getResult());
+                        if (ArrayListss.size() >= 1) {
+                            for (int i = 0; i < ArrayListss.size(); i++) {
+                                SuccessResGetInventory.Result res = ArrayListss.get(i);
+                                if (res.getType().equalsIgnoreCase("Places")) {
+                                    placesList.add(res);
+                                } else if (res.getType().equalsIgnoreCase("People")) {
+                                    peopleList.add(res);
+                                } else if (res.getType().equalsIgnoreCase("Objects")) {
+                                    objectList.add(res);
+                                }
+                            }
+
+                          peopleAdapter.notifyDataSetChanged();
+                          placesAdapter.notifyDataSetChanged();
+                          objectAdapter.notifyDataSetChanged();}
+
+
+
+
+
+
+
                     } else if (data.status.equals("0")) {
                         showToast(FinalPuzzelAct.this, data.message);
                         peopleList.clear();
@@ -204,7 +247,7 @@ public class FinalPuzzelAct extends AppCompatActivity {
         });
     }
 
-    private void getObject()
+   /* private void getObject()
     {
         DataManager.getInstance().showProgressMessage(this, getString(R.string.please_wait));
         boolean val =  SharedPreferenceUtility.getInstance(getApplicationContext()).getBoolean(Constant.SELECTED_LANGUAGE);
@@ -310,7 +353,7 @@ public class FinalPuzzelAct extends AppCompatActivity {
                 DataManager.getInstance().hideProgressMessage();
             }
         });
-    }
+    }*/
 
     public void puzzelComplete()
     {

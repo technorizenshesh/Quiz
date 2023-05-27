@@ -17,6 +17,17 @@ public class SuccessResGetInventory implements Serializable {
     @SerializedName("status")
     @Expose
     public String status;
+    @SerializedName("notice")
+    @Expose
+    public String notice;
+
+    public String getNotice() {
+        return notice;
+    }
+
+    public void setNotice(String notice) {
+        this.notice = notice;
+    }
 
     public List<Result> getResult() {
         return result;

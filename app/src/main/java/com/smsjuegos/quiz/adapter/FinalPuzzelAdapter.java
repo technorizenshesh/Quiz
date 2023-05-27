@@ -203,6 +203,7 @@
 
 package com.smsjuegos.quiz.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -249,7 +250,7 @@ public class FinalPuzzelAdapter extends RecyclerView.Adapter<FinalPuzzelAdapter.
     }
 
     @Override
-    public void onBindViewHolder(@NonNull SelectTimeViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull SelectTimeViewHolder holder, @SuppressLint("RecyclerView") int position) {
 
         ImageView ivFinalImage = holder.itemView.findViewById(R.id.ivFinalImage);
         ImageView ivCheckedImage = holder.itemView.findViewById(R.id.checked);

@@ -116,9 +116,17 @@ public class EventLocationsFragment extends Fragment implements OnMapReadyCallba
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_event_locations, container, false);
-        SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
-        assert mapFragment != null;
-        mapFragment.getMapAsync(this);
+        try {
+
+
+        SupportMapFragment mapFragment =
+                (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.locat_map);
+            if (mapFragment != null) {
+                mapFragment.getMapAsync(this);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         gpsTracker = new GPSTracker(getActivity());
         apiInterface = ApiClient.getClient().create(QuizInterface.class);
         Bundle bundle = getArguments();
