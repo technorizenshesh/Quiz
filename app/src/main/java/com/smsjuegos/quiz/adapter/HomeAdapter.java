@@ -275,7 +275,13 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.SelectTimeView
                                 context.startActivity(new Intent(context, HomeScreenGame2Act.class)
                                         .putExtra("instructionID", eventsListList.get(position)));
 
+                            } else if (eventsListList.get(position).getType().equalsIgnoreCase("codigo_frida")) {
+                                Bundle bundle = new Bundle();
+                                bundle.putString("id", eventsListList.get(position).getId());
+                                Navigation.findNavController(v).navigate(R.id.action_navigation_profile_to_navigation_list
+                                        , bundle);
                             }
+                            Log.e("TAG", "onBindViewHolder:eventsListList.get(position).getType() "+eventsListList.get(position).getType() );
                         }
                         else if (fromHome.equalsIgnoreCase("cal")) {
 
@@ -294,10 +300,15 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.SelectTimeView
                                         , bundle);
                             } else if (eventsListList.get(position).getType().equalsIgnoreCase("Amenaza_Nuclear")) {
 
-                               // openWeb();
+                                // openWeb();
                                 context.startActivity(new Intent(context, HomeScreenGame2Act.class)
                                         .putExtra("instructionID", eventsListList.get(position)));
 
+                            } else if (eventsListList.get(position).getType().equalsIgnoreCase("codigo_frida")) {
+                                Bundle bundle = new Bundle();
+                                bundle.putString("id", eventsListList.get(position).getId());
+                                Navigation.findNavController(v).navigate(R.id.action_navigation_profile_to_navigation_list
+                                        , bundle);
                             }
                         }
                         else if (fromHome.equalsIgnoreCase("search")) {
@@ -321,6 +332,11 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.SelectTimeView
                                 context.startActivity(new Intent(context
                                         , HomeScreenGame2Act.class).putExtra("instructionID"
                                         , eventsListList.get(position)));
+                            } else if (eventsListList.get(position).getType().equalsIgnoreCase("codigo_frida")) {
+                                Bundle bundle = new Bundle();
+                                bundle.putString("id", eventsListList.get(position).getId());
+                                Navigation.findNavController(v).navigate(R.id.action_navigation_profile_to_navigation_list
+                                        , bundle);
                             }
 
 

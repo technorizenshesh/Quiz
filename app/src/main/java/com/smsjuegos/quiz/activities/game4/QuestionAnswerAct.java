@@ -66,9 +66,11 @@ public class QuestionAnswerAct extends AppCompatActivity {
     RadioGroup radioGroup;
     LinearLayout timeLay;
     TextView timeView;
-
     RadioButton radioButton1, radioButton2, radioButton3, radioButton4;
     AppCompatButton submit;
+    private RadioButton selectedRadioButton;
+    TextView tvSHowHint1, tvSHowHint2, tvSHowHint3;
+    WebView tvHint1, tvHint2, tvHint3;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -122,7 +124,6 @@ public class QuestionAnswerAct extends AppCompatActivity {
 
         }.start();
     }
-    private RadioButton selectedRadioButton;
 
     private void showDialog() {
         dialog = new Dialog(this);
@@ -219,10 +220,6 @@ public class QuestionAnswerAct extends AppCompatActivity {
 */
         dialog.show();
     }
-
-    TextView tvSHowHint1, tvSHowHint2, tvSHowHint3;
-    WebView tvHint1, tvHint2, tvHint3;
-
     private void showHints() {
 
         AppCompatButton appCompatButton;
@@ -286,7 +283,6 @@ public class QuestionAnswerAct extends AppCompatActivity {
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
     }
-
     public void addHintPanalties(int penalty) {
         String penaltyTime = "";
         if (penalty == 1) {
@@ -355,7 +351,6 @@ public class QuestionAnswerAct extends AppCompatActivity {
             }
         });
     }
-
     public void addPanalties(int penalty ,String fine) {
         String userId = SharedPreferenceUtility.getInstance(this).getString(USER_ID);
         Map<String, String> map = new HashMap<>();
@@ -377,8 +372,6 @@ public class QuestionAnswerAct extends AppCompatActivity {
                     if (!fine.equalsIgnoreCase("")){
                         selectedAnswer= result.getOptionAns();
                         submitAnswer(selectedAnswer);
-
-
                         Log.e(TAG, "selectedAnswerselectedAnswerselectedAnswerselectedAnswer: "+selectedAnswer );
                     }
 
@@ -393,12 +386,10 @@ public class QuestionAnswerAct extends AppCompatActivity {
             }
         });
     }
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
     }
-
     public void submitAnswer(String answer) {
 
         String userId = SharedPreferenceUtility.getInstance(this).getString(USER_ID);
@@ -448,7 +439,6 @@ public class QuestionAnswerAct extends AppCompatActivity {
             }
         });
     }
-
     private void answerSuccess() {
         if (result.getArrival_time().equalsIgnoreCase("0")){
 
@@ -468,6 +458,8 @@ public class QuestionAnswerAct extends AppCompatActivity {
         ImageView ivPuzzel = dialog.findViewById(R.id.ivWitness);
         LinearLayout go_to_map = dialog.findViewById(R.id.go_to_map);
         go_to_map.setOnClickListener(v -> {
+            dialog.dismiss();
+
             onBackPressed();
         });
         ivCancel.setOnClickListener(v -> {
@@ -482,5 +474,4 @@ public class QuestionAnswerAct extends AppCompatActivity {
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
     }
-
 }
