@@ -11,6 +11,7 @@ import com.smsjuegos.quiz.activities.SplashAct;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private static final String TAG = MyFirebaseMessagingService.class.getSimpleName();
@@ -32,7 +33,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         // Check if message contains a data payload.
         if (remoteMessage.getData().size() > 0) {
-            Log.e(TAG, "Data Payload: " + remoteMessage.getData().toString());
+            Log.e(TAG, "Data Payload: " + remoteMessage.getData());
 
             try {
                 JSONObject json = new JSONObject(remoteMessage.getData().toString());
@@ -51,9 +52,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             sendBroadcast(pushNotification);
 
             // play notification sound
-          //  NotificationUtils notificationUtils = new NotificationUtils(getApplicationContext());
-          //  notificationUtils.playNotificationSound();
-        }else{
+            //  NotificationUtils notificationUtils = new NotificationUtils(getApplicationContext());
+            //  notificationUtils.playNotificationSound();
+        } else {
             // If the app is in background, firebase itself handles the notification
         }
     }
@@ -74,7 +75,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             Log.e(TAG, "title: " + title);
             Log.e(TAG, "message: " + message);
             Log.e(TAG, "isBackground: " + isBackground);
-            Log.e(TAG, "payload: " + payload.toString());
+            Log.e(TAG, "payload: " + payload);
             Log.e(TAG, "imageUrl: " + imageUrl);
             Log.e(TAG, "timestamp: " + timestamp);
 
@@ -86,8 +87,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 sendBroadcast(pushNotification);
 
                 // play notification sound
-             //   NotificationUtils notificationUtils = new NotificationUtils(getApplicationContext());
-              //  notificationUtils.playNotificationSound();
+                //   NotificationUtils notificationUtils = new NotificationUtils(getApplicationContext());
+                //  notificationUtils.playNotificationSound();
             } else {
                 // app is in background, show the notification in notification tray
                 Intent resultIntent = new Intent(getApplicationContext(), SplashAct.class);

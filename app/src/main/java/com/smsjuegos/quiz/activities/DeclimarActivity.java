@@ -18,16 +18,15 @@ import androidx.databinding.DataBindingUtil;
 import com.bumptech.glide.Glide;
 import com.smsjuegos.quiz.GameAztecStartVideoAct;
 import com.smsjuegos.quiz.R;
-import com.smsjuegos.quiz.activities.game2.QuestionAct;
 import com.smsjuegos.quiz.databinding.ActivityDeclimarBinding;
 import com.smsjuegos.quiz.model.SuccessResGetEventDetail;
 
 public class DeclimarActivity extends AppCompatActivity {
-ActivityDeclimarBinding binding ;
-    private String eventId, eventCode, disclaimer;
-    private SuccessResGetEventDetail.Result eventDetails;
     final String encoding = "UTF-8";
     final String mimeType = "text/html";
+    ActivityDeclimarBinding binding;
+    private String eventId, eventCode, disclaimer;
+    private SuccessResGetEventDetail.Result eventDetails;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,9 +42,12 @@ ActivityDeclimarBinding binding ;
             disclaimer = eventDetails.getDisclaimer();
             Log.e("TAG", "eventDetailseventDetailseventDetails: " + eventId);
             Log.e("TAG", "eventDetailseventDetailseventDetails: " + eventCode);
-          // binding.tvInstruction.setText(data.getResult().get(0).getInstructions());
+            // binding.tvInstruction.setText(data.getResult().get(0).getInstructions());
             binding.tvInstruction.loadDataWithBaseURL("", disclaimer,
                     mimeType, encoding, "");
+            binding.tvInstruction.getSettings().setBuiltInZoomControls(true);
+            binding.tvInstruction.getSettings().setDisplayZoomControls(false);
+
         }
         //  binding.tvInstruction.setText(getString(R.string.desclemer) );
         binding.btnDownload.setOnClickListener(v -> {
@@ -63,7 +65,7 @@ ActivityDeclimarBinding binding ;
             dialogq.getWindow().getAttributes().windowAnimations
                     = android.R.style.Widget_Material_ListPopupWindow;
             dialogq.setContentView(R.layout.dialog_intro);
-           // dialogq.setCancelable(false);
+            // dialogq.setCancelable(false);
             WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
             Window window = dialogq.getWindow();
             lp.copyFrom(window.getAttributes());
@@ -72,18 +74,22 @@ ActivityDeclimarBinding binding ;
             ImageView imgHeader = dialogq.findViewById(R.id.imgHeader);
             tv_intro.loadDataWithBaseURL("", eventDetails.getIntro(),
                     mimeType, encoding, "");
+            tv_intro.getSettings().setBuiltInZoomControls(true);
+            tv_intro.getSettings().setDisplayZoomControls(false);
+
             Glide.with(getApplicationContext()).load(eventDetails.intro_image).into(intro_image);
             Button ivSubmit = dialogq.findViewById(R.id.btnDownload);
             imgHeader.setOnClickListener(D ->
                     {
-                       // addHintPanalties(3);
+                        // addHintPanalties(3);
 
                         dialogq.dismiss();
 
                     }
-            );  ivSubmit.setOnClickListener(D ->
+            );
+            ivSubmit.setOnClickListener(D ->
                     {
-                       // addHintPanalties(3);
+                        // addHintPanalties(3);
 
                         dialogq.dismiss();
                         startActivity(new Intent(getApplicationContext(),

@@ -1,12 +1,15 @@
 package com.smsjuegos.quiz.activities.game4;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.databinding.DataBindingUtil;
-import androidx.recyclerview.widget.GridLayoutManager;
+import static com.smsjuegos.quiz.retrofit.Constant.USER_ID;
+import static com.smsjuegos.quiz.retrofit.Constant.showToast;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
+import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.google.gson.Gson;
 import com.smsjuegos.quiz.R;
@@ -31,31 +34,28 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.smsjuegos.quiz.retrofit.Constant.USER_ID;
-import static com.smsjuegos.quiz.retrofit.Constant.showToast;
-
 public class Game4FinalActivity extends AppCompatActivity {
 
     ActivityFinalPuzzelBinding binding;
-    private String eventId,eventCode;
+    private String eventId, eventCode;
     private QuizInterface apiInterface;
 
-    private ArrayList<SuccessResGetInventory.Result> peopleList = new ArrayList<>();
-    private ArrayList<SuccessResGetInventory.Result> placesList = new ArrayList<>();
-    private ArrayList<SuccessResGetInventory.Result> objectList = new ArrayList<>();
+    private final ArrayList<SuccessResGetInventory.Result> peopleList = new ArrayList<>();
+    private final ArrayList<SuccessResGetInventory.Result> placesList = new ArrayList<>();
+    private final ArrayList<SuccessResGetInventory.Result> objectList = new ArrayList<>();
 
     private FinalPuzzelAdapter peopleAdapter;
     private FinalPuzzelAdapter placesAdapter;
     private FinalPuzzelAdapter objectAdapter;
 
-    private int peopleSelected=-1;
-    private int objectSelected=-1;
-    private int placeSelected=-1;
+    private int peopleSelected = -1;
+    private int objectSelected = -1;
+    private int placeSelected = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this,R.layout.activity_final_puzzel);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_final_puzzel);
         binding.header.imgHeader.setOnClickListener(v -> finish());
         binding.header.tvHeader.setText(getString(R.string.final_puzzel));
 
@@ -85,14 +85,14 @@ public class Game4FinalActivity extends AppCompatActivity {
         eventCode = getIntent().getExtras().getString("eventCode");
 
         binding.rvObjects.setHasFixedSize(true);
-        binding.rvObjects.setLayoutManager(new GridLayoutManager(Game4FinalActivity.this,3));
+        binding.rvObjects.setLayoutManager(new GridLayoutManager(Game4FinalActivity.this, 3));
         binding.rvObjects.setAdapter(objectAdapter);
         binding.rvPeople.setHasFixedSize(true);
-        binding.rvPeople.setLayoutManager(new GridLayoutManager(Game4FinalActivity.this,3));
+        binding.rvPeople.setLayoutManager(new GridLayoutManager(Game4FinalActivity.this, 3));
         binding.rvPeople.setAdapter(peopleAdapter);
         binding.rvPlaces.setHasFixedSize(true);
 
-        binding.rvPlaces.setLayoutManager(new GridLayoutManager(Game4FinalActivity.this,3));
+        binding.rvPlaces.setLayoutManager(new GridLayoutManager(Game4FinalActivity.this, 3));
         binding.rvPlaces.setAdapter(placesAdapter);
 
         getObject();
@@ -101,36 +101,26 @@ public class Game4FinalActivity extends AppCompatActivity {
 
         binding.btnFinsh.setOnClickListener(v ->
                 {
-                    if(placeSelected == -1)
-                    {
-                        showToast(Game4FinalActivity.this,""+getString(R.string.select_places_image));
-                    }else  if(peopleSelected == -1)
-                    {
-                        showToast(Game4FinalActivity.this,""+getString(R.string.select_people_image));
-                    }else  if(objectSelected == -1)
-                    {
-                        showToast(Game4FinalActivity.this,""+getString(R.string.select_object_image));
-                    }else
-                    {
-                        if(placesList.get(placeSelected).getFinalPuzzleStatus().equalsIgnoreCase("Yes"))
-                        {
-                            if(peopleList.get(peopleSelected).getFinalPuzzleStatus().equalsIgnoreCase("Yes"))
-                            {
-                                if(objectList.get(objectSelected).getFinalPuzzleStatus().equalsIgnoreCase("Yes"))
-                                {
+                    if (placeSelected == -1) {
+                        showToast(Game4FinalActivity.this, "" + getString(R.string.select_places_image));
+                    } else if (peopleSelected == -1) {
+                        showToast(Game4FinalActivity.this, "" + getString(R.string.select_people_image));
+                    } else if (objectSelected == -1) {
+                        showToast(Game4FinalActivity.this, "" + getString(R.string.select_object_image));
+                    } else {
+                        if (placesList.get(placeSelected).getFinalPuzzleStatus().equalsIgnoreCase("Yes")) {
+                            if (peopleList.get(peopleSelected).getFinalPuzzleStatus().equalsIgnoreCase("Yes")) {
+                                if (objectList.get(objectSelected).getFinalPuzzleStatus().equalsIgnoreCase("Yes")) {
                                     puzzelComplete();
-                                }else
-                                {
-                                    showToast(Game4FinalActivity.this,"Wrong images selected.");
+                                } else {
+                                    showToast(Game4FinalActivity.this, "Wrong images selected.");
                                 }
-                            }else
-                            {
-                                showToast(Game4FinalActivity.this,"Wrong images selected.");
+                            } else {
+                                showToast(Game4FinalActivity.this, "Wrong images selected.");
                             }
 
-                        }else
-                        {
-                            showToast(Game4FinalActivity.this,"Wrong images selected.");
+                        } else {
+                            showToast(Game4FinalActivity.this, "Wrong images selected.");
                         }
                     }
                 }
@@ -138,8 +128,7 @@ public class Game4FinalActivity extends AppCompatActivity {
 
     }
 
-    private void getPeople()
-    {
+    private void getPeople() {
         String userId = SharedPreferenceUtility.getInstance(this).getString(USER_ID);
 
         DataManager.getInstance().showProgressMessage(this, getString(R.string.please_wait));
@@ -181,8 +170,7 @@ public class Game4FinalActivity extends AppCompatActivity {
         });
     }
 
-    private void getObject()
-    {
+    private void getObject() {
         String userId = SharedPreferenceUtility.getInstance(this).getString(USER_ID);
         DataManager.getInstance().showProgressMessage(this, getString(R.string.please_wait));
         Map<String, String> map = new HashMap<>();
@@ -225,8 +213,7 @@ public class Game4FinalActivity extends AppCompatActivity {
         });
     }
 
-    private void getPlaces()
-    {
+    private void getPlaces() {
         String userId = SharedPreferenceUtility.getInstance(this).getString(USER_ID);
         DataManager.getInstance().showProgressMessage(this, getString(R.string.please_wait));
         Map<String, String> map = new HashMap<>();
@@ -268,8 +255,7 @@ public class Game4FinalActivity extends AppCompatActivity {
         });
     }
 
-    public void puzzelComplete()
-    {
+    public void puzzelComplete() {
 
         String userId = SharedPreferenceUtility.getInstance(this).getString(USER_ID);
 
@@ -297,9 +283,9 @@ public class Game4FinalActivity extends AppCompatActivity {
                     if (data.equals("1")) {
 
                         startActivity(new Intent(Game4FinalActivity.this, FinishTeamInfo.class)
-                                .putExtra("from","5")
-                                .putExtra("eventId",eventId)
-                                .putExtra("eventCode",eventCode));
+                                .putExtra("from", "5")
+                                .putExtra("eventId", eventId)
+                                .putExtra("eventCode", eventCode));
 
                     } else if (data.equals("0")) {
                         showToast(Game4FinalActivity.this, message);

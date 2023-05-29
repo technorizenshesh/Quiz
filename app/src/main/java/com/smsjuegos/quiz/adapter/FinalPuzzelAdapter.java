@@ -227,14 +227,13 @@ public class FinalPuzzelAdapter extends RecyclerView.Adapter<FinalPuzzelAdapter.
 
     ArrayAdapter ad;
     private List<String> dates;
-    private Context context;
-    private ArrayList<SuccessResGetInventory.Result> peopleList;
+    private final Context context;
+    private final ArrayList<SuccessResGetInventory.Result> peopleList;
     private int selectedPosition = -1;
 
-    private FinalPuzzelInterface finalPuzzelInterface;
+    private final FinalPuzzelInterface finalPuzzelInterface;
 
-    public FinalPuzzelAdapter(Context context,ArrayList<SuccessResGetInventory.Result> peopleList,FinalPuzzelInterface finalPuzzelInterface)
-    {
+    public FinalPuzzelAdapter(Context context, ArrayList<SuccessResGetInventory.Result> peopleList, FinalPuzzelInterface finalPuzzelInterface) {
         this.context = context;
         this.peopleList = peopleList;
         this.finalPuzzelInterface = finalPuzzelInterface;
@@ -244,7 +243,7 @@ public class FinalPuzzelAdapter extends RecyclerView.Adapter<FinalPuzzelAdapter.
     @Override
     public SelectTimeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View listItem= layoutInflater.inflate(R.layout.final_puzzel_item, parent, false);
+        View listItem = layoutInflater.inflate(R.layout.final_puzzel_item, parent, false);
         SelectTimeViewHolder viewHolder = new SelectTimeViewHolder(listItem);
         return viewHolder;
     }
@@ -260,12 +259,9 @@ public class FinalPuzzelAdapter extends RecyclerView.Adapter<FinalPuzzelAdapter.
                 .centerCrop()
                 .into(ivFinalImage);
 
-        if(selectedPosition == position)
-        {
+        if (selectedPosition == position) {
             ivCheckedImage.setVisibility(View.VISIBLE);
-        }
-        else
-        {
+        } else {
             ivCheckedImage.setVisibility(View.GONE);
         }
 
@@ -277,13 +273,15 @@ public class FinalPuzzelAdapter extends RecyclerView.Adapter<FinalPuzzelAdapter.
 
                     notifyDataSetChanged();
                 }
-                );
+        );
 
     }
+
     @Override
     public int getItemCount() {
         return peopleList.size();
     }
+
     public class SelectTimeViewHolder extends RecyclerView.ViewHolder {
         public SelectTimeViewHolder(@NonNull View itemView) {
             super(itemView);

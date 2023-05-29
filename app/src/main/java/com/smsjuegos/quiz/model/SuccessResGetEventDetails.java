@@ -156,5 +156,5 @@ public class SuccessResGetEventDetails implements Serializable {
         }
 
     }
-    
+
 }

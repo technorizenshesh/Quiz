@@ -3,14 +3,13 @@ package com.smsjuegos.quiz.fragments;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
-
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.smsjuegos.quiz.R;
 import com.smsjuegos.quiz.activities.ChooseLanguage;
@@ -22,12 +21,12 @@ import com.smsjuegos.quiz.utility.SharedPreferenceUtility;
 
 public class ProfileFragment extends Fragment {
 
-//    CardView cvEditProfile,cvChangePass,cvList;
-    FragmentProfileBinding binding;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    //    CardView cvEditProfile,cvChangePass,cvList;
+    FragmentProfileBinding binding;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -35,6 +34,7 @@ public class ProfileFragment extends Fragment {
     public ProfileFragment() {
         // Required empty public constructor
     }
+
     // TODO: Rename and change types and number of parameters
     public static ProfileFragment newInstance(String param1, String param2) {
         ProfileFragment fragment = new ProfileFragment();
@@ -57,13 +57,13 @@ public class ProfileFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = DataBindingUtil.inflate(inflater,R.layout.fragment_profile, container, false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_profile, container, false);
 
         binding.cvEditProfile.setOnClickListener(view1 ->
                 {
                     Navigation.findNavController(view1).navigate(R.id.action_navigation_profile_to_editProfileFragment);
                 }
-                );
+        );
 
         binding.cvChangePass.setOnClickListener(view1 ->
                 {
@@ -93,11 +93,12 @@ public class ProfileFragment extends Fragment {
                 {
                     Navigation.findNavController(v).navigate(R.id.action_navigation_profile_to_aboutUsFragment);
                 }
-                );  binding.privacy.setOnClickListener(v ->
+        );
+        binding.privacy.setOnClickListener(v ->
                 {
                     startActivity(new Intent(getActivity(), PrivacyPolicyAct.class));
                 }
-                );
+        );
 
         binding.cvVisiWebsite.setOnClickListener(v ->
                 {
@@ -112,8 +113,8 @@ public class ProfileFragment extends Fragment {
         binding.cvPlayGame.setOnClickListener(view1 ->
                 {
                     Bundle bundle = new Bundle();
-                    bundle.putString("Test","test");
-                    Navigation.findNavController(view1).navigate(R.id.action_navigation_profile_to_navigation_list,bundle);
+                    bundle.putString("Test", "test");
+                    Navigation.findNavController(view1).navigate(R.id.action_navigation_profile_to_navigation_list, bundle);
                 }
         );
 
@@ -121,7 +122,7 @@ public class ProfileFragment extends Fragment {
                 {
                     Navigation.findNavController(v).navigate(R.id.action_navigation_profile_to_completedPuzzelFragment);
                 }
-                );
+        );
 
         binding.btnLogout.setOnClickListener(v ->
                 {
@@ -133,13 +134,13 @@ public class ProfileFragment extends Fragment {
                     startActivity(intent);
                     getActivity().finish();
                 }
-                );
+        );
         binding.cvChangeLocal.setOnClickListener(v ->
                 {
                     startActivity(new Intent(getActivity(), ChooseLanguage.class)
-                            .putExtra("from","home"));
+                            .putExtra("from", "home"));
                 }
-                );
+        );
 
         return binding.getRoot();
     }

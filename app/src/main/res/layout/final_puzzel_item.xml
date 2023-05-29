@@ -11,10 +11,9 @@
         android:id="@+id/cvEditProfile"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_80sdp"
-        android:layout_margin="@dimen/_10sdp"
-        app:cardCornerRadius="@dimen/_8sdp"
+        app:cardCornerRadius="@dimen/_1sdp"
         app:cardBackgroundColor="@color/grey"
-        app:cardElevation="@dimen/_5sdp">
+        app:cardElevation="@dimen/_1sdp">
 <RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -22,10 +21,13 @@
 
     <ImageView
         android:id="@+id/ivFinalImage"
+        android:scaleType="fitXY"
+         android:background="@color/quantum_brown100"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
     <ImageView
+        android:visibility="gone"
         android:layout_width="@dimen/_20sdp"
         android:layout_height="@dimen/_20sdp"
         android:id="@+id/checked"

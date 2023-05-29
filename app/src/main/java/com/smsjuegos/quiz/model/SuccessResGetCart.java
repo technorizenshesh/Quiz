@@ -200,5 +200,5 @@ public class SuccessResGetCart implements Serializable {
         }
 
     }
-    
+
 }

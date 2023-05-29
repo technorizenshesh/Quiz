@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout  xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -12,7 +9,8 @@
             android:orientation="vertical"
             >
 
-            <include layout="@layout/header_layout" android:id="@+id/header"/>
+            <include layout="@layout/header_layout"
+                android:id="@+id/header"/>
 
 
             <WebView
@@ -21,11 +19,11 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/poppins_medium"
                 android:textSize="@dimen/_15sdp"
-                android:layout_marginHorizontal="@dimen/_15sdp"
+                android:layout_marginHorizontal="@dimen/_5sdp"
                 android:gravity="start"
                 android:text="@string/instt"
                 android:textColor="@color/black"
-                android:layout_marginTop="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_5sdp"
                 />
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnDownload"
@@ -43,5 +41,4 @@
 
         </LinearLayout>
 
-    </ScrollView>
 </layout>

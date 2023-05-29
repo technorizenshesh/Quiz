@@ -1,15 +1,17 @@
 package com.smsjuegos.quiz.fragments;
 
+import static com.smsjuegos.quiz.retrofit.Constant.USER_ID;
+import static com.smsjuegos.quiz.retrofit.Constant.showToast;
+
 import android.os.Bundle;
-
-import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.google.gson.Gson;
 import com.smsjuegos.quiz.R;
@@ -29,22 +31,18 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.smsjuegos.quiz.retrofit.Constant.USER_ID;
-import static com.smsjuegos.quiz.retrofit.Constant.showToast;
-
-
 
 public class CompletedPuzzelFragment extends Fragment {
 
-    private QuizInterface apiInterface;
-    FragmentCompletedPuzzelBinding  binding;
-    private ArrayList<SuccessResGetMyEvents.Result> eventList = new ArrayList<>();
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    FragmentCompletedPuzzelBinding binding;
+    private QuizInterface apiInterface;
+    private final ArrayList<SuccessResGetMyEvents.Result> eventList = new ArrayList<>();
     private CompletedEventAdapter completedEventAdapter;
-    private ArrayList<SuccessResGetMyEvents.Result> myEventList = new ArrayList<>();
+    private final ArrayList<SuccessResGetMyEvents.Result> myEventList = new ArrayList<>();
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -75,7 +73,7 @@ public class CompletedPuzzelFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        binding = DataBindingUtil.inflate(inflater,R.layout.fragment_completed_puzzel, container, false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_completed_puzzel, container, false);
         apiInterface = ApiClient.getClient().create(QuizInterface.class);
 //        completedEventAdapter = new CompletedEventAdapter(getActivity(),eventList);
         binding.header.tvHeader.setText(R.string.finished_puzzles);
@@ -98,8 +96,8 @@ public class CompletedPuzzelFragment extends Fragment {
 
         String userId = SharedPreferenceUtility.getInstance(getContext()).getString(USER_ID);
         DataManager.getInstance().showProgressMessage(getActivity(), getString(R.string.please_wait));
-        Map<String,String> map = new HashMap<>();
-        map.put("user_id",userId);
+        Map<String, String> map = new HashMap<>();
+        map.put("user_id", userId);
         Call<SuccessResGetMyEvents> call = apiInterface.getMyFinishEvent(map);
         call.enqueue(new Callback<SuccessResGetMyEvents>() {
             @Override
@@ -107,7 +105,7 @@ public class CompletedPuzzelFragment extends Fragment {
                 DataManager.getInstance().hideProgressMessage();
                 try {
                     SuccessResGetMyEvents data = response.body();
-                    Log.e("data",data.status);
+                    Log.e("data", data.status);
                     if (data.status.equals("1")) {
                         String dataResponse = new Gson().toJson(response.body());
                         Log.e("MapMap", "EDIT PROFILE RESPONSE" + dataResponse);
@@ -116,30 +114,29 @@ public class CompletedPuzzelFragment extends Fragment {
                         myEventList.clear();
                         myEventList.addAll(data.getResult());
 
-                        for (SuccessResGetMyEvents.Result result:myEventList)
-                        {
-                            if(result.getEventStatus().equalsIgnoreCase("END"))
-                            {
+                        for (SuccessResGetMyEvents.Result result : myEventList) {
+                            if (result.getEventStatus().equalsIgnoreCase("END")) {
                                 eventList.add(result);
                             }
                         }
 
                         binding.rvEvents.setHasFixedSize(true);
                         binding.rvEvents.setLayoutManager(new LinearLayoutManager(getActivity()));
-                        binding.rvEvents.setAdapter(new CompletedEventAdapter(getActivity(),eventList));
+                        binding.rvEvents.setAdapter(new CompletedEventAdapter(getActivity(), eventList));
 
                     } else if (data.status.equals("0")) {
                         showToast(getActivity(), data.message);
                         eventList.clear();
                         binding.rvEvents.setHasFixedSize(true);
                         binding.rvEvents.setLayoutManager(new LinearLayoutManager(getActivity()));
-                        binding.rvEvents.setAdapter(new CompletedEventAdapter(getActivity(),eventList));
+                        binding.rvEvents.setAdapter(new CompletedEventAdapter(getActivity(), eventList));
 
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
+
             @Override
             public void onFailure(Call<SuccessResGetMyEvents> call, Throwable t) {
                 call.cancel();

@@ -46,19 +46,13 @@ import retrofit2.Response;
 
 public class SearchFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
-    private GoogleMap mMap;
-
     FragmentSearchBinding binding;
-
     GPSTracker gpsTracker;
-
-    private String strLat ="",strLng ="";
-
-    private ArrayList<SuccessResNearbyEvents.Result> nearbyEventList = new ArrayList<>();
     Marker myMarker;
-
     Marker[] marker;
-
+    private GoogleMap mMap;
+    private String strLat = "", strLng = "";
+    private final ArrayList<SuccessResNearbyEvents.Result> nearbyEventList = new ArrayList<>();
     private QuizInterface apiInterface;
 
     public SearchFragment() {
@@ -70,7 +64,7 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback, Goog
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        binding = DataBindingUtil.inflate(inflater,R.layout.fragment_search, container, false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_search, container, false);
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -87,22 +81,22 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback, Goog
             ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
                     Constant.LOCATION_REQUEST);
         } else {
-            Log.e("Latittude====",gpsTracker.getLatitude()+"");
-            strLat = Double.toString(gpsTracker.getLatitude()) ;
-            strLng = Double.toString(gpsTracker.getLongitude()) ;
+            Log.e("Latittude====", gpsTracker.getLatitude() + "");
+            strLat = Double.toString(gpsTracker.getLatitude());
+            strLng = Double.toString(gpsTracker.getLongitude());
             getLocations();
         }
     }
 
-    private void getLocations()
-    {
+    private void getLocations() {
 
         DataManager.getInstance().showProgressMessage(getActivity(), getString(R.string.please_wait));
         Map<String, String> map = new HashMap<>();
     /*    map.put("lat", strLat);
         map.put("lon", strLng);
-   */   map.put("lat", "19.432651" ) ;
-        map.put("lon","-99.133587");
+   */
+        map.put("lat", "19.432651");
+        map.put("lon", "-99.133587");
         Call<SuccessResNearbyEvents> call = apiInterface.getNearbyEvents(map);
         call.enqueue(new Callback<SuccessResNearbyEvents>() {
             @Override
@@ -120,31 +114,33 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback, Goog
 //                        LatLng sydney = new LatLng(-33, 150);
                         mMap.setOnMarkerClickListener(SearchFragment.this::onMarkerClick);
                         marker = new Marker[nearbyEventList.size()];
-                        int i=0;
-                        for (SuccessResNearbyEvents.Result result:nearbyEventList)
-                        {
+                        int i = 0;
+                        for (SuccessResNearbyEvents.Result result : nearbyEventList) {
                             marker[i] = createMarker(Double.parseDouble(result.getLat()),
-                                    Double.parseDouble(result.getLon()), result.getEventName(),"", R.drawable.ic_loca,i);
+                                    Double.parseDouble(result.getLon()), result.getEventName(), "", R.drawable.ic_loca, i);
                             i++;
                         }
                      /*   LatLng sydney = new LatLng(Double.parseDouble(nearbyEventList.get(0).getLat()),Double.parseDouble(nearbyEventList.get(0).getLon()));
                         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
                         mMap.animateCamera( CameraUpdateFactory.zoomTo( 14.0f ) );
-                 */   } else if (data.status.equals("0")) {
+                 */
+                    } else if (data.status.equals("0")) {
                         showToast(getActivity(), data.message);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
+
             @Override
-            public void onFailure(Call<SuccessResNearbyEvents> call, Throwable t) {
+            public void onFailure(@NonNull Call<SuccessResNearbyEvents> call, Throwable t) {
                 call.cancel();
                 DataManager.getInstance().hideProgressMessage();
             }
         });
     }
-    protected Marker createMarker(double latitude, double longitude, String title, String snippet, int iconResID,int position) {
+
+    protected Marker createMarker(double latitude, double longitude, String title, String snippet, int iconResID, int position) {
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 9f));
         BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(iconResID);
         myMarker = mMap.addMarker(new MarkerOptions()
@@ -164,7 +160,7 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback, Goog
 
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
-     mMap = googleMap;
+        mMap = googleMap;
         // Add a marker in Sydney and move the camera
 //        LatLng sydney = new LatLng(-34, 151);
 //        mMap.addMarker(new MarkerOptions()
@@ -175,7 +171,7 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback, Goog
 
         LatLng sydney = new LatLng(19.432651, -99.133587);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-        mMap.animateCamera( CameraUpdateFactory.zoomTo( 14.0f ) );
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(14.0f));
     }
 
     @Override
@@ -194,22 +190,17 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback, Goog
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
-        switch (requestCode) {
-            case 1000: {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Log.e("Latittude====", gpsTracker.getLatitude() + "");
-                    strLat = Double.toString(gpsTracker.getLatitude()) ;
-                    strLng = Double.toString(gpsTracker.getLongitude()) ;
-                    getLocations();
-                } else {
-                    Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.permisson_denied), Toast.LENGTH_SHORT).show();
-                }
-                break;
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        if (requestCode == 1000) {// If request is cancelled, the result arrays are empty.
+            if (grantResults.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Log.e("Latittude====", gpsTracker.getLatitude() + "");
+                strLat = Double.toString(gpsTracker.getLatitude());
+                strLng = Double.toString(gpsTracker.getLongitude());
+                getLocations();
+            } else {
+                Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.permisson_denied), Toast.LENGTH_SHORT).show();
             }
-
         }
     }
 

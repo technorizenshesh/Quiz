@@ -9,8 +9,75 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         tools:context=".activities.PuzzleAct">
-        <include layout="@layout/header_layout"
-            android:id="@+id/header"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/_8sdp"
+            android:id="@+id/header"
+            android:background="@color/appcolor"
+            >
+
+                <LinearLayout
+                    android:id="@+id/time_lay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_centerInParent="true"
+                    android:orientation="vertical"
+                    android:visibility="visible">
+
+                    <RelativeLayout
+                        android:layout_width="@dimen/_100sdp"
+                        android:layout_height="@dimen/_60sdp">
+
+                        <com.airbnb.lottie.LottieAnimationView
+                            android:id="@+id/animation_view"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            app:lottie_autoPlay="true"
+                            app:lottie_loop="true"
+                            app:lottie_rawRes="@raw/filmclock" />
+
+                        <TextView
+
+                            android:id="@+id/time_view"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:layout_gravity="center"
+                            android:fontFamily="@font/poppins_bold"
+                            android:padding="@dimen/_8sdp"
+                            android:text="00:00"
+                            android:textAlignment="center"
+                            android:textColor="@color/appcolor"
+                            android:textSize="@dimen/_14sdp" />
+                    </RelativeLayout>
+
+
+                </LinearLayout>
+            <TextView
+                android:id="@+id/tvHeader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                android:fontFamily="@font/poppins_medium"
+                android:text="@string/hello"
+                android:visibility="gone"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_12sdp" />
+                <ImageView
+                    android:id="@+id/imgHeader"
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_height="@dimen/_20sdp"
+                    android:layout_centerVertical="true"
+                    android:padding="@dimen/_2sdp"
+                    android:src="@drawable/ic_back"/>
+        </RelativeLayout>
+
+
 
 
         <androidx.core.widget.NestedScrollView

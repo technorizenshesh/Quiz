@@ -1,13 +1,12 @@
 package com.smsjuegos.quiz.fragments;
 
 import android.os.Bundle;
-
-import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.Fragment;
 
 import com.smsjuegos.quiz.R;
 import com.smsjuegos.quiz.databinding.FragmentAboutUsBinding;
@@ -19,16 +18,15 @@ import com.smsjuegos.quiz.databinding.FragmentAboutUsBinding;
  */
 public class AboutUsFragment extends Fragment {
 
-    FragmentAboutUsBinding binding;
-
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
+    FragmentAboutUsBinding binding;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
     public AboutUsFragment() {
         // Required empty public constructor
     }
@@ -65,13 +63,13 @@ public class AboutUsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        binding = DataBindingUtil.inflate(inflater,R.layout.fragment_about_us, container, false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_about_us, container, false);
         binding.header.tvHeader.setText(getString(R.string.about_us));
         binding.header.imgHeader.setOnClickListener(v ->
                 {
                     getActivity().onBackPressed();
                 }
-                );
+        );
 
         binding.webView.getSettings().setJavaScriptEnabled(true);
 

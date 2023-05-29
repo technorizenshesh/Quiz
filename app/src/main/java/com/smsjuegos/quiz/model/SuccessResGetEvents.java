@@ -233,5 +233,5 @@ public class SuccessResGetEvents implements Serializable {
         }
 
     }
-    
+
 }

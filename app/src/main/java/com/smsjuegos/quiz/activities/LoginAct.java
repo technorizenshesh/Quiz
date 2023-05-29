@@ -36,9 +36,8 @@ import retrofit2.Response;
 
 public class LoginAct extends AppCompatActivity {
 
-    private QuizInterface apiInterface;
     ActivityLoginBinding binding;
-
+    private QuizInterface apiInterface;
     private String strEmail = "", strPassword = "", deviceToken = "";
     // private FirebaseAuth mAuth;
 
@@ -94,7 +93,7 @@ public class LoginAct extends AppCompatActivity {
         binding.etPass.setOnKeyListener((v, keyCode, event) -> {
             if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
                     (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                 binding.btnLogin.performClick();
+                binding.btnLogin.performClick();
                 return true;
             }
             return false;
@@ -157,7 +156,8 @@ public class LoginAct extends AppCompatActivity {
     }
 
     private void getToken() {
-        try {       FirebaseApp.initializeApp(getApplicationContext());
+        try {
+            FirebaseApp.initializeApp(getApplicationContext());
 
             FirebaseMessaging.getInstance().getToken()
                     .addOnCompleteListener(task -> {
@@ -169,11 +169,11 @@ public class LoginAct extends AppCompatActivity {
                         String token = task.getResult();
                         deviceToken = token;
                         SharedPreferenceUtility.getInstance(LoginAct.this).putString(Constant.USER_ID, deviceToken);
-                        Log.e(TAG, "getToken: "+ SharedPreferenceUtility.getInstance(LoginAct.this).getString(Constant.USER_ID));
+                        Log.e(TAG, "getToken: " + SharedPreferenceUtility.getInstance(LoginAct.this).getString(Constant.USER_ID));
 
                     });
         } catch (Exception e) {
-           // Toast.makeText(LoginAct.this, "Error=>" + e, Toast.LENGTH_SHORT).show();
+            // Toast.makeText(LoginAct.this, "Error=>" + e, Toast.LENGTH_SHORT).show();
             e.printStackTrace();
         }
     }

@@ -1,5 +1,8 @@
 package com.smsjuegos.quiz.activities;
 
+import android.os.Bundle;
+import android.widget.ImageView;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
@@ -7,17 +10,14 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import android.os.Bundle;
-import android.widget.ImageView;
-
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.smsjuegos.quiz.R;
 
 public class HomeAct extends AppCompatActivity {
 
-   public static BottomNavigationView navView;
-   NavController navController;
-   ImageView ivLocation;
+    public static BottomNavigationView navView;
+    NavController navController;
+    ImageView ivLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +27,7 @@ public class HomeAct extends AppCompatActivity {
         navView = findViewById(R.id.nav_view);
 
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_home, R.id.navigation_calander,R.id.navigation_list,R.id.navigation_profile)
+                R.id.navigation_home, R.id.navigation_calander, R.id.navigation_list, R.id.navigation_profile)
                 .build();
         navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         //NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
@@ -37,7 +37,7 @@ public class HomeAct extends AppCompatActivity {
                     navController.navigate(R.id.searchFragment);
 //                    navView.getMenu().setGroupCheckable(0, false, true);
                 }
-                );
+        );
 
 //        navView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
 //            @Override

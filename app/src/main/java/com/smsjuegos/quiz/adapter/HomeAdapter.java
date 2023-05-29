@@ -228,9 +228,9 @@ import java.util.List;
 
 public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.SelectTimeViewHolder> {
 
-    private Context context;
-    private String fromHome;
-    private List<SuccessResGetEvents.Result> eventsListList;
+    private final Context context;
+    private final String fromHome;
+    private final List<SuccessResGetEvents.Result> eventsListList;
 
     public HomeAdapter(Context context, List<SuccessResGetEvents.Result> eventsListList, String fromHome) {
         this.context = context;
@@ -254,94 +254,92 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.SelectTimeView
             TextView tvEventName = holder.itemView.findViewById(R.id.tv_event_name);
             RelativeLayout rlParent = holder.itemView.findViewById(R.id.rlParent);
             rlParent.setOnClickListener(v ->
-                    {
-                        if (fromHome.equalsIgnoreCase("home")) {
-                            if (eventsListList.get(position).getType().equalsIgnoreCase("puzzle")) {
-                                Bundle bundle = new Bundle();
-                                bundle.putString("id", eventsListList.get(position).getId());
-                                Navigation.findNavController(v).navigate(R.id.action_navigation_profile_to_navigation_list
-                                        , bundle);
-                            } else if (eventsListList.get(position).getType().equalsIgnoreCase("Virus")) {
+            {
+                if (fromHome.equalsIgnoreCase("home")) {
+                    if (eventsListList.get(position).getType().equalsIgnoreCase("puzzle")) {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("id", eventsListList.get(position).getId());
+                        Navigation.findNavController(v).navigate(R.id.action_navigation_profile_to_navigation_list
+                                , bundle);
+                    } else if (eventsListList.get(position).getType().equalsIgnoreCase("Virus")) {
 
-                                context.startActivity(new Intent(context, HomeScreenGame2Act.class)
-                                        .putExtra("instructionID", eventsListList.get(position)));
-                            } else if (eventsListList.get(position).getType().equalsIgnoreCase("crime")) {
-                                Bundle bundle = new Bundle();
-                                bundle.putString("id", eventsListList.get(position).getId());
-                                Navigation.findNavController(v).navigate(R.id.action_navigation_profile_to_navigation_list
-                                        , bundle);
-                            } else if (eventsListList.get(position).getType().equalsIgnoreCase("Amenaza_Nuclear")) {
-                                //  openWeb();
-                                context.startActivity(new Intent(context, HomeScreenGame2Act.class)
-                                        .putExtra("instructionID", eventsListList.get(position)));
+                        context.startActivity(new Intent(context, HomeScreenGame2Act.class)
+                                .putExtra("instructionID", eventsListList.get(position)));
+                    } else if (eventsListList.get(position).getType().equalsIgnoreCase("crime")) {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("id", eventsListList.get(position).getId());
+                        Navigation.findNavController(v).navigate(R.id.action_navigation_profile_to_navigation_list
+                                , bundle);
+                    } else if (eventsListList.get(position).getType().equalsIgnoreCase("Amenaza_Nuclear")) {
+                        //  openWeb();
+                        context.startActivity(new Intent(context, HomeScreenGame2Act.class)
+                                .putExtra("instructionID", eventsListList.get(position)));
 
-                            } else if (eventsListList.get(position).getType().equalsIgnoreCase("codigo_frida")) {
-                                Bundle bundle = new Bundle();
-                                bundle.putString("id", eventsListList.get(position).getId());
-                                Navigation.findNavController(v).navigate(R.id.action_navigation_profile_to_navigation_list
-                                        , bundle);
-                            }
-                            Log.e("TAG", "onBindViewHolder:eventsListList.get(position).getType() "+eventsListList.get(position).getType() );
-                        }
-                        else if (fromHome.equalsIgnoreCase("cal")) {
+                    } else if (eventsListList.get(position).getType().equalsIgnoreCase("codigo_frida")) {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("id", eventsListList.get(position).getId());
+                        Navigation.findNavController(v).navigate(R.id.action_navigation_profile_to_navigation_list
+                                , bundle);
+                    }
+                    Log.e("TAG", "onBindViewHolder:eventsListList.get(position).getType() " + eventsListList.get(position).getType());
+                } else if (fromHome.equalsIgnoreCase("cal")) {
 
-                            if (eventsListList.get(position).getType().equalsIgnoreCase("puzzle")) {
-                                Bundle bundle = new Bundle();
-                                bundle.putString("id", eventsListList.get(position).getId());
-                                Navigation.findNavController(v).navigate(R.id.action_navigation_profile_to_navigation_list
-                                        , bundle);
-                            } else if (eventsListList.get(position).getType().equalsIgnoreCase("Virus")) {
-                                context.startActivity(new Intent(context, HomeScreenGame2Act.class).putExtra("instructionID"
-                                        , eventsListList.get(position)));
-                            } else if (eventsListList.get(position).getType().equalsIgnoreCase("crime")) {
-                                Bundle bundle = new Bundle();
-                                bundle.putString("id", eventsListList.get(position).getId());
-                                Navigation.findNavController(v).navigate(R.id.action_navigation_profile_to_navigation_list
-                                        , bundle);
-                            } else if (eventsListList.get(position).getType().equalsIgnoreCase("Amenaza_Nuclear")) {
+                    if (eventsListList.get(position).getType().equalsIgnoreCase("puzzle")) {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("id", eventsListList.get(position).getId());
+                        Navigation.findNavController(v).navigate(R.id.action_navigation_profile_to_navigation_list
+                                , bundle);
+                    } else if (eventsListList.get(position).getType().equalsIgnoreCase("Virus")) {
+                        context.startActivity(new Intent(context, HomeScreenGame2Act.class).putExtra("instructionID"
+                                , eventsListList.get(position)));
+                    } else if (eventsListList.get(position).getType().equalsIgnoreCase("crime")) {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("id", eventsListList.get(position).getId());
+                        Navigation.findNavController(v).navigate(R.id.action_navigation_profile_to_navigation_list
+                                , bundle);
+                    } else if (eventsListList.get(position).getType().equalsIgnoreCase("Amenaza_Nuclear")) {
 
-                                // openWeb();
-                                context.startActivity(new Intent(context, HomeScreenGame2Act.class)
-                                        .putExtra("instructionID", eventsListList.get(position)));
+                        // openWeb();
+                        context.startActivity(new Intent(context, HomeScreenGame2Act.class)
+                                .putExtra("instructionID", eventsListList.get(position)));
 
-                            } else if (eventsListList.get(position).getType().equalsIgnoreCase("codigo_frida")) {
-                                Bundle bundle = new Bundle();
-                                bundle.putString("id", eventsListList.get(position).getId());
-                                Navigation.findNavController(v).navigate(R.id.action_navigation_profile_to_navigation_list
-                                        , bundle);
-                            }
-                        }
-                        else if (fromHome.equalsIgnoreCase("search")) {
-                            if (eventsListList.get(position).getType().equalsIgnoreCase("puzzle")) {
-                                Bundle bundle = new Bundle();
-                                bundle.putString("id", eventsListList.get(position).getId());
-                                Navigation.findNavController(v).navigate(R.id.action_navigation_profile_to_navigation_list
-                                        , bundle);
-                            } else if (eventsListList.get(position).getType().equalsIgnoreCase("Virus")) {
-                                context.startActivity(new Intent(context
-                                        , HomeScreenGame2Act.class).putExtra("instructionID"
-                                        , eventsListList.get(position)));
-                            } else if (eventsListList.get(position).getType().equalsIgnoreCase("crime")) {
-                                Bundle bundle = new Bundle();
-                                bundle.putString("id", eventsListList.get(position).getId());
-                                Navigation.findNavController(v).navigate(R.id.action_navigation_profile_to_navigation_list
-                                        , bundle);
-                            } else if (eventsListList.get(position).getType().equalsIgnoreCase("Amenaza_Nuclear")) {
+                    } else if (eventsListList.get(position).getType().equalsIgnoreCase("codigo_frida")) {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("id", eventsListList.get(position).getId());
+                        Navigation.findNavController(v).navigate(R.id.action_navigation_profile_to_navigation_list
+                                , bundle);
+                    }
+                } else if (fromHome.equalsIgnoreCase("search")) {
+                    if (eventsListList.get(position).getType().equalsIgnoreCase("puzzle")) {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("id", eventsListList.get(position).getId());
+                        Navigation.findNavController(v).navigate(R.id.action_navigation_profile_to_navigation_list
+                                , bundle);
+                    } else if (eventsListList.get(position).getType().equalsIgnoreCase("Virus")) {
+                        context.startActivity(new Intent(context
+                                , HomeScreenGame2Act.class).putExtra("instructionID"
+                                , eventsListList.get(position)));
+                    } else if (eventsListList.get(position).getType().equalsIgnoreCase("crime")) {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("id", eventsListList.get(position).getId());
+                        Navigation.findNavController(v).navigate(R.id.action_navigation_profile_to_navigation_list
+                                , bundle);
+                    } else if (eventsListList.get(position).getType().equalsIgnoreCase("Amenaza_Nuclear")) {
 
-                                //    openWeb();
-                                context.startActivity(new Intent(context
-                                        , HomeScreenGame2Act.class).putExtra("instructionID"
-                                        , eventsListList.get(position)));
-                            } else if (eventsListList.get(position).getType().equalsIgnoreCase("codigo_frida")) {
-                                Bundle bundle = new Bundle();
-                                bundle.putString("id", eventsListList.get(position).getId());
-                                Navigation.findNavController(v).navigate(R.id.action_navigation_profile_to_navigation_list
-                                        , bundle);
-                            }
+                        //    openWeb();
+                        context.startActivity(new Intent(context
+                                , HomeScreenGame2Act.class).putExtra("instructionID"
+                                , eventsListList.get(position)));
+                    } else if (eventsListList.get(position).getType().equalsIgnoreCase("codigo_frida")) {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("id", eventsListList.get(position).getId());
+                        Navigation.findNavController(v).navigate(R.id.action_navigation_profile_to_navigation_list
+                                , bundle);
+                    }
 
 
-                        }
-                    });
+                }
+            });
             Glide.with(context)
                     .load(eventsListList.get(position).getImage())
                     .centerInside()

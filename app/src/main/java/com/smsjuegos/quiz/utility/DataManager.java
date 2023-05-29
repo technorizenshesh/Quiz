@@ -19,7 +19,6 @@ import android.widget.TextView;
 
 import androidx.loader.content.CursorLoader;
 
-
 import com.google.android.gms.maps.model.LatLng;
 import com.smsjuegos.quiz.R;
 
@@ -33,6 +32,7 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -41,10 +41,17 @@ import ir.alirezabdn.wp7progress.WP10ProgressBar;
 public class DataManager {
 
     private static final DataManager ourInstance = new DataManager();
+    WP10ProgressBar progressBar;
+    private Dialog mDialog;
+    private boolean isProgressDialogRunning = false;
+
+    private DataManager() {
+    }
 
     public static DataManager getInstance() {
-            return ourInstance;
-        }
+        return ourInstance;
+    }
+
     public static String getDirectionsUrl(LatLng origin, LatLng dest) {
 
         // Origin of route
@@ -67,7 +74,6 @@ public class DataManager {
 
         return url;
     }
-
 
     public static String downloadUrl(String strUrl) throws IOException {
         String data = "";
@@ -104,52 +110,45 @@ public class DataManager {
         }
         return data;
     }
-        private DataManager() {
-        }
 
-        private Dialog mDialog;
-        private boolean isProgressDialogRunning = false;
-        WP10ProgressBar progressBar;
+    public static double distanceInKm(double lat1, double lon1, double lat2, double lon2) {
+        Log.e("TAG", "distanceInKm: lat1--  " + lat1);
+        Log.e("TAG", "distanceInKm: lon1--  " + lon1);
+        Log.e("TAG", "distanceInKm: lat2--  " + lat2);
+        Log.e("TAG", "distanceInKm: lon2--  " + lon2);
+        double latDistance = Math.toRadians(lat2 - lat1);
+        double lonDistance = Math.toRadians(lon2 - lon1);
+        double a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2)
+                + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2))
+                * Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        double distance = 6371 * c;
+        Log.e("TAG", "distanceInKm: distance--  " + distance);
 
-        public void showProgressMessage(Activity dialogActivity, String msg) {
-            try {
-                if (isProgressDialogRunning) {
-                    hideProgressMessage();
-                }
-                isProgressDialogRunning = true;
-                mDialog = new Dialog(dialogActivity);
-                mDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                mDialog.setContentView(R.layout.dialog_loading);
-                mDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                TextView textView = mDialog.findViewById(R.id.textView);
-                progressBar = mDialog.findViewById(R.id.progressBar);
-                textView.setText(msg);
-                WindowManager.LayoutParams lp = mDialog.getWindow().getAttributes();
-                lp.dimAmount = 0.8f;
-                progressBar.showProgressBar();
-                mDialog.getWindow().setAttributes(lp);
-                mDialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
-                mDialog.setCancelable(false);
-                mDialog.setCanceledOnTouchOutside(false);
-                mDialog.show();
+        return distance;
+    }
 
-            } catch (Exception ex) {
-                ex.printStackTrace();
+    public static String getRealPathFromURI(Activity activity, Uri contentUri) {
+        //TODO: get realpath from uri
+        String stringPath = null;
+        try {
+            if (contentUri.getScheme().compareTo("content") == 0) {
+                String[] proj = {MediaStore.Images.Media.DATA};
+                CursorLoader loader = new CursorLoader(activity, contentUri, proj, null, null, null);
+                Cursor cursor = loader.loadInBackground();
+                int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+                cursor.moveToFirst();
+                stringPath = cursor.getString(column_index);
+                cursor.close();
+            } else if (contentUri.getScheme().compareTo("file") == 0) {
+                stringPath = contentUri.getPath();
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
-        public void hideProgressMessage() {
-            isProgressDialogRunning = true;
-            try {
-                if (mDialog != null) {
-                    mDialog.dismiss();
-                    progressBar.hideProgressBar();
-                }
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-
-        }
+        return stringPath;
+    }
 /*
 
         public SignupModel getUserData(Context context) {
@@ -158,47 +157,23 @@ public class DataManager {
         }
 */
 
-    public static double distanceInKm(double lat1, double lon1, double lat2, double lon2) {
-        Log.e("TAG", "distanceInKm: lat1--  "+lat1 );
-        Log.e("TAG", "distanceInKm: lon1--  "+lon1 );
-        Log.e("TAG", "distanceInKm: lat2--  "+lat2 );
-        Log.e("TAG", "distanceInKm: lon2--  "+lon2 );
-        double latDistance = Math.toRadians(lat2 - lat1);
-        double lonDistance = Math.toRadians(lon2 - lon1);
-        double a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2)
-                + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2))
-                * Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
-        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-        double distance = 6371 * c;
-        Log.e("TAG", "distanceInKm: distance--  "+distance );
+    public static String toBase64(String message) {
+        byte[] data;
+        data = message.getBytes(StandardCharsets.UTF_8);
+        String base64Sms = Base64.encodeToString(data, Base64.DEFAULT);
+        return base64Sms;
 
-        return distance;
     }
-        public static String getRealPathFromURI(Activity activity, Uri contentUri) {
-            //TODO: get realpath from uri
-            String stringPath = null;
-            try {
-                if (contentUri.getScheme().toString().compareTo("content") == 0) {
-                    String[] proj = {MediaStore.Images.Media.DATA};
-                    CursorLoader loader = new CursorLoader(activity, contentUri, proj, null, null, null);
-                    Cursor cursor = loader.loadInBackground();
-                    int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-                    cursor.moveToFirst();
-                    stringPath = cursor.getString(column_index);
-                    cursor.close();
-                } else if (contentUri.getScheme().compareTo("file") == 0) {
-                    stringPath = contentUri.getPath();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
 
-            return stringPath;
-        }
+    public static String fromBase64(String message) {
+        byte[] data = Base64.decode(message, Base64.DEFAULT);
+        return new String(data, StandardCharsets.UTF_8);
 
-      /*  public static String resizeBase64Image(Bitmap image) {
+    }
 
-       *//* if(image.getHeight() <= 400 && image.getWidth() <= 400){
+    /*  public static String resizeBase64Image(Bitmap image) {
+
+     *//* if(image.getHeight() <= 400 && image.getWidth() <= 400){
             return base64image;
         }*//*
 
@@ -215,39 +190,30 @@ public class DataManager {
         }
 */
 
-        public static String toBase64(String message) {
-            byte[] data;
-            try {
-                data = message.getBytes("UTF-8");
-                String base64Sms = Base64.encodeToString(data, Base64.DEFAULT);
-                return base64Sms;
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            }
+    public static String convertDateToString(long l) {
+        String str = "";
+        Date date = new Date(l);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd_MM_yyyy_HH_mm_ss");
+        str = dateFormat.format(date);
+        return str;
+    }
 
+    public static Bitmap rotateImage(Bitmap source, float angle) {
+        Matrix matrix = new Matrix();
+        matrix.postRotate(angle);
+        return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(),
+                matrix, true);
+    }
+
+    public static Bitmap getBitmapFromURL(String src) {
+        try {
+            URL url = new URL(src);
+            Bitmap image = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+            return image;
+        } catch (IOException e) {
             return null;
         }
-
-
-        public static String fromBase64(String message) {
-            byte[] data = Base64.decode(message, Base64.DEFAULT);
-            try {
-                return new String(data, "UTF-8");
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            }
-
-            return null;
-        }
-
-
-     public static String convertDateToString(long l) {
-            String str = "";
-            Date date = new Date(l);
-            SimpleDateFormat dateFormat = new SimpleDateFormat("dd_MM_yyyy_HH_mm_ss");
-            str = dateFormat.format(date);
-            return str;
-        }
+    }
 
   /*
         public static boolean isValidEmail(CharSequence target) {
@@ -261,8 +227,47 @@ public class DataManager {
             return currentDateandTime;
         }*/
 
+    public void showProgressMessage(Activity dialogActivity, String msg) {
+        try {
+            if (isProgressDialogRunning) {
+                hideProgressMessage();
+            }
+            isProgressDialogRunning = true;
+            mDialog = new Dialog(dialogActivity);
+            mDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            mDialog.setContentView(R.layout.dialog_loading);
+            mDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            TextView textView = mDialog.findViewById(R.id.textView);
+            progressBar = mDialog.findViewById(R.id.progressBar);
+            textView.setText(msg);
+            WindowManager.LayoutParams lp = mDialog.getWindow().getAttributes();
+            lp.dimAmount = 0.8f;
+            progressBar.showProgressBar();
+            mDialog.getWindow().setAttributes(lp);
+            mDialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+            mDialog.setCancelable(false);
+            mDialog.setCanceledOnTouchOutside(false);
+            mDialog.show();
 
-    public File saveBitmapToFile(File file){
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public void hideProgressMessage() {
+        isProgressDialogRunning = true;
+        try {
+            if (mDialog != null) {
+                mDialog.dismiss();
+                progressBar.hideProgressBar();
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+    }
+
+    public File saveBitmapToFile(File file) {
         try {
 
             // BitmapFactory options to downsize the image
@@ -277,11 +282,11 @@ public class DataManager {
             inputStream.close();
 
             // The new size we want to scale to
-            final int REQUIRED_SIZE=75;
+            final int REQUIRED_SIZE = 75;
 
             // Find the correct scale value. It should be the power of 2.
             int scale = 1;
-            while(o.outWidth / scale / 2 >= REQUIRED_SIZE &&
+            while (o.outWidth / scale / 2 >= REQUIRED_SIZE &&
                     o.outHeight / scale / 2 >= REQUIRED_SIZE) {
                 scale *= 2;
             }
@@ -297,7 +302,7 @@ public class DataManager {
             file.createNewFile();
             FileOutputStream outputStream = new FileOutputStream(file);
 
-            selectedBitmap.compress(Bitmap.CompressFormat.JPEG, 100 , outputStream);
+            selectedBitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
 
             return file;
         } catch (Exception e) {
@@ -334,25 +339,6 @@ public class DataManager {
             e.printStackTrace();
         }
         return rotatedBitmap;
-    }
-
-    public static Bitmap rotateImage(Bitmap source, float angle) {
-        Matrix matrix = new Matrix();
-        matrix.postRotate(angle);
-        return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(),
-                matrix, true);
-    }
-
-    public static Bitmap getBitmapFromURL(String src) {
-        try{
-                URL url = new URL(src);
-                Bitmap image = BitmapFactory.decodeStream(url.openConnection().getInputStream());
-                return image;
-            }
-            catch (IOException e)
-            {
-                return null;
-            }
     }
 
 
@@ -401,5 +387,4 @@ public class DataManager {
     }*/
 
 
-
-    }
+}

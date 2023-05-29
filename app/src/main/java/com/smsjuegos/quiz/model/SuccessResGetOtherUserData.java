@@ -168,5 +168,5 @@ public class SuccessResGetOtherUserData implements Serializable {
         }
 
     }
-    
+
 }

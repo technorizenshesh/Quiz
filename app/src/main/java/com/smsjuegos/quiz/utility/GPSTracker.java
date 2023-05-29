@@ -18,16 +18,16 @@ import androidx.core.app.ActivityCompat;
  * Created by Ravindra Birla on 16,March,2021
  */
 public class GPSTracker extends Service implements LocationListener {
+    private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 10;
+    private static final long MIN_TIME_BW_UPDATES = 1000 * 60;
     private final Context mContext;
+    protected LocationManager locationManager;
     boolean checkGPS = false;
     boolean checkNetwork = false;
     boolean canGetLocation = false;
     Location loc;
     double latitude;
     double longitude;
-    private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 10;
-    private static final long MIN_TIME_BW_UPDATES = 1000 * 60 * 1;
-    protected LocationManager locationManager;
     private boolean isGPSEnabled;
     private Location location;
     private boolean isNetworkEnabled;
@@ -54,7 +54,7 @@ public class GPSTracker extends Service implements LocationListener {
                 this.canGetLocation = true;
                 if (isNetworkEnabled) {
                     if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                           }
+                    }
                     locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIME_BW_UPDATES, MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
                     Log.d("Network", "Network");
                     if (locationManager != null) {

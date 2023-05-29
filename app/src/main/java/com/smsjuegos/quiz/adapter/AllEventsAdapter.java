@@ -217,9 +217,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.smsjuegos.quiz.R;
 
 public class AllEventsAdapter extends RecyclerView.Adapter<AllEventsAdapter.SelectTimeViewHolder> {
-    private Context context;
-    public AllEventsAdapter(Context context)
-    {
+    private final Context context;
+
+    public AllEventsAdapter(Context context) {
         this.context = context;
     }
 
@@ -227,7 +227,7 @@ public class AllEventsAdapter extends RecyclerView.Adapter<AllEventsAdapter.Sele
     @Override
     public SelectTimeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View listItem= layoutInflater.inflate(R.layout.all_event_item, parent, false);
+        View listItem = layoutInflater.inflate(R.layout.all_event_item, parent, false);
         SelectTimeViewHolder viewHolder = new SelectTimeViewHolder(listItem);
         return viewHolder;
     }
@@ -244,6 +244,7 @@ public class AllEventsAdapter extends RecyclerView.Adapter<AllEventsAdapter.Sele
     public int getItemCount() {
         return 6;
     }
+
     public class SelectTimeViewHolder extends RecyclerView.ViewHolder {
         public SelectTimeViewHolder(@NonNull View itemView) {
             super(itemView);

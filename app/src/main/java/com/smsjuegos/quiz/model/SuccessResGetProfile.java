@@ -266,5 +266,5 @@ public class SuccessResGetProfile implements Serializable {
         }
 
     }
-    
+
 }

@@ -20,9 +20,11 @@ public class SuccessResGetPP implements Serializable {
     @SerializedName("message")
     @Expose
     public String message;
+
     public Result getResult() {
         return result;
     }
+
     public void setResult(Result result) {
         this.result = result;
     }
@@ -74,6 +76,7 @@ public class SuccessResGetPP implements Serializable {
         public String getDescription() {
             return description;
         }
+
         public void setDescription(String description) {
             this.description = description;
         }

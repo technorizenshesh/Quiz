@@ -20,14 +20,11 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 
+import com.denzcoskun.imageslider.constants.ScaleTypes;
+import com.denzcoskun.imageslider.models.SlideModel;
 import com.google.gson.Gson;
-import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType;
-import com.smarteist.autoimageslider.SliderAnimations;
-import com.smarteist.autoimageslider.SliderView;
 import com.smsjuegos.quiz.R;
-import com.smsjuegos.quiz.activities.LoginAct;
 import com.smsjuegos.quiz.adapter.HomeAdapter;
-import com.smsjuegos.quiz.adapter.SliderAdapter;
 import com.smsjuegos.quiz.databinding.FragmentHomeBinding;
 import com.smsjuegos.quiz.model.SuccessResGetBanner;
 import com.smsjuegos.quiz.model.SuccessResGetEvents;
@@ -49,12 +46,13 @@ import retrofit2.Response;
 
 public class HomeFragment extends Fragment {
     FragmentHomeBinding binding;
-    List<SuccessResGetBanner.Result> bannersList = new LinkedList<>();
+    List<SlideModel> bannersList = new LinkedList<>();
     List<SuccessResGetEvents.Result> eventsList = new LinkedList<>();
+    GPSTracker gpsTracker;
     private HomeAdapter homeAdapter;
     private QuizInterface apiInterface;
-    private SliderAdapter adapter;
-GPSTracker gpsTracker ;
+   // private SliderAdapter adapter;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -75,8 +73,8 @@ GPSTracker gpsTracker ;
         );
 
         getLocation();
-        adapter = new SliderAdapter(getContext(), bannersList);
-        binding.imageSlider.setSliderAdapter(adapter);
+       // adapter = new SliderAdapter(getContext(), bannersList);
+     /*   binding.imageSlider.setSliderAdapter(adapter);
         binding.imageSlider.setIndicatorAnimation(IndicatorAnimationType.WORM); //set indicator animation by using SliderLayout.IndicatorAnimations. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!
         binding.imageSlider.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
         binding.imageSlider.setAutoCycleDirection(SliderView.AUTO_CYCLE_DIRECTION_BACK_AND_FORTH);
@@ -84,7 +82,7 @@ GPSTracker gpsTracker ;
         binding.imageSlider.setIndicatorUnselectedColor(Color.GRAY);
         binding.imageSlider.setScrollTimeInSec(3);
         binding.imageSlider.setAutoCycle(true);
-        binding.imageSlider.startAutoCycle();
+        binding.imageSlider.startAutoCycle();*/
         if (NetworkAvailablity.getInstance(getActivity()).checkNetworkStatus()) {
             getBannerList();
             getEventsImages();
@@ -105,32 +103,27 @@ GPSTracker gpsTracker ;
                             Manifest.permission.ACCESS_COARSE_LOCATION},
                     Constant.LOCATION_REQUEST);
         } else {
-            if (gpsTracker.canGetLocation()){
-                SharedPreferenceUtility.getInstance(requireActivity()).putString(Constant.LATITUDE, gpsTracker.getLatitude()+"");
-                SharedPreferenceUtility.getInstance(requireActivity()).putString(Constant.LONGITUDE, gpsTracker.getLongitude()+"");
+            if (gpsTracker.canGetLocation()) {
+                SharedPreferenceUtility.getInstance(requireActivity()).putString(Constant.LATITUDE, gpsTracker.getLatitude() + "");
+                SharedPreferenceUtility.getInstance(requireActivity()).putString(Constant.LONGITUDE, gpsTracker.getLongitude() + "");
                 String lon = SharedPreferenceUtility.getInstance(getContext()).getString(LONGITUDE);
                 String lat = SharedPreferenceUtility.getInstance(getContext()).getString(LATITUDE);
 
-                Log.e("TAG", "getLocation:  latlatlat  "+lat );
-                Log.e("TAG", "getLocation:lonlon "+lon );
+                Log.e("TAG", "getLocation:  latlatlat  " + lat);
+                Log.e("TAG", "getLocation:lonlon " + lon);
             }
         }
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        switch (requestCode) {
-            case 1000: {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    getLocation();
-                } else {
-                    Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.permisson_denied), Toast.LENGTH_SHORT).show();
-                }
-                break;
+        if (requestCode == 1000) {// If request is cancelled, the result arrays are empty.
+            if (grantResults.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                getLocation();
+            } else {
+                Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.permisson_denied), Toast.LENGTH_SHORT).show();
             }
-
         }
     }
 
@@ -195,11 +188,11 @@ GPSTracker gpsTracker ;
                     if (data.status.equals("1")) {
                         String dataResponse = new Gson().toJson(response.body());
                         bannersList.clear();
-                        bannersList.addAll(data.getResult());
-                        adapter.notifyDataSetChanged();
-
-//                        SessionManager.writeString(RegisterAct.this, Constant.driver_id,data.result.id);
-//                        App.showToast(RegisterAct.this, data.message, Toast.LENGTH_SHORT);
+                        for (SuccessResGetBanner.Result res:
+                             data.getResult()) {
+                            bannersList.add(new SlideModel(res.getImage(), ScaleTypes.FIT));
+                        }
+                        binding.imageSlider.setImageList(bannersList);
                     } else if (data.status.equals("0")) {
                         showToast(getActivity(), data.message);
                     }

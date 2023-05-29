@@ -211,5 +211,5 @@ public class SuccessResGetCompletedPuzzel implements Serializable {
         }
 
     }
-    
+
 }

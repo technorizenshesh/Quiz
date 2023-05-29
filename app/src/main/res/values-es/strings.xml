@@ -199,6 +199,7 @@ Ya tienes una cuenta?
 
 
     <string name="enter_answer">Escribe Respuesta …</string>
+    <string name="enter_answer_or">O Escribe Respuesta…</string>
 
     -
     <string name="_1_show_hint1_2_minutes_penalty">
@@ -232,16 +233,17 @@ Ya tienes una cuenta?
     <string name="cancel">Cancelar</string>
 
     <string name="congratulations_you_have_saved_the_world_from_the_next_pandemic_you_may_open_envelope_4">¡FELICIDADES!Acaban de salvar al mundo de una potencial pandemia.Asegúrate de sacar fotos y subirlo a tus redes sociales</string>
+    <string name="congratulations">Felicidades</string>
 
     <string name="downloading_data">Instrucciones</string>
 
     <string name="hello">Hola</string>
 
-    <string name="_5_places">5 lugares</string>
+     <string name="_5_places">lugares</string>
 
-    <string name="_5_people">5 personas</string>
+     <string name="_5_people">personas</string>
 
-    <string name="_5_objects">5 objetos</string>
+    <string name="_5_objects">objetos</string>
 
     <string name="team_name">Nombre del equipo</string>
 
@@ -323,8 +325,9 @@ Ya tienes una cuenta?
     <string name="datal"><![CDATA[<p><font color=#666666>Continúa si estás de acuerdo con nuestra</font><font color=#5856F2>  <b><u>Términos y condiciones</u></b></font><font color=#666666> y el <u></font><b><font color=#5856F2>Política de privacidad </font></u></b></font></p>]]></string>
     <string name="privacy">de privacidad </string>
     <string name="event_date_exp">Los datos del evento han caducado</string>
-    <string name="haz_click_en_el_men_de_arriba_n_click_en_mapa_para_ver_ubicaciones_n_click_en_inventario_para_ver_pistas_encontradas_n_click_en_rompecabezas_final_para_lograr_terminar_el_reto">Click on the menu above. \n * Click on Map to see locations.\n * Click on Inventory to see clues found \n * Click on Final Puzzle to finish the challenge</string>
     <string name="go_to_map">Regresa al Mapa</string>
+    <string name="haz_click_en_el_men_de_arriba_n_click_en_mapa_para_ver_ubicaciones_n_click_en_inventario_para_ver_pistas_encontradas_n_click_en_rompecabezas_final_para_lograr_terminar_el_reto">Haz Click en el menú de arriba. \n * Click en Mapa para ver ubicaciones.\n * Click en Inventario para ver pistas encontradas \n * Click en Rompecabezas final para lograr terminar el reto</string>
+
     <string name="final_pzl_txts">Aquí acumularás las pistas encontradas.  Para resolver el acertijo final, ELIJE una persona, un objeto y un lugar que de acuerdo a las pistas de INVENTARIO te revelarán el paradero del TESORO AZTECA.  Si no respondes bien, se te penalizará con tiempo. </string>
     <string name="wrong_image">Imágenes incorrectas seleccionadas penalización Tiempo Añadido 5 min.</string>
     <string name="desclemer">Descargo de Responsabilidad \n
@@ -354,7 +357,8 @@ Navega en el menú apretando la parte superior de tu pantalla (tres puntitos del
 
 Ten cuidado!, estás en un lugar público no controlado.  Ten cuidado al cruzar las calles y siempre quédate pendiente de tu alrededor. </string>
     <string name="password_sended">Por favor revise el buzón le hemos enviado su nueva contraseña</string>
-    <string name="wrong_answere">Respuesta incorrecta 5 minutos de penalización de tiempo añadida</string>
+    <string name="wrong_answere">Respuesta incorrecta 2 minutos de penalización de tiempo añadida</string>
+    <string name="wrong_answere_five">Respuesta incorrecta 5 minutos de penalización de tiempo añadida</string>
     <string name="quiz">Prueba  </string>
     <string name="minuts">minutos</string>
     <string name="already_completed">Ya has completado el puzzle no puedes volver a participar </string>

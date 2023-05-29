@@ -5,6 +5,6 @@ package com.smsjuegos.quiz.utility;
  */
 public interface FinalPuzzelInterface {
 
-    public void selectedFinalPuzzel(int position);
+    void selectedFinalPuzzel(int position);
 
 }

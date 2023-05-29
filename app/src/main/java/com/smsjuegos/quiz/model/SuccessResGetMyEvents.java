@@ -146,42 +146,55 @@ public class SuccessResGetMyEvents implements Serializable {
         public String getAmount() {
             return amount;
         }
+
         public void setAmount(String amount) {
             this.amount = amount;
         }
+
         public String getImage() {
             return image;
         }
+
         public void setImage(String image) {
             this.image = image;
         }
+
         public String getTotalTicket() {
             return totalTicket;
         }
+
         public void setTotalTicket(String totalTicket) {
             this.totalTicket = totalTicket;
         }
+
         public String getEventInstructions() {
             return eventInstructions;
         }
+
         public void setEventInstructions(String eventInstructions) {
             this.eventInstructions = eventInstructions;
         }
+
         public String getDateTime() {
             return dateTime;
         }
+
         public void setDateTime(String dateTime) {
             this.dateTime = dateTime;
         }
+
         public String getEventCode() {
             return eventCode;
         }
+
         public void setEventCode(String eventCode) {
             this.eventCode = eventCode;
         }
+
         public String getEventStatus() {
             return eventStatus;
         }
+
         public void setEventStatus(String eventStatus) {
             this.eventStatus = eventStatus;
         }

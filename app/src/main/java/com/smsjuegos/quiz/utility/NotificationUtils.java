@@ -33,14 +33,50 @@ import java.util.List;
 
 public class NotificationUtils {
 
-    private static String TAG = NotificationUtils.class.getSimpleName();
     public static final String NOTIFICATION_CHANNEL_ID = "10001";
-
-    private Context mContext;
+    private static final String TAG = NotificationUtils.class.getSimpleName();
     public int num = (int) System.currentTimeMillis();
+    private final Context mContext;
 
     public NotificationUtils(Context mContext) {
         this.mContext = mContext;
+    }
+
+    /**
+     * Method checks if the app is in background or not
+     */
+    public static boolean isAppIsInBackground(Context context) {
+        boolean isInBackground = true;
+        ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningAppProcessInfo> runningProcesses = am.getRunningAppProcesses();
+        for (ActivityManager.RunningAppProcessInfo processInfo : runningProcesses) {
+            if (processInfo.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND) {
+                for (String activeProcess : processInfo.pkgList) {
+                    if (activeProcess.equals(context.getPackageName())) {
+                        isInBackground = false;
+                    }
+                }
+            }
+        }
+
+        return !isInBackground;
+    }
+
+    // Clears notification tray messages
+    public static void clearNotifications(Context context) {
+        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.cancelAll();
+    }
+
+    public static long getTimeMilliSec(String timeStamp) {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        try {
+            Date date = format.parse(timeStamp);
+            return date.getTime();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 
     public void showNotificationMessage(String title, String message, String timeStamp, Intent intent) {
@@ -62,7 +98,7 @@ public class NotificationUtils {
                         mContext,
                         num,
                         intent,
-                        PendingIntent.FLAG_CANCEL_CURRENT|PendingIntent.FLAG_IMMUTABLE
+                        PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_IMMUTABLE
                 );
 
         final NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(
@@ -91,7 +127,6 @@ public class NotificationUtils {
             // playNotificationSound();
         }
     }
-
 
     private void showSmallNotification(NotificationCompat.Builder mBuilder, int icon, String title, String message, String timeStamp, PendingIntent resultPendingIntent, Uri alarmSound) {
 
@@ -203,42 +238,5 @@ public class NotificationUtils {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    /**
-     * Method checks if the app is in background or not
-     */
-    public static boolean isAppIsInBackground(Context context) {
-        boolean isInBackground = true;
-        ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-        List<ActivityManager.RunningAppProcessInfo> runningProcesses = am.getRunningAppProcesses();
-        for (ActivityManager.RunningAppProcessInfo processInfo : runningProcesses) {
-            if (processInfo.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND) {
-                for (String activeProcess : processInfo.pkgList) {
-                    if (activeProcess.equals(context.getPackageName())) {
-                        isInBackground = false;
-                    }
-                }
-            }
-        }
-
-        return !isInBackground;
-    }
-
-    // Clears notification tray messages
-    public static void clearNotifications(Context context) {
-        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.cancelAll();
-    }
-
-    public static long getTimeMilliSec(String timeStamp) {
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        try {
-            Date date = format.parse(timeStamp);
-            return date.getTime();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return 0;
     }
 }

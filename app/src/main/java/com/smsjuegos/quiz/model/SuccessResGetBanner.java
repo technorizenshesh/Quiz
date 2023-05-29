@@ -90,5 +90,5 @@ public class SuccessResGetBanner implements Serializable {
         }
 
     }
-    
+
 }

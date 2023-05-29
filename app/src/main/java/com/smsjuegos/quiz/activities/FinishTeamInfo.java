@@ -40,28 +40,31 @@ public class FinishTeamInfo extends AppCompatActivity {
 
     ActivityFinishTeamInfoBinding binding;
     private QuizInterface apiInterface;
-    private String eventId,eventCode;
-    private ArrayList<SuccessResGetFinalTime.Result> timePenalitiesList = new ArrayList<>();
+    private String eventId, eventCode;
+    private final ArrayList<SuccessResGetFinalTime.Result> timePenalitiesList = new ArrayList<>();
     private PanlaltiesAdapter penaltiesAdapter;
     private TeamAdapter teamAdapter;
-    private ArrayList<SuccessResGetOtherUserData.Result> otherResults = new ArrayList<>();
+    private final ArrayList<SuccessResGetOtherUserData.Result> otherResults = new ArrayList<>();
     private SuccessResGetFinalTime successResGetFinalTime;
     private String fromWhere = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this,R.layout.activity_finish_team_info);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_finish_team_info);
         apiInterface = ApiClient.getClient().create(QuizInterface.class);
-        penaltiesAdapter = new PanlaltiesAdapter(this,timePenalitiesList);
-        teamAdapter = new TeamAdapter(this,otherResults);
+        penaltiesAdapter = new PanlaltiesAdapter(this, timePenalitiesList);
+        teamAdapter = new TeamAdapter(this, otherResults);
         binding.ivHome.setOnClickListener(v ->
                 {
-                    startActivity(new Intent(FinishTeamInfo.this,HomeAct.class)
-                            .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK));
+                    startActivity(new Intent(FinishTeamInfo.this, HomeAct.class)
+                            .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
                 }
         );
-        binding.header.imgHeader.setOnClickListener(v -> finish());
+        binding.header.imgHeader.setOnClickListener(v ->
+                startActivity(new Intent(FinishTeamInfo.this, HomeAct.class)
+                .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK))
+               );
         binding.header.tvHeader.setText(R.string.teams);
         binding.rvTimePanalites.setHasFixedSize(true);
         binding.rvTimePanalites.setLayoutManager(new LinearLayoutManager(this));
@@ -87,23 +90,31 @@ public class FinishTeamInfo extends AppCompatActivity {
                 @Override
                 public void onTabSelected(TabLayout.Tab tab) {
                     int currentTabSelected = tab.getPosition();
-                    if (currentTabSelected==0) {
+                    if (currentTabSelected == 0) {
                         binding.llInfo.setVisibility(View.VISIBLE);
                         binding.rvteam.setVisibility(View.GONE);
-                        getMyPuzzelFinishInfo();} else {
+                        getMyPuzzelFinishInfo();
+                    } else {
                         binding.llInfo.setVisibility(View.GONE);
                         binding.rvteam.setVisibility(View.VISIBLE);
-                        getOtherFinishInfo();}}
+                        getOtherFinishInfo();
+                    }
+                }
+
                 @Override
                 public void onTabUnselected(TabLayout.Tab tab) {
                 }
-                @Override
-                public void onTabReselected(TabLayout.Tab tab) {}});
-            if (NetworkAvailablity.getInstance(this).checkNetworkStatus()) {getMyPuzzelFinishInfo();} else {Toast.makeText(this, getResources().getString(R.string.msg_noInternet), Toast.LENGTH_SHORT).show();}
-        }
 
-        else if(fromWhere.equalsIgnoreCase("4"))
-        {
+                @Override
+                public void onTabReselected(TabLayout.Tab tab) {
+                }
+            });
+            if (NetworkAvailablity.getInstance(this).checkNetworkStatus()) {
+                getMyPuzzelFinishInfo();
+            } else {
+                Toast.makeText(this, getResources().getString(R.string.msg_noInternet), Toast.LENGTH_SHORT).show();
+            }
+        } else if (fromWhere.equalsIgnoreCase("4")) {
             binding.tabLayoutEventDay.setVisibility(View.GONE);
             eventId = getIntent().getExtras().getString("eventId");
             eventCode = getIntent().getExtras().getString("eventCode");
@@ -113,17 +124,18 @@ public class FinishTeamInfo extends AppCompatActivity {
             binding.tabLayoutEventDay.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
                 @Override
                 public void onTabSelected(TabLayout.Tab tab) {
-                    int currentTabSelected= tab.getPosition();
-                    if (currentTabSelected==0)
-                    {
+                    int currentTabSelected = tab.getPosition();
+                    if (currentTabSelected == 0) {
                         binding.llInfo.setVisibility(View.VISIBLE);
                         binding.rvteam.setVisibility(View.GONE);
                         getGame4FinishInfo();
                     }
                 }
+
                 @Override
                 public void onTabUnselected(TabLayout.Tab tab) {
                 }
+
                 @Override
                 public void onTabReselected(TabLayout.Tab tab) {
                 }
@@ -135,8 +147,7 @@ public class FinishTeamInfo extends AppCompatActivity {
                 Toast.makeText(this, getResources().getString(R.string.msg_noInternet), Toast.LENGTH_SHORT).show();
             }
 
-        }  else if(fromWhere.equalsIgnoreCase("5"))
-        {
+        } else if (fromWhere.equalsIgnoreCase("5")) {
 
             binding.tabLayoutEventDay.setVisibility(View.GONE);
 
@@ -149,18 +160,19 @@ public class FinishTeamInfo extends AppCompatActivity {
             binding.tabLayoutEventDay.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
                 @Override
                 public void onTabSelected(TabLayout.Tab tab) {
-                    int currentTabSelected= tab.getPosition();
-                    if (currentTabSelected==0)
-                    {
+                    int currentTabSelected = tab.getPosition();
+                    if (currentTabSelected == 0) {
                         binding.llInfo.setVisibility(View.VISIBLE);
                         binding.rvteam.setVisibility(View.GONE);
                         getGame4FinishInfo();
                     }
 
                 }
+
                 @Override
                 public void onTabUnselected(TabLayout.Tab tab) {
                 }
+
                 @Override
                 public void onTabReselected(TabLayout.Tab tab) {
                 }
@@ -176,8 +188,7 @@ public class FinishTeamInfo extends AppCompatActivity {
 
     }
 
-    private void getMyPuzzelFinishInfo()
-    {
+    private void getMyPuzzelFinishInfo() {
 
         DataManager.getInstance().showProgressMessage(this, getString(R.string.please_wait));
         Map<String, String> map = new HashMap<>();
@@ -209,6 +220,7 @@ public class FinishTeamInfo extends AppCompatActivity {
                     e.printStackTrace();
                 }
             }
+
             @Override
             public void onFailure(Call<SuccessResGetFinalTime> call, Throwable t) {
                 call.cancel();
@@ -217,8 +229,7 @@ public class FinishTeamInfo extends AppCompatActivity {
         });
     }
 
-    private void getGame4FinishInfo()
-    {
+    private void getGame4FinishInfo() {
         binding.tvTeamDetail.setVisibility(View.GONE);
         String userId = SharedPreferenceUtility.getInstance(this).getString(USER_ID);
         DataManager.getInstance().showProgressMessage(this, getString(R.string.please_wait));
@@ -251,6 +262,7 @@ public class FinishTeamInfo extends AppCompatActivity {
                     e.printStackTrace();
                 }
             }
+
             @Override
             public void onFailure(Call<SuccessResGetFinalTime> call, Throwable t) {
                 call.cancel();
@@ -270,8 +282,7 @@ public class FinishTeamInfo extends AppCompatActivity {
         Glide.with(FinishTeamInfo.this).load(successResGetFinalTime.getEventDetails().getImage()).centerCrop().into(binding.imgEvent);
     }
 
-    private void getOtherFinishInfo()
-    {
+    private void getOtherFinishInfo() {
         DataManager.getInstance().showProgressMessage(this, getString(R.string.please_wait));
         Map<String, String> map = new HashMap<>();
         map.put("event_id", eventId);

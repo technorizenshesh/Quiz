@@ -1,5 +1,6 @@
 package com.smsjuegos.quiz.retrofit;
 
+import com.smsjuegos.quiz.activities.cardigo.PuzzleList;
 import com.smsjuegos.quiz.model.EventCodeResSuccess;
 import com.smsjuegos.quiz.model.SuccessResForgetPassword;
 import com.smsjuegos.quiz.model.SuccessResGetBanner;
@@ -9,6 +10,7 @@ import com.smsjuegos.quiz.model.SuccessResGetEvents;
 import com.smsjuegos.quiz.model.SuccessResGetFinalTime;
 import com.smsjuegos.quiz.model.SuccessResGetInstruct;
 import com.smsjuegos.quiz.model.SuccessResGetInstruction;
+import com.smsjuegos.quiz.model.SuccessResGetInstructionTwo;
 import com.smsjuegos.quiz.model.SuccessResGetInventory;
 import com.smsjuegos.quiz.model.SuccessResGetMyEvents;
 import com.smsjuegos.quiz.model.SuccessResGetOtherUserData;
@@ -27,8 +29,6 @@ import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
-import retrofit2.http.Query;
-import retrofit2.http.QueryMap;
 import retrofit2.http.Url;
 
 public interface QuizInterface {
@@ -109,6 +109,14 @@ public interface QuizInterface {
     Call<SuccessResGetInstruction> getInstruction(@FieldMap Map<String, String> paramHashMap);
 
     @FormUrlEncoded
+    @POST("get_event_instructions_game_two")
+    Call<SuccessResGetInstructionTwo> get_event_instructions_game_two(@FieldMap Map<String, String> paramHashMap);
+
+    @FormUrlEncoded
+    @POST("get_event_time")
+    Call<ResponseBody> get_event_time(@FieldMap Map<String, String> paramHashMap);
+
+    @FormUrlEncoded
     @POST("event_start_time")
     Call<ResponseBody> addStartTime(@FieldMap Map<String, String> paramHashMap);
 
@@ -127,6 +135,10 @@ public interface QuizInterface {
     @FormUrlEncoded
     @POST("get_inventory_event")
     Call<SuccessResGetInventory> getInventory(@FieldMap Map<String, String> paramHashMap);
+
+    @FormUrlEncoded
+    @POST("get_event_instructions_game_images")
+    Call<PuzzleList> get_event_instructions_game_images(@FieldMap Map<String, String> paramHashMap);
 
     @FormUrlEncoded
     @POST("get_inventory_event_game4")

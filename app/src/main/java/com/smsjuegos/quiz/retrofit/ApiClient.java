@@ -1,12 +1,12 @@
 package com.smsjuegos.quiz.retrofit;
 
+import static com.smsjuegos.quiz.retrofit.Constant.BASE_URL;
+
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-
-import static com.smsjuegos.quiz.retrofit.Constant.BASE_URL;
 
 public class ApiClient {
 
@@ -14,7 +14,7 @@ public class ApiClient {
 
     public static Retrofit getClient() {
         if (retrofit == null) {
-            final  HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+            final HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
             interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
             OkHttpClient client = new OkHttpClient.Builder()
                     .connectTimeout(300, TimeUnit.SECONDS)
@@ -24,7 +24,8 @@ public class ApiClient {
                     .baseUrl(BASE_URL)
                     .client(client)
                     .addConverterFactory(GsonConverterFactory.create())
-                    .build();}
+                    .build();
+        }
         return retrofit;
     }
 

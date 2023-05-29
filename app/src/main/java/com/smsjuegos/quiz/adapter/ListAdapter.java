@@ -204,7 +204,6 @@
 package com.smsjuegos.quiz.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -221,7 +220,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.smsjuegos.quiz.R;
-import com.smsjuegos.quiz.activities.game2.HomeScreenGame2Act;
 import com.smsjuegos.quiz.model.SuccessResGetMyEvents;
 
 import java.util.ArrayList;
@@ -235,20 +233,19 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.SelectTimeView
 
     ArrayAdapter ad;
     private List<String> dates;
-    private Context context;
-    private ArrayList<SuccessResGetMyEvents.Result> eventList ;
+    private final Context context;
+    private final ArrayList<SuccessResGetMyEvents.Result> eventList;
 
-    public ListAdapter( Context context,ArrayList<SuccessResGetMyEvents.Result> eventList)
-    {
-      this.context = context;
-      this.eventList =eventList;
+    public ListAdapter(Context context, ArrayList<SuccessResGetMyEvents.Result> eventList) {
+        this.context = context;
+        this.eventList = eventList;
     }
 
     @NonNull
     @Override
     public SelectTimeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View listItem= layoutInflater.inflate(R.layout.list_item, parent, false);
+        View listItem = layoutInflater.inflate(R.layout.list_item, parent, false);
         SelectTimeViewHolder viewHolder = new SelectTimeViewHolder(listItem);
         return viewHolder;
     }
@@ -256,7 +253,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.SelectTimeView
     @Override
     public void onBindViewHolder(@NonNull SelectTimeViewHolder holder, int position) {
 
-        TextView tvEventName,tvEventDate,tvEventPrice,tvLocation,tvStatus;
+        TextView tvEventName, tvEventDate, tvEventPrice, tvLocation, tvStatus;
         ImageView ivEvent = holder.itemView.findViewById(R.id.img_event);
         tvEventName = holder.itemView.findViewById(R.id.label);
         tvEventDate = holder.itemView.findViewById(R.id.tvDate);
@@ -279,36 +276,36 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.SelectTimeView
         cvParent.setOnClickListener(v ->
 
                 {
-                    Log.e("TAG", "onBindViewHolder:eventList.get(position).getId()eventList.get(position).getId() "+eventList.get(position).getId() );
+                    Log.e("TAG", "onBindViewHolder:eventList.get(position).getId()eventList.get(position).getId() " + eventList.get(position).getId());
                     // if (eventList.get(position).getEventName().equalsIgnoreCase("7")
                     //       ){
                     //     context.startActivity(new Intent(context, HomeScreenGame2Act.class)
-                   //              .putExtra("instructionID", eventList.get(position)));
+                    //              .putExtra("instructionID", eventList.get(position)));
 
-                  //   }else {
+                    //   }else {
                     Bundle bundle = new Bundle();
-                    bundle.putString("eventId",eventList.get(position).getId());
-                    bundle.putString("event_code",eventList.get(position).getEventCode());
+                    bundle.putString("eventId", eventList.get(position).getId());
+                    bundle.putString("event_code", eventList.get(position).getEventCode());
                     Navigation.findNavController(v).navigate(R.id.action_navigation_list_to_eventLocationsFragment
-                            ,bundle);
-               // }
-    }
-                );
+                            , bundle);
+                    // }
+                }
+        );
 
-        if(eventList.get(position).getEventStatus().equalsIgnoreCase("PENDING"))
-        {
-            tvStatus.setText(""+context.getString(R.string.upcoming));
+        if (eventList.get(position).getEventStatus().equalsIgnoreCase("PENDING")) {
+            tvStatus.setText("" + context.getString(R.string.upcoming));
             tvStatus.setTextColor(context.getResources().getColor(R.color.yellow));
-        } else if(eventList.get(position).getEventStatus().equalsIgnoreCase("green"))
-        {
-            tvStatus.setText(""+context.getString(R.string.started));
+        } else if (eventList.get(position).getEventStatus().equalsIgnoreCase("green")) {
+            tvStatus.setText("" + context.getString(R.string.started));
             tvStatus.setTextColor(context.getResources().getColor(R.color.green));
         }
     }
+
     @Override
     public int getItemCount() {
         return eventList.size();
     }
+
     public class SelectTimeViewHolder extends RecyclerView.ViewHolder {
         public SelectTimeViewHolder(@NonNull View itemView) {
             super(itemView);

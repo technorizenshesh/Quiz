@@ -6,18 +6,20 @@ import android.net.NetworkInfo;
 
 public class NetworkAvailablity {
 
-    public static String product_id="";
+    public static String product_id = "";
+    private static NetworkAvailablity mRefrence = null;
+    private static Context context;
+    private NetworkAvailablity() {
+    }
 
-    public static boolean checkNetworkStatus(Context context)
-    {
+    public static boolean checkNetworkStatus(Context context) {
         boolean HaveConnectedWifi = false;
         boolean HaveConnectedMobile = false;
 
-        ConnectivityManager cm = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 
         NetworkInfo[] netInfo = cm.getAllNetworkInfo();
-        for (NetworkInfo ni : netInfo)
-        {
+        for (NetworkInfo ni : netInfo) {
 
             if (ni.getTypeName().equalsIgnoreCase("WIFI"))
                 if (ni.isConnected())
@@ -28,12 +30,6 @@ public class NetworkAvailablity {
         }
 
         return HaveConnectedWifi || HaveConnectedMobile;
-    }
-
-    private static NetworkAvailablity mRefrence = null;
-    private static Context context;
-
-    private NetworkAvailablity() {
     }
 
     /**

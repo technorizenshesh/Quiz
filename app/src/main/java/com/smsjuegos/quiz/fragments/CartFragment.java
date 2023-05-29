@@ -1,23 +1,24 @@
 package com.smsjuegos.quiz.fragments;
 
+import static com.smsjuegos.quiz.retrofit.Constant.USER_ID;
+import static com.smsjuegos.quiz.retrofit.Constant.showToast;
+
 import android.content.DialogInterface;
 import android.os.Bundle;
-
-import androidx.appcompat.app.AlertDialog;
-import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
+
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.smsjuegos.quiz.R;
-import com.smsjuegos.quiz.databinding.FragmentCardBinding;
 import com.smsjuegos.quiz.databinding.FragmentCartBinding;
 import com.smsjuegos.quiz.model.SuccessResGetCart;
 import com.smsjuegos.quiz.model.SuccessResGetEventDetail;
@@ -37,9 +38,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.smsjuegos.quiz.retrofit.Constant.USER_ID;
-import static com.smsjuegos.quiz.retrofit.Constant.showToast;
-
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link CartFragment#newInstance} factory method to
@@ -47,18 +45,16 @@ import static com.smsjuegos.quiz.retrofit.Constant.showToast;
  */
 public class CartFragment extends Fragment {
 
+    // TODO: Rename parameter arguments, choose names that match
+    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+    private static final String ARG_PARAM1 = "param1";
+    private static final String ARG_PARAM2 = "param2";
     FragmentCartBinding binding;
     private SuccessResGetEventDetail.Result eventDetails;
     private QuizInterface apiInterface;
     private String cartID;
     private SuccessResGetCart.Result cartItems = null;
-    private String eventId = "",strAmount = "",strCount="",strTotalAmount="",strTotalTicket="";
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
+    private String eventId = "", strAmount = "", strCount = "", strTotalAmount = "", strTotalTicket = "";
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -100,32 +96,28 @@ public class CartFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
-        binding = DataBindingUtil.inflate(inflater,R.layout.fragment_cart, container, false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_cart, container, false);
         binding.header.tvHeader.setText(R.string.cart);
         apiInterface = ApiClient.getClient().create(QuizInterface.class);
         binding.header.imgHeader.setOnClickListener(v ->
                 {
                     getActivity().onBackPressed();
                 }
-                );
+        );
 
         binding.btnBookEvent.setOnClickListener(v ->
                 {
 
-                    if(!binding.etName.getText().toString().equalsIgnoreCase(""))
-                    {
+                    if (!binding.etName.getText().toString().equalsIgnoreCase("")) {
                         Bundle bundle = new Bundle();
-                        bundle.putString("total",strTotalAmount);
-                        bundle.putString("card_id",cartID);
-                        bundle.putString("total_ticket",strTotalTicket);
-                        bundle.putString("event_id",eventId);
-                        bundle.putString("tName",binding.etName.getText().toString());
-                        Navigation.findNavController(v).navigate(R.id.action_cartFragment_to_cardFragment,bundle);
-                    }
-
-                    else
-                    {
-                        showToast(getActivity(),"Please enter team name.");
+                        bundle.putString("total", strTotalAmount);
+                        bundle.putString("card_id", cartID);
+                        bundle.putString("total_ticket", strTotalTicket);
+                        bundle.putString("event_id", eventId);
+                        bundle.putString("tName", binding.etName.getText().toString());
+                        Navigation.findNavController(v).navigate(R.id.action_cartFragment_to_cardFragment, bundle);
+                    } else {
+                        showToast(getActivity(), "Please enter team name.");
                     }
 
                 }
@@ -133,8 +125,7 @@ public class CartFragment extends Fragment {
 
         Bundle bundle = this.getArguments();
 
-        if(bundle!=null)
-        {
+        if (bundle != null) {
             eventId = bundle.getString("id");
         }
 
@@ -150,17 +141,16 @@ public class CartFragment extends Fragment {
                     int count = Integer.parseInt(strCount);
                     count++;
 
-                    if (count>6)
-                    {
+                    if (count > 6) {
 
-                        showToast(getActivity(),""+getString(R.string.only_6_tickets_per_team));
+                        showToast(getActivity(), "" + getString(R.string.only_6_tickets_per_team));
 
                         return;
                     }
 
-                    addToCart(count+"");
+                    addToCart(count + "");
                 }
-                );
+        );
 
         binding.btnRemove.setOnClickListener(v ->
                 {
@@ -168,13 +158,10 @@ public class CartFragment extends Fragment {
                     int count = Integer.parseInt(strCount);
                     count--;
 
-                    if(count==0)
-                    {
+                    if (count == 0) {
                         deleteCart();
-                    }
-                    else
-                    {
-                        addToCart(count+"");
+                    } else {
+                        addToCart(count + "");
                     }
                 }
         );
@@ -201,13 +188,12 @@ public class CartFragment extends Fragment {
                             .show();
 
                 }
-                );
+        );
 
         return binding.getRoot();
     }
 
-    private void deleteCart()
-    {
+    private void deleteCart() {
         String userId = SharedPreferenceUtility.getInstance(getContext()).getString(USER_ID);
         Map<String, String> map = new HashMap<>();
         map.put("cart_id", cartID);
@@ -237,7 +223,7 @@ public class CartFragment extends Fragment {
 
                     } else if (data.equals("0")) {
                         showToast(getActivity(), message);
-                    }else if (data.equals("2")) {
+                    } else if (data.equals("2")) {
                         showToast(getActivity(), jsonObject.getString("result"));
                     }
                 } catch (Exception e) {
@@ -253,8 +239,7 @@ public class CartFragment extends Fragment {
         });
     }
 
-    public void addToCart(String strQuantity)
-    {
+    public void addToCart(String strQuantity) {
         String userId = SharedPreferenceUtility.getInstance(getContext()).getString(USER_ID);
         DataManager.getInstance().showProgressMessage(getActivity(), getString(R.string.please_wait));
         Map<String, String> map = new HashMap<>();
@@ -281,7 +266,7 @@ public class CartFragment extends Fragment {
 
                     if (data.equals("1")) {
 
-                        SuccessResGetCart myCartItem = new Gson().fromJson(response.body().string(),SuccessResGetCart.class);
+                        SuccessResGetCart myCartItem = new Gson().fromJson(response.body().string(), SuccessResGetCart.class);
 
 //                        binding.tvCount.setText(myCartItem.getResult().get(0).getTicket());
 
@@ -290,7 +275,7 @@ public class CartFragment extends Fragment {
 
                     } else if (data.equals("0")) {
                         showToast(getActivity(), message);
-                    }else if (data.equals("2")) {
+                    } else if (data.equals("2")) {
                         showToast(getActivity(), jsonObject.getString("result"));
                     }
                 } catch (Exception e) {
@@ -306,8 +291,7 @@ public class CartFragment extends Fragment {
         });
     }
 
-    private void getCart()
-    {
+    private void getCart() {
 
         String userId = SharedPreferenceUtility.getInstance(getContext()).getString(USER_ID);
         DataManager.getInstance().showProgressMessage(getActivity(), getString(R.string.please_wait));
@@ -337,9 +321,9 @@ public class CartFragment extends Fragment {
 
                         strTotalTicket = cartItems.getTicket();
 
-                        binding.tvTotal.setText(data.getTotalAmount()+"");
+                        binding.tvTotal.setText(data.getTotalAmount() + "");
 
-                        strTotalAmount = data.getTotalAmount()+"";
+                        strTotalAmount = data.getTotalAmount() + "";
 
                     } else if (data.status.equals("0")) {
                         showToast(getActivity(), data.message);
@@ -358,8 +342,7 @@ public class CartFragment extends Fragment {
 
     }
 
-    private void getEventDetails()
-    {
+    private void getEventDetails() {
 
         String userId = SharedPreferenceUtility.getInstance(getContext()).getString(USER_ID);
         DataManager.getInstance().showProgressMessage(getActivity(), getString(R.string.please_wait));
@@ -398,23 +381,22 @@ public class CartFragment extends Fragment {
         });
     }
 
-    public void setEventDetails()
-    {
+    public void setEventDetails() {
 
         Glide
                 .with(getContext())
                 .load(eventDetails.getImage())
                 .centerCrop()
                 .into(binding.roundedImageView);
-        binding.tvTicket.setText(getString(R.string.only)+" "+eventDetails.getRemainingEventCount()+" "+getString(R.string.ticket_remaining));
+        binding.tvTicket.setText(getString(R.string.only) + " " + eventDetails.getRemainingEventCount() + " " + getString(R.string.ticket_remaining));
 
         binding.tvPrice.setText(eventDetails.getAmount());
 
         strAmount = eventDetails.getAmount();
 
-        float totalTickets =  Float.parseFloat(eventDetails.getTotalTicket());
+        float totalTickets = Float.parseFloat(eventDetails.getTotalTicket());
         float buyedTickets = Float.parseFloat(eventDetails.getBookingEventCount());
-        float progressCount = buyedTickets * 100 /  totalTickets;
+        float progressCount = buyedTickets * 100 / totalTickets;
         binding.progressBar.setProgress((int) progressCount);
 
     }

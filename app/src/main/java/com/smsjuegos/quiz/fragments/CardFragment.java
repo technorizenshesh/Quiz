@@ -1,17 +1,19 @@
 package com.smsjuegos.quiz.fragments;
 
+import static com.smsjuegos.quiz.retrofit.Constant.USER_ID;
+import static com.smsjuegos.quiz.retrofit.Constant.showToast;
+
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.Fragment;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.Fragment;
 
 import com.braintreepayments.cardform.OnCardFormSubmitListener;
 import com.braintreepayments.cardform.view.CardForm;
@@ -41,9 +43,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.smsjuegos.quiz.retrofit.Constant.USER_ID;
-import static com.smsjuegos.quiz.retrofit.Constant.showToast;
-
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link CardFragment#newInstance} factory method to
@@ -51,21 +50,15 @@ import static com.smsjuegos.quiz.retrofit.Constant.showToast;
  */
 public class CardFragment extends Fragment {
 
-    FragmentCardBinding binding;
-
-    private QuizInterface apiInterface;
-
-    private Dialog dialog;
-
-    String cardNo ="",expirationDate="",cvv = "",cardType = "",holderName="",expirationMonth = "",expirationYear = "";
-
-    private String strTotal = "",strCartId = "",strTotalTicket="",strEventId = "",strTeamName="";
-
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
+    FragmentCardBinding binding;
+    String cardNo = "", expirationDate = "", cvv = "", cardType = "", holderName = "", expirationMonth = "", expirationYear = "";
+    private QuizInterface apiInterface;
+    private Dialog dialog;
+    private String strTotal = "", strCartId = "", strTotalTicket = "", strEventId = "", strTeamName = "";
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -98,14 +91,13 @@ public class CardFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
-        binding = DataBindingUtil.inflate(inflater,R.layout.fragment_card, container, false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_card, container, false);
 
         apiInterface = ApiClient.getClient().create(QuizInterface.class);
 
         Bundle bundle = this.getArguments();
 
-        if(bundle!=null)
-        {
+        if (bundle != null) {
             strTotal = bundle.getString("total");
             strCartId = bundle.getString("card_id");
             strEventId = bundle.getString("event_id");
@@ -131,17 +123,15 @@ public class CardFragment extends Fragment {
             @Override
             public void onCardFormSubmit() {
                 cardNo = binding.cardForm.getCardNumber();
-                expirationDate = binding.cardForm.getExpirationMonth()+"/"+binding.cardForm.getExpirationYear();
+                expirationDate = binding.cardForm.getExpirationMonth() + "/" + binding.cardForm.getExpirationYear();
                 expirationMonth = binding.cardForm.getExpirationMonth();
                 expirationYear = binding.cardForm.getExpirationYear();
                 cvv = binding.cardForm.getCvv();
                 cardType = "";
                 holderName = binding.cardForm.getCardholderName();
-                if(binding.cardForm.isValid())
-                {
-                 clickOnPayNow();
-                }else
-                {
+                if (binding.cardForm.isValid()) {
+                    clickOnPayNow();
+                } else {
                     binding.cardForm.validate();
                 }
             }
@@ -150,29 +140,27 @@ public class CardFragment extends Fragment {
         binding.btnPay.setOnClickListener(v ->
                 {
                     cardNo = binding.cardForm.getCardNumber();
-                    expirationDate = binding.cardForm.getExpirationMonth()+"/"+binding.cardForm.getExpirationYear();
+                    expirationDate = binding.cardForm.getExpirationMonth() + "/" + binding.cardForm.getExpirationYear();
                     expirationMonth = binding.cardForm.getExpirationMonth();
                     expirationYear = binding.cardForm.getExpirationYear();
                     cvv = binding.cardForm.getCvv();
                     cardType = "";
                     holderName = binding.cardForm.getCardholderName();
-                    if(binding.cardForm.isValid())
-                    {
+                    if (binding.cardForm.isValid()) {
                         clickOnPayNow();
-                    }else
-                    {
+                    } else {
                         binding.cardForm.validate();
                     }
 
 //                    Navigation.findNavController(v).navigate(R.id.action_cardFragment_to_bookingSuccessFragment);
                 }
-                );
+        );
 
         binding.header.imgHeader.setOnClickListener(v ->
                 {
                     getActivity().onBackPressed();
                 }
-                );
+        );
         binding.header.tvHeader.setText(getString(R.string.card));
         return binding.getRoot();
     }
@@ -188,7 +176,7 @@ public class CardFragment extends Fragment {
             cardNo = "";
             expirationDate = "";
             cvv = "";
-            showToast(getActivity(),"Please Enter valid card details.");
+            showToast(getActivity(), "Please Enter valid card details.");
             return;
         }
 
@@ -205,14 +193,13 @@ public class CardFragment extends Fragment {
 
                     @Override
                     public void onError(@NotNull Exception e) {
-                        showToast(getActivity(),e.getMessage());
+                        showToast(getActivity(), e.getMessage());
                         DataManager.getInstance().hideProgressMessage();
                     }
                 });
     }
 
-    private void callPaymentApi(String token)
-    {
+    private void callPaymentApi(String token) {
         String userId = SharedPreferenceUtility.getInstance(getContext()).getString(USER_ID);
         Map<String, String> map = new HashMap<>();
         map.put("user_id", userId);
@@ -244,7 +231,7 @@ public class CardFragment extends Fragment {
 //                        getActivity().onBackPressed();
                     } else if (data.equals("0")) {
                         showToast(getActivity(), message);
-                    }else if (data.equals("2")) {
+                    } else if (data.equals("2")) {
                         showToast(getActivity(), jsonObject.getString("result"));
                     }
                 } catch (Exception e) {
@@ -260,16 +247,15 @@ public class CardFragment extends Fragment {
         });
     }
 
-    private void booking()
-    {
+    private void booking() {
 
         Date currentTime = Calendar.getInstance().getTime();
 
         String userId = SharedPreferenceUtility.getInstance(getContext()).getString(USER_ID);
         Map<String, String> map = new HashMap<>();
         map.put("user_id", userId);
-        map.put("book_date", currentTime+"");
-        map.put("book_time", currentTime+"");
+        map.put("book_date", currentTime + "");
+        map.put("book_time", currentTime + "");
         map.put("amount", strTotal);
         map.put("event_id", strEventId);
         map.put("total_ticket", strTotalTicket);
@@ -293,15 +279,15 @@ public class CardFragment extends Fragment {
                     String message = jsonObject.getString("message");
 
                     if (data.equals("1")) {
-                      //  String dataResponse = new Gson().toJson(response.body());
-                     //   Log.e("MapMap", "EDIT PROFILE RESPONSE" + dataResponse);
+                        //  String dataResponse = new Gson().toJson(response.body());
+                        //   Log.e("MapMap", "EDIT PROFILE RESPONSE" + dataResponse);
                         startActivity(new Intent(getActivity(), HomeAct.class));
                         getActivity().finish();
 //                        getActivity().onBackPressed();
 
                     } else if (data.equals("0")) {
                         showToast(getActivity(), message);
-                    }else if (data.equals("2")) {
+                    } else if (data.equals("2")) {
                         showToast(getActivity(), jsonObject.getString("result"));
                     }
                 } catch (Exception e) {

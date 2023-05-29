@@ -178,6 +178,6 @@ public class SuccessResNearbyEvents implements Serializable {
         }
 
     }
-    
+
 
 }

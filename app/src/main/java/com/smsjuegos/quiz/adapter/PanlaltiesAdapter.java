@@ -230,12 +230,11 @@ public class PanlaltiesAdapter extends RecyclerView.Adapter<PanlaltiesAdapter.Se
 
     ArrayAdapter ad;
     private List<String> dates;
-    private Context context;
+    private final Context context;
 
-    private ArrayList<SuccessResGetFinalTime.Result> timePenalitiesList;
+    private final ArrayList<SuccessResGetFinalTime.Result> timePenalitiesList;
 
-    public PanlaltiesAdapter(Context context,ArrayList<SuccessResGetFinalTime.Result> timePenalitiesList)
-    {
+    public PanlaltiesAdapter(Context context, ArrayList<SuccessResGetFinalTime.Result> timePenalitiesList) {
         this.dates = dates;
         this.context = context;
         this.timePenalitiesList = timePenalitiesList;
@@ -245,7 +244,7 @@ public class PanlaltiesAdapter extends RecyclerView.Adapter<PanlaltiesAdapter.Se
     @Override
     public SelectTimeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View listItem= layoutInflater.inflate(R.layout.panalties_item, parent, false);
+        View listItem = layoutInflater.inflate(R.layout.panalties_item, parent, false);
         SelectTimeViewHolder viewHolder = new SelectTimeViewHolder(listItem);
         return viewHolder;
     }
@@ -253,7 +252,7 @@ public class PanlaltiesAdapter extends RecyclerView.Adapter<PanlaltiesAdapter.Se
     @Override
     public void onBindViewHolder(@NonNull SelectTimeViewHolder holder, int position) {
 
-        TextView tvPenality,tvDate;
+        TextView tvPenality, tvDate;
 
         tvPenality = holder.itemView.findViewById(R.id.tvMinutes);
         tvDate = holder.itemView.findViewById(R.id.tvdate);
@@ -262,7 +261,7 @@ public class PanlaltiesAdapter extends RecyclerView.Adapter<PanlaltiesAdapter.Se
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         SimpleDateFormat formatTo = new SimpleDateFormat("dd/MM/yyyy");
 
-        String toDate="";
+        String toDate = "";
 
         try {
             Date date = format.parse(dtStart);
@@ -275,14 +274,16 @@ public class PanlaltiesAdapter extends RecyclerView.Adapter<PanlaltiesAdapter.Se
         }
 
 
-        tvPenality.setText("+ "+timePenalitiesList.get(position).getTime());
+        tvPenality.setText("+ " + timePenalitiesList.get(position).getTime());
 
         tvDate.setText(toDate);
     }
+
     @Override
     public int getItemCount() {
         return timePenalitiesList.size();
     }
+
     public class SelectTimeViewHolder extends RecyclerView.ViewHolder {
         public SelectTimeViewHolder(@NonNull View itemView) {
             super(itemView);

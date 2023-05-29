@@ -1,13 +1,16 @@
 package com.smsjuegos.quiz.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.databinding.DataBindingUtil;
+import static com.smsjuegos.quiz.retrofit.Constant.isValidEmail;
+import static com.smsjuegos.quiz.retrofit.Constant.showToast;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
 
 import com.google.gson.Gson;
 import com.smsjuegos.quiz.R;
@@ -27,19 +30,16 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.smsjuegos.quiz.retrofit.Constant.isValidEmail;
-import static com.smsjuegos.quiz.retrofit.Constant.showToast;
-
 public class SignupAct extends AppCompatActivity {
 
     ActivitySignupBinding binding;
-    private String strEmail="",strPass="",strConfirmPass="";
+    private String strEmail = "", strPass = "", strConfirmPass = "";
     private QuizInterface apiInterface;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this,R.layout.activity_signup);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_signup);
         apiInterface = ApiClient.getClient().create(QuizInterface.class);
 
         binding.btnSignup.setOnClickListener(v ->
@@ -58,23 +58,22 @@ public class SignupAct extends AppCompatActivity {
                         Toast.makeText(this, getResources().getString(R.string.on_error), Toast.LENGTH_SHORT).show();
                     }
                 }
-                );
+        );
         binding.tvLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(SignupAct.this,LoginAct.class));
+                startActivity(new Intent(SignupAct.this, LoginAct.class));
             }
         });
     }
 
-    private void signup()
-    {
+    private void signup() {
 
         DataManager.getInstance().showProgressMessage(SignupAct.this, getString(R.string.please_wait));
-        Map<String,String> map = new HashMap<>();
-        map.put("email",strEmail);
-        map.put("password",strPass);
-        map.put("register_id","");
+        Map<String, String> map = new HashMap<>();
+        map.put("email", strEmail);
+        map.put("password", strPass);
+        map.put("register_id", "");
         Call<SuccessResSignup> signupCall = apiInterface.signup(map);
 
         signupCall.enqueue(new Callback<SuccessResSignup>() {
@@ -88,7 +87,7 @@ public class SignupAct extends AppCompatActivity {
                         String dataResponse = new Gson().toJson(response.body());
                         Log.e("MapMap", "EDIT PROFILE RESPONSE" + dataResponse);
                         SharedPreferenceUtility.getInstance(getApplication()).putBoolean(Constant.IS_USER_LOGGED_IN, true);
-                        SharedPreferenceUtility.getInstance(SignupAct.this).putString(Constant.USER_ID,data.getResult().getId());
+                        SharedPreferenceUtility.getInstance(SignupAct.this).putString(Constant.USER_ID, data.getResult().getId());
                         startActivity(new Intent(SignupAct.this, LoginAct.class));
                     } else if (data.status.equals("0")) {
                         showToast(SignupAct.this, data.message);
@@ -97,6 +96,7 @@ public class SignupAct extends AppCompatActivity {
                     e.printStackTrace();
                 }
             }
+
             @Override
             public void onFailure(Call<SuccessResSignup> call, Throwable t) {
                 call.cancel();
@@ -109,10 +109,10 @@ public class SignupAct extends AppCompatActivity {
         if (strEmail.equalsIgnoreCase("")) {
             binding.etEmail.setError(getString(R.string.enter_email));
             return false;
-        }  else if (!isValidEmail(strEmail)) {
+        } else if (!isValidEmail(strEmail)) {
             binding.etEmail.setError(getString(R.string.enter_valid_email));
             return false;
-        }else if (strPass.equalsIgnoreCase("")) {
+        } else if (strPass.equalsIgnoreCase("")) {
             binding.etPassword.setError(getString(R.string.please_enter_pass));
             return false;
         } else if (strConfirmPass.equalsIgnoreCase("")) {

@@ -5,6 +5,7 @@ import static com.smsjuegos.quiz.retrofit.Constant.showToast;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -34,10 +35,10 @@ import retrofit2.Response;
 public class InventoryAct extends AppCompatActivity {
 
     ActivityInventoryBinding binding;
-    private ArrayList<SuccessResGetInventory.Result> stringArrayList = new ArrayList<>();
-    private ArrayList<SuccessResGetInventory.Result> placeList = new ArrayList<>();
-    private ArrayList<SuccessResGetInventory.Result> peopleList = new ArrayList<>();
-    private ArrayList<SuccessResGetInventory.Result> objectList = new ArrayList<>();
+    private final ArrayList<SuccessResGetInventory.Result> stringArrayList = new ArrayList<>();
+    private final ArrayList<SuccessResGetInventory.Result> placeList = new ArrayList<>();
+    private final ArrayList<SuccessResGetInventory.Result> peopleList = new ArrayList<>();
+    private final ArrayList<SuccessResGetInventory.Result> objectList = new ArrayList<>();
     private InventoryAdapter inventoryAdapter;
     private InventoryAdapter inventoryAdapterplace;
     private InventoryAdapter inventoryAdapterperple;
@@ -62,7 +63,11 @@ public class InventoryAct extends AppCompatActivity {
         //    binding.rvINventory.setHasFixedSize(true);
         //   binding.rvINventory.setLayoutManager(new LinearLayoutManager(InventoryAct.this));
         //  binding.rvINventory.setAdapter(inventoryAdapter);
-
+        if (eventId.equalsIgnoreCase("8")) {
+            binding.txt1.setVisibility(View.GONE);
+            binding.txt2.setVisibility(View.GONE);
+            binding.txt3.setVisibility(View.GONE);
+        }
         inventoryAdapterplace = new InventoryAdapter(InventoryAct.this, placeList);
         binding.rvPlaces.setHasFixedSize(true);
         binding.rvPlaces.setLayoutManager(new LinearLayoutManager(InventoryAct.this));
@@ -143,7 +148,7 @@ public class InventoryAct extends AppCompatActivity {
         map.put("event_code", eventCode);
         Call<SuccessResGetInventory> call = apiInterface.getAllInventory(map);
 
-        call.enqueue(new Callback<>() {
+        call.enqueue(new Callback<SuccessResGetInventory>() {
             @Override
             public void onResponse(Call<SuccessResGetInventory> call, Response<SuccessResGetInventory> response) {
 
@@ -173,13 +178,14 @@ public class InventoryAct extends AppCompatActivity {
 
                             inventoryAdapterplace.notifyDataSetChanged();
                             inventoryAdapterperple.notifyDataSetChanged();
-                            inventoryAdapterobject.notifyDataSetChanged();}
-                    //    inventoryAdapter.notifyDataSetChanged();
+                            inventoryAdapterobject.notifyDataSetChanged();
+                        }
+                        //    inventoryAdapter.notifyDataSetChanged();
 
                     } else if (data.status.equals("0")) {
                         showToast(InventoryAct.this, data.message);
                         stringArrayList.clear();
-                      //  inventoryAdapter.notifyDataSetChanged();
+                        //  inventoryAdapter.notifyDataSetChanged();
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

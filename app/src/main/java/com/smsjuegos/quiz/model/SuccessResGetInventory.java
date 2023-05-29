@@ -20,6 +20,28 @@ public class SuccessResGetInventory implements Serializable {
     @SerializedName("notice")
     @Expose
     public String notice;
+    @SerializedName("after_finish_text")
+    @Expose
+    private String after_finish_text;
+    @SerializedName("after_finish_image")
+    @Expose
+    private String after_finish_image;
+
+    public String getAfter_finish_text() {
+        return after_finish_text;
+    }
+
+    public void setAfter_finish_text(String after_finish_text) {
+        this.after_finish_text = after_finish_text;
+    }
+
+    public String getAfter_finish_image() {
+        return after_finish_image;
+    }
+
+    public void setAfter_finish_image(String after_finish_image) {
+        this.after_finish_image = after_finish_image;
+    }
 
     public String getNotice() {
         return notice;

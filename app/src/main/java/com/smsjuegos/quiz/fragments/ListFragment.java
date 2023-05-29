@@ -50,8 +50,8 @@ public class ListFragment extends Fragment {
     FragmentListBinding binding;
     private QuizInterface apiInterface;
     private ListAdapter listAdapter;
-    private ArrayList<SuccessResGetMyEvents.Result> eventList = new ArrayList<>();
-    private ArrayList<SuccessResGetMyEvents.Result> myEventList = new ArrayList<>();
+    private final ArrayList<SuccessResGetMyEvents.Result> eventList = new ArrayList<>();
+    private final ArrayList<SuccessResGetMyEvents.Result> myEventList = new ArrayList<>();
     private String strCode = "";
 
     @Override
@@ -148,7 +148,7 @@ public class ListFragment extends Fragment {
                         for (SuccessResGetMyEvents.Result result : myEventList) {
                             if (!result.getEventStatus().equalsIgnoreCase("END")) {
                                 if (!result.getId().equalsIgnoreCase("4")
-                                        &&!result.getId().equalsIgnoreCase("7")) {
+                                        && !result.getId().equalsIgnoreCase("7")) {
                                     eventList.add(result);
                                 }
                             }
@@ -191,7 +191,7 @@ public class ListFragment extends Fragment {
 
         Call<ResponseBody> call = apiInterface.applyCode(map);
 
-        call.enqueue(new Callback<>() {
+        call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
 
@@ -262,9 +262,9 @@ public class ListFragment extends Fragment {
                     if (data.equals("1")) {
                         JSONObject result = jsonObject.getJSONObject("result");
                         String event_code = result.getString("event_code");
-                         binding.btngenerateCode.setClickable(false);
-                         binding.btngenerateCode.setFocusable(false);
-                         binding.btngenerateCode.setText(event_code);
+                        binding.btngenerateCode.setClickable(false);
+                        binding.btngenerateCode.setFocusable(false);
+                        binding.btngenerateCode.setText(event_code);
                         //   Log.e("MapMap", "EDIT PROFILE RESPONSE" + dataResponse);
                       /*  startActivity(new Intent(getActivity(), HomeAct.class));
                         getActivity().finish();*/

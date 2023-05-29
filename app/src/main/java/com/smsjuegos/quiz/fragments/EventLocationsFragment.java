@@ -68,25 +68,26 @@ import retrofit2.Response;
 
 public class EventLocationsFragment extends Fragment implements OnMapReadyCallback {
 
-    FragmentEventLocationsBinding binding;
-    private QuizInterface apiInterface;
-    String eventStartTime = "";
-    String event_code = "";
-    private Date eventDateTime = null;
-    GPSTracker gpsTracker;
-    private SuccessResGetEventDetail.Result eventDetails;
-    private GoogleMap mMap;
-    private String eventId = "", strLat = "", strLng = "", strEventCode = "";
-    private Dialog dialog, mDialog;
-    private String strCode = "";
-    private String strCodeTeam = "";
-    private String event_status = "";
-    private  Double Distanc;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
+    FragmentEventLocationsBinding binding;
+    String eventStartTime = "";
+    String event_code = "";
+    GPSTracker gpsTracker;
+    private QuizInterface apiInterface;
+    private SuccessResGetEventDetail.Result eventDetails;
+    private GoogleMap mMap;
+    private String eventId = "";
+    private String strLat = "";
+    private String strLng = "";
+    private final String strEventCode = "";
+    private Dialog dialog, mDialog;
+    private String strCode = "";
+    private String strCodeTeam = "";
+    private final String event_status = "";
+    private Double Distanc;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -119,12 +120,12 @@ public class EventLocationsFragment extends Fragment implements OnMapReadyCallba
         try {
 
 
-        SupportMapFragment mapFragment =
-                (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.locat_map);
+            SupportMapFragment mapFragment =
+                    (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.locat_map);
             if (mapFragment != null) {
                 mapFragment.getMapAsync(this);
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         gpsTracker = new GPSTracker(getActivity());
@@ -144,15 +145,15 @@ public class EventLocationsFragment extends Fragment implements OnMapReadyCallba
                     }*/
 
 
-            if (eventDetails.team_name.equalsIgnoreCase("")) {
-                showImageSelection();
-            } else {
-                strCode = event_code;
-                strCodeTeam = eventDetails.team_name;
+                    if (eventDetails.team_name.equalsIgnoreCase("")) {
+                        showImageSelection();
+                    } else {
+                        strCode = event_code;
+                        strCodeTeam = eventDetails.team_name;
 
-                addeventStartTime();
+                        addeventStartTime();
 
-                  }
+                    }
                 }
                 /*    try {
 
@@ -185,15 +186,13 @@ public class EventLocationsFragment extends Fragment implements OnMapReadyCallba
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
-        switch (requestCode) {
-            case 1000: {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Log.e("Latittude====", gpsTracker.getLatitude() + "");
-                    strLat = Double.toString(gpsTracker.getLatitude());
-                    strLng = Double.toString(gpsTracker.getLongitude());
-                    //   setLocation();
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        if (requestCode == 1000) {// If request is cancelled, the result arrays are empty.
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Log.e("Latittude====", gpsTracker.getLatitude() + "");
+                strLat = Double.toString(gpsTracker.getLatitude());
+                strLng = Double.toString(gpsTracker.getLongitude());
+                //   setLocation();
 //                    if (isContinue) {
 //                        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 //                            // TODO: Consider calling
@@ -213,10 +212,8 @@ public class EventLocationsFragment extends Fragment implements OnMapReadyCallba
 //                        strLng = Double.toString(gpsTracker.getLongitude()) ;
 //
 //                    }
-                } else {
-                    Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.permisson_denied), Toast.LENGTH_SHORT).show();
-                }
-                break;
+            } else {
+                Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.permisson_denied), Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -232,11 +229,11 @@ public class EventLocationsFragment extends Fragment implements OnMapReadyCallba
 
         /*  Distanc=  DataManager.distanceInKm( sydney.latitude,sydney.longitude,19.429612948473434,
                   -99.19726243783843);*/
-          //Distanc=  DataManager.distanceInKm(sydney.latitude,sydney.longitude,gpsTracker.getLatitude(),gpsTracker.getLongitude());
+            //Distanc=  DataManager.distanceInKm(sydney.latitude,sydney.longitude,gpsTracker.getLatitude(),gpsTracker.getLongitude());
 
-        }catch (Exception e){
-e.printStackTrace();
-            Log.e("TAG", "setLocation: "+e.toString() );
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.e("TAG", "setLocation: " + e.toString());
         }
     }
 
@@ -296,13 +293,13 @@ e.printStackTrace();
         eventStartTime = eventDetails.getEventDate() + " " + eventDetails.getEventTime();
 
 //        String dtStart = eventStartTime;
-        String dtStart = eventStartTime;
-        @SuppressLint("SimpleDateFormat") SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm aa");
+        //eventDateTime = eventStartTime;
+        /*@SuppressLint("SimpleDateFormat") SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm aa");
         try {
-            eventDateTime = format.parse(dtStart);
+      //      eventDateTime = format.parse(dtStart);
         } catch (ParseException e) {
             e.printStackTrace();
-        }
+        }*/
 
     }
 
@@ -411,7 +408,7 @@ e.printStackTrace();
 
             }
             btnSubmit.setOnClickListener(v -> {
-                Log.e("TAG", "showImageSelection: Distanc"+ Distanc);
+                Log.e("TAG", "showImageSelection: Distanc" + Distanc);
                 strCode = editText.getText().toString();
                 strCodeTeam = et_team_Name.getText().toString();
 
@@ -508,12 +505,12 @@ e.printStackTrace();
         map.put("user_id", userId);
         map.put("event_code", strCode);
         map.put("team_name", strCodeTeam);
-   map.put("lat", lat);
-   map.put("lon", lon);
-     //  map.put("lat" ,"19.429612948473434");
-     //  map.put("lon" ,"-99.19726243783850");
+        map.put("lat", lat);
+        map.put("lon", lon);
+        //  map.put("lat" ,"19.429612948473434");
+        //  map.put("lon" ,"-99.19726243783850");
         Call<ResponseBody> call = apiInterface.addStartTime(map);
-        call.enqueue(new Callback<>() {
+        call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 DataManager.getInstance().hideProgressMessage();

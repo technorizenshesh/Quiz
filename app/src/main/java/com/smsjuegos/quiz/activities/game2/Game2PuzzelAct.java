@@ -1,8 +1,8 @@
 package com.smsjuegos.quiz.activities.game2;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.smsjuegos.quiz.R;
 

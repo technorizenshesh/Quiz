@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.webkit.WebView;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -47,19 +48,22 @@ import retrofit2.Response;
 
 public class PuzzleAct extends AppCompatActivity {
 
+    final String mimeType = "text/html";
+    final String encoding = "UTF-8";
     ActivityPuzzleBinding binding;
+    boolean custom = false;
+    TextView tvSHowHint1, tvSHowHint2, tvSHowHint3;
+    WebView tvHint1, tvHint2, tvHint3;
     private Dialog dialog;
     private QuizInterface apiInterface;
     private Dialog hintDialog;
     private SuccessResGetInstruction.Result result = null;
     private String selectedAnswer = "";
     private boolean hint1 = false, hint2 = false, hint3 = false;
-
     private Context context;
-    private SuccessResAddAnswer.Result answerResult = null;
+    private final SuccessResAddAnswer.Result answerResult = null;
     private String eventCode;
-    final String mimeType = "text/html";
-    final String encoding = "UTF-8";
+    private RadioButton selectedRadioButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,6 +101,9 @@ public class PuzzleAct extends AppCompatActivity {
         Log.e(TAG, "result.getInstructions()result.getInstructions(): " + result.getInstructions());
         binding.tvContent.loadDataWithBaseURL("", result.getInstructions(),
                 mimeType, encoding, "");
+        binding.tvContent.getSettings().setBuiltInZoomControls(true);
+        binding.tvContent.getSettings().setDisplayZoomControls(false);
+
         binding.btnHint.setOnClickListener(v ->
                 {
                     showHints();
@@ -104,15 +111,14 @@ public class PuzzleAct extends AppCompatActivity {
         );
     }
 
-    private RadioButton selectedRadioButton;
-
     private void showDialog() {
 
         dialog = new Dialog(PuzzleAct.this);
         selectedAnswer = "";
         RadioGroup radioGroup;
-        RadioButton radioButton1, radioButton2, radioButton3, radioButton4;
+        RadioButton radioButton1, radioButton2, radioButton3, radioButton4, radio_button_5;
         AppCompatButton submit;
+        EditText etAnswer;
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.getWindow().getAttributes().windowAnimations = android.R.style.Widget_Material_ListPopupWindow;
         dialog.setContentView(R.layout.dialog_select_answer);
@@ -122,14 +128,37 @@ public class PuzzleAct extends AppCompatActivity {
         ImageView ivCancel = dialog.findViewById(R.id.ivCancel);
         radioGroup = dialog.findViewById(R.id.radioGroup);
         submit = dialog.findViewById(R.id.btnSubmit);
+        etAnswer = dialog.findViewById(R.id.etAnswer);
         radioButton1 = dialog.findViewById(R.id.radio_button_0);
         radioButton2 = dialog.findViewById(R.id.radio_button_1);
         radioButton3 = dialog.findViewById(R.id.radio_button_2);
         radioButton4 = dialog.findViewById(R.id.radio_button_3);
+        radio_button_5 = dialog.findViewById(R.id.radio_button_4);
+        if (result.getOptionA().equalsIgnoreCase(""))radioButton1.setVisibility(View.GONE);
+        if (result.getOptionB().equalsIgnoreCase(""))radioButton2.setVisibility(View.GONE);
+        if (result.getOptionC().equalsIgnoreCase(""))radioButton3.setVisibility(View.GONE);
+        if (result.getOptionD().equalsIgnoreCase(""))radioButton4.setVisibility(View.GONE);
+        if (result.getCustom_ans().equalsIgnoreCase(""))radio_button_5.setVisibility(View.GONE);
+
+
         radioButton1.setText(result.getOptionA());
         radioButton2.setText(result.getOptionB());
         radioButton3.setText(result.getOptionC());
         radioButton4.setText(result.getOptionD());
+        radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
+            Log.e(TAG, "onCheckedChanged:  checkedId  " + checkedId);
+            if (checkedId == radio_button_5.getId()) {
+                Log.e(TAG, "onCheckedChanged:  checkedId  " + checkedId);
+                Log.e(TAG, "onCheckedChanged:  checkedId  " + radio_button_5.getId());
+                etAnswer.setText("");
+                etAnswer.setVisibility(View.VISIBLE);
+            } else {
+                etAnswer.setVisibility(View.GONE);
+
+            }
+        });
+
+
         ivCancel.setOnClickListener(v ->
                 {
                     dialog.dismiss();
@@ -143,7 +172,7 @@ public class PuzzleAct extends AppCompatActivity {
                     int selectedId = radioGroup.getCheckedRadioButtonId();
                     selectedRadioButton = (RadioButton) dialog.findViewById(selectedId);
 //                    String selectedText = selectedRadioButton.getText().toString();
-
+                    custom = false;
                     if (radioButton1.isChecked()) {
                         selectedAnswer = "A";
                         submitAnswer(selectedAnswer);
@@ -156,6 +185,14 @@ public class PuzzleAct extends AppCompatActivity {
                     } else if (radioButton4.isChecked()) {
                         selectedAnswer = "D";
                         submitAnswer(selectedAnswer);
+                    } else if (radio_button_5.isChecked()) {
+                        selectedAnswer = etAnswer.getText().toString();
+                        if (selectedAnswer.equalsIgnoreCase("")) {
+                            etAnswer.setError(getString(R.string.enter_answer));
+                        } else {
+                            custom = true;
+                            submitAnswer(selectedAnswer);
+                        }
                     }
                 }
         );
@@ -165,9 +202,6 @@ public class PuzzleAct extends AppCompatActivity {
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
     }
-
-    TextView tvSHowHint1, tvSHowHint2, tvSHowHint3;
-    WebView tvHint1, tvHint2, tvHint3;
 
     private void showHints() {
 
@@ -356,6 +390,11 @@ public class PuzzleAct extends AppCompatActivity {
         map.put("event_game_id", result.getId());
         map.put("ans", answer);
         map.put("event_code", eventCode);
+        if (custom) {
+            map.put("custom_type", "custom");
+        } else {
+            map.put("custom_type", "no");
+        }
         Call<ResponseBody> call = apiInterface.submitAnswer(map);
 
         call.enqueue(new Callback<ResponseBody>() {
@@ -372,7 +411,6 @@ public class PuzzleAct extends AppCompatActivity {
                     if (data.equals("1")) {
                         String dataResponse = new Gson().toJson(response.body());
                         Log.e("MapMap", "EDIT PROFILE RESPONSE" + dataResponse);
-
                         answerSuccess();
 
                     } else if (data.equals("0")) {

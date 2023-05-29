@@ -1,5 +1,7 @@
 package com.smsjuegos.quiz.activities;
 
+import static android.content.ContentValues.TAG;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -19,11 +21,18 @@ import com.smsjuegos.quiz.utility.SharedPreferenceUtility;
 
 import java.util.Locale;
 
-import static android.content.ContentValues.TAG;
-
 public class SplashAct extends AppCompatActivity {
 
     private boolean isUserLoggedIn;
+
+    private static void updateResources(Context context, String language) {
+        Locale locale = new Locale(language);
+        Locale.setDefault(locale);
+        Resources resources = context.getResources();
+        Configuration configuration = resources.getConfiguration();
+        configuration.locale = locale;
+        resources.updateConfiguration(configuration, resources.getDisplayMetrics());
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,18 +49,16 @@ public class SplashAct extends AppCompatActivity {
         double lat2 = 22.70238589271261;
         double lng2 = 75.87113264003577;
 
-        boolean val =  SharedPreferenceUtility.getInstance(SplashAct.this).getBoolean(Constant.SELECTED_LANGUAGE);
-        if(!val)
-        {
-            updateResources(SplashAct.this,"en");
-        }else
-        {
-            updateResources(SplashAct.this,"es");
+        boolean val = SharedPreferenceUtility.getInstance(SplashAct.this).getBoolean(Constant.SELECTED_LANGUAGE);
+        if (!val) {
+            updateResources(SplashAct.this, "en");
+        } else {
+            updateResources(SplashAct.this, "es");
         }
 
         double distance = distance(lat1, lng1, lat2, lng2);
 
-        Log.d(TAG, "onCreate: "+distance);
+        Log.d(TAG, "onCreate: " + distance);
 
         // lat1 and lng1 are the values of a previously stored location
         if (distance(lat1, lng1, lat2, lng2) < 0.1) { // if distance < 0.1 miles we take locations as equal
@@ -61,13 +68,15 @@ public class SplashAct extends AppCompatActivity {
         finds();
     }
 
-    /** calculates the distance between two locations in MILES */
+    /**
+     * calculates the distance between two locations in MILES
+     */
     private double distance(double lat1, double lng1, double lat2, double lng2) {
 
         double earthRadius = 3958.75; // in miles, change to 6371 for kilometer output
 
-        double dLat = Math.toRadians(lat2-lat1);
-        double dLng = Math.toRadians(lng2-lng1);
+        double dLat = Math.toRadians(lat2 - lat1);
+        double dLng = Math.toRadians(lng2 - lng1);
 
         double sindLat = Math.sin(dLat / 2);
         double sindLng = Math.sin(dLng / 2);
@@ -75,20 +84,11 @@ public class SplashAct extends AppCompatActivity {
         double a = Math.pow(sindLat, 2) + Math.pow(sindLng, 2)
                 * Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2));
 
-        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
         double dist = earthRadius * c;
 
         return dist; // output distance, in MILES
-    }
-
-    private static void updateResources(Context context, String language) {
-        Locale locale = new Locale(language);
-        Locale.setDefault(locale);
-        Resources resources = context.getResources();
-        Configuration configuration = resources.getConfiguration();
-        configuration.locale = locale;
-        resources.updateConfiguration(configuration, resources.getDisplayMetrics());
     }
 
  /*   public void show()
@@ -122,13 +122,13 @@ public class SplashAct extends AppCompatActivity {
                     startActivity(new Intent(SplashAct.this, HomeAct.class));
                     finish();
                 } else {
-                   // startActivity(new Intent(SplashAct.this, LoginAct.class));
+                    // startActivity(new Intent(SplashAct.this, LoginAct.class));
                     startActivity(new Intent(SplashAct.this, ChooseLanguage.class)
-                            .putExtra("from","login"));
+                            .putExtra("from", "login"));
                     finish();
                 }
             }
-        },3000);
+        }, 3000);
     }
 
 }

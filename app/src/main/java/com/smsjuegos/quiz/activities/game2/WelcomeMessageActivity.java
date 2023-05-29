@@ -1,10 +1,10 @@
 package com.smsjuegos.quiz.activities.game2;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.databinding.DataBindingUtil;
-
 import android.content.Intent;
 import android.os.Bundle;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
 
 import com.bumptech.glide.Glide;
 import com.smsjuegos.quiz.R;
@@ -19,13 +19,13 @@ public class WelcomeMessageActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this,R.layout.activity_welcome_message);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_welcome_message);
         binding.header.tvHeader.setText(getString(R.string.welcome_to_virus));
         binding.header.imgHeader.setOnClickListener(v -> finish());
         binding.btnPlay.setOnClickListener(v ->
                 {
                     startActivity(new Intent(WelcomeMessageActivity.this
-                            ,Game2StartVideoAct.class).putExtra("instructionID",result));
+                            , Game2StartVideoAct.class).putExtra("instructionID", result));
                 }
         );
         result = (SuccessResGetEvents.Result) getIntent().getSerializableExtra("instructionID");

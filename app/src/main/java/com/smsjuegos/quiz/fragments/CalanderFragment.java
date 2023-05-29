@@ -1,17 +1,18 @@
 package com.smsjuegos.quiz.fragments;
 
+import static com.smsjuegos.quiz.retrofit.Constant.showToast;
+
 import android.os.Bundle;
-
-import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
-import androidx.recyclerview.widget.GridLayoutManager;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+
+import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.google.gson.Gson;
 import com.smsjuegos.quiz.R;
@@ -31,8 +32,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.smsjuegos.quiz.retrofit.Constant.showToast;
-
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link CalanderFragment#newInstance} factory method to
@@ -40,15 +39,14 @@ import static com.smsjuegos.quiz.retrofit.Constant.showToast;
  */
 public class CalanderFragment extends Fragment {
 
-    FragmentCalanderBinding binding;
-    private HomeAdapter homeAdapter;
-    List<SuccessResGetEvents.Result> eventsList = new LinkedList<>();
-    private QuizInterface apiInterface;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
+    FragmentCalanderBinding binding;
+    List<SuccessResGetEvents.Result> eventsList = new LinkedList<>();
+    private HomeAdapter homeAdapter;
+    private QuizInterface apiInterface;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -90,15 +88,16 @@ public class CalanderFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 //        navView.getMenu().setGroupCheckable(0, true, true);
-        binding = DataBindingUtil.inflate(inflater,R.layout.fragment_calander, container, false);
-        homeAdapter = new HomeAdapter(getActivity(),eventsList,"cal");
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_calander, container, false);
+        homeAdapter = new HomeAdapter(getActivity(), eventsList, "cal");
         apiInterface = ApiClient.getClient().create(QuizInterface.class);
 
 
         binding.rvUpcomingEvents.setHasFixedSize(true);
         // binding.rvUpcomingEvents.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         binding.rvUpcomingEvents.setLayoutManager(new GridLayoutManager(getActivity(),
-                2));  binding.rvUpcomingEvents.setAdapter(homeAdapter);
+                2));
+        binding.rvUpcomingEvents.setAdapter(homeAdapter);
 
         if (NetworkAvailablity.getInstance(getActivity()).checkNetworkStatus()) {
             getEventsImages();
@@ -110,7 +109,7 @@ public class CalanderFragment extends Fragment {
                 {
                     Navigation.findNavController(v).navigate(R.id.action_navigation_calander_to_searchEventsFragment);
                 }
-                );
+        );
 
         binding.tvViewAll.setOnClickListener(v ->
                 {
@@ -128,13 +127,12 @@ public class CalanderFragment extends Fragment {
         return binding.getRoot();
     }
 
-    private void getEventsImages()
-    {
+    private void getEventsImages() {
         DataManager.getInstance().showProgressMessage(getActivity(), getString(R.string.please_wait));
 
-        HashMap<String,String> map = new HashMap<>();
+        HashMap<String, String> map = new HashMap<>();
 
-        map.put("lang","sp");
+        map.put("lang", "sp");
 
         Call<SuccessResGetEvents> call = apiInterface.getEventsList(map);
 
@@ -145,7 +143,7 @@ public class CalanderFragment extends Fragment {
                 DataManager.getInstance().hideProgressMessage();
                 try {
                     SuccessResGetEvents data = response.body();
-                    Log.e("data",data.status);
+                    Log.e("data", data.status);
                     if (data.status.equals("1")) {
                         String dataResponse = new Gson().toJson(response.body());
                         eventsList.clear();

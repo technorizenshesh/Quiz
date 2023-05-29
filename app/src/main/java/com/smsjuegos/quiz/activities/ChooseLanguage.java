@@ -20,6 +20,15 @@ public class ChooseLanguage extends AppCompatActivity {
     ActivityChooseLanguageBinding binding;
     String from = "login";
 
+    private static void updateResources(Context context, String language) {
+        Locale locale = new Locale(language);
+        Locale.setDefault(locale);
+        Resources resources = context.getResources();
+        Configuration configuration = resources.getConfiguration();
+        configuration.locale = locale;
+        resources.updateConfiguration(configuration, resources.getDisplayMetrics());
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,11 +72,7 @@ public class ChooseLanguage extends AppCompatActivity {
 
                     int id = binding.radioGroup.getCheckedRadioButtonId();
 
-                    if (binding.radio1.getId() == id) {
-                        SharedPreferenceUtility.getInstance(ChooseLanguage.this).putBoolean(Constant.SELECTED_LANGUAGE, false);
-                    } else {
-                        SharedPreferenceUtility.getInstance(ChooseLanguage.this).putBoolean(Constant.SELECTED_LANGUAGE, true);
-                    }
+                    SharedPreferenceUtility.getInstance(ChooseLanguage.this).putBoolean(Constant.SELECTED_LANGUAGE, binding.radio1.getId() != id);
 
                     if (from.equalsIgnoreCase("login")) {
                         startActivity(new Intent(ChooseLanguage.this, LoginAct.class));
@@ -79,15 +84,6 @@ public class ChooseLanguage extends AppCompatActivity {
                     }
                 }
         );
-    }
-
-    private static void updateResources(Context context, String language) {
-        Locale locale = new Locale(language);
-        Locale.setDefault(locale);
-        Resources resources = context.getResources();
-        Configuration configuration = resources.getConfiguration();
-        configuration.locale = locale;
-        resources.updateConfiguration(configuration, resources.getDisplayMetrics());
     }
 
 }

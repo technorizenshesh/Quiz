@@ -60,13 +60,14 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MapAct extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
-    private GoogleMap mMap;
     Marker[] marker = new Marker[2]; //change length of array according to you
     Marker myMarker;
+    private GoogleMap mMap;
     private String eventId, eventCode, strtlat = "", strtlang = "", endlat = "", endlang = "";
-    private ArrayList<SuccessResGetInstruction.Result> instructionList = new ArrayList<>();
+    private final ArrayList<SuccessResGetInstruction.Result> instructionList = new ArrayList<>();
     private QuizInterface apiInterface;
-    private Snackbar snackbar ;
+    private Snackbar snackbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,6 +84,9 @@ public class MapAct extends AppCompatActivity implements OnMapReadyCallback, Goo
 
     @Override
     protected void onResume() {
+        if (mMap != null) {
+            mMap.clear();
+        }
         getInstruction();
         super.onResume();
     }
@@ -91,20 +95,6 @@ public class MapAct extends AppCompatActivity implements OnMapReadyCallback, Goo
     public void onMapReady(@NonNull GoogleMap googleMap) {
         mMap = googleMap;
         mMap.clear();
-
-      /*  try {
-            // Customise the styling of the base map using a JSON object defined
-            // in a raw resource file.
-            boolean success = mMap.setMapStyle(
-                    MapStyleOptions.loadRawResourceStyle(
-                            this, R.raw.mapstyp));
-
-            if (!success) {
-                Log.e("MapsActivityRaw", "Style parsing failed.");
-            }
-        } catch (Resources.NotFoundException e) {
-            Log.e("MapsActivityRaw", "Can't find style.", e);
-        }*/
         if (ActivityCompat.checkSelfPermission(MapAct.this
                 , Manifest.permission.ACCESS_FINE_LOCATION) !=
                 PackageManager.PERMISSION_GRANTED && ActivityCompat.
@@ -123,15 +113,15 @@ public class MapAct extends AppCompatActivity implements OnMapReadyCallback, Goo
         Log.e("TAG",
                 "onMarkerClick: instructionList.get(position).getEventType()---" + instructionList.get(position).getEventType());
         if (instructionList.get(position).getEventType().equalsIgnoreCase("crime")) {
-          startActivity(new Intent(MapAct.this, QuestionAnswerAct.class).
-                  putExtra("instructionID", instructionList.get(position))
-                  .putExtra("eventCode", eventCode));
-            Toast.makeText(getApplicationContext(), ""+position, Toast.LENGTH_SHORT).show();
-        } else if (instructionList.get(position).getEventType().equalsIgnoreCase("codigo_frida")) {
             startActivity(new Intent(MapAct.this, QuestionAnswerAct.class).
                     putExtra("instructionID", instructionList.get(position))
                     .putExtra("eventCode", eventCode));
+            Toast.makeText(getApplicationContext(), "" + position, Toast.LENGTH_SHORT).show();
         } else if (instructionList.get(position).getEventType().equalsIgnoreCase("codigo_frida")) {
+            Log.e("hh", " instructionList.get(position).getArrival_time()--"+instructionList.get(position).getArrival_time());
+            instructionList.get(position).getArrival_time();
+
+
             startActivity(new Intent(MapAct.this, QuestionAnswerAct.class).
                     putExtra("instructionID", instructionList.get(position))
                     .putExtra("eventCode", eventCode));
@@ -162,7 +152,7 @@ public class MapAct extends AppCompatActivity implements OnMapReadyCallback, Goo
         map.put("event_code", eventCode);
         map.put("user_id", userId);
         Call<SuccessResGetInstruction> call = apiInterface.getInstruction(map);
-        call.enqueue(new Callback<>() {
+        call.enqueue(new Callback<SuccessResGetInstruction>() {
             @Override
             public void onResponse(Call<SuccessResGetInstruction> call, Response<SuccessResGetInstruction> response) {
                 DataManager.getInstance().hideProgressMessage();
@@ -182,36 +172,39 @@ public class MapAct extends AppCompatActivity implements OnMapReadyCallback, Goo
 
                             if (result.getAnswer_status().equalsIgnoreCase("1")) {
                                 if (result.getLat().equalsIgnoreCase("")) return;
-                                else marker[i] = createMarker(i, Double.parseDouble(result.getLat()), Double.parseDouble(result.getLon()),
-                                        "#" + i, "", R.drawable.flag_green);
+                                else
+                                    marker[i] = createMarker(i, Double.parseDouble(result.getLat()), Double.parseDouble(result.getLon()),
+                                            "#" + i, "", R.drawable.flag_green);
                             } else {
 
                                 if (result.getLat().equalsIgnoreCase("")) return;
                                 else
                                     marker[i] = createMarker(i, Double.parseDouble(result.getLat()),
-                                        Double.parseDouble(result.getLon()),
-                                        "#" + i, "", R.drawable.flag_red);
+                                            Double.parseDouble(result.getLon()),
+                                            "#" + i, "", R.drawable.flag_red);
                             }
                             i++;
                             if (SharedPreferenceUtility.getInstance(getApplicationContext()).getString("NevId").equalsIgnoreCase("")) {
 
+                            } else  if (SharedPreferenceUtility.getInstance(getApplicationContext()).getString("ArrTime").equalsIgnoreCase("")) {
+
                             } else {
-                                Log.e("TAG", "SharedPreferenceUtility: "+SharedPreferenceUtility.getInstance(getApplicationContext()).getString("NevId") );
-                                Log.e("TAG", "SharedPreferenceUtility: "+result.id );
+                                Log.e("TAG", "SharedPreferenceUtility: " + SharedPreferenceUtility.getInstance(getApplicationContext()).getString("NevId"));
+                                Log.e("TAG", "SharedPreferenceUtility: " + result.id);
                                 if (SharedPreferenceUtility.getInstance(getApplicationContext()).getString("NevId").equalsIgnoreCase(result.id)) {
-                                    strtlat   = result.getLat();
+                                    strtlat = result.getLat();
                                     strtlang = result.getLon();
-                                 //   endlat    = data.getResult().get(i + 1).getLat();
-                                  //  endlang  = data.getResult().get(i + 1).getLon();
-                                    Log.e("TAG", "SharedPreferenceUtility: "+   strtlat+ strtlang+ endlat+ endlang );
+                                    //   endlat    = data.getResult().get(i + 1).getLat();
+                                    //  endlang  = data.getResult().get(i + 1).getLon();
+                                    Log.e("TAG", "SharedPreferenceUtility: " + strtlat + strtlang + endlat + endlang);
 
                                 }
-                                 if ((Integer.parseInt(SharedPreferenceUtility.getInstance(getApplicationContext()).getString("NevId")))+1==Integer.parseInt(result.id)){
-                                     endlat    = result.getLat();
-                                     endlang  =  result.getLon();
+                                if ((Integer.parseInt(SharedPreferenceUtility.getInstance(getApplicationContext()).getString("NevId"))) + 1 == Integer.parseInt(result.id)) {
+                                    endlat = result.getLat();
+                                    endlang = result.getLon();
 
 
-                                 }
+                                }
                             }
 
                         }
@@ -219,14 +212,14 @@ public class MapAct extends AppCompatActivity implements OnMapReadyCallback, Goo
                         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 15));
                         mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
                         try {
-                            if (strtlang.equalsIgnoreCase("") ){
+                            if (strtlang.equalsIgnoreCase("")) {
 
-                            }else {
-                            //     List<LatLng>latLngs = new ArrayList<>();
-                                LatLng  latLngs1=  new LatLng(Double.parseDouble(strtlat),Double.parseDouble(strtlang));
-                                LatLng  latLngs2=  new LatLng(Double.parseDouble(endlat),Double.parseDouble(endlang));
-                               // latLngs.add(new LatLng(Double.parseDouble(endlat),Double.parseDouble(endlang)));
-                           //     drawPolyLineOnMap(latLngs);
+                            } else {
+                                //     List<LatLng>latLngs = new ArrayList<>();
+                                LatLng latLngs1 = new LatLng(Double.parseDouble(strtlat), Double.parseDouble(strtlang));
+                                LatLng latLngs2 = new LatLng(Double.parseDouble(endlat), Double.parseDouble(endlang));
+                                // latLngs.add(new LatLng(Double.parseDouble(endlat),Double.parseDouble(endlang)));
+                                //     drawPolyLineOnMap(latLngs);
 
                                 DrawPollyLine.get(getApplicationContext())
                                         .setOrigin(latLngs1)
@@ -240,7 +233,7 @@ public class MapAct extends AppCompatActivity implements OnMapReadyCallback, Goo
                                             options.endCap(new SquareCap());
                                             Polyline line = mMap.addPolyline(options);
 
-                                          ValueAnimator valueAnimator = ValueAnimator.ofInt(0, 100);
+                                            ValueAnimator valueAnimator = ValueAnimator.ofInt(0, 100);
                                             valueAnimator.setDuration(2000); // 2 seconds
                                             valueAnimator.setRepeatCount(ValueAnimator.INFINITE);
                                             valueAnimator.setRepeatMode(ValueAnimator.RESTART);
@@ -250,16 +243,11 @@ public class MapAct extends AppCompatActivity implements OnMapReadyCallback, Goo
                                             });
                                             valueAnimator.start();
                                             LatLngBounds.Builder builder = new LatLngBounds.Builder();
-                                                builder.include(latLngs1);
+                                            builder.include(latLngs1);
                                             final LatLngBounds bounds = builder.build();
                                             CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 100);
                                             mMap.animateCamera(cu);
-                                          /*  Snackbar.make(getWindow().getDecorView().getRootView()
-                                                    ,"",Snackbar.LENGTH_INDEFINITE).show();
-                                            SharedPreferenceUtility.getInstance(getApplicationContext()).putString("NevId","");*/
-
-                                            // create an instance of the snackbar
-                                            snackbar = Snackbar.make(getWindow().getDecorView().getRootView()
+                                               snackbar = Snackbar.make(getWindow().getDecorView().getRootView()
                                                     , "", Snackbar.LENGTH_INDEFINITE);
                                             View customSnackView = getLayoutInflater().inflate(R.layout.custom_snackbar_view, null);
                                             snackbar.getView().setBackgroundColor(Color.TRANSPARENT);
@@ -267,27 +255,20 @@ public class MapAct extends AppCompatActivity implements OnMapReadyCallback, Goo
                                             Snackbar.SnackbarLayout snackbarLayout = (Snackbar.SnackbarLayout) snackbar.getView();
                                             snackbarLayout.setPadding(0, 0, 0, 0);
                                             TextView textView2 = customSnackView.findViewById(R.id.textView2);
-                                            textView2.setText("You have only "+SharedPreferenceUtility.getInstance(getApplicationContext()).getString("ArrTime")+" Minutes To Reach Next CheckPoint Hurry up!");
+                                            textView2.setText("You have only " + SharedPreferenceUtility.getInstance(getApplicationContext()).getString("ArrTime") + " Minutes To Reach Next CheckPoint Hurry up!");
                                             Button bGotoWebsite = customSnackView.findViewById(R.id.gotoWebsiteButton);
                                             bGotoWebsite.setOnClickListener(new View.OnClickListener() {
                                                 @Override
                                                 public void onClick(View v) {
                                                     Toast.makeText(getApplicationContext(), "Reaching Check....", Toast.LENGTH_SHORT).show();
-                                                    snackbar.dismiss();
-                                                }
-                                            });
+                                                    snackbar.dismiss();}});
                                             snackbarLayout.addView(customSnackView, 0);
-
-                                            snackbar.show();
-
-                                        });
-
-
+                                            snackbar.show();});
                             }
                         } catch (Exception e) {
-                            Log.e("TAG", "onResponse: "+e.getLocalizedMessage());
-                            Log.e("TAG", "onResponse: "+e.getMessage());
-                            Log.e("TAG", "onResponse: "+e.getCause());
+                            Log.e("TAG", "onResponse: " + e.getLocalizedMessage());
+                            Log.e("TAG", "onResponse: " + e.getMessage());
+                            Log.e("TAG", "onResponse: " + e.getCause());
                         }
 
                     } else if (data.status.equals("0")) {
@@ -298,12 +279,7 @@ public class MapAct extends AppCompatActivity implements OnMapReadyCallback, Goo
                         startActivity(new Intent(MapAct.this, HomeAct.class)
                                 .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
 
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-
+                    }} catch (Exception e) {e.printStackTrace();}}
             @Override
             public void onFailure(Call<SuccessResGetInstruction> call, Throwable t) {
                 call.cancel();
@@ -311,26 +287,7 @@ public class MapAct extends AppCompatActivity implements OnMapReadyCallback, Goo
             }
         });
     }
-    public void drawPolyLineOnMap(List<LatLng> list) {
-        PolylineOptions polyOptions = new PolylineOptions();
-        polyOptions.color(Color.RED);
-        polyOptions.width(5);
-        polyOptions.addAll(list);
 
-       // mMap.clear();
-        mMap.addPolyline(polyOptions);
-
-        LatLngBounds.Builder builder = new LatLngBounds.Builder();
-        for (LatLng latLng : list) {
-            builder.include(latLng);
-        }
-
-        final LatLngBounds bounds = builder.build();
-
-        //BOUND_PADDING is an int to specify padding of bound.. try 100.
-        CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 100);
-        mMap.animateCamera(cu);
-    }
     protected Marker createMarker(int position, double latitude, double longitude, String title,
                                   String snippet, int iconResID) {
         BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(iconResID);
@@ -345,80 +302,5 @@ public class MapAct extends AppCompatActivity implements OnMapReadyCallback, Goo
         return myMarker;
     }
 
-    private class DownloadTask extends AsyncTask<String, Void, String> {
-
-        @Override
-        protected String doInBackground(String... url) {
-
-            String data = "";
-
-            try {
-                data = downloadUrl(url[0]);
-            } catch (Exception e) {
-                Log.d("Background Task", e.toString());
-            }
-            return data;
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            super.onPostExecute(result);
-            ParserTask parserTask = new ParserTask();
-            parserTask.execute(result);
-        }
-    }
-
-    private class ParserTask extends AsyncTask<String, Integer, List<List<HashMap<String, String>>>> {
-
-        // Parsing the data in non-ui thread
-        @Override
-        protected List<List<HashMap<String, String>>> doInBackground(String... jsonData) {
-
-            JSONObject jObject;
-            List<List<HashMap<String, String>>> routes = null;
-
-            try {
-                jObject = new JSONObject(jsonData[0]);
-                DirectionsJSONParser parser = new DirectionsJSONParser();
-
-                routes = parser.parse(jObject);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return routes;
-        }
-
-        @Override
-        protected void onPostExecute(List<List<HashMap<String, String>>> result) {
-            ArrayList points = new ArrayList();
-            PolylineOptions lineOptions = new PolylineOptions();
-
-            for (int i = 0; i < result.size(); i++) {
-
-                List<HashMap<String, String>> path = result.get(i);
-
-                for (int j = 0; j < path.size(); j++) {
-                    HashMap<String, String> point = path.get(j);
-
-                    double lat = Double.parseDouble(point.get("lat"));
-                    double lng = Double.parseDouble(point.get("lng"));
-                    LatLng position = new LatLng(lat, lng);
-
-                    points.add(position);
-                }
-
-                lineOptions.addAll(points);
-                lineOptions.width(12);
-                lineOptions.color(Color.RED);
-                lineOptions.geodesic(true);
-
-            }
-
-            // Drawing polyline in the Google Map
-            if (points.size() != 0) {
-                mMap.addPolyline(lineOptions);
-            }
-        }
-    }
 
 }

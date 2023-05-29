@@ -1,15 +1,17 @@
 package com.smsjuegos.quiz.fragments;
 
+import static com.smsjuegos.quiz.retrofit.Constant.USER_ID;
+import static com.smsjuegos.quiz.retrofit.Constant.showToast;
+
 import android.os.Bundle;
-
-import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.Fragment;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+
+import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.Fragment;
 
 import com.google.gson.Gson;
 import com.smsjuegos.quiz.R;
@@ -28,9 +30,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.smsjuegos.quiz.retrofit.Constant.USER_ID;
-import static com.smsjuegos.quiz.retrofit.Constant.showToast;
-
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link ChangePassFragment#newInstance} factory method to
@@ -39,15 +38,13 @@ import static com.smsjuegos.quiz.retrofit.Constant.showToast;
 public class ChangePassFragment extends Fragment {
 
 
-    private FragmentChangePassBinding binding;
-    QuizInterface apiInterface;
-    String oldPass = "", newConfirmPass = "", newPass = "", pass = "";
-
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
+    QuizInterface apiInterface;
+    String oldPass = "", newConfirmPass = "", newPass = "", pass = "";
+    private FragmentChangePassBinding binding;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -64,7 +61,7 @@ public class ChangePassFragment extends Fragment {
      * @param param2 Parameter 2.
      * @return A new instance of fragment ChangePassFragment.
      */
-    
+
     // TODO: Rename and change types and number of parameters
     public static ChangePassFragment newInstance(String param1, String param2) {
         ChangePassFragment fragment = new ChangePassFragment();
@@ -89,7 +86,7 @@ public class ChangePassFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
-        binding = DataBindingUtil.inflate(inflater,R.layout.fragment_change_pass, container, false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_change_pass, container, false);
 
         apiInterface = ApiClient.getClient().create(QuizInterface.class);
 

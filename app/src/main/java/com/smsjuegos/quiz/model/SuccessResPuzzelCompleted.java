@@ -133,5 +133,5 @@ public class SuccessResPuzzelCompleted implements Serializable {
         }
 
     }
-    
+
 }

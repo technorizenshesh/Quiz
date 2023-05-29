@@ -1,5 +1,7 @@
 package com.smsjuegos.quiz;
 
+import static com.google.android.exoplayer2.C.VIDEO_SCALING_MODE_SCALE_TO_FIT;
+
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -10,27 +12,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.cardview.widget.CardView;
 
-import com.google.android.exoplayer2.ExoPlaybackException;
 import com.google.android.exoplayer2.ExoPlayer;
-import com.google.android.exoplayer2.ExoPlayerFactory;
-import com.google.android.exoplayer2.PlaybackParameters;
-import com.google.android.exoplayer2.Player;
-import com.google.android.exoplayer2.SimpleExoPlayer;
-import com.google.android.exoplayer2.Timeline;
-import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory;
-import com.google.android.exoplayer2.extractor.ExtractorsFactory;
-import com.google.android.exoplayer2.source.ExtractorMediaSource;
+import com.google.android.exoplayer2.MediaItem;
+import com.google.android.exoplayer2.analytics.AnalyticsListener;
+import com.google.android.exoplayer2.ext.ima.ImaAdsLoader;
+import com.google.android.exoplayer2.source.DefaultMediaSourceFactory;
 import com.google.android.exoplayer2.source.MediaSource;
-import com.google.android.exoplayer2.source.TrackGroupArray;
-import com.google.android.exoplayer2.trackselection.AdaptiveTrackSelection;
-import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
-import com.google.android.exoplayer2.trackselection.TrackSelectionArray;
-import com.google.android.exoplayer2.trackselection.TrackSelector;
-import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
-import com.google.android.exoplayer2.upstream.BandwidthMeter;
-import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
-import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
-import com.smsjuegos.quiz.activities.DownloadAct;
+import com.google.android.exoplayer2.ui.StyledPlayerView;
+import com.google.android.exoplayer2.upstream.DataSource;
+import com.google.android.exoplayer2.upstream.DefaultDataSource;
+import com.google.android.exoplayer2.util.Util;
+import com.smsjuegos.quiz.activities.InstrutionActNew;
 import com.smsjuegos.quiz.model.SuccessResGetEvents;
 
 public class GameAztecStartVideoAct extends AppCompatActivity {
@@ -38,51 +30,44 @@ public class GameAztecStartVideoAct extends AppCompatActivity {
     private CardView cvVideo;
     private SuccessResGetEvents.Result result;
     private AppCompatButton btnPlay;
-    SimpleExoPlayerView exoPlayerView;
-    SimpleExoPlayer exoPlayer;
     private String videoUrl;
     private String eventId, eventCode;
+    private StyledPlayerView playerView;
+    private ExoPlayer player;
+    private ImaAdsLoader adsLoader;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game2_start_video);
-
         ivHeader = findViewById(R.id.ivBack);
         cvVideo = findViewById(R.id.cvBack);
         btnPlay = findViewById(R.id.btnPlay);
-       /* result = (SuccessResGetEvents.Result) getIntent().
-                getSerializableExtra("instructionID");
-         =     result.getVideo();
-*/
+        playerView = findViewById(R.id.player_view_tt);
+        adsLoader = new ImaAdsLoader.Builder(this).build();
         Log.e("TAG", "onCreate: " + videoUrl);
         if (getIntent().getExtras() != null) {
             eventId = getIntent().getExtras().getString("eventId");
             eventCode = getIntent().getExtras().getString("eventCode");
             videoUrl = getIntent().getExtras().getString("videoUrl");
-
             Log.e("TAG", "eventIdeventIdeventIdeventId: " + eventId);
             Log.e("TAG", "eventCodeeventCodeeventCode: " + eventCode);
         } else {
             //   eventId="4";
             //     eventCode="441812";
         }
-        //  videoUrl="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4";
-        //  videoUrl="https://firebasestorage.googleapis.com/v0/b/secretmissionsocity.appspot.com/o/IMG_2279%20(3).mov?alt=media&token=b3e9a553-4b65-4f2b-a4d4-86ed921c7c7b";
         btnPlay.setAlpha(.5f);
         cvVideo.setOnClickListener(v -> {
-            exoPlayer.stop();
-            exoPlayer.release();
+         //   releasePlayer();
             finish();
         });
 
         btnPlay.setOnClickListener(v -> {
-            exoPlayer.stop();
-            exoPlayer.release();
-            startActivity(new Intent(getApplicationContext(), DownloadAct.class).putExtra("eventId", eventId).putExtra("eventCode", eventCode));
+          //  releasePlayer();
+            startActivity(new Intent(getApplicationContext(), InstrutionActNew.class).putExtra("eventId", eventId).putExtra("eventCode", eventCode));
         });
 
-        exoPlayerView = findViewById(R.id.idExoPlayerVIew);
+      /* // exoPlayerView = findViewById(R.id.idExoPlayerVIew);
         try {
             // bandwisthmeter is used for
             // getting default bandwidth
@@ -93,14 +78,14 @@ public class GameAztecStartVideoAct extends AppCompatActivity {
             TrackSelector trackSelector = new DefaultTrackSelector(new AdaptiveTrackSelection.Factory(bandwidthMeter));
 
             // we are adding our track selector to exoplayer.
-            exoPlayer = ExoPlayerFactory.newSimpleInstance(this, trackSelector);
+         //   exoPlayer = ExoPlayerFactory.newSimpleInstance(this, trackSelector);
 
             // we are parsing a video url
             // and parsing its video uri.
             Uri videouri = Uri.parse(videoUrl);
             // we are creating a variable for datasource factory
             // and setting its user agent as 'exoplayer_view'
-            DefaultHttpDataSourceFactory dataSourceFactory = new DefaultHttpDataSourceFactory("exoplayer_video");
+          //  DefaultHttpDataSourceFactory dataSourceFactory = new DefaultHttpDataSourceFactory("exoplayer_video");
 
             // we are creating a variable for extractor factory
             // and setting it to default extractor factory.
@@ -109,13 +94,13 @@ public class GameAztecStartVideoAct extends AppCompatActivity {
             // we are creating a media source with above variables
             // and passing our event handler as null,
 
-            MediaSource mediaSource = new ExtractorMediaSource(videouri, dataSourceFactory, extractorsFactory, null, null);
+           // MediaSource mediaSource = new ExtractorMediaSource(videouri, dataSourceFactory, extractorsFactory, null, null);
             // inside our exoplayer view
             // we are setting our player
-            exoPlayerView.setPlayer(exoPlayer);
+        //    exoPlayerView.setPlayer(exoPlayer);
             // we are preparing our exoplayer
             // with media source.
-            exoPlayer.prepare(mediaSource);
+         //   exoPlayer.prepare(mediaSource);
 
             // we are setting our exoplayer
             // when it is ready.
@@ -145,7 +130,7 @@ public class GameAztecStartVideoAct extends AppCompatActivity {
                         exoPlayer.release();
                         btnPlay.setAlpha(1);
                         btnPlay.setOnClickListener(v -> {
-                            startActivity(new Intent(getApplicationContext(), DownloadAct.class).putExtra("eventId", eventId).putExtra("eventCode", eventCode));
+                            startActivity(new Intent(getApplicationContext(), InstrutionActNew.class).putExtra("eventId", eventId).putExtra("eventCode", eventCode));
                         });
                     }
                 }
@@ -184,35 +169,98 @@ public class GameAztecStartVideoAct extends AppCompatActivity {
         } catch (Exception e) {
             // below line is used for
             // handling our errors.
-            Log.e("TAG", "Error : " + e.toString());
+            Log.e("TAG", "Error : " + e);
         }
-
+*/
     }
 
     @Override
-    protected void onPause() {
-        if (exoPlayer != null) {
-            exoPlayer.stop();
-            exoPlayer.release();
+    public void onStart() {
+        super.onStart();
+        if (Util.SDK_INT > 23) {
+            initializePlayer();
+            if (playerView != null) {
+                playerView.onResume();
+            }
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (Util.SDK_INT <= 23 || player == null) {
+            initializePlayer();
+            if (playerView != null) {
+                playerView.onResume();
+            }
+        }
+    }
+
+    @Override
+    public void onPause() {
         super.onPause();
+        if (Util.SDK_INT <= 23) {
+            if (playerView != null) {
+                playerView.onPause();
+            }
+            releasePlayer();
+        }
     }
 
     @Override
-    protected void onStop() {
-        if (exoPlayer != null) {
-            exoPlayer.stop();
-            exoPlayer.release();
-        }
+    public void onStop() {
         super.onStop();
+        if (Util.SDK_INT > 23) {
+            if (playerView != null) {
+                playerView.onPause();
+            }
+            releasePlayer();
+        }
     }
 
     @Override
     protected void onDestroy() {
-        if (exoPlayer != null) {
-            exoPlayer.stop();
-            exoPlayer.release();
-        }
+        adsLoader.release();
+
         super.onDestroy();
     }
+
+    private void releasePlayer() {
+        adsLoader.setPlayer(null);
+        playerView.setPlayer(null);
+        player.release();
+        player = null;
+    }
+
+    private void initializePlayer() {
+        if (videoUrl.equalsIgnoreCase("")) {
+        } else {
+            DataSource.Factory dataSourceFactory = new DefaultDataSource.Factory(this);
+            MediaSource.Factory mediaSourceFactory =
+                    new DefaultMediaSourceFactory(dataSourceFactory)
+                            .setAdsLoaderProvider(unusedAdTagUri -> adsLoader)
+                            .setAdViewProvider(playerView);
+            player = new ExoPlayer.Builder(this).setMediaSourceFactory(mediaSourceFactory).build();
+            //  playerView.setControllerHideDuringAds(true);
+            player.setVideoScalingMode(VIDEO_SCALING_MODE_SCALE_TO_FIT);
+            playerView.setPlayer(player);
+            adsLoader.setPlayer(player);
+            Uri contentUri = Uri.parse(videoUrl);
+            MediaItem mediaItem = new MediaItem.Builder()
+                    .setUri(contentUri)
+                    .setAdsConfiguration(new MediaItem.AdsConfiguration.Builder(contentUri).build())
+                    .build();
+            player.setMediaItem(mediaItem);
+            player.prepare();
+            player.setPlayWhenReady(true);
+            playerView.setControllerShowTimeoutMs(1000);
+            player.addAnalyticsListener(new AnalyticsListener() {
+                @Override
+                public void onPlaybackStateChanged(EventTime eventTime, int state) {
+                    AnalyticsListener.super.onPlaybackStateChanged(eventTime, state);
+                }
+            });
+        }
+    }
+
 }

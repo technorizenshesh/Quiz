@@ -98,9 +98,25 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/option_1"/>
+            <RadioButton
+                android:id="@+id/radio_button_4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/enter_answer_or"
+                />
 
         </RadioGroup>
-
+        <EditText
+            android:visibility="gone"
+            android:id="@+id/etAnswer"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_35sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_marginRight="@dimen/_10sdp"
+            android:background="@drawable/et_bg"
+            android:hint="@string/enter_answer"
+            android:paddingLeft="@dimen/_10sdp"
+            android:textStyle="bold" />
     </LinearLayout>
 </RelativeLayout>
         </LinearLayout>

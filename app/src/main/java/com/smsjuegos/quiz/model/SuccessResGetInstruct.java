@@ -55,27 +55,35 @@ public class SuccessResGetInstruct implements Serializable {
         @SerializedName("content_sp")
         @Expose
         public String contentSp;
+
         public String getId() {
             return id;
         }
+
         public void setId(String id) {
             this.id = id;
         }
+
         public String getContent() {
             return content;
         }
+
         public void setContent(String content) {
             this.content = content;
         }
+
         public String getDateTime() {
             return dateTime;
         }
+
         public void setDateTime(String dateTime) {
             this.dateTime = dateTime;
         }
+
         public String getContentSp() {
             return contentSp;
         }
+
         public void setContentSp(String contentSp) {
             this.contentSp = contentSp;
         }

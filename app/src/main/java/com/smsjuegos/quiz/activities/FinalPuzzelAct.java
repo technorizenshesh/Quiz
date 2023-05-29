@@ -3,14 +3,23 @@ package com.smsjuegos.quiz.activities;
 import static com.smsjuegos.quiz.retrofit.Constant.USER_ID;
 import static com.smsjuegos.quiz.retrofit.Constant.showToast;
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Window;
+import android.view.WindowManager;
+import android.webkit.WebView;
+import android.widget.Button;
+import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.GridLayoutManager;
 
+import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.smsjuegos.quiz.R;
 import com.smsjuegos.quiz.adapter.FinalPuzzelAdapter;
@@ -35,28 +44,28 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class FinalPuzzelAct extends AppCompatActivity {
-
     ActivityFinalPuzzelBinding binding;
-    private String eventId,eventCode;
+    final String encoding = "UTF-8";
+    final String mimeType = "text/html";
+    private String eventId, eventCode,FinalHTML = "",FinalImage="";
     private QuizInterface apiInterface;
-
-    private ArrayList<SuccessResGetInventory.Result> peopleList = new ArrayList<>();
-    private ArrayList<SuccessResGetInventory.Result> placesList = new ArrayList<>();
-    private ArrayList<SuccessResGetInventory.Result> objectList = new ArrayList<>();
+    private final ArrayList<SuccessResGetInventory.Result> peopleList = new ArrayList<>();
+    private final ArrayList<SuccessResGetInventory.Result> placesList = new ArrayList<>();
+    private final ArrayList<SuccessResGetInventory.Result> objectList = new ArrayList<>();
 
     private FinalPuzzelAdapter peopleAdapter;
     private FinalPuzzelAdapter placesAdapter;
     private FinalPuzzelAdapter objectAdapter;
 
-    private int peopleSelected=-1;
-    private int objectSelected=-1;
-    private int placeSelected=-1;
+    private int peopleSelected = -1;
+    private int objectSelected = -1;
+    private int placeSelected = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        binding = DataBindingUtil.setContentView(this,R.layout.activity_final_puzzel);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_final_puzzel);
         binding.header.imgHeader.setOnClickListener(v -> finish());
         binding.header.tvHeader.setText(getString(R.string.final_puzzel));
         binding.tvContent.getSettings().setBuiltInZoomControls(true);
@@ -88,70 +97,63 @@ public class FinalPuzzelAct extends AppCompatActivity {
         eventCode = getIntent().getExtras().getString("eventCode");
 
         binding.rvObjects.setHasFixedSize(true);
-        binding.rvObjects.setLayoutManager(new GridLayoutManager(FinalPuzzelAct.this,3));
+        binding.rvObjects.setLayoutManager(new GridLayoutManager(FinalPuzzelAct.this, 3));
         binding.rvObjects.setAdapter(objectAdapter);
         binding.rvPeople.setHasFixedSize(true);
-        binding.rvPeople.setLayoutManager(new GridLayoutManager(FinalPuzzelAct.this,3));
+        binding.rvPeople.setLayoutManager(new GridLayoutManager(FinalPuzzelAct.this, 3));
         binding.rvPeople.setAdapter(peopleAdapter);
         binding.rvPlaces.setHasFixedSize(true);
 
-        binding.rvPlaces.setLayoutManager(new GridLayoutManager(FinalPuzzelAct.this,3));
+        binding.rvPlaces.setLayoutManager(new GridLayoutManager(FinalPuzzelAct.this, 3));
         binding.rvPlaces.setAdapter(placesAdapter);
 
-       // getObject();
+        // getObject();
         getPeople();
-      //  getPlaces();
+        //  getPlaces();
 
         binding.btnFinsh.setOnClickListener(v ->
                 {
-                    if(placeSelected == -1)
-                    {
-                        showToast(FinalPuzzelAct.this,""+getString(R.string.select_places_image));
-                    }else  if(peopleSelected == -1)
-                    {
-                        showToast(FinalPuzzelAct.this,""+getString(R.string.select_people_image));
-                    }else  if(objectSelected == -1)
-                    {
-                        showToast(FinalPuzzelAct.this,""+getString(R.string.select_object_image));
-                    }else
-                    {
-                        if(placesList.get(placeSelected).getFinalPuzzleStatus().equalsIgnoreCase("Yes"))
-                        {
-                            if(peopleList.get(peopleSelected).getFinalPuzzleStatus().equalsIgnoreCase("Yes"))
-                            {
-                                if(objectList.get(objectSelected).getFinalPuzzleStatus().equalsIgnoreCase("Yes"))
-                                {
-                                     puzzelComplete();
-                                }else
-                                {
-                                    showToast(FinalPuzzelAct.this,getString(R.string.wrong_image));
+                    //showCongrats();
+
+                    if (placeSelected == -1) {
+                        showToast(FinalPuzzelAct.this, "" + getString(R.string.select_places_image));
+                    } else if (peopleSelected == -1) {
+                        showToast(FinalPuzzelAct.this, "" + getString(R.string.select_people_image));
+                    } else if (objectSelected == -1) {
+                        showToast(FinalPuzzelAct.this, "" + getString(R.string.select_object_image));
+                    } else {
+                        if (placesList.get(placeSelected).getFinalPuzzleStatus().equalsIgnoreCase("Yes")) {
+                            if (peopleList.get(peopleSelected).getFinalPuzzleStatus().equalsIgnoreCase("Yes")) {
+                                if (objectList.get(objectSelected).getFinalPuzzleStatus().equalsIgnoreCase("Yes")) {
+                                    puzzelComplete();
+                                } else {
+                                    showToast(FinalPuzzelAct.this, getString(R.string.wrong_image));
                                     addPanalties(5);
                                 }
-                            }else
-                            {
-                                showToast(FinalPuzzelAct.this,getString(R.string.wrong_image));
+                            } else {
+                                showToast(FinalPuzzelAct.this, getString(R.string.wrong_image));
                                 addPanalties(5);
 
                             }
 
-                        }else
-                        {
-                            showToast(FinalPuzzelAct.this,getString(R.string.wrong_image));
+                        } else {
+                            showToast(FinalPuzzelAct.this, getString(R.string.wrong_image));
                             addPanalties(5);
 
                         }
                     }
                 }
-                );
+        );
     }
+
     public void addPanalties(int penalty) {
         String userId = SharedPreferenceUtility.getInstance(this).getString(USER_ID);
         Map<String, String> map = new HashMap<>();
         map.put("event_id", eventId);
-        map.put("event_instructions_id","1");
-        map.put("time", ""+penalty);
+        map.put("event_instructions_id", "1");
+        map.put("time", "" + penalty);
         map.put("event_code", eventCode);
-        map.put("hint_type", penalty+"");
+        map.put("hint_type", penalty + "");
         map.put("user_id", userId);
         Call<ResponseBody> call = apiInterface.addPanalties(map);
         call.enqueue(new Callback<ResponseBody>() {
@@ -173,6 +175,7 @@ public class FinalPuzzelAct extends AppCompatActivity {
             }
         });
     }
+
     private void getPeople() {
         DataManager.getInstance().showProgressMessage(this, getString(R.string.please_wait));
         boolean val = SharedPreferenceUtility.getInstance(getApplicationContext()).getBoolean(Constant.SELECTED_LANGUAGE);
@@ -187,7 +190,7 @@ public class FinalPuzzelAct extends AppCompatActivity {
         map.put("event_id", eventId);
         map.put("event_code", eventCode);
         map.put("lang", lang);
-       // map.put("type", "People");
+        // map.put("type", "People");
         Call<SuccessResGetInventory> call = apiInterface.getInventory(map);
         call.enqueue(new Callback<SuccessResGetInventory>() {
             @Override
@@ -199,16 +202,16 @@ public class FinalPuzzelAct extends AppCompatActivity {
                     final String mimeType = "text/html";
                     final String encoding = "UTF-8";
                     binding.tvContent.loadDataWithBaseURL("", data.getNotice(), mimeType, encoding, "");
-
+                    binding.tvContent.getSettings().setBuiltInZoomControls(true);
+                    binding.tvContent.getSettings().setDisplayZoomControls(false);
                     if (data.status.equals("1")) {
-
-                        String dataResponse = new Gson().toJson(response.body());
-                        Log.e("MapMap", "EDIT PROFILE RESPONSE" + dataResponse);
+                        FinalHTML = data.getAfter_finish_text();
+                        FinalImage = data.getAfter_finish_image();
                         peopleList.clear();
                         placesList.clear();
                         objectList.clear();
-                      //  peopleList.addAll(data.getResult());
-                     //   peopleAdapter.notifyDataSetChanged();
+                        //  peopleList.addAll(data.getResult());
+                        //   peopleAdapter.notifyDataSetChanged();
                         ArrayList<SuccessResGetInventory.Result> ArrayListss = new ArrayList<>();
                         ArrayListss.clear();
                         ArrayListss.addAll(data.getResult());
@@ -224,123 +227,16 @@ public class FinalPuzzelAct extends AppCompatActivity {
                                 }
                             }
 
-                          peopleAdapter.notifyDataSetChanged();
-                          placesAdapter.notifyDataSetChanged();
-                          objectAdapter.notifyDataSetChanged();}
-
-
-
-
-
+                            peopleAdapter.notifyDataSetChanged();
+                            placesAdapter.notifyDataSetChanged();
+                            objectAdapter.notifyDataSetChanged();
+                        }
 
 
                     } else if (data.status.equals("0")) {
                         showToast(FinalPuzzelAct.this, data.message);
                         peopleList.clear();
                         peopleAdapter.notifyDataSetChanged();
-                    }} catch (Exception e) {e.printStackTrace();}}
-            @Override
-            public void onFailure(Call<SuccessResGetInventory> call, Throwable t) {
-                call.cancel();
-                DataManager.getInstance().hideProgressMessage();
-            }
-        });
-    }
-
-   /* private void getObject()
-    {
-        DataManager.getInstance().showProgressMessage(this, getString(R.string.please_wait));
-        boolean val =  SharedPreferenceUtility.getInstance(getApplicationContext()).getBoolean(Constant.SELECTED_LANGUAGE);
-        String lang = "";
-
-        if(!val)
-        {
-            lang = "en";
-        } else
-        {
-            lang = "sp";
-        }
-        Map<String, String> map = new HashMap<>();
-        map.put("event_id", eventId);
-        map.put("event_code", eventCode);
-        map.put("type", "Objects");
-        map.put("lang", lang);
-        Call<SuccessResGetInventory> call = apiInterface.getInventory(map);
-
-        call.enqueue(new Callback<SuccessResGetInventory>() {
-            @Override
-            public void onResponse(Call<SuccessResGetInventory> call, Response<SuccessResGetInventory> response) {
-
-                DataManager.getInstance().hideProgressMessage();
-                try {
-                    SuccessResGetInventory data = response.body();
-                    Log.e("data", data.status);
-                    if (data.status.equals("1")) {
-                        String dataResponse = new Gson().toJson(response.body());
-                        Log.e("MapMap", "EDIT PROFILE RESPONSE" + dataResponse);
-
-                        objectList.clear();
-                        objectList.addAll(data.getResult());
-                        objectAdapter.notifyDataSetChanged();
-
-                    } else if (data.status.equals("0")) {
-                        showToast(FinalPuzzelAct.this, data.message);
-                        objectList.clear();
-                        objectAdapter.notifyDataSetChanged();
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-            }
-
-            @Override
-            public void onFailure(Call<SuccessResGetInventory> call, Throwable t) {
-                call.cancel();
-                DataManager.getInstance().hideProgressMessage();
-            }
-        });
-    }
-
-    private void getPlaces()
-    {
-        DataManager.getInstance().showProgressMessage(this, getString(R.string.please_wait));
-        boolean val =  SharedPreferenceUtility.getInstance(getApplicationContext()).getBoolean(Constant.SELECTED_LANGUAGE);
-        String lang = "";
-
-        if(!val)
-        {
-            lang = "en";
-        } else
-        {
-            lang = "sp";
-        }
-        Map<String, String> map = new HashMap<>();
-        map.put("event_id", eventId);
-        map.put("event_code", eventCode);
-        map.put("type", "Places");
-        map.put("lang", lang);
-
-        Call<SuccessResGetInventory> call = apiInterface.getInventory(map);
-
-        call.enqueue(new Callback<SuccessResGetInventory>() {
-            @Override
-            public void onResponse(Call<SuccessResGetInventory> call, Response<SuccessResGetInventory> response) {
-
-                DataManager.getInstance().hideProgressMessage();
-                try {
-                    SuccessResGetInventory data = response.body();
-                    Log.e("data", data.status);
-                    if (data.status.equals("1")) {
-                        String dataResponse = new Gson().toJson(response.body());
-                        Log.e("MapMap", "EDIT PROFILE RESPONSE" + dataResponse);
-                        placesList.clear();
-                        placesList.addAll(data.getResult());
-                        placesAdapter.notifyDataSetChanged();
-                    } else if (data.status.equals("0")) {
-                        showToast(FinalPuzzelAct.this, data.message);
-                        placesList.clear();
-                        placesAdapter.notifyDataSetChanged();
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -353,16 +249,15 @@ public class FinalPuzzelAct extends AppCompatActivity {
                 DataManager.getInstance().hideProgressMessage();
             }
         });
-    }*/
+    }
 
-    public void puzzelComplete()
-    {
+    public void puzzelComplete() {
         DataManager.getInstance().showProgressMessage(this, getString(R.string.please_wait));
         Map<String, String> map = new HashMap<>();
         map.put("event_id", eventId);
         map.put("event_code", eventCode);
         Call<ResponseBody> call = apiInterface.puzzelCompleted(map);
-        call.enqueue(new Callback<>() {
+        call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
 
@@ -377,15 +272,9 @@ public class FinalPuzzelAct extends AppCompatActivity {
                     String message = jsonObject.getString("message");
 
                     if (data.equals("1")) {
+                        showCongrats();
 
-                        startActivity(new Intent(FinalPuzzelAct.this,
-                                FinishTeamInfo.class)
-                                .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK)
-                                .putExtra("from", "1")
-                                .putExtra("eventId", eventId)
-                                .putExtra("eventCode", eventCode));
-
-                    } else if (data.equals("0")) {
+                   } else if (data.equals("0")) {
                         showToast(FinalPuzzelAct.this, message);
                     }
 
@@ -401,6 +290,59 @@ public class FinalPuzzelAct extends AppCompatActivity {
                 DataManager.getInstance().hideProgressMessage();
             }
         });
+    }
+
+    private void showCongrats() {
+        final Dialog dialogq = new Dialog(FinalPuzzelAct.this);
+        dialogq.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialogq.getWindow().getAttributes().windowAnimations
+                = android.R.style.Widget_Material_ListPopupWindow;
+        dialogq.setContentView(R.layout.dialog_after);
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        Window window = dialogq.getWindow();
+        lp.copyFrom(window.getAttributes());
+        WebView tv_intro = dialogq.findViewById(R.id.tv_intro);
+        ImageView intro_image = dialogq.findViewById(R.id.image_intro);
+        ImageView imgHeader = dialogq.findViewById(R.id.imgHeader);
+        tv_intro.loadDataWithBaseURL("", FinalHTML, mimeType, encoding, "");
+        tv_intro.getSettings().setBuiltInZoomControls(true);
+        tv_intro.getSettings().setDisplayZoomControls(false);
+        Glide.with(getApplicationContext()).load(FinalImage).into(intro_image);
+        Button ivSubmit = dialogq.findViewById(R.id.btnDownload);
+        imgHeader.setOnClickListener(D ->
+                {
+                   // dialogq.dismiss();
+                }
+        );
+        ivSubmit.setOnClickListener(D ->
+                {
+                    dialogq.dismiss();
+                       /* startActivity(new Intent(CardigoPuzzleFinalActivity.this,
+                                FinishTeamInfo.class)
+                                .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK)
+                                .putExtra("from", "1")
+                                .putExtra("eventId", eventId)
+                                .putExtra("eventCode", eventCode));*/
+                }
+        );
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.MATCH_PARENT;
+        window.setAttributes(lp);
+        dialogq.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialogq.show();
+        dialogq.setOnDismissListener(dialog ->{
+                startActivity(new Intent(FinalPuzzelAct.this,
+                        FinishTeamInfo.class)
+                        .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK)
+                        .putExtra("from", "1")
+                        .putExtra("eventId", eventId)
+                        .putExtra("eventCode", eventCode));
+        });
+
+
+
+
+
     }
 
     @Override

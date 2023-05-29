@@ -227,12 +227,11 @@ public class TeamAdapter extends RecyclerView.Adapter<TeamAdapter.SelectTimeView
 
     ArrayAdapter ad;
     private List<String> dates;
-    private Context context;
+    private final Context context;
 
-    private ArrayList<SuccessResGetOtherUserData.Result> otherResults;
+    private final ArrayList<SuccessResGetOtherUserData.Result> otherResults;
 
-    public TeamAdapter(Context context,ArrayList<SuccessResGetOtherUserData.Result> otherResults)
-    {
+    public TeamAdapter(Context context, ArrayList<SuccessResGetOtherUserData.Result> otherResults) {
         this.context = context;
         this.otherResults = otherResults;
     }
@@ -241,7 +240,7 @@ public class TeamAdapter extends RecyclerView.Adapter<TeamAdapter.SelectTimeView
     @Override
     public SelectTimeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View listItem= layoutInflater.inflate(R.layout.team_item, parent, false);
+        View listItem = layoutInflater.inflate(R.layout.team_item, parent, false);
         SelectTimeViewHolder viewHolder = new SelectTimeViewHolder(listItem);
         return viewHolder;
     }
@@ -249,7 +248,7 @@ public class TeamAdapter extends RecyclerView.Adapter<TeamAdapter.SelectTimeView
     @Override
     public void onBindViewHolder(@NonNull SelectTimeViewHolder holder, int position) {
 
-        TextView tvTeamName,tvTime;
+        TextView tvTeamName, tvTime;
 
         tvTeamName = holder.itemView.findViewById(R.id.tvTeamName);
 
@@ -260,10 +259,12 @@ public class TeamAdapter extends RecyclerView.Adapter<TeamAdapter.SelectTimeView
         tvTime.setText(otherResults.get(position).getEventTotalTime());
 
     }
+
     @Override
     public int getItemCount() {
         return otherResults.size();
     }
+
     public class SelectTimeViewHolder extends RecyclerView.ViewHolder {
         public SelectTimeViewHolder(@NonNull View itemView) {
             super(itemView);

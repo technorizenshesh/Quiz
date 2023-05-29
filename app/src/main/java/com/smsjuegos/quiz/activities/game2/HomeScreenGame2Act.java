@@ -1,9 +1,7 @@
 package com.smsjuegos.quiz.activities.game2;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatButton;
-import androidx.databinding.DataBindingUtil;
+import static com.smsjuegos.quiz.retrofit.Constant.USER_ID;
+import static com.smsjuegos.quiz.retrofit.Constant.showToast;
 
 import android.app.Dialog;
 import android.content.Intent;
@@ -13,6 +11,11 @@ import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
+import androidx.databinding.DataBindingUtil;
 
 import com.bumptech.glide.Glide;
 import com.smsjuegos.quiz.R;
@@ -35,19 +38,17 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.smsjuegos.quiz.retrofit.Constant.USER_ID;
-import static com.smsjuegos.quiz.retrofit.Constant.showToast;
-
 public class HomeScreenGame2Act extends AppCompatActivity {
 
     ActivityHomeScreenGame2Binding binding;
+    boolean IsCodeAvailable;
     private QuizInterface apiInterface;
-boolean IsCodeAvailable;
     private SuccessResGetEvents.Result result;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this,R.layout.activity_home_screen_game2);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_home_screen_game2);
         apiInterface = ApiClient.getClient().create(QuizInterface.class);
         result = (SuccessResGetEvents.Result) getIntent().getSerializableExtra("instructionID");
         is_Apply();
@@ -61,9 +62,9 @@ boolean IsCodeAvailable;
                     if (IsCodeAvailable) {
 
                         startActivity(new Intent(HomeScreenGame2Act.this
-                                ,WelcomeMessageActivity.class).putExtra(
-                                "instructionID",result));
-                    }else {
+                                , WelcomeMessageActivity.class).putExtra(
+                                "instructionID", result));
+                    } else {
 
                         showImageSelection();
 
@@ -84,7 +85,7 @@ boolean IsCodeAvailable;
         Window window = dialog.getWindow();
         lp.copyFrom(window.getAttributes());
         AppCompatButton btnSubmit = dialog.findViewById(R.id.btnSubmit);
-        EditText editText =  dialog.findViewById(R.id.etName);
+        EditText editText = dialog.findViewById(R.id.etName);
 
         lp.width = WindowManager.LayoutParams.MATCH_PARENT;
         lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
@@ -93,15 +94,12 @@ boolean IsCodeAvailable;
         btnSubmit.setOnClickListener(v ->
                 {
                     String strCode = editText.getText().toString().trim();
-                    if(!strCode.equalsIgnoreCase(""))
-                    {
+                    if (!strCode.equalsIgnoreCase("")) {
                         Apply_code(strCode);
                         dialog.dismiss();
 
-                    }
-                    else
-                    {
-                        showToast(HomeScreenGame2Act.this,getString(R.string.please_enter_code));
+                    } else {
+                        showToast(HomeScreenGame2Act.this, getString(R.string.please_enter_code));
                     }
                 }
         );
@@ -110,7 +108,7 @@ boolean IsCodeAvailable;
         dialog.show();
     }
 
-    private void Apply_code(String code)  {
+    private void Apply_code(String code) {
         String userId = SharedPreferenceUtility.getInstance(this).getString(USER_ID);
         DataManager.getInstance().showProgressMessage(this, getString(R.string.please_wait));
         Map<String, String> map = new HashMap<>();
@@ -137,8 +135,8 @@ boolean IsCodeAvailable;
                                 .this).putString(Constant.EVENT_CODE,
                                 code);
                         startActivity(new Intent(HomeScreenGame2Act.this
-                                ,WelcomeMessageActivity.class).putExtra(
-                                "instructionID",result));
+                                , WelcomeMessageActivity.class).putExtra(
+                                "instructionID", result));
                     } else if (data.equals("0")) {
                         showToast(HomeScreenGame2Act.this, message);
                     }
@@ -156,15 +154,16 @@ boolean IsCodeAvailable;
             }
         });
     }
-    private void is_Apply()  {
+
+    private void is_Apply() {
         String userId = SharedPreferenceUtility.getInstance(this).getString(USER_ID);
         DataManager.getInstance().showProgressMessage(this, getString(R.string.please_wait));
         Map<String, String> map = new HashMap<>();
         map.put("user_id", userId);
         map.put("event_id", result.getId());
-        map.put("lang","en");
+        map.put("lang", "en");
         Call<EventCodeResSuccess> call = apiInterface.get_event_code(map);
-        call.enqueue(new Callback<>() {
+        call.enqueue(new Callback<EventCodeResSuccess>() {
             @Override
             public void onResponse(Call<EventCodeResSuccess> call, Response<EventCodeResSuccess> response) {
                 DataManager.getInstance().hideProgressMessage();

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-   >
+    xmlns:tools="http://schemas.android.com/tools">
 
     <uses-feature
         android:name="android.hardware.camera"
@@ -21,25 +20,28 @@
     <application
         android:name=".SMSApp"
         android:allowBackup="true"
+        android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:largeHeap="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:hardwareAccelerated="true"
         android:theme="@style/Theme.Quiz"
-         android:largeHeap="true"
         android:usesCleartextTraffic="true">
-        <uses-library android:name="org.apache.http.legacy"
-            android:required="false"/>
+        <activity
+            android:name=".activities.cardigo.CardigoPuzzleFinalActivity"
+            android:exported="true" />
+
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
 
         <activity
             android:name=".GameAztecStartVideoAct"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".activities.DeclimarActivity"
-            android:exported="false">
-
-        </activity>
+            android:exported="false" />
         <activity
             android:name=".activities.PrivacyPolicyAct"
             android:exported="false">
@@ -48,6 +50,8 @@
                 android:value="" />
         </activity>
         <activity
+            android:name=".activities.InstrutionActNew"
+            android:exported="true" />     <activity
             android:name=".activities.ChooseLanguage"
             android:exported="false" />
         <activity
@@ -61,7 +65,7 @@
             android:exported="false" />
         <activity
             android:name=".activities.game2.MissionCompletedAct"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".activities.game2.QuestionAct"
             android:configChanges="keyboardHidden|orientation|screenSize"
@@ -83,8 +87,10 @@
         <activity
             android:name=".activities.game2.Game2StartVideoAct"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:exported="false"
+            android:exported="true"
             android:screenOrientation="portrait"
+            android:hardwareAccelerated="true"
+            android:theme="@style/Theme.Design.NoActionBar"
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".activities.game2.WelcomeMessageActivity"
@@ -132,7 +138,7 @@
             android:name=".activities.MapAct"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
-             android:hardwareAccelerated="true"
+            android:hardwareAccelerated="true"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
         <activity
@@ -196,7 +202,7 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name="com.smsjuegos.quiz.MainActivity"
+            android:name=".MainActivity"
             android:exported="false" />
 
         <meta-data
@@ -205,7 +211,9 @@
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
-        <service android:name=".utility.MyFirebaseMessagingService"
+
+        <service
+            android:name=".utility.MyFirebaseMessagingService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />

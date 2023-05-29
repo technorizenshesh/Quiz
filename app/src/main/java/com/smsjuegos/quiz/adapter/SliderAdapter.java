@@ -1,3 +1,4 @@
+/*
 package com.smsjuegos.quiz.adapter;
 
 import android.content.Context;
@@ -8,17 +9,19 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.smarteist.autoimageslider.SliderViewAdapter;
 import com.smsjuegos.quiz.R;
 import com.smsjuegos.quiz.model.SuccessResGetBanner;
-import com.smarteist.autoimageslider.SliderViewAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
+*/
 /**
  * Created by Ravindra Birla on 19,June,2021
- */
-public class SliderAdapter extends SliderViewAdapter<SliderAdapter.SliderAdapterVH> {
+ *//*
+
+public class SliderAdapter extends <SliderAdapter.SliderAdapterVH> {
 
     private final Context context;
 
@@ -70,3 +73,4 @@ public class SliderAdapter extends SliderViewAdapter<SliderAdapter.SliderAdapter
     }
 
 }
+*/

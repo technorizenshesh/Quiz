@@ -1,10 +1,14 @@
 package com.smsjuegos.quiz.activities;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.databinding.DataBindingUtil;
+
+import static com.smsjuegos.quiz.retrofit.Constant.isValidEmail;
+import static com.smsjuegos.quiz.retrofit.Constant.showToast;
 
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
 
 import com.google.gson.Gson;
 import com.smsjuegos.quiz.R;
@@ -22,9 +26,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.smsjuegos.quiz.retrofit.Constant.isValidEmail;
-import static com.smsjuegos.quiz.retrofit.Constant.showToast;
-
 public class ForgotPassAct extends AppCompatActivity {
 
     ActivityForgotPassBinding binding;
@@ -34,24 +35,23 @@ public class ForgotPassAct extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this,R.layout.activity_forgot_pass);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_forgot_pass);
         apiInterface = ApiClient.getClient().create(QuizInterface.class);
         binding.ivBack.setOnClickListener(v ->
                 {
                     finish();
                 }
-                );
+        );
         binding.btnSubmit.setOnClickListener(v ->
                 {
                     strEmail = binding.etEmail.getText().toString().trim();
-                    if(isValid())
-                    {
+                    if (isValid()) {
                         if (NetworkAvailablity.getInstance(this).checkNetworkStatus()) {
                             forgotPass();
                         } else {
                             Toast.makeText(this, getResources().getString(R.string.msg_noInternet), Toast.LENGTH_SHORT).show();
                         }
-                    }else {
+                    } else {
                         Toast.makeText(this, getResources().getString(R.string.on_error), Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -60,10 +60,10 @@ public class ForgotPassAct extends AppCompatActivity {
 
     private void forgotPass() {
         DataManager.getInstance().showProgressMessage(ForgotPassAct.this, getString(R.string.please_wait));
-        Map<String,String> map = new HashMap<>();
-        map.put("email",strEmail);
+        Map<String, String> map = new HashMap<>();
+        map.put("email", strEmail);
         Call<SuccessResForgetPassword> call = apiInterface.forgotPassword(map);
-        call.enqueue(new Callback<>() {
+        call.enqueue(new Callback<SuccessResForgetPassword>() {
             @Override
             public void onResponse(Call<SuccessResForgetPassword> call, Response<SuccessResForgetPassword> response) {
 
@@ -75,7 +75,7 @@ public class ForgotPassAct extends AppCompatActivity {
                         Log.e("MapMap", "EDIT PROFILE RESPONSE" + dataResponse);
                         Toast.makeText(ForgotPassAct.this, R.string.password_sended, Toast.LENGTH_SHORT).show();
                         binding.etEmail.setText("");
-finish();
+                        finish();
                     } else if (data.status.equals("0")) {
                         showToast(ForgotPassAct.this, data.message);
                     }

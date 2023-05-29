@@ -1,14 +1,16 @@
 package com.smsjuegos.quiz.fragments;
 
+import static com.smsjuegos.quiz.retrofit.Constant.isValidEmail;
+import static com.smsjuegos.quiz.retrofit.Constant.showToast;
+
 import android.os.Bundle;
-
-import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+
+import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.Fragment;
 
 import com.smsjuegos.quiz.R;
 import com.smsjuegos.quiz.databinding.FragmentContactUsBinding;
@@ -27,9 +29,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.smsjuegos.quiz.retrofit.Constant.isValidEmail;
-import static com.smsjuegos.quiz.retrofit.Constant.showToast;
-
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link ContactUsFragment#newInstance} factory method to
@@ -37,17 +36,13 @@ import static com.smsjuegos.quiz.retrofit.Constant.showToast;
  */
 public class ContactUsFragment extends Fragment {
 
-    FragmentContactUsBinding binding;
-
-    private QuizInterface apiInterface;
-
-    private String strName="",strEmail="",strDescription="";
-
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
+    FragmentContactUsBinding binding;
+    private QuizInterface apiInterface;
+    private String strName = "", strEmail = "", strDescription = "";
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -88,7 +83,7 @@ public class ContactUsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        binding = DataBindingUtil.inflate(inflater,R.layout.fragment_contact_us, container, false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_contact_us, container, false);
 
         apiInterface = ApiClient.getClient().create(QuizInterface.class);
 
@@ -96,7 +91,7 @@ public class ContactUsFragment extends Fragment {
                 {
                     getActivity().onBackPressed();
                 }
-                );
+        );
 
         binding.btnSubmit.setOnClickListener(v ->
                 {
@@ -114,7 +109,7 @@ public class ContactUsFragment extends Fragment {
                         Toast.makeText(getActivity(), getResources().getString(R.string.on_error), Toast.LENGTH_SHORT).show();
                     }
                 }
-                );
+        );
         binding.header.tvHeader.setText(R.string.contact_us);
         return binding.getRoot();
     }
@@ -123,28 +118,27 @@ public class ContactUsFragment extends Fragment {
         if (strName.equalsIgnoreCase("")) {
             binding.etName.setError(getString(R.string.enter_name));
             return false;
-        }else if (strEmail.equalsIgnoreCase("")) {
+        } else if (strEmail.equalsIgnoreCase("")) {
             binding.etEmail.setError(getString(R.string.enter_email));
             return false;
-        }  else if (!isValidEmail(strEmail)) {
+        } else if (!isValidEmail(strEmail)) {
             binding.etEmail.setError(getString(R.string.enter_valid_email));
             return false;
-        }else if (strDescription.equalsIgnoreCase("")) {
+        } else if (strDescription.equalsIgnoreCase("")) {
             binding.etDescription.setError(getString(R.string.please_enter_desc));
             return false;
         }
         return true;
     }
 
-    public void contactUs()
-    {
+    public void contactUs() {
 
         DataManager.getInstance().showProgressMessage(getActivity(), getString(R.string.please_wait));
         Map<String, String> map = new HashMap<>();
         map.put("name", strName);
         map.put("email", strEmail);
         map.put("description", strDescription);
-      
+
         Call<ResponseBody> call = apiInterface.addContactUs(map);
 
         call.enqueue(new Callback<ResponseBody>() {
@@ -157,9 +151,9 @@ public class ContactUsFragment extends Fragment {
                     String message = jsonObject.getString("message");
                     if (data.equals("1")) {
 
-                     binding.etDescription.setText("");
-                     binding.etName.setText("");
-                     binding.etEmail.setText("");
+                        binding.etDescription.setText("");
+                        binding.etName.setText("");
+                        binding.etEmail.setText("");
 
                     } else if (data.equals("0")) {
                         showToast(getActivity(), message);

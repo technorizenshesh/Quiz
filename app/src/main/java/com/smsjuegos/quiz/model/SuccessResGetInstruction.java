@@ -53,8 +53,11 @@ public class SuccessResGetInstruction implements Serializable {
         this.status = status;
     }
 
-    public class Result implements Serializable {
+    public static class Result implements Serializable {
 
+        @SerializedName("custom_ans")
+        @Expose
+        public String custom_ans;
         @SerializedName("id")
         @Expose
         public String id;
@@ -130,6 +133,14 @@ public class SuccessResGetInstruction implements Serializable {
         @SerializedName("timer")
         @Expose
         public String timer;
+
+        public String getCustom_ans() {
+            return custom_ans;
+        }
+
+        public void setCustom_ans(String custom_ans) {
+            this.custom_ans = custom_ans;
+        }
 
         public String getArrival_time() {
             return arrival_time;

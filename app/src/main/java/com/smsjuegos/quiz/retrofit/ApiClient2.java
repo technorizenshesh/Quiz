@@ -1,7 +1,5 @@
 package com.smsjuegos.quiz.retrofit;
 
-import static com.smsjuegos.quiz.retrofit.Constant.BASE_URL;
-
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
@@ -14,7 +12,7 @@ public class ApiClient2 {
 
     public static Retrofit getClient() {
         if (retrofit == null) {
-            final  HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+            final HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
             interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
             OkHttpClient client = new OkHttpClient.Builder()

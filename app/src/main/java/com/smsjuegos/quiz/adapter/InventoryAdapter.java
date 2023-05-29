@@ -208,7 +208,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Rect;
-import android.media.Image;
 import android.text.Html;
 import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
@@ -233,8 +232,8 @@ import java.util.ArrayList;
 public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.SelectTimeViewHolder> {
 
     ArrayAdapter ad;
-    private ArrayList<SuccessResGetInventory.Result> stringArrayList;
-    private Context context;
+    private final ArrayList<SuccessResGetInventory.Result> stringArrayList;
+    private final Context context;
 
     public InventoryAdapter(Context context, ArrayList<SuccessResGetInventory.Result> stringArrayList) {
         this.context = context;
@@ -265,9 +264,9 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.Sele
         tvDescription.setMovementMethod(new ScrollingMovementMethod());
 
         tvDescription.setOnClickListener(v -> {
-    holder.itemView.performClick();
-});
-       // tvDescription.loadDataWithBaseURL("", stringArrayList.get(position).getInstructions(), mimeType, encoding, "");
+            holder.itemView.performClick();
+        });
+        // tvDescription.loadDataWithBaseURL("", stringArrayList.get(position).getInstructions(), mimeType, encoding, "");
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -277,7 +276,7 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.Sele
                 final AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.CustomAlertDialog);
                 ViewGroup viewGroup = ((Activity) context).findViewById(android.R.id.content);
                 View dialogView = LayoutInflater.from(v.getContext()).inflate(R.layout.inventory_details, viewGroup, false);
-                dialogView.setMinimumWidth((int) (displayRectangle.width() ));
+                dialogView.setMinimumWidth((int) (displayRectangle.width()));
                 dialogView.setMinimumHeight((int) (displayRectangle.height()));
                 builder.setView(dialogView);
                 final AlertDialog alertDialog = builder.create();
@@ -291,12 +290,16 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.Sele
                 final String mimeType = "text/html";
                 final String encoding = "UTF-8";
                 tvInstruction.setVerticalScrollBarEnabled(true);
-                 if (stringArrayList.get(position).getHint_discovered().equalsIgnoreCase("")){
-                     tvInstruction.loadDataWithBaseURL("", stringArrayList.get(position).getInstructions(), mimeType, encoding, "");
+                if (stringArrayList.get(position).getHint_discovered().equalsIgnoreCase("")) {
+                    tvInstruction.loadDataWithBaseURL("", stringArrayList.get(position).getInstructions(), mimeType, encoding, "");
+                    tvInstruction.getSettings().setBuiltInZoomControls(true);
+                    tvInstruction.getSettings().setDisplayZoomControls(false);
+                } else {
+                    tvInstruction.loadDataWithBaseURL("", stringArrayList.get(position).getHint_discovered(), mimeType, encoding, "");
+                    tvInstruction.getSettings().setBuiltInZoomControls(true);
+                    tvInstruction.getSettings().setDisplayZoomControls(false);
 
-                 }else {
-                     tvInstruction.loadDataWithBaseURL("", stringArrayList.get(position).getHint_discovered(), mimeType, encoding, "");
-                 }
+                }
                 Button buttonOk = dialogView.findViewById(R.id.btnok);
                 buttonOk.setOnClickListener(new View.OnClickListener() {
                     @Override

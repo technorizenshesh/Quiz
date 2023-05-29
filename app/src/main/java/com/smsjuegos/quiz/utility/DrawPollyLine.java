@@ -5,8 +5,6 @@ import android.util.Log;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.PolylineOptions;
-import com.smsjuegos.quiz.R;
-import com.smsjuegos.quiz.retrofit.ApiClient;
 import com.smsjuegos.quiz.retrofit.ApiClient2;
 import com.smsjuegos.quiz.retrofit.QuizInterface;
 
@@ -25,11 +23,11 @@ import retrofit2.Response;
 
 public class DrawPollyLine {
 
-    private Context context;
-    private LatLng origin;
-    private LatLng destination;
     List<List<HashMap<String, String>>> routes = new ArrayList<>();
     ArrayList<LatLng> points = new ArrayList<>();
+    private final Context context;
+    private LatLng origin;
+    private LatLng destination;
     private PolylineOptions lineOptions;
 
     public DrawPollyLine(Context context) {
@@ -49,6 +47,7 @@ public class DrawPollyLine {
         this.destination = destination;
         return this;
     }
+
     public String getPolyLineUrl(Context context, LatLng origin, LatLng dest) {
         String str_origin = "origin=" + origin.latitude + "," + origin.longitude;
         String str_dest = "destination=" + dest.latitude + "," + dest.longitude;
@@ -64,14 +63,14 @@ public class DrawPollyLine {
 
     public void execute(onPolyLineResponse listener) {
         String URL = getPolyLineUrl(context, origin, destination);
-        QuizInterface  apiInterface = ApiClient2.getClient().create(QuizInterface.class);
+        QuizInterface apiInterface = ApiClient2.getClient().create(QuizInterface.class);
         apiInterface.getURL(URL).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 try {
                     JSONObject object = new JSONObject(response.body().string());
 
-                   // JSONObject object = new JSONObject(String.valueOf(response));
+                    // JSONObject object = new JSONObject(String.valueOf(response));
                     DataParser parser = new DataParser();
                     routes = parser.parse(object);
                     for (int i = 0; i < routes.size(); i++) {

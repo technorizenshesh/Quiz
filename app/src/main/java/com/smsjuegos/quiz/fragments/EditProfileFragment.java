@@ -1,15 +1,17 @@
 package com.smsjuegos.quiz.fragments;
 
+import static com.smsjuegos.quiz.retrofit.Constant.USER_ID;
+import static com.smsjuegos.quiz.retrofit.Constant.showToast;
+
 import android.os.Bundle;
-
-import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.Fragment;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+
+import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.Fragment;
 
 import com.google.gson.Gson;
 import com.smsjuegos.quiz.R;
@@ -28,9 +30,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.smsjuegos.quiz.retrofit.Constant.USER_ID;
-import static com.smsjuegos.quiz.retrofit.Constant.showToast;
-
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link EditProfileFragment#newInstance} factory method to
@@ -38,16 +37,14 @@ import static com.smsjuegos.quiz.retrofit.Constant.showToast;
  */
 public class EditProfileFragment extends Fragment {
 
-    private FragmentEditProfileBinding binding;
-    private String strEmail;
-    private QuizInterface apiInterface;
-    private  SuccessResGetProfile.Result userDetail;
-
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
+    private FragmentEditProfileBinding binding;
+    private String strEmail;
+    private QuizInterface apiInterface;
+    private SuccessResGetProfile.Result userDetail;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -79,7 +76,7 @@ public class EditProfileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        binding = DataBindingUtil.inflate(inflater,R.layout.fragment_edit_profile, container, false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_edit_profile, container, false);
 
         apiInterface = ApiClient.getClient().create(QuizInterface.class);
 
@@ -87,7 +84,7 @@ public class EditProfileFragment extends Fragment {
                 {
                     getActivity().onBackPressed();
                 }
-                );
+        );
 
         binding.header.tvHeader.setText(getString(R.string.edit_details));
 
@@ -124,11 +121,12 @@ public class EditProfileFragment extends Fragment {
         }
         return true;
     }
+
     private void getProfile() {
         String userId = SharedPreferenceUtility.getInstance(getContext()).getString(USER_ID);
         DataManager.getInstance().showProgressMessage(getActivity(), getString(R.string.please_wait));
-        Map<String,String> map = new HashMap<>();
-        map.put("user_id",userId);
+        Map<String, String> map = new HashMap<>();
+        map.put("user_id", userId);
         Call<SuccessResGetProfile> call = apiInterface.getProfile(map);
         call.enqueue(new Callback<SuccessResGetProfile>() {
             @Override
@@ -137,7 +135,7 @@ public class EditProfileFragment extends Fragment {
                 try {
                     SuccessResGetProfile data = response.body();
                     userDetail = data.getResult();
-                    Log.e("data",data.status);
+                    Log.e("data", data.status);
                     if (data.status.equals("1")) {
                         String dataResponse = new Gson().toJson(response.body());
                         Log.e("MapMap", "EDIT PROFILE RESPONSE" + dataResponse);
@@ -152,6 +150,7 @@ public class EditProfileFragment extends Fragment {
                     e.printStackTrace();
                 }
             }
+
             @Override
             public void onFailure(Call<SuccessResGetProfile> call, Throwable t) {
                 call.cancel();
@@ -163,9 +162,9 @@ public class EditProfileFragment extends Fragment {
     private void updateProfile() {
         String userId = SharedPreferenceUtility.getInstance(getContext()).getString(USER_ID);
         DataManager.getInstance().showProgressMessage(getActivity(), getString(R.string.please_wait));
-        Map<String,String> map = new HashMap<>();
-        map.put("user_id",userId);
-        map.put("email",strEmail);
+        Map<String, String> map = new HashMap<>();
+        map.put("user_id", userId);
+        map.put("email", strEmail);
         Call<SuccessResGetProfile> call = apiInterface.updateProfile(map);
         call.enqueue(new Callback<SuccessResGetProfile>() {
             @Override
@@ -174,7 +173,7 @@ public class EditProfileFragment extends Fragment {
                 try {
                     SuccessResGetProfile data = response.body();
                     userDetail = data.getResult();
-                    Log.e("data",data.status);
+                    Log.e("data", data.status);
                     if (data.status.equals("1")) {
                         showToast(getActivity(), data.message);
                         String dataResponse = new Gson().toJson(response.body());
@@ -190,6 +189,7 @@ public class EditProfileFragment extends Fragment {
                     e.printStackTrace();
                 }
             }
+
             @Override
             public void onFailure(Call<SuccessResGetProfile> call, Throwable t) {
                 call.cancel();

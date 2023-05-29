@@ -1,15 +1,17 @@
 package com.smsjuegos.quiz.fragments;
 
+import static com.smsjuegos.quiz.retrofit.Constant.USER_ID;
+import static com.smsjuegos.quiz.retrofit.Constant.showToast;
+
 import android.os.Bundle;
-
-import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
@@ -34,9 +36,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.smsjuegos.quiz.retrofit.Constant.USER_ID;
-import static com.smsjuegos.quiz.retrofit.Constant.showToast;
-
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link EventDetailFragment#newInstance} factory method to
@@ -44,19 +43,14 @@ import static com.smsjuegos.quiz.retrofit.Constant.showToast;
  */
 public class EventDetailFragment extends Fragment {
 
-    FragmentEventDetailBinding binding;
-
-    private QuizInterface apiInterface;
-
-    private SuccessResGetEventDetail.Result eventDetails;
-
-    private String eventId,strAmount = "";
-
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
+    FragmentEventDetailBinding binding;
+    private QuizInterface apiInterface;
+    private SuccessResGetEventDetail.Result eventDetails;
+    private String eventId, strAmount = "";
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -98,14 +92,13 @@ public class EventDetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
-        binding = DataBindingUtil.inflate(inflater,R.layout.fragment_event_detail, container, false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_event_detail, container, false);
 
         apiInterface = ApiClient.getClient().create(QuizInterface.class);
 
         Bundle bundle = this.getArguments();
 
-        if(bundle!=null)
-        {
+        if (bundle != null) {
             eventId = bundle.getString("id");
         }
 
@@ -115,21 +108,20 @@ public class EventDetailFragment extends Fragment {
                 {
                     addToCart();
                 }
-                );
+        );
 
         binding.btnViewCart.setOnClickListener(v ->
                 {
                     Bundle bundle1 = new Bundle();
-                    bundle1.putString("id",eventId);
-                    Navigation.findNavController(v).navigate(R.id.action_eventDetailFragment_to_cartFragment,bundle1);
+                    bundle1.putString("id", eventId);
+                    Navigation.findNavController(v).navigate(R.id.action_eventDetailFragment_to_cartFragment, bundle1);
                 }
-                );
+        );
 
         return binding.getRoot();
     }
 
-    public void addToCart()
-    {
+    public void addToCart() {
         String userId = SharedPreferenceUtility.getInstance(getContext()).getString(USER_ID);
         DataManager.getInstance().showProgressMessage(getActivity(), getString(R.string.please_wait));
         Map<String, String> map = new HashMap<>();
@@ -162,7 +154,7 @@ public class EventDetailFragment extends Fragment {
 
                     } else if (data.equals("0")) {
                         showToast(getActivity(), message);
-                    }else if (data.equals("2")) {
+                    } else if (data.equals("2")) {
                         showToast(getActivity(), jsonObject.getString("result"));
                     }
                 } catch (Exception e) {
@@ -178,8 +170,7 @@ public class EventDetailFragment extends Fragment {
         });
     }
 
-    private void getEventDetails()
-    {
+    private void getEventDetails() {
 
         String userId = SharedPreferenceUtility.getInstance(getContext()).getString(USER_ID);
         DataManager.getInstance().showProgressMessage(getActivity(), getString(R.string.please_wait));
@@ -209,6 +200,7 @@ public class EventDetailFragment extends Fragment {
                     e.printStackTrace();
                 }
             }
+
             @Override
             public void onFailure(Call<SuccessResGetEventDetail> call, Throwable t) {
                 call.cancel();
@@ -217,10 +209,9 @@ public class EventDetailFragment extends Fragment {
         });
     }
 
-    public void setEventDetails()
-    {
+    public void setEventDetails() {
 
-        strAmount  = eventDetails.getAmount();
+        strAmount = eventDetails.getAmount();
         Glide
                 .with(getContext())
                 .load(eventDetails.getImage())
@@ -245,18 +236,15 @@ public class EventDetailFragment extends Fragment {
         binding.tvEventDate.setText(strOutputFormat);
         binding.tvPrice.setText(eventDetails.getAmount());
         binding.tvEventLocation.setText(eventDetails.getAddress());
-        float totalTickets =  Float.parseFloat(eventDetails.getTotalTicket());
+        float totalTickets = Float.parseFloat(eventDetails.getTotalTicket());
         float buyedTickets = Float.parseFloat(eventDetails.getBookingEventCount());
-        float progressCount = buyedTickets * 100 /  totalTickets;
+        float progressCount = buyedTickets * 100 / totalTickets;
         binding.progressBar.setProgress((int) progressCount);
-        binding.tvTicket.setText(new StringBuilder().append(getString(R.string.only)).append(eventDetails.getRemainingEventCount()).append(getString(R.string.tickets_remaining)).toString());
-        if(eventDetails.getEventStatus().equalsIgnoreCase("false"))
-        {
+        binding.tvTicket.setText(getString(R.string.only) + eventDetails.getRemainingEventCount() + getString(R.string.tickets_remaining));
+        if (eventDetails.getEventStatus().equalsIgnoreCase("false")) {
             binding.btnBookEvent.setVisibility(View.VISIBLE);
             binding.btnViewCart.setVisibility(View.GONE);
-        }
-        else
-        {
+        } else {
             binding.btnBookEvent.setVisibility(View.GONE);
             binding.btnViewCart.setVisibility(View.VISIBLE);
         }

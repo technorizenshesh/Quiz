@@ -5,44 +5,42 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
+
     tools:context=".MainActivity">
 
-    <androidx.core.widget.NestedScrollView
+    <RelativeLayout
+        android:layout_above="@+id/btnPlay"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true"
-        android:layout_above="@+id/btnPlay"
+        android:background="@color/appcolor"
+
         >
-        <RelativeLayout
+
+        <com.google.android.exoplayer2.ui.StyledPlayerView
+            android:id="@+id/player_view_tt"
+            android:visibility="visible"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            >
-    <com.google.android.exoplayer2.ui.SimpleExoPlayerView
-        android:id="@+id/idExoPlayerVIew"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:resize_mode="fill"
-        />
+            android:backgroundTint="@color/appcolor"
+            android:background="@color/appcolor"
+            app:use_controller="true" />
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cvBack"
-        android:layout_width="@dimen/_25sdp"
-        android:layout_height="@dimen/_25sdp"
-        android:layout_margin="@dimen/_15sdp"
-        >
-        <ImageView
-            android:id="@+id/ivBack"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cvBack"
             android:layout_width="@dimen/_25sdp"
             android:layout_height="@dimen/_25sdp"
-            android:src="@drawable/ic_back"
-            android:padding="@dimen/_2sdp"
-            app:tint="@color/black" />
-    </androidx.cardview.widget.CardView>
+            android:layout_margin="@dimen/_15sdp">
 
-        </RelativeLayout>
+            <ImageView
+                android:id="@+id/ivBack"
+                android:layout_width="@dimen/_25sdp"
+                android:layout_height="@dimen/_25sdp"
+                android:src="@drawable/ic_back"
+                android:padding="@dimen/_2sdp"
+                app:tint="@color/black" />
+        </androidx.cardview.widget.CardView>
 
-    </androidx.core.widget.NestedScrollView>
-
+    </RelativeLayout>
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnPlay"

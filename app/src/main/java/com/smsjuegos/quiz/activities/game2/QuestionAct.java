@@ -1,5 +1,8 @@
 package com.smsjuegos.quiz.activities.game2;
 
+import static com.smsjuegos.quiz.retrofit.Constant.USER_ID;
+import static com.smsjuegos.quiz.retrofit.Constant.showToast;
+
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
@@ -43,19 +46,16 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.smsjuegos.quiz.retrofit.Constant.USER_ID;
-import static com.smsjuegos.quiz.retrofit.Constant.showToast;
-
 public class QuestionAct extends AppCompatActivity {
 
+    TextView tvSHowHint1, tvSHowHint2, tvSHowHint3, tvHint1, tvHint2, tvHint3;
     private QuizInterface apiInterface;
-    private ArrayList<SuccessResGetVirusEvent.Result> instructionList = new ArrayList<>();
+    private final ArrayList<SuccessResGetVirusEvent.Result> instructionList = new ArrayList<>();
     private SuccessResGetEvents.Result result;
     private ActivityQuestionBinding binding;
     private int position = 0;
     private Dialog dialog;
     private boolean hint1 = false, hint2 = false, hint3 = false;
-    TextView tvSHowHint1, tvSHowHint2, tvSHowHint3, tvHint1, tvHint2, tvHint3;
     // on the stopwatch.
     private int seconds = 0;
 
@@ -241,12 +241,12 @@ public class QuestionAct extends AppCompatActivity {
         DataManager.getInstance().showProgressMessage(QuestionAct.this, getString(R.string.please_wait));
         Map<String, String> map = new HashMap<>();
         String userId = SharedPreferenceUtility.getInstance(this).getString(USER_ID);
-         if (instructionList.get(position).getEventId().equalsIgnoreCase("49")){
+        if (instructionList.get(position).getEventId().equalsIgnoreCase("49")) {
 
-                 binding.ivshare.setVisibility(View.VISIBLE);
-             } else {
-                 binding.ivshare.setVisibility(View.GONE);
-             }
+            binding.ivshare.setVisibility(View.VISIBLE);
+        } else {
+            binding.ivshare.setVisibility(View.GONE);
+        }
 
         map.put("event_game_id", instructionList.get(position).getId());
         map.put("ans", answer);
@@ -344,6 +344,9 @@ public class QuestionAct extends AppCompatActivity {
         final String mimeType = "text/html";
         final String encoding = "UTF-8";
         binding.webView.loadDataWithBaseURL("", instructionList.get(position).getInstructions(), mimeType, encoding, "");
+        binding.webView.getSettings().setBuiltInZoomControls(true);
+        binding.webView.getSettings().setDisplayZoomControls(false);
+
         if (instructionList.get(position).getOptionAns().equalsIgnoreCase("None")) {
             binding.rlBottom.setVisibility(View.GONE);
             binding.llButtonHint.setVisibility(View.GONE);
@@ -357,7 +360,7 @@ public class QuestionAct extends AppCompatActivity {
     }
 
     private void showHints() {
-        seconds=seconds+3;
+        seconds = seconds + 3;
         AppCompatButton btnCancel;
         dialog = new Dialog(QuestionAct.this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);

@@ -1,7 +1,7 @@
 package com.smsjuegos.quiz.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.databinding.DataBindingUtil;
+import static com.smsjuegos.quiz.retrofit.Constant.USER_ID;
+import static com.smsjuegos.quiz.retrofit.Constant.showToast;
 
 import android.app.Dialog;
 import android.content.Intent;
@@ -14,8 +14,12 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
+
 import com.google.gson.Gson;
 import com.smsjuegos.quiz.R;
+import com.smsjuegos.quiz.activities.cardigo.CardigoPuzzleFinalActivity;
 import com.smsjuegos.quiz.databinding.ActivityDownloadBinding;
 import com.smsjuegos.quiz.model.SuccessResGetInstruction;
 import com.smsjuegos.quiz.retrofit.ApiClient;
@@ -31,11 +35,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.smsjuegos.quiz.retrofit.Constant.USER_ID;
-import static com.smsjuegos.quiz.retrofit.Constant.showToast;
-
 public class DownloadAct extends AppCompatActivity {
-
+    String TAG = "ActivityDownloadBinding";
     ActivityDownloadBinding binding;
 
     private Dialog mDialog;
@@ -44,7 +45,7 @@ public class DownloadAct extends AppCompatActivity {
 
     private String eventId, eventCode;
 
-    private SuccessResGetInstruction.Result instruction = null;
+    private final SuccessResGetInstruction.Result instruction = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,13 +61,13 @@ public class DownloadAct extends AppCompatActivity {
                 }
         );
 
-       eventId = getIntent().getExtras().getString("eventId");
+        eventId = getIntent().getExtras().getString("eventId");
         eventCode = getIntent().getExtras().getString("eventCode");
-      //    eventId = "1";
-       //  eventCode = "969107";
+        //    eventId = "1";
+        //  eventCode = "969107";
 
-        Log.e("TAG", "eventIdeventIdeventIdeventId: "+eventId );
-        Log.e("TAG", "eventCodeeventCodeeventCode: "+eventCode );
+        Log.e("TAG", "eventIdeventIdeventIdeventId: " + eventId);
+        Log.e("TAG", "eventCodeeventCodeeventCode: " + eventCode);
         getEventDetails();
 
     }
@@ -101,7 +102,7 @@ public class DownloadAct extends AppCompatActivity {
 
         tvMap.setOnClickListener(v ->
                 {
-                    SharedPreferenceUtility.getInstance(getApplicationContext()).putString("NevId","");
+                    SharedPreferenceUtility.getInstance(getApplicationContext()).putString("NevId", "");
                     startActivity(new Intent(DownloadAct.this, MapAct.class)
                             .putExtra("eventId", eventId).putExtra("eventCode", eventCode));
                 }
@@ -116,8 +117,16 @@ public class DownloadAct extends AppCompatActivity {
 
         tvFinalPuzzel.setOnClickListener(v ->
                 {
-                    startActivity(new Intent(DownloadAct.this, FinalPuzzelAct.class)
-                            .putExtra("eventId", eventId).putExtra("eventCode", eventCode));
+                    Log.e(TAG, "showMainMenu: " + eventId);
+                    if (eventId.equals("8")) {
+                        startActivity(new Intent(DownloadAct.this, CardigoPuzzleFinalActivity.class)
+                                .putExtra("eventId", eventId)
+                                .putExtra("eventCode", eventCode));
+
+                    } else {
+                        startActivity(new Intent(DownloadAct.this, FinalPuzzelAct.class)
+                                .putExtra("eventId", eventId).putExtra("eventCode", eventCode));
+                    }
                 }
         );
         lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
@@ -144,7 +153,7 @@ public class DownloadAct extends AppCompatActivity {
         map.put("event_code", eventCode);
         map.put("user_id", userId);
         Call<SuccessResGetInstruction> call = apiInterface.getInstruction(map);
-        call.enqueue(new Callback<>() {
+        call.enqueue(new Callback<SuccessResGetInstruction>() {
             @Override
             public void onResponse(Call<SuccessResGetInstruction> call, Response<SuccessResGetInstruction> response) {
 

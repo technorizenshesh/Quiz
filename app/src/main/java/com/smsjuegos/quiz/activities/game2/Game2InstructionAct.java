@@ -1,5 +1,9 @@
 package com.smsjuegos.quiz.activities.game2;
 
+import static com.smsjuegos.quiz.retrofit.Constant.EVENT_CODE;
+import static com.smsjuegos.quiz.retrofit.Constant.USER_ID;
+import static com.smsjuegos.quiz.retrofit.Constant.showToast;
+
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -25,10 +29,6 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import static com.smsjuegos.quiz.retrofit.Constant.EVENT_CODE;
-import static com.smsjuegos.quiz.retrofit.Constant.USER_ID;
-import static com.smsjuegos.quiz.retrofit.Constant.showToast;
 
 public class Game2InstructionAct extends AppCompatActivity {
 
@@ -60,12 +60,17 @@ public class Game2InstructionAct extends AppCompatActivity {
             final String encoding = "UTF-8";
             binding.tvInstruction.loadDataWithBaseURL("", result.getEvent_instructions1()
                     , mimeType, encoding, "");
+            binding.tvInstruction.getSettings().setBuiltInZoomControls(true);
+            binding.tvInstruction.getSettings().setDisplayZoomControls(false);
 
         } else {
             final String mimeType = "text/html";
             final String encoding = "UTF-8";
             binding.tvInstruction.loadDataWithBaseURL("", result.getEventInstructions()
                     , mimeType, encoding, "");
+            binding.tvInstruction.getSettings().setBuiltInZoomControls(true);
+            binding.tvInstruction.getSettings().setDisplayZoomControls(false);
+
         }
         binding.btnStart.setOnClickListener(v ->
                 {

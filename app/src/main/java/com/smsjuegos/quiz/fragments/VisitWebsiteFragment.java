@@ -1,13 +1,12 @@
 package com.smsjuegos.quiz.fragments;
 
 import android.os.Bundle;
-
-import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.Fragment;
 
 import com.smsjuegos.quiz.R;
 import com.smsjuegos.quiz.databinding.FragmentVisitWebsiteBinding;
@@ -20,13 +19,11 @@ import com.smsjuegos.quiz.databinding.FragmentVisitWebsiteBinding;
 
 public class VisitWebsiteFragment extends Fragment {
 
-    FragmentVisitWebsiteBinding binding;
-
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
+    FragmentVisitWebsiteBinding binding;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -68,14 +65,14 @@ public class VisitWebsiteFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
-        binding = DataBindingUtil.inflate(inflater,R.layout.fragment_visit_website, container, false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_visit_website, container, false);
 
         binding.header.tvHeader.setText(R.string.webstie);
         binding.header.imgHeader.setOnClickListener(v ->
                 {
                     getActivity().onBackPressed();
                 }
-                );
+        );
 
 
         binding.webview.getSettings().setBuiltInZoomControls(true);

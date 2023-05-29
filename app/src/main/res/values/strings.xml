@@ -91,6 +91,7 @@
     <string name="welcome_to_virus">Welcome to Virus</string>
     <string name="give_up">Give Up</string>
     <string name="enter_answer">Enter answer...</string>
+    <string name="enter_answer_or">Or Enter answer...</string>
     <string name="_1_show_hint1_2_minutes_penalty">1.<u> Show Hint1 (2 minutes penalty)</u></string>
     <string name="_2_show_hint2_5_minutes_penalty">2.<u> Show Hint2 (5 minutes penalty)</u></string>
     <string name="_3_show_hint3_10_minutes_penalty">3.<u> Show Hint3 (10 minutes penalty)</u></string>
@@ -99,14 +100,15 @@
     <string name="end_of_the_game">End of the Game</string>
     <string name="cancel">Cancel</string>
     <string name="congratulations_you_have_saved_the_world_from_the_next_pandemic_you_may_open_envelope_4">Congratulations, you have saved the world from the next pandemic. YOU MAY OPEN ENVELOPE #4</string>
+    <string name="congratulations">Congratulations</string>
     <string name="downloading_data">Instructions</string>
     <string name="hello">Hello</string>
-    <string name="_5_places">5 places</string>
-    <string name="_5_people">5 people</string>
-    <string name="_5_objects">5 objects</string>
+    <string name="_5_places">places</string>
+    <string name="_5_people">people</string>
+    <string name="_5_objects">objects</string>
     <string name="team_name">Team Name</string>
     <string name="total_time">Total Time:</string>
-    <string name="total_penalities">Total Penalities</string>
+    <string name="total_penalities">Total Penalties</string>
     <string name="time_penalties">Time Penalties</string>
     <string name="enter_the_email_address_to_receive_the_reset_passsword_link">Enter the Email Address to receive the reset passsword link.</string>
     <string name="murder_in_the_city">MURDER IN THE CITY</string>
@@ -146,7 +148,9 @@
     <string name="datal"><![CDATA[<p><font color=#666666>Continue if you agree to our</font><font color=#5856F2>  <b><u>Terms & Conditions</u></b></font><font color=#666666> and the <u></font><b><font color=#5856F2>Privacy Policy</font></u></b></font></p>]]></string>
     <string name="privacy">Privacy Policy</string>
     <string name="event_date_exp">Event data is expired</string>
-    <string name="haz_click_en_el_men_de_arriba_n_click_en_mapa_para_ver_ubicaciones_n_click_en_inventario_para_ver_pistas_encontradas_n_click_en_rompecabezas_final_para_lograr_terminar_el_reto">Haz Click en el menú de arriba. \n * Click en Mapa para ver ubicaciones.\n * Click en Inventario para ver pistas encontradas \n * Click en Rompecabezas final para lograr terminar el reto</string>
+
+    <string name="haz_click_en_el_men_de_arriba_n_click_en_mapa_para_ver_ubicaciones_n_click_en_inventario_para_ver_pistas_encontradas_n_click_en_rompecabezas_final_para_lograr_terminar_el_reto">Click on the menu above. \n * Click on Map to see locations.\n * Click on Inventory to see clues found \n * Click on Final Puzzle to finish the challenge</string>
+
     <string name="go_to_map">Go to Map</string>
     <string name="final_pzl_txts">Here you will accumulate the clues found. To solve the final puzzle, CHOOSE a person, an object and a place that according to the INVENTORY clues will reveal the whereabouts of the AZTEC TREASURE. If you do not answer well, you will be penalized with time.</string>
     <string name="wrong_image">Wrong images selected penalty Time Added 5 min.</string>
@@ -162,7 +166,7 @@ In case of non-compliance with the normative parameters, as well as with the int
 Finally, I allow the free use of my name and any personal data obtained during my journey within the tourism and recreational activity transit area, for statistical and tourist purposes. I understand that the terms of this form are binding and that I have signed this document of my own free will. I declare that all the detailed information is true and verified by the competent Authority, for which I promise to assume the administrative, civil and/or criminal responsibility that derives from it, even for damages to third parties.
 By clicking on the following button, before starting the activity, I accept what has been described here before. </string>
 
-   <string name="instt"> Instructions:
+    <string name="instt"> Instructions:
 You must visit the 20 places marked on the “MAP”.
 Each point will reveal information necessary for you to solve the "FINAL PUZZLE"
 
@@ -179,6 +183,7 @@ Navigate in the menu by pressing the upper part of your screen (three dots on th
 Be careful! You are in an uncontrolled public place. Be careful when crossing the streets and always keep an eye on your surroundings.</string>
     <string name="password_sended">Please check mailbox we have sent your new password</string>
     <string name="wrong_answere">Wrong Answer 2 min Time Penalty Added</string>
+    <string name="wrong_answere_five">Wrong Answer 5 min Time Penalty Added</string>
     <string name="quiz">Quiz  </string>
     <string name="minuts">minutes</string>
     <string name="already_completed">"You Have already completed the puzzle you can not participate again "</string>

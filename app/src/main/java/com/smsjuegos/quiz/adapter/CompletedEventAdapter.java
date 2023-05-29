@@ -228,27 +228,26 @@ public class CompletedEventAdapter extends RecyclerView.Adapter<CompletedEventAd
 
     ArrayAdapter ad;
     private List<String> dates;
-    private Context context;
-    private ArrayList<SuccessResGetMyEvents.Result> eventList ;
+    private final Context context;
+    private final ArrayList<SuccessResGetMyEvents.Result> eventList;
 
-    public CompletedEventAdapter(Context context, ArrayList<SuccessResGetMyEvents.Result> eventList)
-    {
-      this.context = context;
-      this.eventList =eventList;
+    public CompletedEventAdapter(Context context, ArrayList<SuccessResGetMyEvents.Result> eventList) {
+        this.context = context;
+        this.eventList = eventList;
     }
 
     @NonNull
     @Override
     public SelectTimeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View listItem= layoutInflater.inflate(R.layout.list_item, parent, false);
+        View listItem = layoutInflater.inflate(R.layout.list_item, parent, false);
         SelectTimeViewHolder viewHolder = new SelectTimeViewHolder(listItem);
         return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull SelectTimeViewHolder holder, int position) {
-        TextView tvEventName,tvEventDate,tvEventPrice,tvLocation,tvStatus;
+        TextView tvEventName, tvEventDate, tvEventPrice, tvLocation, tvStatus;
         ImageView ivEvent = holder.itemView.findViewById(R.id.img_event);
         tvEventName = holder.itemView.findViewById(R.id.label);
         tvEventDate = holder.itemView.findViewById(R.id.tvDate);
@@ -269,17 +268,18 @@ public class CompletedEventAdapter extends RecyclerView.Adapter<CompletedEventAd
         cvParent.setOnClickListener(v ->
                 {
                     Bundle bundle = new Bundle();
-                    bundle.putString("eventId",eventList.get(position).getId());
-                    bundle.putString("eventCode",eventList.get(position).getEventCode());
-                    Navigation.findNavController(v).navigate(R.id.action_completedPuzzelFragment_to_teamFragment,bundle);
+                    bundle.putString("eventId", eventList.get(position).getId());
+                    bundle.putString("eventCode", eventList.get(position).getEventCode());
+                    Navigation.findNavController(v).navigate(R.id.action_completedPuzzelFragment_to_teamFragment, bundle);
                 }
-                );
+        );
     }
 
     @Override
     public int getItemCount() {
         return eventList.size();
     }
+
     public class SelectTimeViewHolder extends RecyclerView.ViewHolder {
         public SelectTimeViewHolder(@NonNull View itemView) {
             super(itemView);

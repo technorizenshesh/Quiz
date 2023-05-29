@@ -6,24 +6,22 @@ import static com.smsjuegos.quiz.retrofit.Constant.showToast;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.webkit.WebView;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.databinding.DataBindingUtil;
@@ -50,7 +48,17 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class QuestionAnswerAct extends AppCompatActivity {
+    final String mimeType = "text/html";
+    final String encoding = "UTF-8";
     ActivityQuestionAnswerBinding binding;
+    RadioGroup radioGroup;
+    LinearLayout timeLay;
+    TextView timeView;
+    RadioButton radio_button_5, radioButton1, radioButton2, radioButton3, radioButton4;
+    AppCompatButton submit;
+    TextView tvSHowHint1, tvSHowHint2, tvSHowHint3;
+    WebView tvHint1, tvHint2, tvHint3;
+    boolean custom = false;
     private Dialog dialog;
     private QuizInterface apiInterface;
     private Dialog hintDialog;
@@ -58,52 +66,67 @@ public class QuestionAnswerAct extends AppCompatActivity {
     private String selectedAnswer = "";
     private boolean hint1 = false, hint2 = false, hint3 = false;
     private Context context;
-    private SuccessResAddAnswer.Result answerResult = null;
+    private final SuccessResAddAnswer.Result answerResult = null;
     private String eventCode;
     private CountDownTimer CountdownTimer;
-    final String mimeType = "text/html";
-    final String encoding = "UTF-8";
-    RadioGroup radioGroup;
-    LinearLayout timeLay;
-    TextView timeView;
-    RadioButton radioButton1, radioButton2, radioButton3, radioButton4;
-    AppCompatButton submit;
     private RadioButton selectedRadioButton;
-    TextView tvSHowHint1, tvSHowHint2, tvSHowHint3;
-    WebView tvHint1, tvHint2, tvHint3;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_question_answer);
         context = this;
         apiInterface = ApiClient.getClient().create(QuizInterface.class);
-        binding.header.imgHeader.setOnClickListener(v -> {
+        binding.imgHeader.setOnClickListener(v -> {
             finish();
         });
         result = (SuccessResGetInstruction.Result) getIntent().getSerializableExtra("instructionID");
         Log.e(TAG, "onCreate:resultresultresultresultresultresultresultresultresult " + result.toString());
+        Log.e(TAG, "onCreate:resultresultresultresultresultresultresultresultresultgetArrival_timegetArrival_time " + result.getArrival_time());
         eventCode = getIntent().getExtras().getString("eventCode");
-        binding.header.tvHeader.setText(getString(R.string.riddle));
+        binding.tvHeader.setText(getString(R.string.riddle));
         binding.btnAnswer.setOnClickListener(v -> {
             showDialog();
         });
 
         Glide.with(context).load(result.getImage()).centerInside().into(binding.ivPuzzel);
         Log.e(TAG, "result.getInstructions()result.getInstructions(): " + result.getInstructions());
-        binding.tvContent.getSettings().setBuiltInZoomControls(true);
 
         binding.tvContent.loadDataWithBaseURL("", result.getInstructions(), mimeType, encoding, "");
+        binding.tvContent.getSettings().setBuiltInZoomControls(true);
+        binding.tvContent.getSettings().setDisplayZoomControls(false);
+
         binding.btnHint.setOnClickListener(v -> {
             showHints();
         });
+        timeLay = findViewById(R.id.time_lay);
+        timeView = findViewById(R.id.time_view);
 
+        Log.e(TAG, "result.getTimer(result.getTimer(: " + result.getTimer());
+        if (result.getTimer().equalsIgnoreCase("0")) {
 
+            timeLay.setVisibility(View.GONE);
+            binding.tvHeader.setVisibility(View.VISIBLE);
 
+        } else {
+            timeLay.setVisibility(View.VISIBLE);
+            binding.tvHeader.setVisibility(View.GONE);
+            Log.e(TAG, "onCreateonCreateonCreateonCreateonCreateonCreate: " + result.getTimer());
+            try {
+                showTime(result.getTimer());
+            } catch (Exception e) {
+                Log.e(TAG, "Exception: " + e.getLocalizedMessage());
+                Log.e(TAG, "Exception: " + e.getCause());
+                Log.e(TAG, "Exception: " + e.getMessage());
+                e.printStackTrace();
+            }
+        }
 
     }
+
     private void showTime(String time) {
         long t = Long.parseLong(time);
-        long s = t*1000;
+        long s = t * 1000;
         new CountDownTimer(s, 1000) {
 
             public void onTick(long millisUntilFinished) {
@@ -116,12 +139,17 @@ public class QuestionAnswerAct extends AppCompatActivity {
                 timeView.setText(minutes + ":" + remainingSeconds);
 
             }
-            public void onFinish() {
-                timeView.setText(R.string.time_s_up);
-                dialog.setCancelable(true);
-                dialog.dismiss();
-                addPanalties(10,"fine");
 
+            public void onFinish() {
+
+                 if (timeView.getText().toString().equalsIgnoreCase(getString(R.string.quiz_solved))){
+
+                 }else {
+                     timeView.setText(R.string.time_s_up);
+                     // dialog.setCancelable(true);
+                     // dialog.dismiss();
+                     addPanalties(10, "fine");
+                 }
             }
 
         }.start();
@@ -130,6 +158,7 @@ public class QuestionAnswerAct extends AppCompatActivity {
     private void showDialog() {
         dialog = new Dialog(this);
         selectedAnswer = "";
+        EditText etAnswer;
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setCancelable(false);
         dialog.getWindow().getAttributes().windowAnimations = android.R.style.Widget_Material_ListPopupWindow;
@@ -140,21 +169,49 @@ public class QuestionAnswerAct extends AppCompatActivity {
         ImageView ivCancel = dialog.findViewById(R.id.ivCancel);
         radioGroup = dialog.findViewById(R.id.radioGroup);
         submit = dialog.findViewById(R.id.btnSubmit);
-        timeLay = dialog.findViewById(R.id.time_lay);
-        timeView = dialog.findViewById(R.id.time_view);
+        etAnswer = dialog.findViewById(R.id.etAnswer);
+
+       // timeLay = dialog.findViewById(R.id.time_lay);
+      //  timeView = dialog.findViewById(R.id.time_view);
         radioButton1 = dialog.findViewById(R.id.radio_button_0);
         radioButton2 = dialog.findViewById(R.id.radio_button_1);
         radioButton3 = dialog.findViewById(R.id.radio_button_2);
         radioButton4 = dialog.findViewById(R.id.radio_button_3);
+        radio_button_5 = dialog.findViewById(R.id.radio_button_4);
+
+        if (result.getOptionA().equalsIgnoreCase(""))radioButton1.setVisibility(View.GONE);
+        if (result.getOptionB().equalsIgnoreCase(""))radioButton2.setVisibility(View.GONE);
+        if (result.getOptionC().equalsIgnoreCase(""))radioButton3.setVisibility(View.GONE);
+        if (result.getOptionD().equalsIgnoreCase(""))radioButton4.setVisibility(View.GONE);
+        if (result.getCustom_ans().equalsIgnoreCase(""))radio_button_5.setVisibility(View.GONE);
+
+
+
+
+
+
+
         radioButton1.setText(result.getOptionA());
         radioButton2.setText(result.getOptionB());
         radioButton3.setText(result.getOptionC());
         radioButton4.setText(result.getOptionD());
+        radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
+            Log.e(TAG, "onCheckedChanged:  checkedId  " + checkedId);
+            if (checkedId == radio_button_5.getId()) {
+                Log.e(TAG, "onCheckedChanged:  checkedId  " + checkedId);
+                Log.e(TAG, "onCheckedChanged:  checkedId  " + radio_button_5.getId());
+                etAnswer.setText("");
+                etAnswer.setVisibility(View.VISIBLE);
+            } else {
+                etAnswer.setVisibility(View.GONE);
+
+            }
+        });
         ivCancel.setOnClickListener(v -> {
             dialog.dismiss();
         });
 
-        Log.e(TAG, "result.getTimer(result.getTimer(: " + result.getTimer());
+  /*      Log.e(TAG, "result.getTimer(result.getTimer(: " + result.getTimer());
         if (result.getTimer().equalsIgnoreCase("0")) {
 
             timeLay.setVisibility(View.GONE);
@@ -162,21 +219,21 @@ public class QuestionAnswerAct extends AppCompatActivity {
             timeLay.setVisibility(View.VISIBLE);
             Log.e(TAG, "onCreateonCreateonCreateonCreateonCreateonCreate: " + result.getTimer());
             try {
-                showTime( result.getTimer());
+                showTime(result.getTimer());
             } catch (Exception e) {
-                Log.e(TAG, "Exception: "+e.getLocalizedMessage() );
-                Log.e(TAG, "Exception: "+e.getCause() );
-                Log.e(TAG, "Exception: "+e.getMessage() );
+                Log.e(TAG, "Exception: " + e.getLocalizedMessage());
+                Log.e(TAG, "Exception: " + e.getCause());
+                Log.e(TAG, "Exception: " + e.getMessage());
                 e.printStackTrace();
             }
-        }
+        }*/
 
         submit.setOnClickListener(v -> {
             selectedAnswer = "";
             int selectedId = radioGroup.getCheckedRadioButtonId();
             selectedRadioButton = (RadioButton) dialog.findViewById(selectedId);
 //                    String selectedText = selectedRadioButton.getText().toString();
-
+            custom = false;
             if (radioButton1.isChecked()) {
                 selectedAnswer = "A";
                 submitAnswer(selectedAnswer);
@@ -189,6 +246,14 @@ public class QuestionAnswerAct extends AppCompatActivity {
             } else if (radioButton4.isChecked()) {
                 selectedAnswer = "D";
                 submitAnswer(selectedAnswer);
+            } else if (radio_button_5.isChecked()) {
+                selectedAnswer = etAnswer.getText().toString();
+                if (selectedAnswer.equalsIgnoreCase("")) {
+                    etAnswer.setError(getString(R.string.enter_answer));
+                } else {
+                    custom = true;
+                    submitAnswer(selectedAnswer);
+                }
             }
         });
         lp.width = WindowManager.LayoutParams.MATCH_PARENT;
@@ -222,6 +287,7 @@ public class QuestionAnswerAct extends AppCompatActivity {
 */
         dialog.show();
     }
+
     private void showHints() {
 
         AppCompatButton appCompatButton;
@@ -237,9 +303,7 @@ public class QuestionAnswerAct extends AppCompatActivity {
         tvSHowHint1 = dialog.findViewById(R.id.tvShowHint1);
         tvSHowHint2 = dialog.findViewById(R.id.tvShowHint2);
         tvSHowHint3 = dialog.findViewById(R.id.tvShowHint3);
-
         appCompatButton = dialog.findViewById(R.id.btnSubmit);
-
         tvHint1 = dialog.findViewById(R.id.tvHint1);
         tvHint2 = dialog.findViewById(R.id.tvHint2);
         tvHint3 = dialog.findViewById(R.id.tvHint3);
@@ -285,6 +349,7 @@ public class QuestionAnswerAct extends AppCompatActivity {
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
     }
+
     public void addHintPanalties(int penalty) {
         String penaltyTime = "";
         if (penalty == 1) {
@@ -353,7 +418,8 @@ public class QuestionAnswerAct extends AppCompatActivity {
             }
         });
     }
-    public void addPanalties(int penalty ,String fine) {
+
+    public void addPanalties(int penalty, String fine) {
         String userId = SharedPreferenceUtility.getInstance(this).getString(USER_ID);
         Map<String, String> map = new HashMap<>();
         map.put("event_id", result.getEventId());
@@ -371,10 +437,10 @@ public class QuestionAnswerAct extends AppCompatActivity {
                     JSONObject jsonObject = new JSONObject(response.body().string());
                     String data = jsonObject.getString("status");
                     String message = jsonObject.getString("message");
-                    if (!fine.equalsIgnoreCase("")){
-                        selectedAnswer= result.getOptionAns();
+                    if (!fine.equalsIgnoreCase("")) {
+                        selectedAnswer = result.getOptionAns();
                         submitAnswer(selectedAnswer);
-                        Log.e(TAG, "selectedAnswerselectedAnswerselectedAnswerselectedAnswer: "+selectedAnswer );
+                        Log.e(TAG, "selectedAnswerselectedAnswerselectedAnswerselectedAnswer: " + selectedAnswer);
                     }
 
                 } catch (Exception e) {
@@ -388,14 +454,14 @@ public class QuestionAnswerAct extends AppCompatActivity {
             }
         });
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
     }
+
     public void submitAnswer(String answer) {
-
         String userId = SharedPreferenceUtility.getInstance(this).getString(USER_ID);
-
         DataManager.getInstance().showProgressMessage(this, getString(R.string.please_wait));
         Map<String, String> map = new HashMap<>();
         map.put("user_id", userId);
@@ -404,7 +470,6 @@ public class QuestionAnswerAct extends AppCompatActivity {
         map.put("ans", answer);
         map.put("event_code", eventCode);
         Call<ResponseBody> call = apiInterface.submitAnswer(map);
-
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -419,13 +484,14 @@ public class QuestionAnswerAct extends AppCompatActivity {
                     if (data.equals("1")) {
                         String dataResponse = new Gson().toJson(response.body());
                         Log.e("MapMap", "EDIT PROFILE RESPONSE" + dataResponse);
-                        dialog.dismiss();
+                        if (dialog!=null){
+                        dialog.dismiss();}
                         answerSuccess();
 
                     } else if (data.equals("0")) {
                         String result = jsonObject.getString("result");
                         showToast(QuestionAnswerAct.this, getString(R.string.wrong_answere));
-                        addPanalties(2,"");
+                        addPanalties(2, "");
                     } else if (data.equals("2")) {
                         answerSuccess();
                     }
@@ -441,13 +507,20 @@ public class QuestionAnswerAct extends AppCompatActivity {
             }
         });
     }
-    private void answerSuccess() {
-        if (result.getArrival_time().equalsIgnoreCase("0")){
 
-        }else {
-            SharedPreferenceUtility.getInstance(getApplicationContext()).putString("NevId",result.id);
-            SharedPreferenceUtility.getInstance(getApplicationContext()).putString("ArrTime",result.getArrival_time());
+    private void answerSuccess() {
+
+        if (result.getArrival_time() == null) {
+
+        } else if (result.getArrival_time().equals("")) {
+
+        } else if (result.getArrival_time().equals("0")) {
+
+        } else {
+            SharedPreferenceUtility.getInstance(getApplicationContext()).putString("NevId", result.id);
+            SharedPreferenceUtility.getInstance(getApplicationContext()).putString("ArrTime", result.getArrival_time());
         }
+        timeView.setText(getString(R.string.quiz_solved));
         dialog = new Dialog(this);
         selectedAnswer = "";
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -461,8 +534,8 @@ public class QuestionAnswerAct extends AppCompatActivity {
         LinearLayout go_to_map = dialog.findViewById(R.id.go_to_map);
         go_to_map.setOnClickListener(v -> {
             dialog.dismiss();
-
-            onBackPressed();
+            finish();
+            //onBackPressed();
         });
         ivCancel.setOnClickListener(v -> {
             dialog.dismiss();

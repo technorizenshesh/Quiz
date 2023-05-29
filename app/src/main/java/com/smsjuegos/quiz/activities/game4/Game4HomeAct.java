@@ -1,7 +1,6 @@
 package com.smsjuegos.quiz.activities.game4;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.databinding.DataBindingUtil;
+import static com.smsjuegos.quiz.retrofit.Constant.showToast;
 
 import android.app.Dialog;
 import android.content.Intent;
@@ -14,6 +13,9 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
+
 import com.google.gson.Gson;
 import com.smsjuegos.quiz.R;
 import com.smsjuegos.quiz.activities.InstrutionAct;
@@ -24,14 +26,13 @@ import com.smsjuegos.quiz.model.SuccessResGetInstruction;
 import com.smsjuegos.quiz.retrofit.ApiClient;
 import com.smsjuegos.quiz.retrofit.QuizInterface;
 import com.smsjuegos.quiz.utility.DataManager;
+
 import java.util.HashMap;
 import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import static com.smsjuegos.quiz.retrofit.Constant.showToast;
 
 public class Game4HomeAct extends AppCompatActivity {
 
@@ -41,14 +42,15 @@ public class Game4HomeAct extends AppCompatActivity {
 
     private QuizInterface apiInterface;
 
-    private String eventId,eventCode="";
+    private String eventId;
+    private final String eventCode = "";
 
-    private SuccessResGetInstruction.Result instruction = null;
+    private final SuccessResGetInstruction.Result instruction = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this,R.layout.activity_game4_home);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_game4_home);
         apiInterface = ApiClient.getClient().create(QuizInterface.class);
         binding.imgHeader.setOnClickListener(v -> finish());
         binding.imgOptions.setOnClickListener(v ->
@@ -60,10 +62,9 @@ public class Game4HomeAct extends AppCompatActivity {
         getEventDetails();
     }
 
-    private void showMainMenu()
-    {
+    private void showMainMenu() {
 
-        TextView tvInstruction,tvMap,tvINventory,tvFinalPuzzel;
+        TextView tvInstruction, tvMap, tvINventory, tvFinalPuzzel;
         mDialog = new Dialog(Game4HomeAct.this);
         mDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         mDialog.getWindow().getAttributes().windowAnimations = android.R.style.Widget_Material_ListPopupWindow;
@@ -86,25 +87,25 @@ public class Game4HomeAct extends AppCompatActivity {
 
         tvInstruction.setOnClickListener(v ->
                 {
-                    startActivity(new Intent(Game4HomeAct.this, InstrutionAct.class).putExtra("eventId",eventId));
+                    startActivity(new Intent(Game4HomeAct.this, InstrutionAct.class).putExtra("eventId", eventId));
                 }
         );
 
         tvMap.setOnClickListener(v ->
                 {
-                    startActivity(new Intent(Game4HomeAct.this, MapAct.class).putExtra("eventId",eventId).putExtra("eventCode",eventCode));
+                    startActivity(new Intent(Game4HomeAct.this, MapAct.class).putExtra("eventId", eventId).putExtra("eventCode", eventCode));
                 }
         );
 
         tvINventory.setOnClickListener(v ->
                 {
-                    startActivity(new Intent(Game4HomeAct.this, InventoryAct.class).putExtra("eventId",eventId).putExtra("eventCode","game4"));
+                    startActivity(new Intent(Game4HomeAct.this, InventoryAct.class).putExtra("eventId", eventId).putExtra("eventCode", "game4"));
                 }
         );
 
         tvFinalPuzzel.setOnClickListener(v ->
                 {
-                    startActivity(new Intent(Game4HomeAct.this, Game4FinalActivity.class).putExtra("eventId",eventId).putExtra("eventCode",eventCode));
+                    startActivity(new Intent(Game4HomeAct.this, Game4FinalActivity.class).putExtra("eventId", eventId).putExtra("eventCode", eventCode));
                 }
         );
 
@@ -116,8 +117,7 @@ public class Game4HomeAct extends AppCompatActivity {
 
     }
 
-    private void getEventDetails()
-    {
+    private void getEventDetails() {
 
         DataManager.getInstance().showProgressMessage(this, getString(R.string.please_wait));
         Map<String, String> map = new HashMap<>();
