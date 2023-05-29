@@ -123,10 +123,14 @@ public class MapAct extends AppCompatActivity implements OnMapReadyCallback, Goo
         Log.e("TAG",
                 "onMarkerClick: instructionList.get(position).getEventType()---" + instructionList.get(position).getEventType());
         if (instructionList.get(position).getEventType().equalsIgnoreCase("crime")) {
-       //     startActivity(new Intent(MapAct.this, QuestionAnswerAct.class).
-        //            putExtra("instructionID", instructionList.get(position))
-       //             .putExtra("eventCode", eventCode));
+          startActivity(new Intent(MapAct.this, QuestionAnswerAct.class).
+                  putExtra("instructionID", instructionList.get(position))
+                  .putExtra("eventCode", eventCode));
             Toast.makeText(getApplicationContext(), ""+position, Toast.LENGTH_SHORT).show();
+        } else if (instructionList.get(position).getEventType().equalsIgnoreCase("codigo_frida")) {
+            startActivity(new Intent(MapAct.this, QuestionAnswerAct.class).
+                    putExtra("instructionID", instructionList.get(position))
+                    .putExtra("eventCode", eventCode));
         } else if (instructionList.get(position).getEventType().equalsIgnoreCase("codigo_frida")) {
             startActivity(new Intent(MapAct.this, QuestionAnswerAct.class).
                     putExtra("instructionID", instructionList.get(position))
