@@ -253,7 +253,9 @@ public class FinalPuzzelAct extends AppCompatActivity {
 
     public void puzzelComplete() {
         DataManager.getInstance().showProgressMessage(this, getString(R.string.please_wait));
+        String userId = SharedPreferenceUtility.getInstance(this).getString(USER_ID);
         Map<String, String> map = new HashMap<>();
+        map.put("user_id", userId);
         map.put("event_id", eventId);
         map.put("event_code", eventCode);
         Call<ResponseBody> call = apiInterface.puzzelCompleted(map);
