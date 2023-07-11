@@ -68,7 +68,7 @@ public class EventCodeResSuccess implements Serializable {
         @SerializedName("amount")
         @Expose
         private String amount;
-        @SerializedName("status")
+        @SerializedName("event_status")
         @Expose
         private String status;
         @SerializedName("req_datetime")

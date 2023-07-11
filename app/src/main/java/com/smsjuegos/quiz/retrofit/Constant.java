@@ -7,7 +7,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Constant {
-
     public static final String BASE_URL = "http://appsmsjuegos.com/Quiz/webservice/";
     public static final String SELECTED_LANGUAGE = "selectedLanguage";
     public static final String USER_INFO = "user_info";
@@ -24,7 +23,6 @@ public class Constant {
     public static final String LATITUDE = "latitude";
     public static final String LONGITUDE = "longitude";
     public static String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
-
     public static boolean isValidEmail(CharSequence target) {
         String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
                 + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
