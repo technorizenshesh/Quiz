@@ -12,7 +12,6 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
 
-import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 
 /**
@@ -29,36 +28,38 @@ public class GPSTracker extends Service implements LocationListener {
     Location loc;
     double latitude;
     double longitude;
+    private boolean isGPSEnabled;
     private Location location;
+    private boolean isNetworkEnabled;
 
     public GPSTracker(Context mContext) {
         this.mContext = mContext;
         getLocation();
     }
 
-    private void getLocation() {
+    private Location getLocation() {
         try {
             locationManager = (LocationManager) mContext
                     .getSystemService(LOCATION_SERVICE);
 
             // getting GPS status
-            boolean isGPSEnabled = locationManager
+            isGPSEnabled = locationManager
                     .isProviderEnabled(LocationManager.GPS_PROVIDER);
             // getting network status
-            boolean isNetworkEnabled = locationManager
+            isNetworkEnabled = locationManager
                     .isProviderEnabled(LocationManager.NETWORK_PROVIDER);
             if (!isGPSEnabled && !isNetworkEnabled) {
                 // no network provider is enabled
             } else {
                 this.canGetLocation = true;
                 if (isNetworkEnabled) {
-                    if (ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_FINE_LOCATION)
+                    if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                             != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                            mContext, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                                    this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     }
                     locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIME_BW_UPDATES,
                             MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
-                   // Log.d("Network", "Network");
+                    Log.d("Network", "Network");
                     if (locationManager != null) {
                         location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
                         if (location != null) {
@@ -87,6 +88,7 @@ public class GPSTracker extends Service implements LocationListener {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return location;
     }
 
     public double getLongitude() {
@@ -111,9 +113,7 @@ public class GPSTracker extends Service implements LocationListener {
     public void stopListener() {
         if (locationManager != null) {
 
-            if (ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_FINE_LOCATION)
-                    != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(mContext,
-                    Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 return;
             }
             locationManager.removeUpdates(GPSTracker.this);
@@ -126,7 +126,7 @@ public class GPSTracker extends Service implements LocationListener {
     }
 
     @Override
-    public void onLocationChanged(@NonNull Location location) {
+    public void onLocationChanged(Location location) {
 
     }
 
@@ -136,12 +136,12 @@ public class GPSTracker extends Service implements LocationListener {
     }
 
     @Override
-    public void onProviderEnabled(@NonNull String s) {
+    public void onProviderEnabled(String s) {
 
     }
 
     @Override
-    public void onProviderDisabled(@NonNull String s) {
+    public void onProviderDisabled(String s) {
 
     }
 }

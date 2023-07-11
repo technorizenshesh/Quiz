@@ -203,8 +203,6 @@
 
 package com.smsjuegos.quiz.adapter;
 
-import static com.smsjuegos.quiz.SMSApp.SMSAppShowLog;
-
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -257,10 +255,6 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.SelectTimeView
             RelativeLayout rlParent = holder.itemView.findViewById(R.id.rlParent);
             rlParent.setOnClickListener(v ->
             {
-                SMSAppShowLog("onBindViewHolder", eventsListList.get(position).getType(), 1);
-                //   Log.e("TAG", "onBindViewHolder: eventsListList.get(position).getType(). -- "+eventsListList.get(position).getType() );
-                //  return;
-
                 if (fromHome.equalsIgnoreCase("home")) {
                     if (eventsListList.get(position).getType().equalsIgnoreCase("puzzle")) {
                         Bundle bundle = new Bundle();
@@ -271,12 +265,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.SelectTimeView
 
                         context.startActivity(new Intent(context, HomeScreenGame2Act.class)
                                 .putExtra("instructionID", eventsListList.get(position)));
-
-                    } else if (eventsListList.get(position).getType().equalsIgnoreCase("cabana")) {
-
-                        context.startActivity(new Intent(context, HomeScreenGame2Act.class)
-                                .putExtra("instructionID", eventsListList.get(position)));
-                    } else if (eventsListList.get(position).getType().equalsIgnoreCase("lajoya")) {
+                    } else  if (eventsListList.get(position).getType().equalsIgnoreCase("Zombie")) {
 
                         context.startActivity(new Intent(context, HomeScreenGame2Act.class)
                                 .putExtra("instructionID", eventsListList.get(position)));
@@ -296,14 +285,10 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.SelectTimeView
                         Navigation.findNavController(v).navigate(R.id.action_navigation_profile_to_navigation_list
                                 , bundle);
                     }
-                    if (eventsListList.get(position).getType().equalsIgnoreCase("zombie")) {
-                        Bundle bundle = new Bundle();
-                        bundle.putString("id", eventsListList.get(position).getId());
-                        Navigation.findNavController(v).navigate(R.id.action_navigation_profile_to_navigation_list
-                                , bundle);
-                    }
                     Log.e("TAG", "onBindViewHolder:eventsListList.get(position).getType() " + eventsListList.get(position).getType());
-                } else if (fromHome.equalsIgnoreCase("cal")) {
+                }
+
+                else if (fromHome.equalsIgnoreCase("cal")) {
 
                     if (eventsListList.get(position).getType().equalsIgnoreCase("puzzle")) {
                         Bundle bundle = new Bundle();
@@ -313,10 +298,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.SelectTimeView
                     } else if (eventsListList.get(position).getType().equalsIgnoreCase("Virus")) {
                         context.startActivity(new Intent(context, HomeScreenGame2Act.class).putExtra("instructionID"
                                 , eventsListList.get(position)));
-                    } else if (eventsListList.get(position).getType().equalsIgnoreCase("cabana")) {
-                        context.startActivity(new Intent(context, HomeScreenGame2Act.class).putExtra("instructionID"
-                                , eventsListList.get(position)));
-                    } else if (eventsListList.get(position).getType().equalsIgnoreCase("lajoya")) {
+                    } else if (eventsListList.get(position).getType().equalsIgnoreCase("Zombie")) {
                         context.startActivity(new Intent(context, HomeScreenGame2Act.class).putExtra("instructionID"
                                 , eventsListList.get(position)));
                     } else if (eventsListList.get(position).getType().equalsIgnoreCase("crime")) {
@@ -335,13 +317,10 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.SelectTimeView
                         bundle.putString("id", eventsListList.get(position).getId());
                         Navigation.findNavController(v).navigate(R.id.action_navigation_profile_to_navigation_list
                                 , bundle);
-                    } else if (eventsListList.get(position).getType().equalsIgnoreCase("zombie")) {
-                        Bundle bundle = new Bundle();
-                        bundle.putString("id", eventsListList.get(position).getId());
-                        Navigation.findNavController(v).navigate(R.id.action_navigation_profile_to_navigation_list
-                                , bundle);
                     }
-                } else if (fromHome.equalsIgnoreCase("search")) {
+                } else
+
+                    if (fromHome.equalsIgnoreCase("search")) {
                     if (eventsListList.get(position).getType().equalsIgnoreCase("puzzle")) {
                         Bundle bundle = new Bundle();
                         bundle.putString("id", eventsListList.get(position).getId());
@@ -351,11 +330,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.SelectTimeView
                         context.startActivity(new Intent(context
                                 , HomeScreenGame2Act.class).putExtra("instructionID"
                                 , eventsListList.get(position)));
-                    } else if (eventsListList.get(position).getType().equalsIgnoreCase("cabana")) {
-                        context.startActivity(new Intent(context
-                                , HomeScreenGame2Act.class).putExtra("instructionID"
-                                , eventsListList.get(position)));
-                    } else if (eventsListList.get(position).getType().equalsIgnoreCase("lajoya")) {
+                    } else  if (eventsListList.get(position).getType().equalsIgnoreCase("Zombie")) {
                         context.startActivity(new Intent(context
                                 , HomeScreenGame2Act.class).putExtra("instructionID"
                                 , eventsListList.get(position)));
@@ -371,11 +346,6 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.SelectTimeView
                                 , HomeScreenGame2Act.class).putExtra("instructionID"
                                 , eventsListList.get(position)));
                     } else if (eventsListList.get(position).getType().equalsIgnoreCase("codigo_frida")) {
-                        Bundle bundle = new Bundle();
-                        bundle.putString("id", eventsListList.get(position).getId());
-                        Navigation.findNavController(v).navigate(R.id.action_navigation_profile_to_navigation_list
-                                , bundle);
-                    } else if (eventsListList.get(position).getType().equalsIgnoreCase("zombie")) {
                         Bundle bundle = new Bundle();
                         bundle.putString("id", eventsListList.get(position).getId());
                         Navigation.findNavController(v).navigate(R.id.action_navigation_profile_to_navigation_list

@@ -36,7 +36,6 @@ import com.smsjuegos.quiz.databinding.ActivityQuestionZombieBinding;
 import com.smsjuegos.quiz.model.SuccessResGetEvents;
 import com.smsjuegos.quiz.model.SuccessResGetVirusEvent;
 import com.smsjuegos.quiz.retrofit.ApiClient;
-import com.smsjuegos.quiz.retrofit.Constant;
 import com.smsjuegos.quiz.retrofit.QuizInterface;
 import com.smsjuegos.quiz.utility.DataManager;
 import com.smsjuegos.quiz.utility.SharedPreferenceUtility;
@@ -182,7 +181,7 @@ public class ZombieQuestionAct extends AppCompatActivity {
                     Button ivSubmit = dialogq.findViewById(R.id.btnSubmit);
                     ivSubmit.setOnClickListener(D ->
                             {
-                                addHintPanalties(5, "1");
+                                addHintPanalties(5,"1");
                                 dialogq.dismiss();
                             }
                     );
@@ -242,6 +241,7 @@ public class ZombieQuestionAct extends AppCompatActivity {
         String userId = SharedPreferenceUtility.getInstance(this).getString(USER_ID);
         String event_code = SharedPreferenceUtility.getInstance(this).getString(EVENT_CODE);
        /* if (instructionList.get(position).getEventId().equalsIgnoreCase("49")) {
+
             binding.ivshare.setVisibility(View.VISIBLE);
         } else {
             binding.ivshare.setVisibility(View.GONE);
@@ -259,7 +259,7 @@ public class ZombieQuestionAct extends AppCompatActivity {
         Call<ResponseBody> call = apiInterface.submitVirusAnswer(map);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
-            public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 DataManager.getInstance().hideProgressMessage();
                 try {
                     JSONObject jsonObject = new JSONObject(response.body().string());
@@ -306,29 +306,19 @@ public class ZombieQuestionAct extends AppCompatActivity {
     }
 
     private void getInstruction() {
-        boolean val = SharedPreferenceUtility.getInstance(getApplicationContext()).getBoolean(Constant.SELECTED_LANGUAGE);
-        String lang = "";
-
-        if (!val) {
-            lang = "en";
-        } else {
-            lang = "sp";}
+        String userId = SharedPreferenceUtility.getInstance(this).getString(USER_ID);
         DataManager.getInstance().showProgressMessage(this, getString(R.string.please_wait));
         Map<String, String> map = new HashMap<>();
         map.put("event_id", result.getId());
-        map.put("lang", lang);
+        map.put("lang", "sp");
         Call<SuccessResGetVirusEvent> call = apiInterface.getVirusEvent(map);
         call.enqueue(new Callback<SuccessResGetVirusEvent>() {
             @Override
             public void onResponse(@NonNull Call<SuccessResGetVirusEvent> call
                     , @NonNull Response<SuccessResGetVirusEvent> response) {
                 DataManager.getInstance().hideProgressMessage();
-                Log.e("data", String.valueOf(response.raw()));
-
                 try {
-                    Log.e("data", String.valueOf(response.raw()));
                     SuccessResGetVirusEvent data = response.body();
-                    assert data != null;
                     Log.e("data", data.status);
                     if (data.status.equals("1")) {
                         String dataResponse = new Gson().toJson(response.body());
@@ -341,9 +331,6 @@ public class ZombieQuestionAct extends AppCompatActivity {
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
-                    Log.e(TAG, "onResponse: "+e.getMessage() );
-                    showToast(ZombieQuestionAct.this, e.getMessage());
-
                 }
             }
 
@@ -359,7 +346,7 @@ public class ZombieQuestionAct extends AppCompatActivity {
         hint1 = false;
         hint2 = false;
         hint3 = false;
-        Log.e(TAG, "setEventQuestions:  -=-=-=-=- " + instructionList.get(position).getCustom_ans());
+        Log.e(TAG, "setEventQuestions:  -=-=-=-=- "+instructionList.get(position).getCustom_ans() );
         Glide.with(ZombieQuestionAct.this)
                 .load(instructionList.get(position).getImage())
                 .fitCenter()
@@ -382,7 +369,7 @@ public class ZombieQuestionAct extends AppCompatActivity {
 
     }
 
-    private void showAnsDialog(@NonNull SuccessResGetVirusEvent.Result resul, String givup) {
+    private void showAnsDialog(SuccessResGetVirusEvent.Result resul, String givup) {
         Log.e(TAG, "showAnsDialog: resulresulresul  ==========" + resul.toString());
         dialog = new Dialog(ZombieQuestionAct.this);
         selectedAnswer = "";
@@ -409,18 +396,17 @@ public class ZombieQuestionAct extends AppCompatActivity {
         if (resul.getOptionB().equalsIgnoreCase("")) radioButton2.setVisibility(View.GONE);
         if (resul.getOptionC().equalsIgnoreCase("")) radioButton3.setVisibility(View.GONE);
         if (resul.getOptionD().equalsIgnoreCase("")) radioButton4.setVisibility(View.GONE);
-        if (resul.getCustom_ans().equalsIgnoreCase("")) radio_button_5.setVisibility(View.GONE);
+        if (resul.getOptionAns().equalsIgnoreCase("")) radio_button_5.setVisibility(View.GONE);
         radioButton1.setText(resul.getOptionA());
         radioButton2.setText(resul.getOptionB());
         radioButton3.setText(resul.getOptionC());
         radioButton4.setText(resul.getOptionD());
         if (givup.equalsIgnoreCase("1")) {
-                if (resul.getCustom_ans().equalsIgnoreCase("A")) radioButton1.setChecked(true);
+            if (resul.getCustom_ans().equalsIgnoreCase("A")) radioButton1.setChecked(true);
             else if (resul.getCustom_ans().equalsIgnoreCase("B")) radioButton2.setChecked(true);
             else if (resul.getCustom_ans().equalsIgnoreCase("C")) radioButton3.setChecked(true);
             else if (resul.getCustom_ans().equalsIgnoreCase("D")) radioButton4.setChecked(true);
-            else {
-                radio_button_5.setChecked(true);
+            else { radio_button_5.setChecked(true);
                 etAnswer.setVisibility(View.VISIBLE);
                 etAnswer.setText(resul.getCustom_ans());
             }
@@ -521,12 +507,12 @@ public class ZombieQuestionAct extends AppCompatActivity {
         }
         tvSHowHint1.setOnClickListener(v ->
                 {
-                    addHintPanalties(1, "");
+                    addHintPanalties(1,"");
                 }
         );
         tvSHowHint2.setOnClickListener(v ->
                 {
-                    addHintPanalties(2, "");
+                    addHintPanalties(2,"");
                 }
         );
         tvSHowHint3.setVisibility(View.GONE);
@@ -537,7 +523,7 @@ public class ZombieQuestionAct extends AppCompatActivity {
         dialog.show();
     }
 
-    public void addHintPanalties(int penalty, String givup) {
+    public void addHintPanalties(int penalty,String givup) {
         String penaltyTime = "";
         if (penalty == 1) {
             penaltyTime = "2";
@@ -565,7 +551,7 @@ public class ZombieQuestionAct extends AppCompatActivity {
                     JSONObject jsonObject = new JSONObject(response.body().string());
                     String data = jsonObject.getString("status");
                     String message = jsonObject.getString("message");
-                    if (givup.equalsIgnoreCase("1")) {
+                    if (givup.equalsIgnoreCase("1")){
                         showAnsDialog(instructionList.get(position), "1");
 
                     }
