@@ -88,7 +88,7 @@
     <string name="completed">COMPLETED</string>
     <string name="begin">Begin</string>
     <string name="play">Play</string>
-    <string name="welcome_to_virus">Welcome to Virus</string>
+    <string name="welcome_to_virus">Welcome to </string>
     <string name="give_up">Give Up</string>
     <string name="enter_answer">Enter answer...</string>
     <string name="enter_answer_or">Or Enter answer...</string>

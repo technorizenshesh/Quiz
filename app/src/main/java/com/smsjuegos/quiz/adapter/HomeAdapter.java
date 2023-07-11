@@ -203,6 +203,8 @@
 
 package com.smsjuegos.quiz.adapter;
 
+import static com.smsjuegos.quiz.SMSApp.SMSAppShowLog;
+
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -255,6 +257,10 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.SelectTimeView
             RelativeLayout rlParent = holder.itemView.findViewById(R.id.rlParent);
             rlParent.setOnClickListener(v ->
             {
+                SMSAppShowLog("onBindViewHolder", eventsListList.get(position).getType(), 1);
+                //   Log.e("TAG", "onBindViewHolder: eventsListList.get(position).getType(). -- "+eventsListList.get(position).getType() );
+                //  return;
+
                 if (fromHome.equalsIgnoreCase("home")) {
                     if (eventsListList.get(position).getType().equalsIgnoreCase("puzzle")) {
                         Bundle bundle = new Bundle();
@@ -262,6 +268,15 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.SelectTimeView
                         Navigation.findNavController(v).navigate(R.id.action_navigation_profile_to_navigation_list
                                 , bundle);
                     } else if (eventsListList.get(position).getType().equalsIgnoreCase("Virus")) {
+
+                        context.startActivity(new Intent(context, HomeScreenGame2Act.class)
+                                .putExtra("instructionID", eventsListList.get(position)));
+
+                    } else if (eventsListList.get(position).getType().equalsIgnoreCase("cabana")) {
+
+                        context.startActivity(new Intent(context, HomeScreenGame2Act.class)
+                                .putExtra("instructionID", eventsListList.get(position)));
+                    } else if (eventsListList.get(position).getType().equalsIgnoreCase("lajoya")) {
 
                         context.startActivity(new Intent(context, HomeScreenGame2Act.class)
                                 .putExtra("instructionID", eventsListList.get(position)));
@@ -281,6 +296,12 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.SelectTimeView
                         Navigation.findNavController(v).navigate(R.id.action_navigation_profile_to_navigation_list
                                 , bundle);
                     }
+                    if (eventsListList.get(position).getType().equalsIgnoreCase("zombie")) {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("id", eventsListList.get(position).getId());
+                        Navigation.findNavController(v).navigate(R.id.action_navigation_profile_to_navigation_list
+                                , bundle);
+                    }
                     Log.e("TAG", "onBindViewHolder:eventsListList.get(position).getType() " + eventsListList.get(position).getType());
                 } else if (fromHome.equalsIgnoreCase("cal")) {
 
@@ -290,6 +311,12 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.SelectTimeView
                         Navigation.findNavController(v).navigate(R.id.action_navigation_profile_to_navigation_list
                                 , bundle);
                     } else if (eventsListList.get(position).getType().equalsIgnoreCase("Virus")) {
+                        context.startActivity(new Intent(context, HomeScreenGame2Act.class).putExtra("instructionID"
+                                , eventsListList.get(position)));
+                    } else if (eventsListList.get(position).getType().equalsIgnoreCase("cabana")) {
+                        context.startActivity(new Intent(context, HomeScreenGame2Act.class).putExtra("instructionID"
+                                , eventsListList.get(position)));
+                    } else if (eventsListList.get(position).getType().equalsIgnoreCase("lajoya")) {
                         context.startActivity(new Intent(context, HomeScreenGame2Act.class).putExtra("instructionID"
                                 , eventsListList.get(position)));
                     } else if (eventsListList.get(position).getType().equalsIgnoreCase("crime")) {
@@ -308,6 +335,11 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.SelectTimeView
                         bundle.putString("id", eventsListList.get(position).getId());
                         Navigation.findNavController(v).navigate(R.id.action_navigation_profile_to_navigation_list
                                 , bundle);
+                    } else if (eventsListList.get(position).getType().equalsIgnoreCase("zombie")) {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("id", eventsListList.get(position).getId());
+                        Navigation.findNavController(v).navigate(R.id.action_navigation_profile_to_navigation_list
+                                , bundle);
                     }
                 } else if (fromHome.equalsIgnoreCase("search")) {
                     if (eventsListList.get(position).getType().equalsIgnoreCase("puzzle")) {
@@ -316,6 +348,14 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.SelectTimeView
                         Navigation.findNavController(v).navigate(R.id.action_navigation_profile_to_navigation_list
                                 , bundle);
                     } else if (eventsListList.get(position).getType().equalsIgnoreCase("Virus")) {
+                        context.startActivity(new Intent(context
+                                , HomeScreenGame2Act.class).putExtra("instructionID"
+                                , eventsListList.get(position)));
+                    } else if (eventsListList.get(position).getType().equalsIgnoreCase("cabana")) {
+                        context.startActivity(new Intent(context
+                                , HomeScreenGame2Act.class).putExtra("instructionID"
+                                , eventsListList.get(position)));
+                    } else if (eventsListList.get(position).getType().equalsIgnoreCase("lajoya")) {
                         context.startActivity(new Intent(context
                                 , HomeScreenGame2Act.class).putExtra("instructionID"
                                 , eventsListList.get(position)));
@@ -335,11 +375,18 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.SelectTimeView
                         bundle.putString("id", eventsListList.get(position).getId());
                         Navigation.findNavController(v).navigate(R.id.action_navigation_profile_to_navigation_list
                                 , bundle);
+                    } else if (eventsListList.get(position).getType().equalsIgnoreCase("zombie")) {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("id", eventsListList.get(position).getId());
+                        Navigation.findNavController(v).navigate(R.id.action_navigation_profile_to_navigation_list
+                                , bundle);
                     }
 
 
                 }
             });
+            //  Bitmap bit= openData(eventsListList.get(position).getImage());
+            // ivEvents.setImageBitmap(bit);
             Glide.with(context)
                     .load(eventsListList.get(position).getImage())
                     .centerInside()
@@ -350,6 +397,19 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.SelectTimeView
         }
     }
 
+    /*    private  Bitmap openData(String url) throws NullPointerException {
+            final Bitmap[] image = new Bitmap[1];
+            Executors.newSingleThreadExecutor().execute(() -> {
+                try {
+                    image[0] =BitmapFactory.decodeStream(new URL(url).openStream());
+                       //return image;
+                    } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            });
+
+            return image[0];
+    }*/
     private void openWeb() {
         String url = "https://smsjuegos.com/";
         Intent i = new Intent(Intent.ACTION_VIEW);

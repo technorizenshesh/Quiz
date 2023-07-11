@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -220,12 +221,11 @@ public class Game4FinalActivity extends AppCompatActivity {
         map.put("event_id", eventId);
         map.put("user_id", userId);
         map.put("type", "Places");
-
         Call<SuccessResGetInventory> call = apiInterface.getGame4Inventory(map);
 
         call.enqueue(new Callback<SuccessResGetInventory>() {
             @Override
-            public void onResponse(Call<SuccessResGetInventory> call, Response<SuccessResGetInventory> response) {
+            public void onResponse(@NonNull Call<SuccessResGetInventory> call, @NonNull Response<SuccessResGetInventory> response) {
 
                 DataManager.getInstance().hideProgressMessage();
                 try {
@@ -248,7 +248,7 @@ public class Game4FinalActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<SuccessResGetInventory> call, Throwable t) {
+            public void onFailure(@NonNull Call<SuccessResGetInventory> call, @NonNull Throwable t) {
                 call.cancel();
                 DataManager.getInstance().hideProgressMessage();
             }
@@ -256,19 +256,15 @@ public class Game4FinalActivity extends AppCompatActivity {
     }
 
     public void puzzelComplete() {
-
         String userId = SharedPreferenceUtility.getInstance(this).getString(USER_ID);
-
         DataManager.getInstance().showProgressMessage(this, getString(R.string.please_wait));
         Map<String, String> map = new HashMap<>();
         map.put("event_id", eventId);
         map.put("user_id", userId);
-
         Call<ResponseBody> call = apiInterface.Game4Completed(map);
-
         call.enqueue(new Callback<ResponseBody>() {
             @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+            public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
 
                 DataManager.getInstance().hideProgressMessage();
 
@@ -298,7 +294,7 @@ public class Game4FinalActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
+            public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
                 call.cancel();
                 DataManager.getInstance().hideProgressMessage();
             }

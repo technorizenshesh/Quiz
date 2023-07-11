@@ -118,7 +118,7 @@ public class DownloadAct extends AppCompatActivity {
         tvFinalPuzzel.setOnClickListener(v ->
                 {
                     Log.e(TAG, "showMainMenu: " + eventId);
-                    if (eventId.equals("8")) {
+                    if (eventId.equals("8")|eventId.equals("15")) {
                         startActivity(new Intent(DownloadAct.this, CardigoPuzzleFinalActivity.class)
                                 .putExtra("eventId", eventId)
                                 .putExtra("eventCode", eventCode));

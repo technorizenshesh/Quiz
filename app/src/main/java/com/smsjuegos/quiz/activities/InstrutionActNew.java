@@ -6,7 +6,6 @@ import static com.smsjuegos.quiz.retrofit.Constant.showToast;
 import android.Manifest;
 import android.animation.ValueAnimator;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -22,20 +21,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.DataSource;
-import com.bumptech.glide.load.engine.GlideException;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.CustomTarget;
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.target.Target;
-import com.bumptech.glide.request.transition.Transition;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -57,7 +47,6 @@ import com.smsjuegos.quiz.activities.cardigo.CardigoPuzzleFinalActivity;
 import com.smsjuegos.quiz.activities.game4.QuestionAnswerAct;
 import com.smsjuegos.quiz.databinding.ActivityInstrutionNewBinding;
 import com.smsjuegos.quiz.model.SuccessResGetInstruction;
-import com.smsjuegos.quiz.model.SuccessResGetInstructionTwo;
 import com.smsjuegos.quiz.retrofit.ApiClient;
 import com.smsjuegos.quiz.retrofit.Constant;
 import com.smsjuegos.quiz.retrofit.QuizInterface;
@@ -77,6 +66,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class InstrutionActNew extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
+    private final ArrayList<SuccessResGetInstruction.Result> instructionList = new ArrayList<>();
     String TAG = "InstrutionActNew";
     ActivityInstrutionNewBinding binding;
     Marker[] marker = new Marker[2]; //change length of array according to you
@@ -85,7 +75,6 @@ public class InstrutionActNew extends AppCompatActivity implements OnMapReadyCal
     private QuizInterface apiInterface;
     private String eventId, eventCode, strtlat = "", strtlang = "", endlat = "", endlang = "";
     private GoogleMap mMap;
-    private final ArrayList<SuccessResGetInstruction.Result> instructionList = new ArrayList<>();
     private Handler handler;
     private Runnable runnable;
     private Long result;
@@ -107,20 +96,23 @@ public class InstrutionActNew extends AppCompatActivity implements OnMapReadyCal
         Log.e("TAG", "eventCodeeventCodeeventCode: " + eventCode);
         //  getEventDetails();
         binding.tvInstruction.setOnClickListener(v -> {
-            startActivity(new Intent(InstrutionActNew.this, InstrutionAct.class).putExtra("eventId", eventId).putExtra("eventCode", eventCode));
+            startActivity(new Intent(InstrutionActNew.this, InstrutionAct.class)
+                    .putExtra("eventId", eventId).putExtra("eventCode", eventCode));
             onStop();
         });
 
         binding.tvMap.setOnClickListener(v -> {
             SharedPreferenceUtility.getInstance(getApplicationContext()).putString("NevId", "");
-            startActivity(new Intent(InstrutionActNew.this, MapAct.class).putExtra("eventId", eventId).putExtra("eventCode", eventCode));
+            startActivity(new Intent(InstrutionActNew.this, MapAct.class).
+                    putExtra("eventId", eventId).putExtra("eventCode", eventCode));
             onStop();
 
         });
 
 
         binding.tvINventory.setOnClickListener(v -> {
-            startActivity(new Intent(InstrutionActNew.this, InventoryAct.class).putExtra("eventId", eventId).putExtra("eventCode", eventCode));
+            startActivity(new Intent(InstrutionActNew.this, InventoryAct.class)
+                    .putExtra("eventId", eventId).putExtra("eventCode", eventCode));
             onStop();
 
         });
@@ -128,7 +120,7 @@ public class InstrutionActNew extends AppCompatActivity implements OnMapReadyCal
         binding.tvFinalPuzzel.setOnClickListener(v -> {
 
             Log.e(TAG, "showMainMenu: " + eventId);
-            if (eventId.equals("8")) {
+            if (eventId.equals("8")|eventId.equals("15")) {
                 startActivity(new Intent(InstrutionActNew
                         .this,
                         CardigoPuzzleFinalActivity.class).putExtra("eventId", eventId).putExtra("eventCode", eventCode));
@@ -209,7 +201,7 @@ public class InstrutionActNew extends AppCompatActivity implements OnMapReadyCal
                     String data = jsonObject.getString("status");
                     String message = jsonObject.getString("message");
                     result = jsonObject.getLong("result");
-                    result= result;
+                    result = result;
                     if (result == null & result <= 0) {
                     } else {
                         startTimer();
@@ -226,6 +218,7 @@ public class InstrutionActNew extends AppCompatActivity implements OnMapReadyCal
         });
 
     }
+
     private void getInstruction() {
         DataManager.getInstance().showProgressMessage(this, getString(R.string.please_wait));
         boolean val = SharedPreferenceUtility.getInstance(getApplicationContext()).getBoolean(Constant.SELECTED_LANGUAGE);
@@ -457,14 +450,14 @@ public class InstrutionActNew extends AppCompatActivity implements OnMapReadyCal
         });
     }*/
 
-   protected Marker createMarker(int position, double latitude, double longitude, String title, String snippet, int iconResID) {
-    BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(iconResID);
-           myMarker = mMap.addMarker(new MarkerOptions().position(new LatLng(latitude, longitude)).anchor(0.5f, 0.5f).title(title).icon(icon).snippet(snippet));
+    protected Marker createMarker(int position, double latitude, double longitude, String title, String snippet, int iconResID) {
+        BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(iconResID);
+        myMarker = mMap.addMarker(new MarkerOptions().position(new LatLng(latitude, longitude)).anchor(0.5f, 0.5f).title(title).icon(icon).snippet(snippet));
         myMarker.setTag(position);
         return myMarker;
     }
 
-    private BitmapDescriptor bitmapDescriptorFromVector( int vectorResId) {
+    private BitmapDescriptor bitmapDescriptorFromVector(int vectorResId) {
         Drawable vectorDrawable = ContextCompat.getDrawable(InstrutionActNew.this, vectorResId);
         vectorDrawable.setBounds(0, 0, vectorDrawable.getIntrinsicWidth(), vectorDrawable.getIntrinsicHeight());
         Bitmap bitmap = Bitmap.createBitmap(vectorDrawable.getIntrinsicWidth(), vectorDrawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);

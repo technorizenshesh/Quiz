@@ -56,14 +56,14 @@ public class SplashAct extends AppCompatActivity {
             updateResources(SplashAct.this, "es");
         }
 
-        double distance = distance(lat1, lng1, lat2, lng2);
+       // double distance = distance(lat1, lng1, lat2, lng2);
 
-        Log.d(TAG, "onCreate: " + distance);
+       // Log.d(TAG, "onCreate: " + distance);
 
         // lat1 and lng1 are the values of a previously stored location
-        if (distance(lat1, lng1, lat2, lng2) < 0.1) { // if distance < 0.1 miles we take locations as equal
+       /* if (distance(lat1, lng1, lat2, lng2) < 0.1) { // if distance < 0.1 miles we take locations as equal
             //do what you want to do...
-        }
+        }*/
 
         finds();
     }

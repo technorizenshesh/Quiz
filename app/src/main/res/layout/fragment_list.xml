@@ -1,61 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".fragments.ListFragment">
-    <RelativeLayout
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/_15sdp"
-        android:background="@color/appcolor"
-        android:id="@+id/rlParent">
-        <TextView
-            android:id="@+id/tvHeader"
-            android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".fragments.ListFragment">
+
+        <RelativeLayout
+            android:id="@+id/rlParent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Hello"
-            android:layout_centerInParent="true"
-            android:textSize="@dimen/_12sdp"
-            android:textColor="@color/white"
-            android:fontFamily="@font/poppins_medium"/>
-        <ImageView
-            android:id="@+id/imgHeader"
-            android:layout_width="@dimen/_20sdp"
-            android:layout_height="@dimen/_20sdp"
-            android:padding="@dimen/_2sdp"
-            android:src="@drawable/ic_back"/>
-    </RelativeLayout>
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btnUseCode"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@color/yellow"
-        android:layout_margin="@dimen/_30sdp"
-        android:text="@string/use_a_code"
-        android:textSize="@dimen/_13sdp"
-        android:fontFamily="@font/poppins_medium"
-        android:background="@drawable/bt_bg"/>
-    <androidx.appcompat.widget.AppCompatButton
-        android:visibility="gone"
-        android:id="@+id/btngenerateCode"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@color/yellow"
-        android:layout_marginStart="@dimen/_30sdp"
-        android:layout_marginEnd="@dimen/_30sdp"
-        android:text="Generate Test Code"
-        android:textSize="@dimen/_13sdp"
-        android:fontFamily="@font/poppins_medium"
-        android:background="@drawable/bt_bg"/>
+            android:background="@color/appcolor"
+            android:padding="@dimen/_15sdp">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/rvListItems"
-        />
+            <TextView
+                android:id="@+id/tvHeader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:fontFamily="@font/poppins_medium"
+                android:text="Hello"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_12sdp" />
 
-</LinearLayout>
+            <ImageView
+                android:id="@+id/imgHeader"
+                android:layout_width="@dimen/_20sdp"
+                android:layout_height="@dimen/_20sdp"
+                android:padding="@dimen/_2sdp"
+                android:src="@drawable/ic_back" />
+        </RelativeLayout>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnUseCode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_30sdp"
+            android:background="@drawable/bt_bg"
+            android:fontFamily="@font/poppins_medium"
+            android:text="@string/use_a_code"
+            android:textColor="@color/yellow"
+            android:textSize="@dimen/_13sdp" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btngenerateCode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_30sdp"
+            android:layout_marginEnd="@dimen/_30sdp"
+            android:background="@drawable/bt_bg"
+            android:fontFamily="@font/poppins_medium"
+            android:text="Generate Test Code"
+            android:textColor="@color/yellow"
+            android:textSize="@dimen/_13sdp"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/no_data"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="50dp"
+                android:layout_marginEnd="50dp"
+                android:visibility="gone"
+                app:lottie_autoPlay="true"
+                app:lottie_cacheComposition="true"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/no_data" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvListItems"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+
+    </LinearLayout>
 </layout>

@@ -64,7 +64,8 @@ public class GameAztecStartVideoAct extends AppCompatActivity {
 
         btnPlay.setOnClickListener(v -> {
           //  releasePlayer();
-            startActivity(new Intent(getApplicationContext(), InstrutionActNew.class).putExtra("eventId", eventId).putExtra("eventCode", eventCode));
+            startActivity(new Intent(getApplicationContext(), InstrutionActNew.class)
+                    .putExtra("eventId", eventId).putExtra("eventCode", eventCode));
         });
 
       /* // exoPlayerView = findViewById(R.id.idExoPlayerVIew);

@@ -50,8 +50,6 @@ import retrofit2.Response;
  */
 public class CardFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     FragmentCardBinding binding;
@@ -122,13 +120,13 @@ public class CardFragment extends Fragment {
         binding.cardForm.setOnCardFormSubmitListener(new OnCardFormSubmitListener() {
             @Override
             public void onCardFormSubmit() {
-                cardNo = binding.cardForm.getCardNumber();
-                expirationDate = binding.cardForm.getExpirationMonth() + "/" + binding.cardForm.getExpirationYear();
+                cardNo          = binding.cardForm.getCardNumber();
+                expirationDate  = binding.cardForm.getExpirationMonth() + "/" + binding.cardForm.getExpirationYear();
                 expirationMonth = binding.cardForm.getExpirationMonth();
-                expirationYear = binding.cardForm.getExpirationYear();
-                cvv = binding.cardForm.getCvv();
-                cardType = "";
-                holderName = binding.cardForm.getCardholderName();
+                expirationYear  = binding.cardForm.getExpirationYear();
+                cvv             = binding.cardForm.getCvv();
+                cardType        = "";
+                holderName      = binding.cardForm.getCardholderName();
                 if (binding.cardForm.isValid()) {
                     clickOnPayNow();
                 } else {

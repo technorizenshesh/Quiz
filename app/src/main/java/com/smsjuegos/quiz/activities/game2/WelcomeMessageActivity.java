@@ -20,7 +20,6 @@ public class WelcomeMessageActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_welcome_message);
-        binding.header.tvHeader.setText(getString(R.string.welcome_to_virus));
         binding.header.imgHeader.setOnClickListener(v -> finish());
         binding.btnPlay.setOnClickListener(v ->
                 {
@@ -32,6 +31,8 @@ public class WelcomeMessageActivity extends AppCompatActivity {
         binding.tvInstruction.setText(result.getDescription());
         Glide.with(this).load(result.getDescription_image())
                 .into(binding.descriptionImage);
+        binding.header.tvHeader.setText(getString(R.string.welcome_to_virus)+" "+result.getEventName());
+
 
     }
 }

@@ -133,7 +133,7 @@ public class ListFragment extends Fragment {
         Call<SuccessResGetMyEvents> call = apiInterface.getMyEvent(map);
         call.enqueue(new Callback<SuccessResGetMyEvents>() {
             @Override
-            public void onResponse(Call<SuccessResGetMyEvents> call, Response<SuccessResGetMyEvents> response) {
+            public void onResponse(@NonNull Call<SuccessResGetMyEvents> call, @NonNull Response<SuccessResGetMyEvents> response) {
                 DataManager.getInstance().hideProgressMessage();
                 try {
                     SuccessResGetMyEvents data = response.body();
@@ -143,12 +143,13 @@ public class ListFragment extends Fragment {
                         Log.e("MapMap", "EDIT PROFILE RESPONSE" + dataResponse);
                         eventList.clear();
                         myEventList.clear();
-
                         myEventList.addAll(data.getResult());
                         for (SuccessResGetMyEvents.Result result : myEventList) {
                             if (!result.getEventStatus().equalsIgnoreCase("END")) {
-                                if (!result.getId().equalsIgnoreCase("4")
-                                        && !result.getId().equalsIgnoreCase("7")) {
+                                       if (!result.getId().equalsIgnoreCase("4")
+                                        && !result.getId().equalsIgnoreCase("7")
+                                        && !result.getId().equalsIgnoreCase("14")
+                                        && !result.getId().equalsIgnoreCase("17")) {
                                     eventList.add(result);
                                 }
                             }
@@ -157,18 +158,28 @@ public class ListFragment extends Fragment {
                         binding.rvListItems.setHasFixedSize(true);
                         binding.rvListItems.setLayoutManager(new LinearLayoutManager(getActivity()));
                         binding.rvListItems.setAdapter(new ListAdapter(getActivity(), eventList));
+                        Log.e(TAG, "onResponse: ---- "+eventList.size() );
+                        if (eventList!=null&&eventList.size()>=1) {
+                            binding.noData.setVisibility(View.GONE);
+                            Log.e(TAG, "onResponse: ----  herrreeeee" );
+                        }else {
+                            binding.noData.setVisibility(View.VISIBLE);
 
+                        }
                     } else if (data.status.equals("0")) {
                         showToast(getActivity(), data.message);
-
                         eventList.clear();
                         binding.rvListItems.setHasFixedSize(true);
                         binding.rvListItems.setLayoutManager(new LinearLayoutManager(getActivity()));
                         binding.rvListItems.setAdapter(new ListAdapter(getActivity(), eventList));
 
                     }
+
+
+
                 } catch (Exception e) {
                     e.printStackTrace();
+                    binding.noData.setVisibility(View.VISIBLE);
                 }
             }
 
@@ -176,6 +187,7 @@ public class ListFragment extends Fragment {
             public void onFailure(Call<SuccessResGetMyEvents> call, Throwable t) {
                 call.cancel();
                 DataManager.getInstance().hideProgressMessage();
+                binding.noData.setVisibility(View.VISIBLE);
             }
         });
 
@@ -247,10 +259,8 @@ public class ListFragment extends Fragment {
 
         call.enqueue(new Callback<ResponseBody>() {
             @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-
+            public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
                 DataManager.getInstance().hideProgressMessage();
-
                 try {
 
                     JSONObject jsonObject = new JSONObject(response.body().string());
@@ -278,11 +288,13 @@ public class ListFragment extends Fragment {
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
+                    binding.noData.setVisibility(View.VISIBLE);
+
                 }
             }
 
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
+            public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
                 call.cancel();
                 DataManager.getInstance().hideProgressMessage();
             }

@@ -102,9 +102,16 @@ public class Game2InstructionAct extends AppCompatActivity {
                     String data = jsonObject.getString("status");
                     String message = jsonObject.getString("message");
                     if (data.equals("1")) {
-                        startActivity(new Intent(
-                                Game2InstructionAct.this, QuestionAct.class)
-                                .putExtra("instructionID", result));
+                         if( result.getId().equalsIgnoreCase("14")){
+                             startActivity(new Intent(
+                                     Game2InstructionAct.this, ZombieQuestionAct.class)
+                                     .putExtra("instructionID", result));
+                         }else {
+                             startActivity(new Intent(
+                                     Game2InstructionAct.this, QuestionAct.class)
+                                     .putExtra("instructionID", result));
+                         }
+
                     } else if (data.equals("0")) {
                         showToast(Game2InstructionAct.this, message);
                     } else if (data.equals("2")) {
