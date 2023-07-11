@@ -146,10 +146,9 @@ public class ListFragment extends Fragment {
                         myEventList.addAll(data.getResult());
                         for (SuccessResGetMyEvents.Result result : myEventList) {
                             if (!result.getEventStatus().equalsIgnoreCase("END")) {
-                                       if (!result.getId().equalsIgnoreCase("4")
+                                if (!result.getId().equalsIgnoreCase("4")
                                         && !result.getId().equalsIgnoreCase("7")
-                                        && !result.getId().equalsIgnoreCase("14")
-                                        && !result.getId().equalsIgnoreCase("17")) {
+                                        && !result.getId().equalsIgnoreCase("14")) {
                                     eventList.add(result);
                                 }
                             }
