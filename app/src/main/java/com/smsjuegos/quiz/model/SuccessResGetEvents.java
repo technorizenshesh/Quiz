@@ -95,6 +95,61 @@ public class SuccessResGetEvents implements Serializable {
         @SerializedName("description_image")
         @Expose
         public String description_image;
+        @SerializedName("option_A")
+        @Expose
+        public String optionA;
+        @SerializedName("option_B")
+        @Expose
+        public String optionB;
+        @SerializedName("option_C")
+        @Expose
+        public String optionC;
+        @SerializedName("option_D")
+        @Expose
+        public String optionD;
+        @SerializedName("option_Ans")
+        @Expose
+        public String optionAns;
+
+        public String getOptionA() {
+            return optionA;
+        }
+
+        public void setOptionA(String optionA) {
+            this.optionA = optionA;
+        }
+
+        public String getOptionB() {
+            return optionB;
+        }
+
+        public void setOptionB(String optionB) {
+            this.optionB = optionB;
+        }
+
+        public String getOptionC() {
+            return optionC;
+        }
+
+        public void setOptionC(String optionC) {
+            this.optionC = optionC;
+        }
+
+        public String getOptionD() {
+            return optionD;
+        }
+
+        public void setOptionD(String optionD) {
+            this.optionD = optionD;
+        }
+
+        public String getOptionAns() {
+            return optionAns;
+        }
+
+        public void setOptionAns(String optionAns) {
+            this.optionAns = optionAns;
+        }
 
         public String getEvent_instructions1() {
             return event_instructions1;

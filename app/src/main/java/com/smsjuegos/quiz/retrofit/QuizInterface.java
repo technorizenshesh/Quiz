@@ -199,6 +199,9 @@ public interface QuizInterface {
     @FormUrlEncoded
     @POST("virus_event_end_time")
     Call<ResponseBody> addVirusEndTime(@FieldMap Map<String, String> paramHashMap);
+    @FormUrlEncoded
+    @POST("virus_event_end_time")
+    Call<VirusEndRes> addVirusEndTime2(@FieldMap Map<String, String> paramHashMap);
 
     @FormUrlEncoded
     @POST("add_hint_game4")

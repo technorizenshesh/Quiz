@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
@@ -31,6 +32,7 @@ import com.smsjuegos.quiz.databinding.ActivityMissionCompletedBinding;
 import com.smsjuegos.quiz.model.SuccessResGetEvents;
 import com.smsjuegos.quiz.retrofit.ApiClient;
 import com.smsjuegos.quiz.retrofit.QuizInterface;
+import com.smsjuegos.quiz.retrofit.VirusEndRes;
 import com.smsjuegos.quiz.utility.DataManager;
 import com.smsjuegos.quiz.utility.SharedPreferenceUtility;
 
@@ -93,24 +95,19 @@ public class MissionCompletedAct extends AppCompatActivity {
        map.put("event_id", result.getId());
         map.put("user_id", userId);
         map.put("event_code", event_code);
-        Call<ResponseBody> call = apiInterface.addVirusEndTime(map);
-        call.enqueue(new Callback<ResponseBody>() {
+        Call<VirusEndRes> call = apiInterface.addVirusEndTime2(map);
+        call.enqueue(new Callback<VirusEndRes>() {
             @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+            public void onResponse(@NonNull Call<VirusEndRes> call, @NonNull Response<VirusEndRes> response) {
                 DataManager.getInstance().hideProgressMessage();
                 try {
-                    JSONObject jsonObject = new JSONObject(response.body().string());
-                    String data = jsonObject.getString("status");
-                    String message = jsonObject.getString("message");
-                    if (data.equals("1")) {
-                        if (jsonObject.has("end_video") && !
-                                jsonObject.getString("end_video").equalsIgnoreCase("")) {
-                            String end_video = jsonObject.getString("end_video");
-                            PlayVideo(end_video);
+                    if (response.body().getStatus().equalsIgnoreCase("1")) {
+                        if (!response.body().getResult().getEndVideo().equalsIgnoreCase("")) {
+                            PlayVideo(response.body().getResult().getEndVideo());
                             binding.firstFinal.setVisibility(View.GONE);
                             binding.secondVid.setVisibility(View.VISIBLE);
                         } else {
-                            startActivity(new Intent(MissionCompletedAct.
+                           startActivity(new Intent(MissionCompletedAct.
                                     this, FinishTeamInfo.class)
                                     .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK)
                                     .putExtra("from", "4")
@@ -119,18 +116,21 @@ public class MissionCompletedAct extends AppCompatActivity {
                             finishAffinity();
                         }
 
-                    } else if (data.equals("0")) {
-                        showToast(MissionCompletedAct.this, message);
-                    } else if (data.equals("2")) {
-                        showToast(MissionCompletedAct.this, jsonObject.getString("result"));
+                    } else if (response.body().getStatus().equals("0")) {
+                        showToast(MissionCompletedAct.this, response.body().getMessage());
+                    } else if (response.body().getStatus().equals("2")) {
+                        showToast(MissionCompletedAct.this, response.body().getMessage());
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
+                    Log.e("TAG", "onResponse: "+e.getLocalizedMessage() );
+                    Log.e("TAG", "onResponse: "+e.getCause() );
+                    Log.e("TAG", "onResponse: "+e.getMessage() );
                 }
             }
 
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
+            public void onFailure(@NonNull Call<VirusEndRes> call, @NonNull Throwable t) {
                 call.cancel();
                 DataManager.getInstance().hideProgressMessage();
             }
@@ -140,7 +140,7 @@ public class MissionCompletedAct extends AppCompatActivity {
     private void PlayVideo(String url) {
         try {
 
-
+            Log.e("TAG", "PlayVideo: urlurlurl  "+url);
 initializePlayer(url);
                         binding.btnfinish.setAlpha(1);
                         binding.btnfinish.setOnClickListener(v ->
@@ -191,14 +191,15 @@ initializePlayer(url);
     @Override
     protected void onDestroy() {
         adsLoader.release();
-
         super.onDestroy();
     }
 
     private void releasePlayer() {
         adsLoader.setPlayer(null);
         playerView.setPlayer(null);
-        player.release();
+         if (player!=null) {
+             player.release();
+         }
         player = null;
     }
 

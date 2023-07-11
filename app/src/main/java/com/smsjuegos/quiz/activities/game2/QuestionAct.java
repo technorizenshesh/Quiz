@@ -1,5 +1,6 @@
 package com.smsjuegos.quiz.activities.game2;
 
+import static com.smsjuegos.quiz.retrofit.Constant.EVENT_CODE;
 import static com.smsjuegos.quiz.retrofit.Constant.USER_ID;
 import static com.smsjuegos.quiz.retrofit.Constant.showToast;
 
@@ -210,7 +211,7 @@ public class QuestionAct extends AppCompatActivity {
         binding.btnSubmit.setOnClickListener(v ->
                 {
                     if (!binding.etAnswer.getText().toString().equalsIgnoreCase("")) {
-                        submitAnswer(binding.etAnswer.getText().toString());
+                        submitAnswer(binding.etAnswer.getText().toString().trim().toUpperCase());
                     }
                 }
         );
@@ -241,6 +242,8 @@ public class QuestionAct extends AppCompatActivity {
         DataManager.getInstance().showProgressMessage(QuestionAct.this, getString(R.string.please_wait));
         Map<String, String> map = new HashMap<>();
         String userId = SharedPreferenceUtility.getInstance(this).getString(USER_ID);
+        String event_code = SharedPreferenceUtility.getInstance(this).getString(EVENT_CODE);
+
         if (instructionList.get(position).getEventId().equalsIgnoreCase("49")) {
 
             binding.ivshare.setVisibility(View.VISIBLE);
@@ -252,6 +255,18 @@ public class QuestionAct extends AppCompatActivity {
         map.put("ans", answer);
         map.put("event_id", instructionList.get(position).getEventId());
         map.put("user_id", userId);
+        map.put("event_code", event_code);
+        map.put("custom_type", "no");
+        /*   map.put("event_game_id", instructionList.get(position).getId());
+        map.put("ans", answer.toUpperCase());
+        map.put("event_id", instructionList.get(position).getEventId());
+        map.put("user_id", userId);
+        map.put("event_code", event_code);
+        if (custom) {
+            map.put("custom_type", "custom");
+        } else {
+            map.put("custom_type", "no");
+        }*/
         Call<ResponseBody> call = apiInterface.submitVirusAnswer(map);
         call.enqueue(new Callback<ResponseBody>() {
             @Override

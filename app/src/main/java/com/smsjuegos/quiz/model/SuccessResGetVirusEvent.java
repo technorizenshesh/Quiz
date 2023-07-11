@@ -42,7 +42,7 @@ public class SuccessResGetVirusEvent implements Serializable {
         this.status = status;
     }
 
-    public class Result {
+    public static class Result implements Serializable{
 
         @SerializedName("id")
         @Expose
@@ -79,22 +79,22 @@ public class SuccessResGetVirusEvent implements Serializable {
         public String image;
         @SerializedName("option_A")
         @Expose
-        public String optionA;
+        private String optionA;
         @SerializedName("option_B")
         @Expose
-        public String optionB;
+        private String optionB;
         @SerializedName("option_C")
         @Expose
-        public String optionC;
+        private String optionC;
         @SerializedName("option_D")
         @Expose
-        public String optionD;
+        private String optionD;
         @SerializedName("option_Ans")
         @Expose
-        public String optionAns;
+        private String optionAns;
         @SerializedName("event_ans")
         @Expose
-        public String eventAns;
+        private String eventAns;
         @SerializedName("final_puzzle_image")
         @Expose
         public String finalPuzzleImage;
@@ -119,6 +119,17 @@ public class SuccessResGetVirusEvent implements Serializable {
         @SerializedName("video")
         @Expose
         public String video;
+      @SerializedName("custom_ans")
+        @Expose
+        public String custom_ans;
+
+        public String getCustom_ans() {
+            return custom_ans;
+        }
+
+        public void setCustom_ans(String custom_ans) {
+            this.custom_ans = custom_ans;
+        }
 
         public String getId() {
             return id;
@@ -320,6 +331,36 @@ public class SuccessResGetVirusEvent implements Serializable {
             this.video = video;
         }
 
+        @Override
+        public String toString() {
+            return "Result{" +
+                    "id='" + id + '\'' +
+                    ", eventId='" + eventId + '\'' +
+                    ", instructions='" + instructions + '\'' +
+                    ", instructionsHint1='" + instructionsHint1 + '\'' +
+                    ", instructionsHint2='" + instructionsHint2 + '\'' +
+                    ", instructionsHint3='" + instructionsHint3 + '\'' +
+                    ", address='" + address + '\'' +
+                    ", lat='" + lat + '\'' +
+                    ", lon='" + lon + '\'' +
+                    ", dateTime='" + dateTime + '\'' +
+                    ", image='" + image + '\'' +
+                    ", optionA='" + optionA + '\'' +
+                    ", optionB='" + optionB + '\'' +
+                    ", optionC='" + optionC + '\'' +
+                    ", optionD='" + optionD + '\'' +
+                    ", optionAns='" + optionAns + '\'' +
+                    ", eventAns='" + eventAns + '\'' +
+                    ", finalPuzzleImage='" + finalPuzzleImage + '\'' +
+                    ", eventCode='" + eventCode + '\'' +
+                    ", type='" + type + '\'' +
+                    ", finalPuzzleStatus='" + finalPuzzleStatus + '\'' +
+                    ", eventType='" + eventType + '\'' +
+                    ", answer='" + answer + '\'' +
+                    ", status='" + status + '\'' +
+                    ", video='" + video + '\'' +
+                    '}';
+        }
     }
 
 }
