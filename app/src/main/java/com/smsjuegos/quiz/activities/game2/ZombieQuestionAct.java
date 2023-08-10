@@ -36,6 +36,7 @@ import com.smsjuegos.quiz.databinding.ActivityQuestionZombieBinding;
 import com.smsjuegos.quiz.model.SuccessResGetEvents;
 import com.smsjuegos.quiz.model.SuccessResGetVirusEvent;
 import com.smsjuegos.quiz.retrofit.ApiClient;
+import com.smsjuegos.quiz.retrofit.Constant;
 import com.smsjuegos.quiz.retrofit.QuizInterface;
 import com.smsjuegos.quiz.utility.DataManager;
 import com.smsjuegos.quiz.utility.SharedPreferenceUtility;
@@ -306,19 +307,29 @@ public class ZombieQuestionAct extends AppCompatActivity {
     }
 
     private void getInstruction() {
-        String userId = SharedPreferenceUtility.getInstance(this).getString(USER_ID);
+        boolean val = SharedPreferenceUtility.getInstance(getApplicationContext()).getBoolean(Constant.SELECTED_LANGUAGE);
+        String lang = "";
+
+        if (!val) {
+            lang = "en";
+        } else {
+            lang = "sp";}
         DataManager.getInstance().showProgressMessage(this, getString(R.string.please_wait));
         Map<String, String> map = new HashMap<>();
         map.put("event_id", result.getId());
-        map.put("lang", "sp");
+        map.put("lang", lang);
         Call<SuccessResGetVirusEvent> call = apiInterface.getVirusEvent(map);
         call.enqueue(new Callback<SuccessResGetVirusEvent>() {
             @Override
             public void onResponse(@NonNull Call<SuccessResGetVirusEvent> call
                     , @NonNull Response<SuccessResGetVirusEvent> response) {
                 DataManager.getInstance().hideProgressMessage();
+                Log.e("data", String.valueOf(response.raw()));
+
                 try {
+                    Log.e("data", String.valueOf(response.raw()));
                     SuccessResGetVirusEvent data = response.body();
+                    assert data != null;
                     Log.e("data", data.status);
                     if (data.status.equals("1")) {
                         String dataResponse = new Gson().toJson(response.body());
@@ -331,6 +342,9 @@ public class ZombieQuestionAct extends AppCompatActivity {
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
+                    Log.e(TAG, "onResponse: "+e.getMessage() );
+                    showToast(ZombieQuestionAct.this, e.getMessage());
+
                 }
             }
 
