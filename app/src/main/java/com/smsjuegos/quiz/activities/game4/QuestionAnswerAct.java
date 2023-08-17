@@ -10,6 +10,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -27,6 +28,7 @@ import androidx.appcompat.widget.AppCompatButton;
 import androidx.databinding.DataBindingUtil;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.gson.Gson;
 import com.smsjuegos.quiz.R;
 import com.smsjuegos.quiz.databinding.ActivityQuestionAnswerBinding;
@@ -50,6 +52,7 @@ import retrofit2.Response;
 public class QuestionAnswerAct extends AppCompatActivity {
     final String mimeType = "text/html";
     final String encoding = "UTF-8";
+    private final SuccessResAddAnswer.Result answerResult = null;
     ActivityQuestionAnswerBinding binding;
     RadioGroup radioGroup;
     LinearLayout timeLay;
@@ -66,7 +69,6 @@ public class QuestionAnswerAct extends AppCompatActivity {
     private String selectedAnswer = "";
     private boolean hint1 = false, hint2 = false, hint3 = false;
     private Context context;
-    private final SuccessResAddAnswer.Result answerResult = null;
     private String eventCode;
     private CountDownTimer CountdownTimer;
     private RadioButton selectedRadioButton;
@@ -88,13 +90,24 @@ public class QuestionAnswerAct extends AppCompatActivity {
         binding.btnAnswer.setOnClickListener(v -> {
             showDialog();
         });
+        if (result.getImage() != null && result.getImage().equalsIgnoreCase("")) {
 
-        Glide.with(context).load(result.getImage()).centerInside().into(binding.ivPuzzel);
+        } else {
+            DisplayMetrics displayMetrics = new DisplayMetrics();
+            getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+            int height = displayMetrics.heightPixels;
+            int width = displayMetrics.widthPixels;
+            Glide.with(context)
+                    .load(result.getImage())
+                    .apply(new RequestOptions().override(width, 200))
+                    .centerInside().into(binding.ivPuzzel);
+
+        }
         Log.e(TAG, "result.getInstructions()result.getInstructions(): " + result.getInstructions());
-
-        binding.tvContent.loadDataWithBaseURL("", result.getInstructions(), mimeType, encoding, "");
         binding.tvContent.getSettings().setBuiltInZoomControls(true);
         binding.tvContent.getSettings().setDisplayZoomControls(false);
+        binding.tvContent.getSettings().setSupportZoom(true);
+        binding.tvContent.loadDataWithBaseURL("", result.getInstructions(), mimeType, encoding, "");
 
         binding.btnHint.setOnClickListener(v -> {
             showHints();
@@ -142,14 +155,14 @@ public class QuestionAnswerAct extends AppCompatActivity {
 
             public void onFinish() {
 
-                 if (timeView.getText().toString().equalsIgnoreCase(getString(R.string.quiz_solved))){
+                if (timeView.getText().toString().equalsIgnoreCase(getString(R.string.quiz_solved))) {
 
-                 }else {
-                     timeView.setText(R.string.time_s_up);
-                     // dialog.setCancelable(true);
-                     // dialog.dismiss();
-                     addPanalties(10, "fine");
-                 }
+                } else {
+                    timeView.setText(R.string.time_s_up);
+                    // dialog.setCancelable(true);
+                    // dialog.dismiss();
+                    addPanalties(10, "fine");
+                }
             }
 
         }.start();
@@ -171,26 +184,18 @@ public class QuestionAnswerAct extends AppCompatActivity {
         submit = dialog.findViewById(R.id.btnSubmit);
         etAnswer = dialog.findViewById(R.id.etAnswer);
 
-       // timeLay = dialog.findViewById(R.id.time_lay);
-      //  timeView = dialog.findViewById(R.id.time_view);
+        // timeLay = dialog.findViewById(R.id.time_lay);
+        //  timeView = dialog.findViewById(R.id.time_view);
         radioButton1 = dialog.findViewById(R.id.radio_button_0);
         radioButton2 = dialog.findViewById(R.id.radio_button_1);
         radioButton3 = dialog.findViewById(R.id.radio_button_2);
         radioButton4 = dialog.findViewById(R.id.radio_button_3);
         radio_button_5 = dialog.findViewById(R.id.radio_button_4);
-
-        if (result.getOptionA().equalsIgnoreCase(""))radioButton1.setVisibility(View.GONE);
-        if (result.getOptionB().equalsIgnoreCase(""))radioButton2.setVisibility(View.GONE);
-        if (result.getOptionC().equalsIgnoreCase(""))radioButton3.setVisibility(View.GONE);
-        if (result.getOptionD().equalsIgnoreCase(""))radioButton4.setVisibility(View.GONE);
-        if (result.getCustom_ans().equalsIgnoreCase(""))radio_button_5.setVisibility(View.GONE);
-
-
-
-
-
-
-
+        if (result.getOptionA().equalsIgnoreCase("")) radioButton1.setVisibility(View.GONE);
+        if (result.getOptionB().equalsIgnoreCase("")) radioButton2.setVisibility(View.GONE);
+        if (result.getOptionC().equalsIgnoreCase("")) radioButton3.setVisibility(View.GONE);
+        if (result.getOptionD().equalsIgnoreCase("")) radioButton4.setVisibility(View.GONE);
+        if (result.getCustom_ans().equalsIgnoreCase("")) radio_button_5.setVisibility(View.GONE);
         radioButton1.setText(result.getOptionA());
         radioButton2.setText(result.getOptionB());
         radioButton3.setText(result.getOptionC());
@@ -479,13 +484,13 @@ public class QuestionAnswerAct extends AppCompatActivity {
                     JSONObject jsonObject = new JSONObject(response.body().string());
                     String data = jsonObject.getString("status");
                     String message = jsonObject.getString("message");
-
                     Log.e("data", data);
                     if (data.equals("1")) {
                         String dataResponse = new Gson().toJson(response.body());
                         Log.e("MapMap", "EDIT PROFILE RESPONSE" + dataResponse);
-                        if (dialog!=null){
-                        dialog.dismiss();}
+                        if (dialog != null) {
+                            dialog.dismiss();
+                        }
                         answerSuccess();
 
                     } else if (data.equals("0")) {

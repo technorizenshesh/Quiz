@@ -80,14 +80,10 @@
 
 
 
-        <androidx.core.widget.NestedScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fillViewport="true"
-            android:layout_below="@id/header"
-            android:layout_above="@+id/llBottom"
-            >
+
             <LinearLayout
+                android:layout_below="@id/header"
+                android:layout_above="@+id/llBottom"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
@@ -97,17 +93,17 @@
                 <ImageView
                     android:id="@+id/ivPuzzel"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_130sdp"
-                    android:src="@drawable/ic_puzzel"
+                    android:layout_height="wrap_content"
                     android:scaleType="fitXY"
                     />
                 <WebView
                     android:id="@+id/tvContent"
+                    android:layout_marginStart="@dimen/_2sdp"
+                    android:layout_marginEnd="@dimen/_2sdp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     />
             </LinearLayout>
-        </androidx.core.widget.NestedScrollView>
 
         <LinearLayout
             android:id="@+id/llBottom"

@@ -204,6 +204,8 @@ public class FinalPuzzelAct extends AppCompatActivity {
                     binding.tvContent.loadDataWithBaseURL("", data.getNotice(), mimeType, encoding, "");
                     binding.tvContent.getSettings().setBuiltInZoomControls(true);
                     binding.tvContent.getSettings().setDisplayZoomControls(false);
+                    binding.tvContent.getSettings().setSupportZoom(true);
+
                     if (data.status.equals("1")) {
                         FinalHTML = data.getAfter_finish_text();
                         FinalImage = data.getAfter_finish_image();

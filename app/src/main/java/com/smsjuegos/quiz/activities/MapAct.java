@@ -118,10 +118,16 @@ public class MapAct extends AppCompatActivity implements OnMapReadyCallback, Goo
                     .putExtra("eventCode", eventCode));
             Toast.makeText(getApplicationContext(), "" + position, Toast.LENGTH_SHORT).show();
         } else if (instructionList.get(position).getEventType().equalsIgnoreCase("codigo_frida")) {
-            Log.e("hh", " instructionList.get(position).getArrival_time()--"+instructionList.get(position).getArrival_time());
+            Log.e("hh", " instructionList.get(position).getArrival_time()--"+
+                    instructionList.get(position).getArrival_time());
             instructionList.get(position).getArrival_time();
-
-
+            startActivity(new Intent(MapAct.this, QuestionAnswerAct.class).
+                    putExtra("instructionID", instructionList.get(position))
+                    .putExtra("eventCode", eventCode));
+        } else if (instructionList.get(position).getEventType().equalsIgnoreCase("zombie")) {
+            Log.e("hh", " instructionList.get(position).getArrival_time()--"+
+                    instructionList.get(position).getArrival_time());
+            instructionList.get(position).getArrival_time();
             startActivity(new Intent(MapAct.this, QuestionAnswerAct.class).
                     putExtra("instructionID", instructionList.get(position))
                     .putExtra("eventCode", eventCode));
@@ -227,8 +233,8 @@ public class MapAct extends AppCompatActivity implements OnMapReadyCallback, Goo
                                         .execute(latLngs -> {
                                             PolylineOptions options = new PolylineOptions();
                                             options.addAll(latLngs);
-                                            options.color(Color.BLACK);
-                                            options.width(8);
+                                            options.color(Color.GREEN);
+                                            options.width(5);
                                             options.startCap(new SquareCap());
                                             options.endCap(new SquareCap());
                                             Polyline line = mMap.addPolyline(options);

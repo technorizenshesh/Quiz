@@ -242,7 +242,6 @@ public class ZombieQuestionAct extends AppCompatActivity {
         String userId = SharedPreferenceUtility.getInstance(this).getString(USER_ID);
         String event_code = SharedPreferenceUtility.getInstance(this).getString(EVENT_CODE);
        /* if (instructionList.get(position).getEventId().equalsIgnoreCase("49")) {
-
             binding.ivshare.setVisibility(View.VISIBLE);
         } else {
             binding.ivshare.setVisibility(View.GONE);
@@ -260,7 +259,7 @@ public class ZombieQuestionAct extends AppCompatActivity {
         Call<ResponseBody> call = apiInterface.submitVirusAnswer(map);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+            public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
                 DataManager.getInstance().hideProgressMessage();
                 try {
                     JSONObject jsonObject = new JSONObject(response.body().string());

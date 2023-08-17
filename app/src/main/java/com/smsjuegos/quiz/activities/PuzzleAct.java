@@ -103,6 +103,8 @@ public class PuzzleAct extends AppCompatActivity {
                 mimeType, encoding, "");
         binding.tvContent.getSettings().setBuiltInZoomControls(true);
         binding.tvContent.getSettings().setDisplayZoomControls(false);
+       // binding.tvContent.getSettings().setSupportZoom(true);
+
 
         binding.btnHint.setOnClickListener(v ->
                 {

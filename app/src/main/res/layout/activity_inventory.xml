@@ -28,6 +28,7 @@
         android:id="@+id/rvINventory"/>
     <TextView
         android:id="@+id/txt1"
+        android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/_5_places"
@@ -46,6 +47,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/_5_people"
+        android:visibility="gone"
         android:textSize="@dimen/_12sdp"
         android:textColor="@color/purple_700"
         android:layout_marginTop="@dimen/_10sdp"
@@ -57,6 +59,7 @@
         android:id="@+id/rvPeople"/>
     <TextView
         android:id="@+id/txt3"
+        android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/_5_objects"

@@ -63,7 +63,7 @@ public class InventoryAct extends AppCompatActivity {
         //    binding.rvINventory.setHasFixedSize(true);
         //   binding.rvINventory.setLayoutManager(new LinearLayoutManager(InventoryAct.this));
         //  binding.rvINventory.setAdapter(inventoryAdapter);
-        if (eventId.equalsIgnoreCase("8")&&eventId.equalsIgnoreCase("15")) {
+        if (eventId.equalsIgnoreCase("8")|eventId.equalsIgnoreCase("15")) {
             binding.txt1.setVisibility(View.GONE);
             binding.txt2.setVisibility(View.GONE);
             binding.txt3.setVisibility(View.GONE);

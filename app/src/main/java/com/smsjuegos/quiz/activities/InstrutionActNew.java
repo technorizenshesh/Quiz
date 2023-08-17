@@ -164,18 +164,26 @@ public class InstrutionActNew extends AppCompatActivity implements OnMapReadyCal
     public boolean onMarkerClick(@NonNull Marker marker) {
         int position = (int) (marker.getTag());
         Log.e("TAG", "onMarkerClick: position" + position);
-        Log.e("TAG",
-                "onMarkerClick: instructionList.get(position).getEventType()---" + instructionList.get(position).getEventType());
+        Log.e("TAG", "onMarkerClick: getIdgetIdgetIdgetId" +  instructionList.get(position).getId());
+        Log.e("TAG", "onMarkerClick: instructionList.get(position).getEventType()---" + instructionList.get(position).getEventType());
         if (instructionList.get(position).getEventType().equalsIgnoreCase("crime")) {
             startActivity(new Intent(InstrutionActNew.this, QuestionAnswerAct.class).
                     putExtra("instructionID", instructionList.get(position))
                     .putExtra("eventCode", eventCode));
             Toast.makeText(getApplicationContext(), "" + position, Toast.LENGTH_SHORT).show();
-        } else if (instructionList.get(position).getEventType().equalsIgnoreCase("codigo_frida")) {
+        } else
+            if (instructionList.get(position).getEventType().equalsIgnoreCase("codigo_frida"))
+            {
             startActivity(new Intent(InstrutionActNew.this, QuestionAnswerAct.class).
                     putExtra("instructionID", instructionList.get(position))
                     .putExtra("eventCode", eventCode));
-        } else {
+        } else
+            if (instructionList.get(position).getEventType().equalsIgnoreCase("zombie")) {
+            startActivity(new Intent(InstrutionActNew.this, QuestionAnswerAct.class).
+                    putExtra("instructionID", instructionList.get(position))
+                    .putExtra("eventCode", eventCode));
+        }
+            else {
 
             Log.e("TAG", "onMarkerClick: " + instructionList.get(position));
             startActivity(new Intent(InstrutionActNew.this, PuzzleAct.class)
