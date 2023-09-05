@@ -20,9 +20,11 @@ import com.smsjuegos.quiz.adapter.HomeAdapter;
 import com.smsjuegos.quiz.databinding.FragmentCalanderBinding;
 import com.smsjuegos.quiz.model.SuccessResGetEvents;
 import com.smsjuegos.quiz.retrofit.ApiClient;
+import com.smsjuegos.quiz.retrofit.Constant;
 import com.smsjuegos.quiz.retrofit.NetworkAvailablity;
 import com.smsjuegos.quiz.retrofit.QuizInterface;
 import com.smsjuegos.quiz.utility.DataManager;
+import com.smsjuegos.quiz.utility.SharedPreferenceUtility;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -129,11 +131,15 @@ public class CalanderFragment extends Fragment {
 
     private void getEventsImages() {
         DataManager.getInstance().showProgressMessage(getActivity(), getString(R.string.please_wait));
+        boolean val = SharedPreferenceUtility.getInstance(requireContext())
+                .getBoolean(Constant.SELECTED_LANGUAGE);
 
         HashMap<String, String> map = new HashMap<>();
-
-        map.put("lang", "sp");
-
+        if (!val) {
+            map.put("lang", "en");
+        } else {
+            map.put("lang", "sp");
+        }
         Call<SuccessResGetEvents> call = apiInterface.getEventsList(map);
 
         call.enqueue(new Callback<SuccessResGetEvents>() {

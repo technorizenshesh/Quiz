@@ -17,6 +17,8 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.webkit.WebChromeClient;
+import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -360,16 +362,25 @@ public class ZombieQuestionAct extends AppCompatActivity {
         hint2 = false;
         hint3 = false;
         Log.e(TAG, "setEventQuestions:  -=-=-=-=- " + instructionList.get(position).getCustom_ans());
+        Log.e(TAG, "setEventQuestions:  -=-=-=-=-  instructionList.get(position).getImage() --  " + instructionList.get(position).getImage());
         Glide.with(ZombieQuestionAct.this)
                 .load(instructionList.get(position).getImage())
                 .fitCenter()
                 .into(binding.ivPuzzel);
+        if (instructionList.get(position).getImage().equalsIgnoreCase("")
+                ||instructionList.get(position).getImage().equalsIgnoreCase("http://appsmsjuegos.com/Quiz/uploads/images/")){
+            binding.ivPuzzel.setVisibility(View.GONE);
+        }
         final String mimeType = "text/html";
         final String encoding = "UTF-8";
         binding.webView.loadDataWithBaseURL("",
                 instructionList.get(position).getInstructions(), mimeType, encoding, "");
         binding.webView.getSettings().setBuiltInZoomControls(true);
         binding.webView.getSettings().setDisplayZoomControls(false);
+        binding.webView.getSettings().setLoadWithOverviewMode(true);
+        binding.webView.getSettings().setUseWideViewPort(false);
+        binding.webView.setWebViewClient(new WebViewClient());
+        binding.webView.setWebChromeClient(new WebChromeClient());
         if (instructionList.get(position).getOptionAns().equalsIgnoreCase("None")) {
             binding.rlBottom.setVisibility(View.GONE);
             binding.llButtonHint.setVisibility(View.GONE);
@@ -379,6 +390,7 @@ public class ZombieQuestionAct extends AppCompatActivity {
             binding.llButtonHint.setVisibility(View.VISIBLE);
             binding.btnNext.setVisibility(View.GONE);
         }
+       // binding.btnNext.setVisibility(View.VISIBLE);
 
     }
 

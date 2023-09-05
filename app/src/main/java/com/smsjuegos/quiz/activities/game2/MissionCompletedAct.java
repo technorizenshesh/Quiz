@@ -59,14 +59,16 @@ public class MissionCompletedAct extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_mission_completed);
         result = (SuccessResGetEvents.Result) getIntent().getSerializableExtra("instructionID");
+        Log.e("result", "onCreate: resultresultresultresult    "+getIntent().getExtras() );
+        Log.e("result", "onCreate: resultresultresultresult    "+result.toString() );
         apiInterface = ApiClient.getClient().create(QuizInterface.class);
         playerView = findViewById(R.id.player_view_tt);
         adsLoader = new ImaAdsLoader.Builder(this).build();
         Glide.with(this)
-                .load(result.getImage())
+                .load(result.getAfter_finish_image())
                 .fitCenter()
                 .into(binding.ivGame);
-
+binding.tvInstruction.setText(""+result.getAfter_finish_text());
         binding.btnEndOfGame.setOnClickListener(v ->
                 {
                     eventCompleted();
@@ -205,6 +207,7 @@ initializePlayer(url);
 
     private void initializePlayer(String urls) {
         if (urls.equalsIgnoreCase("")) {
+            binding.btnfinish.performClick();
         } else {
             DataSource.Factory dataSourceFactory = new DefaultDataSource.Factory(this);
             MediaSource.Factory mediaSourceFactory =

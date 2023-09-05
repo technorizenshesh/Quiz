@@ -15,6 +15,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
         <androidx.core.widget.NestedScrollView
+            android:paddingBottom="@dimen/_50sdp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fillViewport="true"
@@ -41,7 +42,6 @@
                     android:layout_below="@id/ivGame"
                     android:layout_marginTop="@dimen/_15sdp"
                     android:lineSpacingMultiplier="1.5"
-                    android:text="@string/congratulations_you_have_saved_the_world_from_the_next_pandemic_you_may_open_envelope_4"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_16sdp" />
                 <ImageView

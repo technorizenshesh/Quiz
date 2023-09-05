@@ -31,6 +31,7 @@ import com.smsjuegos.quiz.databinding.ActivityQuestionBinding;
 import com.smsjuegos.quiz.model.SuccessResGetEvents;
 import com.smsjuegos.quiz.model.SuccessResGetVirusEvent;
 import com.smsjuegos.quiz.retrofit.ApiClient;
+import com.smsjuegos.quiz.retrofit.Constant;
 import com.smsjuegos.quiz.retrofit.QuizInterface;
 import com.smsjuegos.quiz.utility.DataManager;
 import com.smsjuegos.quiz.utility.SharedPreferenceUtility;
@@ -315,9 +316,18 @@ public class QuestionAct extends AppCompatActivity {
     private void getInstruction() {
         String userId = SharedPreferenceUtility.getInstance(this).getString(USER_ID);
         DataManager.getInstance().showProgressMessage(this, getString(R.string.please_wait));
+        boolean val = SharedPreferenceUtility.getInstance(getApplicationContext()).getBoolean(Constant.SELECTED_LANGUAGE);
+        String lang = "";
+
+        if (!val) {
+            lang = "en";
+        } else {
+            lang = "sp";
+        }
         Map<String, String> map = new HashMap<>();
+
         map.put("event_id", result.getId());
-        map.put("lang", "sp");
+        map.put("lang", lang);
         Call<SuccessResGetVirusEvent> call = apiInterface.getVirusEvent(map);
         call.enqueue(new Callback<SuccessResGetVirusEvent>() {
             @Override
