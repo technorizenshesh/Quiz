@@ -118,37 +118,24 @@ public class HomeScreenGame2Act extends AppCompatActivity {
         Call<ResponseBody> call = apiInterface.virus_event_apply_code(map);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-
+            public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
                 DataManager.getInstance().hideProgressMessage();
-
                 try {
-
+                    assert response.body() != null;
                     JSONObject jsonObject = new JSONObject(response.body().string());
-
                     String data = jsonObject.getString("status");
-
                     String message = jsonObject.getString("message");
-
                     if (data.equals("1")) {
-                        SharedPreferenceUtility.getInstance(HomeScreenGame2Act
-                                .this).putString(Constant.EVENT_CODE,
-                                code);
-                        startActivity(new Intent(HomeScreenGame2Act.this
-                                , WelcomeMessageActivity.class).putExtra(
-                                "instructionID", result));
-                    } else if (data.equals("0")) {
-                        showToast(HomeScreenGame2Act.this, message);
-                    }
-
+                        SharedPreferenceUtility.getInstance(HomeScreenGame2Act.this).putString(Constant.EVENT_CODE, code);
+                        startActivity(new Intent(HomeScreenGame2Act.this, WelcomeMessageActivity.class).putExtra("instructionID", result));
+                    } else
+                        if (data.equals("0")) {showToast(HomeScreenGame2Act.this, message);}
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-
             }
-
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
+            public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
                 call.cancel();
                 DataManager.getInstance().hideProgressMessage();
             }
@@ -161,7 +148,14 @@ public class HomeScreenGame2Act extends AppCompatActivity {
         Map<String, String> map = new HashMap<>();
         map.put("user_id", userId);
         map.put("event_id", result.getId());
-        map.put("lang", "en");
+        boolean val = SharedPreferenceUtility.getInstance(getApplicationContext())
+                .getBoolean(Constant.SELECTED_LANGUAGE);
+
+        if (!val) {
+            map.put("lang", "en");
+        } else {
+            map.put("lang", "sp");
+        }
         Call<EventCodeResSuccess> call = apiInterface.get_event_code(map);
         call.enqueue(new Callback<EventCodeResSuccess>() {
             @Override

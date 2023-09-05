@@ -110,6 +110,39 @@ public class SuccessResGetEvents implements Serializable {
         @SerializedName("option_Ans")
         @Expose
         public String optionAns;
+        @SerializedName("after_finish_text")
+        @Expose
+        public String after_finish_text;
+        @SerializedName("after_finish_text_sp")
+        @Expose
+        public String after_finish_text_sp;
+        @SerializedName("after_finish_image")
+        @Expose
+        public String after_finish_image;
+
+        public String getAfter_finish_image() {
+            return after_finish_image;
+        }
+
+        public void setAfter_finish_image(String after_finish_image) {
+            this.after_finish_image = after_finish_image;
+        }
+
+        public String getAfter_finish_text() {
+            return after_finish_text;
+        }
+
+        public void setAfter_finish_text(String after_finish_text) {
+            this.after_finish_text = after_finish_text;
+        }
+
+        public String getAfter_finish_text_sp() {
+            return after_finish_text_sp;
+        }
+
+        public void setAfter_finish_text_sp(String after_finish_text_sp) {
+            this.after_finish_text_sp = after_finish_text_sp;
+        }
 
         public String getOptionA() {
             return optionA;
@@ -287,6 +320,36 @@ public class SuccessResGetEvents implements Serializable {
             this.video = video;
         }
 
+        @Override
+        public String toString() {
+            return "Result{" +
+                    "id='" + id + '\'' +
+                    ", eventName='" + eventName + '\'' +
+                    ", address='" + address + '\'' +
+                    ", lat='" + lat + '\'' +
+                    ", lon='" + lon + '\'' +
+                    ", eventDate='" + eventDate + '\'' +
+                    ", eventTime='" + eventTime + '\'' +
+                    ", amount='" + amount + '\'' +
+                    ", image='" + image + '\'' +
+                    ", totalTicket='" + totalTicket + '\'' +
+                    ", eventInstructions='" + eventInstructions + '\'' +
+                    ", event_instructions1='" + event_instructions1 + '\'' +
+                    ", dateTime='" + dateTime + '\'' +
+                    ", type='" + type + '\'' +
+                    ", description='" + description + '\'' +
+                    ", video='" + video + '\'' +
+                    ", description_image='" + description_image + '\'' +
+                    ", optionA='" + optionA + '\'' +
+                    ", optionB='" + optionB + '\'' +
+                    ", optionC='" + optionC + '\'' +
+                    ", optionD='" + optionD + '\'' +
+                    ", optionAns='" + optionAns + '\'' +
+                    ", after_finish_text='" + after_finish_text + '\'' +
+                    ", after_finish_text_sp='" + after_finish_text_sp + '\'' +
+                    ", after_finish_image='" + after_finish_image + '\'' +
+                    '}';
+        }
     }
 
 }

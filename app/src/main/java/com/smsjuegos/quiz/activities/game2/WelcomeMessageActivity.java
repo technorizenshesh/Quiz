@@ -21,18 +21,18 @@ public class WelcomeMessageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_welcome_message);
         binding.header.imgHeader.setOnClickListener(v -> finish());
+
+        result = (SuccessResGetEvents.Result) getIntent().getSerializableExtra("instructionID");
+        binding.tvInstruction.setText(result.getDescription());
+        Glide.with(this).load(result.getDescription_image())
+                .into(binding.descriptionImage);
+        binding.header.tvHeader.setText(getString(R.string.welcome_to_virus)+" "+result.getEventName());
         binding.btnPlay.setOnClickListener(v ->
                 {
                     startActivity(new Intent(WelcomeMessageActivity.this
                             , Game2StartVideoAct.class).putExtra("instructionID", result));
                 }
         );
-        result = (SuccessResGetEvents.Result) getIntent().getSerializableExtra("instructionID");
-        binding.tvInstruction.setText(result.getDescription());
-        Glide.with(this).load(result.getDescription_image())
-                .into(binding.descriptionImage);
-        binding.header.tvHeader.setText(getString(R.string.welcome_to_virus)+" "+result.getEventName());
-
 
     }
 }
