@@ -6,7 +6,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:padding="@dimen/_10sdp"
+        android:padding="@dimen/_5sdp"
         tools:context=".activities.game2.QuestionAct">
 
         <LinearLayout
@@ -21,7 +21,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_above="@+id/rlBottom"
-                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_2sdp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -54,10 +54,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
-                android:layout_marginTop="@dimen/_15sdp">
+                android:layout_marginTop="@dimen/_4sdp">
 
                 <EditText
-                    android:visibility="gone"
                     android:id="@+id/etAnswer"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_35sdp"
@@ -68,7 +67,8 @@
                     android:background="@drawable/et_bg"
                     android:hint="@string/enter_answer"
                     android:paddingLeft="@dimen/_10sdp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:visibility="gone" />
 
                 <TextView
                     android:id="@+id/tvanswer1"
@@ -76,10 +76,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/_10sdp"
                     android:text="@string/answer"
-                    android:visibility="gone"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_14sdp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:visibility="gone" />
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/btnSubmit"
@@ -88,7 +88,7 @@
                     android:layout_below="@+id/tvanswer1"
                     android:layout_alignParentRight="true"
                     android:layout_marginStart="@dimen/_5sdp"
-                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginTop="@dimen/_2sdp"
                     android:layout_marginEnd="@dimen/_5sdp"
                     android:layout_marginBottom="@dimen/_5sdp"
                     android:background="@drawable/bt_bg"
@@ -115,65 +115,67 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_alignParentTop="true"
+            android:id="@+id/topp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            >
+            android:layout_alignParentTop="true"
+            android:gravity="center">
+
             <TextView
 
                 android:id="@+id/time_view"
-                android:textAlignment="center"
-
                 android:layout_width="wrap_content"
+
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:layout_gravity="center"
                 android:background="@drawable/bt_bottom_cornor_bg"
                 android:padding="@dimen/_10sdp"
                 android:text="00:00"
+                android:textAlignment="center"
                 android:textColor="@color/white"
 
                 android:textSize="@dimen/_12sdp" />
 
         </LinearLayout>
 
-
-        <androidx.core.widget.NestedScrollView
-            android:layout_marginTop="@dimen/_36sdp"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@+id/llBottom"
-            android:fillViewport="true">
+            android:layout_below="@+id/topp"
+            android:orientation="vertical">
 
-            <LinearLayout
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+
+                    >
+                    <ImageView
+                        android:id="@+id/ivPuzzel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                    <WebView
+                        android:id="@+id/webView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="@dimen/_6sdp"
+                        tools:ignore="WebViewLayout" />
+                </LinearLayout>
+
+
+
+            <ImageView
+                android:id="@+id/ivshare"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
-
-                <ImageView
-                    android:id="@+id/ivPuzzel"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/_120sdp" />
-
-                <WebView
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:id="@+id/webView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    />
-
-                <ImageView
-                    android:layout_margin="@dimen/_10sdp"
-                    android:visibility="gone"
-                    android:id="@+id/ivshare"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/_120sdp"
-                    android:src="@drawable/share"/>
-            </LinearLayout>
-
-        </androidx.core.widget.NestedScrollView>
+                android:layout_height="@dimen/_120sdp"
+                android:layout_margin="@dimen/_10sdp"
+                android:src="@drawable/share"
+                android:visibility="gone" />
+        </LinearLayout>
 
     </RelativeLayout>
 </layout>

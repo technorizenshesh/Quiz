@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
@@ -132,7 +133,6 @@ public class HomeFragment extends Fragment {
         DataManager.getInstance().showProgressMessage(getActivity(), getString(R.string.please_wait));
         boolean val = SharedPreferenceUtility.getInstance(getActivity()).getBoolean(Constant.SELECTED_LANGUAGE);
         String lang = "";
-
         if (!val) {
             lang = "en";
         } else {
@@ -143,31 +143,21 @@ public class HomeFragment extends Fragment {
         Call<SuccessResGetEvents> call = apiInterface.getEventsList(map);
         call.enqueue(new Callback<SuccessResGetEvents>() {
             @Override
-            public void onResponse(Call<SuccessResGetEvents> call, Response<SuccessResGetEvents> response) {
-
+            public void onResponse(@NonNull Call<SuccessResGetEvents> call, @NonNull Response<SuccessResGetEvents> response) {
                 DataManager.getInstance().hideProgressMessage();
                 try {
                     SuccessResGetEvents data = response.body();
-                    Log.e("data", data.status);
+                    assert data != null;
+                    Log.e("data", "-----------------"+String.valueOf(response.body()));
                     if (data.status.equals("1")) {
-                        String dataResponse = new Gson().toJson(response.body());
                         eventsList.clear();
                         eventsList.addAll(data.getResult());
                         homeAdapter.notifyDataSetChanged();
                         binding.rvUpcomingEvents.hideShimmerAdapter();
-
-                    } else if (data.status.equals("0")) {
-                        showToast(getActivity(), data.message);
-                    }
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-            }
-
+                    } else if (data.status.equals("0")) {showToast(getActivity(), data.message);}
+                } catch (Exception e) {e.printStackTrace();}}
             @Override
-            public void onFailure(Call<SuccessResGetEvents> call, Throwable t) {
+            public void onFailure(@NonNull Call<SuccessResGetEvents> call, @NonNull Throwable t) {
                 call.cancel();
                 DataManager.getInstance().hideProgressMessage();
             }

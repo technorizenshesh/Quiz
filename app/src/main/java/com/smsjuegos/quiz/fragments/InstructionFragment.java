@@ -113,7 +113,7 @@ public class InstructionFragment extends Fragment {
 
         DataManager.getInstance().showProgressMessage(getActivity(), getString(R.string.please_wait));
         Map<String, String> map = new HashMap<>();
-        map.put("lang", "sp");
+        map.put("lang", lang);
         Call<SuccessResGetInstruct> call = apiInterface.geApplicationInstruction(map);
         call.enqueue(new Callback<SuccessResGetInstruct>() {
             @Override
