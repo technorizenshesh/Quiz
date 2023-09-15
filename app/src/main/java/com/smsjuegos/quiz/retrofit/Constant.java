@@ -16,6 +16,7 @@ public class Constant {
     public static final String MUTE_UNMUTE = "muteUnmute";
     public static final String PLAY_PAUSE = "playPause";
     public static final String USER_ID = "userID";
+    public static final String GAME_LAVEL = "level";
     public static final String EVENT_CODE = "event_code";
     public static final String FCMID = "fcm_id";
     public static final int LOCATION_REQUEST = 1000;

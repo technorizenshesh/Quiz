@@ -295,7 +295,12 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.SelectTimeView
                         bundle.putString("id", eventsListList.get(position).getId());
                         Navigation.findNavController(v).navigate(R.id.action_navigation_profile_to_navigation_list
                                 , bundle);
-                    }
+                    }else if (eventsListList.get(position).getType().equalsIgnoreCase("rescate")) {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("id", eventsListList.get(position).getId());
+                        Navigation.findNavController(v).navigate(R.id.action_navigation_profile_to_navigation_list
+                                , bundle);
+                    }else
                     if (eventsListList.get(position).getType().equalsIgnoreCase("zombie")) {
                         Bundle bundle = new Bundle();
                         bundle.putString("id", eventsListList.get(position).getId());
@@ -303,7 +308,8 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.SelectTimeView
                                 , bundle);
                     }
                     Log.e("TAG", "onBindViewHolder:eventsListList.get(position).getType() " + eventsListList.get(position).getType());
-                } else if (fromHome.equalsIgnoreCase("cal")) {
+                }
+                else if (fromHome.equalsIgnoreCase("cal")) {
 
                     if (eventsListList.get(position).getType().equalsIgnoreCase("puzzle")) {
                         Bundle bundle = new Bundle();
@@ -335,13 +341,19 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.SelectTimeView
                         bundle.putString("id", eventsListList.get(position).getId());
                         Navigation.findNavController(v).navigate(R.id.action_navigation_profile_to_navigation_list
                                 , bundle);
+                    } else if (eventsListList.get(position).getType().equalsIgnoreCase("rescate")) {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("id", eventsListList.get(position).getId());
+                        Navigation.findNavController(v).navigate(R.id.action_navigation_profile_to_navigation_list
+                                , bundle);
                     } else if (eventsListList.get(position).getType().equalsIgnoreCase("zombie")) {
                         Bundle bundle = new Bundle();
                         bundle.putString("id", eventsListList.get(position).getId());
                         Navigation.findNavController(v).navigate(R.id.action_navigation_profile_to_navigation_list
                                 , bundle);
                     }
-                } else if (fromHome.equalsIgnoreCase("search")) {
+                }
+                else if (fromHome.equalsIgnoreCase("search")) {
                     if (eventsListList.get(position).getType().equalsIgnoreCase("puzzle")) {
                         Bundle bundle = new Bundle();
                         bundle.putString("id", eventsListList.get(position).getId());
@@ -371,6 +383,11 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.SelectTimeView
                                 , HomeScreenGame2Act.class).putExtra("instructionID"
                                 , eventsListList.get(position)));
                     } else if (eventsListList.get(position).getType().equalsIgnoreCase("codigo_frida")) {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("id", eventsListList.get(position).getId());
+                        Navigation.findNavController(v).navigate(R.id.action_navigation_profile_to_navigation_list
+                                , bundle);
+                    } else  if (eventsListList.get(position).getType().equalsIgnoreCase("rescate")) {
                         Bundle bundle = new Bundle();
                         bundle.putString("id", eventsListList.get(position).getId());
                         Navigation.findNavController(v).navigate(R.id.action_navigation_profile_to_navigation_list

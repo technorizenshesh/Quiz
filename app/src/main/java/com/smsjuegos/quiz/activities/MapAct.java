@@ -1,5 +1,6 @@
 package com.smsjuegos.quiz.activities;
 
+import static com.smsjuegos.quiz.retrofit.Constant.GAME_LAVEL;
 import static com.smsjuegos.quiz.retrofit.Constant.USER_ID;
 import static com.smsjuegos.quiz.retrofit.Constant.showToast;
 import static com.smsjuegos.quiz.utility.DataManager.downloadUrl;
@@ -156,7 +157,9 @@ public class MapAct extends AppCompatActivity implements OnMapReadyCallback, Goo
         map.put("lang", lang);
         String userId = SharedPreferenceUtility.getInstance(this).getString(USER_ID);
         map.put("event_code", eventCode);
-        map.put("user_id", userId);
+        String level = SharedPreferenceUtility.getInstance(this).getString(GAME_LAVEL);
+        map.put("level", level);
+
         Call<SuccessResGetInstruction> call = apiInterface.getInstruction(map);
         call.enqueue(new Callback<SuccessResGetInstruction>() {
             @Override

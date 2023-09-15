@@ -1,5 +1,6 @@
 package com.smsjuegos.quiz.activities;
 
+import static com.smsjuegos.quiz.retrofit.Constant.GAME_LAVEL;
 import static com.smsjuegos.quiz.retrofit.Constant.USER_ID;
 import static com.smsjuegos.quiz.retrofit.Constant.showToast;
 
@@ -200,6 +201,8 @@ public class InstrutionActNew extends AppCompatActivity implements OnMapReadyCal
         map.put("event_id", eventId);
         map.put("event_code", eventCode);
         map.put("user_id", userId);
+        String level = SharedPreferenceUtility.getInstance(this).getString(GAME_LAVEL);
+        map.put("level", level);
         Call<ResponseBody> call = apiInterface.get_event_time(map);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
@@ -231,7 +234,6 @@ public class InstrutionActNew extends AppCompatActivity implements OnMapReadyCal
         DataManager.getInstance().showProgressMessage(this, getString(R.string.please_wait));
         boolean val = SharedPreferenceUtility.getInstance(getApplicationContext()).getBoolean(Constant.SELECTED_LANGUAGE);
         String lang = "";
-
         if (!val) {
             lang = "en";
         } else {
@@ -241,8 +243,11 @@ public class InstrutionActNew extends AppCompatActivity implements OnMapReadyCal
         map.put("event_id", eventId);
         map.put("lang", lang);
         String userId = SharedPreferenceUtility.getInstance(this).getString(USER_ID);
+        String level = SharedPreferenceUtility.getInstance(this).getString(GAME_LAVEL);
+        map.put("level", level);
         map.put("event_code", eventCode);
         map.put("user_id", userId);
+        Log.e(TAG, "getInstruction: ---------------"+map.toString() );
         Call<SuccessResGetInstruction> call = apiInterface.getInstruction(map);
         call.enqueue(new Callback<SuccessResGetInstruction>() {
             @Override

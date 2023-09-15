@@ -12,6 +12,7 @@ import com.smsjuegos.quiz.model.SuccessResGetInstruct;
 import com.smsjuegos.quiz.model.SuccessResGetInstruction;
 import com.smsjuegos.quiz.model.SuccessResGetInstructionTwo;
 import com.smsjuegos.quiz.model.SuccessResGetInventory;
+import com.smsjuegos.quiz.model.SuccessResGetLevel;
 import com.smsjuegos.quiz.model.SuccessResGetMyEvents;
 import com.smsjuegos.quiz.model.SuccessResGetOtherUserData;
 import com.smsjuegos.quiz.model.SuccessResGetPP;
@@ -67,6 +68,9 @@ public interface QuizInterface {
     @FormUrlEncoded
     @POST("get_event_details")
     Call<SuccessResGetEventDetail> getEventDetails(@FieldMap Map<String, String> paramHashMap);
+    @FormUrlEncoded
+    @POST("get_level")
+    Call<SuccessResGetLevel> get_level(@FieldMap Map<String, String> paramHashMap);
 
     @FormUrlEncoded
     @POST("add_to_cart")

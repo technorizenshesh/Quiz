@@ -1,5 +1,6 @@
 package com.smsjuegos.quiz.activities;
 
+import static com.smsjuegos.quiz.retrofit.Constant.GAME_LAVEL;
 import static com.smsjuegos.quiz.retrofit.Constant.USER_ID;
 import static com.smsjuegos.quiz.retrofit.Constant.showToast;
 
@@ -147,11 +148,13 @@ public class DownloadAct extends AppCompatActivity {
             lang = "sp";
         }
         String userId = SharedPreferenceUtility.getInstance(this).getString(USER_ID);
+        String level = SharedPreferenceUtility.getInstance(this).getString(GAME_LAVEL);
         Map<String, String> map = new HashMap<>();
         map.put("event_id", eventId);
         map.put("lang", lang);
         map.put("event_code", eventCode);
         map.put("user_id", userId);
+        map.put("level", level);
         Call<SuccessResGetInstruction> call = apiInterface.getInstruction(map);
         call.enqueue(new Callback<SuccessResGetInstruction>() {
             @Override

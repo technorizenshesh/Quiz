@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+    <RadioButton
+        android:layoutDirection="rtl"
+        android:textAlignment="textStart"
+        android:layout_gravity="start"
+        android:layout_marginEnd="@dimen/_10sdp"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:buttonTint="@color/black"
+        android:checked="true"
+        android:padding="@dimen/_5sdp"
+        android:id="@+id/easy"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/easy"
+        android:textSize="@dimen/_14sdp"
+        android:fontFamily="@font/metropolis_bold"
+        />
+
+</LinearLayout>

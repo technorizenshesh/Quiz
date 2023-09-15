@@ -35,27 +35,8 @@ public class HomeAct extends AppCompatActivity {
         ivLocation.setOnClickListener(view ->
                 {
                     navController.navigate(R.id.searchFragment);
-//                    navView.getMenu().setGroupCheckable(0, false, true);
                 }
         );
-
-//        navView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
-//            @Override
-//            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-//                navView.getMenu().setGroupCheckable(0, true, true);
-//                switch (item.getItemId())
-//                {
-//                    case R.id.navigation_home : navController.navigate(R.id.navigation_home);
-//                        break;
-//                    case R.id.navigation_calander : navController.navigate(R.id.navigation_calander);
-//                        break;
-//                    case R.id.navigation_list : navController.navigate(R.id.navigation_list);
-//                        break;
-//                    case R.id.navigation_profile : navController.navigate(R.id.navigation_profile);
-//                }
-//                return true;
-//            }
-//        });
 
     }
 

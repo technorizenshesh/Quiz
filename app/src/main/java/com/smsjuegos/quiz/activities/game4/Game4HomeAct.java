@@ -1,5 +1,6 @@
 package com.smsjuegos.quiz.activities.game4;
 
+import static com.smsjuegos.quiz.retrofit.Constant.GAME_LAVEL;
 import static com.smsjuegos.quiz.retrofit.Constant.showToast;
 
 import android.app.Dialog;
@@ -26,6 +27,7 @@ import com.smsjuegos.quiz.model.SuccessResGetInstruction;
 import com.smsjuegos.quiz.retrofit.ApiClient;
 import com.smsjuegos.quiz.retrofit.QuizInterface;
 import com.smsjuegos.quiz.utility.DataManager;
+import com.smsjuegos.quiz.utility.SharedPreferenceUtility;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -122,7 +124,8 @@ public class Game4HomeAct extends AppCompatActivity {
         DataManager.getInstance().showProgressMessage(this, getString(R.string.please_wait));
         Map<String, String> map = new HashMap<>();
         map.put("event_id", eventId);
-
+        String level = SharedPreferenceUtility.getInstance(this).getString(GAME_LAVEL);
+        map.put("level", level);
         Call<SuccessResGetInstruction> call = apiInterface.getInstruction(map);
 
         call.enqueue(new Callback<SuccessResGetInstruction>() {
