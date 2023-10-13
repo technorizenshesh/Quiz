@@ -368,5 +368,6 @@ Ten cuidado!, estás en un lugar público no controlado.  Ten cuidado al cruzar 
     <string name="defficalty">Elige dificultad</string>
     <string name="medium">Medio</string>
     <string name="hard">Duro</string>
+    <string name="level_note">Nota: Solo puedes elegir el nivel de dificultad del equipo por una vez; una vez que elijas el nivel, tu equipo jugará en el nivel seleccionado.</string>
 
 </resources>

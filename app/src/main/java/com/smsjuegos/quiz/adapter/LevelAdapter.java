@@ -215,6 +215,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.smsjuegos.quiz.R;
+import com.smsjuegos.quiz.fragments.EventLocationsFragment;
 import com.smsjuegos.quiz.model.SuccessResGetLevel;
 
 import java.util.ArrayList;
@@ -263,6 +264,7 @@ public class LevelAdapter extends RecyclerView.Adapter<LevelAdapter.SelectTimeVi
                     dd.setSelected(false);
                 }
                 peopleList.get(position).setSelected(true);
+                EventLocationsFragment.mode=  peopleList.get(position).getId();
                 setList(peopleList);
                 //finalPuzzelInterface.selectedLevelInterface(position,peopleList.get(position));
             }

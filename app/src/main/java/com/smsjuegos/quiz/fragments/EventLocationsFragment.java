@@ -67,17 +67,16 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class EventLocationsFragment extends Fragment implements OnMapReadyCallback
-        , LevelAdapter.LevelInterface {
+public class EventLocationsFragment extends Fragment implements OnMapReadyCallback, LevelAdapter.LevelInterface {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    public static String mode = "1";
     private final String strEventCode = "";
     private final String event_status = "";
     FragmentEventLocationsBinding binding;
     String eventStartTime = "";
     String event_code = "";
     GPSTracker gpsTracker;
-    String mode = "easy";
     int peopleSelected = 0;
     LevelAdapter levelAdapter;
     SuccessResGetLevel leveldata;
@@ -100,8 +99,6 @@ public class EventLocationsFragment extends Fragment implements OnMapReadyCallba
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_event_locations, container, false);
         try {
-
-
             SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.locat_map);
             if (mapFragment != null) {
                 mapFragment.getMapAsync(this);
@@ -118,7 +115,6 @@ public class EventLocationsFragment extends Fragment implements OnMapReadyCallba
         }
 
         getEventDetails();
-        getLevels();
         binding.tvStatus.setOnClickListener(v -> {
                    /* if (Distanc>5){
                         Toast.makeText(requireActivity(), Distanc.toString(), Toast.LENGTH_SHORT).show();
@@ -126,17 +122,22 @@ public class EventLocationsFragment extends Fragment implements OnMapReadyCallba
                     }*/
 
 
-                    if (eventDetails.team_name.equalsIgnoreCase("")) {
-                        showImageSelection();
-                    } else {
-                        strCode = event_code;
-                        strCodeTeam = eventDetails.team_name;
+            if (eventDetails.team_name.equalsIgnoreCase("")) {
+                getLevels();
+                showImageSelection();
+            } else {
 
-                        addeventStartTime();
-
-                    }
+                strCode = event_code;
+                strCodeTeam = eventDetails.team_name;
+                if (eventDetails.getLevel() != null) {
+                    mode = eventDetails.getLevel();
                 }
-               );
+                SharedPreferenceUtility.getInstance(getContext()).putString(GAME_LAVEL, mode);
+
+                addeventStartTime();
+
+            }
+        });
 
         return binding.getRoot();
     }
@@ -286,7 +287,8 @@ public class EventLocationsFragment extends Fragment implements OnMapReadyCallba
     public void onMapReady(@NonNull GoogleMap googleMap) {
         mMap = googleMap;
         if (ActivityCompat.checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return;}
+            return;
+        }
         mMap.setMyLocationEnabled(true);
         getLocation();
     }
@@ -314,6 +316,7 @@ public class EventLocationsFragment extends Fragment implements OnMapReadyCallba
         dialog.show();
 
     }
+
     private void showMainMenu() {
         TextView tvInstruction;
         mDialog = new Dialog(getActivity());
@@ -342,6 +345,7 @@ public class EventLocationsFragment extends Fragment implements OnMapReadyCallba
         mDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         mDialog.show();
     }
+
     public void showImageSelection() {
         try {
             strCode = "";
@@ -383,7 +387,19 @@ public class EventLocationsFragment extends Fragment implements OnMapReadyCallba
                     showToast(getActivity(), "Please enter Team Name");
 
                 } else if (!strCode.equalsIgnoreCase("")) {
-                    addeventStartTime();
+                    if (eventId.equals("18")) {
+                        pickLevel();
+                    } else {
+                        strCode = event_code;
+                        strCodeTeam = eventDetails.team_name;
+                      /*  if ( eventDetails.getLevel()!=null){
+                            mode = eventDetails.getLevel();
+                        }*/
+                        SharedPreferenceUtility.getInstance(getContext()).putString(GAME_LAVEL, "1");
+                        mode = "1";
+                        addeventStartTime();
+                    }
+
                     dialog.dismiss();
 
                 } else {
@@ -402,6 +418,59 @@ public class EventLocationsFragment extends Fragment implements OnMapReadyCallba
     }
 
     public void addeventStartTime() {
+        String userId = SharedPreferenceUtility.getInstance(getContext()).getString(USER_ID);
+        String lon = SharedPreferenceUtility.getInstance(getContext()).getString(LONGITUDE);
+        String lat = SharedPreferenceUtility.getInstance(getContext()).getString(LATITUDE);
+        DataManager.getInstance().showProgressMessage(getActivity(), getString(R.string.please_wait));
+        Map<String, String> map = new HashMap<>();
+        map.put("event_id", eventId);
+        map.put("user_id", userId);
+        map.put("event_code", strCode);
+        map.put("team_name", strCodeTeam);
+        map.put("lat", lat);
+        map.put("lon", lon);
+        map.put("level", mode);
+        //  map.put("lat" ,"19.429612948473434");
+        //  map.put("lon" ,"-99.19726243783850");
+        Call<ResponseBody> call = apiInterface.addStartTime(map);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                DataManager.getInstance().hideProgressMessage();
+                try {
+                    JSONObject jsonObject = new JSONObject(response.body().string());
+                    String data = jsonObject.getString("status");
+                    String message = jsonObject.getString("message");
+                    String result = jsonObject.getString("result");
+
+                    if (data.equals("1")) {
+                        SharedPreferenceUtility.getInstance(getContext()).putString(GAME_LAVEL, mode);
+                        Log.e("TAG", "onResponse: modemode " + mode);
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("instructionID", eventDetails);
+                        startActivity(new Intent(getActivity(), DeclimarActivity.class).putExtras(bundle).putExtra("eventId", eventId).putExtra("eventCode", strCode));
+                    } else if (data.equals("0")) {
+                        showToast(getActivity(), result);
+                    } else if (data.equals("2")) {
+                        showToast(getActivity(), jsonObject.getString("result"));
+                    }
+                    if (data.equals("3")) {
+                        showDialog();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                call.cancel();
+                DataManager.getInstance().hideProgressMessage();
+            }
+        });
+    }
+
+    public void pickLevel() {
         final Dialog dialogq = new Dialog(requireActivity());
         dialogq.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialogq.getWindow().getAttributes().windowAnimations = android.R.style.Widget_Material_ListPopupWindow;
@@ -419,9 +488,10 @@ public class EventLocationsFragment extends Fragment implements OnMapReadyCallba
 
         imgHeader.setOnClickListener(D -> dialogq.dismiss());
         ivSubmit.setOnClickListener(D -> {
-            Log.e("TAG", "onResponse: " + radioGroup.getCheckedRadioButtonId());
-            int id = radioGroup.getCheckedRadioButtonId();
-            if (id == R.id.easy) mode = "easy";
+
+            //    Log.e("TAG", "onResponse: " + radioGroup.getCheckedRadioButtonId());
+            //     int id = radioGroup.getCheckedRadioButtonId();
+            //    if (id == R.id.easy) mode = "1";
             //else if (id == R.id.medium) mode = "medium";
             //   else if (id == R.id.hard) mode = "hard";
             String userId = SharedPreferenceUtility.getInstance(getContext()).getString(USER_ID);
@@ -508,8 +578,8 @@ public class EventLocationsFragment extends Fragment implements OnMapReadyCallba
 
     @Override
     public void selectedLevelInterface(int position, SuccessResGetLevel.Result level) {
-     //   peopleSelected = position;
-        for ( int i =0;i<=leveldata.getResult().size();i++){
+        //   peopleSelected = position;
+        for (int i = 0; i <= leveldata.getResult().size(); i++) {
             leveldata.getResult().get(i).setSelected(false);
         }
         leveldata.getResult().get(position).setSelected(true);

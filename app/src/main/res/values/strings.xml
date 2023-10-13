@@ -193,6 +193,7 @@ Be careful! You are in an uncontrolled public place. Be careful when crossing th
     <string name="defficalty">Choose Difficulty</string>
     <string name="medium">Medium</string>
     <string name="hard">Hard</string>
+    <string name="level_note">Note: You can only choose team difficulty level for once, once you pick the level your team will play game it the selected level</string>
 
 
 </resources>
