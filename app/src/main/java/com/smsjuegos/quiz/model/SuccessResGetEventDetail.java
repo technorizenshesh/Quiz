@@ -58,6 +58,9 @@ public class SuccessResGetEventDetail implements Serializable {
         @SerializedName("lon")
         @Expose
         public String lon;
+        @SerializedName("level")
+        @Expose
+        public String level;
         @SerializedName("event_date")
         @Expose
         public String eventDate;
@@ -106,6 +109,14 @@ public class SuccessResGetEventDetail implements Serializable {
         @SerializedName("intro")
         @Expose
         public String intro;
+
+        public String getLevel() {
+            return level;
+        }
+
+        public void setLevel(String level) {
+            this.level = level;
+        }
 
         public String getIntro_image() {
             return intro_image;
