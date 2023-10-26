@@ -1,5 +1,8 @@
 package com.smsjuegos.quiz.activities.game2;
 
+import static com.smsjuegos.quiz.retrofit.Constant.GAME_LAVEL;
+import static com.smsjuegos.quiz.retrofit.Constant.LATITUDE;
+import static com.smsjuegos.quiz.retrofit.Constant.LONGITUDE;
 import static com.smsjuegos.quiz.retrofit.Constant.USER_ID;
 import static com.smsjuegos.quiz.retrofit.Constant.showToast;
 
@@ -8,20 +11,28 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.RadioGroup;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.databinding.DataBindingUtil;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.smsjuegos.quiz.R;
+import com.smsjuegos.quiz.activities.DeclimarActivity;
+import com.smsjuegos.quiz.adapter.LevelAdapter;
 import com.smsjuegos.quiz.databinding.ActivityHomeScreenGame2Binding;
 import com.smsjuegos.quiz.model.EventCodeResSuccess;
 import com.smsjuegos.quiz.model.SuccessResGetEvents;
+import com.smsjuegos.quiz.model.SuccessResGetLevel;
 import com.smsjuegos.quiz.retrofit.ApiClient;
 import com.smsjuegos.quiz.retrofit.Constant;
 import com.smsjuegos.quiz.retrofit.QuizInterface;
@@ -38,12 +49,16 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class HomeScreenGame2Act extends AppCompatActivity {
+public class HomeScreenGame2Act extends AppCompatActivity implements LevelAdapter.LevelInterface{
 
     ActivityHomeScreenGame2Binding binding;
     boolean IsCodeAvailable;
     private QuizInterface apiInterface;
     private SuccessResGetEvents.Result result;
+
+    LevelAdapter levelAdapter;
+    SuccessResGetLevel leveldata;
+    public static String mode = "1";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,7 +110,7 @@ public class HomeScreenGame2Act extends AppCompatActivity {
                 {
                     String strCode = editText.getText().toString().trim();
                     if (!strCode.equalsIgnoreCase("")) {
-                        Apply_code(strCode);
+                        getLevels(strCode);
                         dialog.dismiss();
 
                     } else {
@@ -108,13 +123,85 @@ public class HomeScreenGame2Act extends AppCompatActivity {
         dialog.show();
     }
 
-    private void Apply_code(String code) {
+    private void getLevels(String event_code ) {
+        String userId = SharedPreferenceUtility.getInstance(HomeScreenGame2Act.this).getString(USER_ID);
+        boolean val = SharedPreferenceUtility.getInstance(HomeScreenGame2Act.this).getBoolean(Constant.SELECTED_LANGUAGE);
+        String lang = "";
+        Map<String, String> map = new HashMap<>();
+        map.put("event_id", result.getId());
+        map.put("event_code",event_code );
+        map.put("user_id", userId);
+        if (!val) {
+            lang = "en";
+        } else {
+            lang = "sp";
+        }
+        map.put("lang", lang);
+        Call<SuccessResGetLevel> call = apiInterface.get_level(map);
+        call.enqueue(new Callback<SuccessResGetLevel>() {
+            @Override
+            public void onResponse(Call<SuccessResGetLevel> call, Response<SuccessResGetLevel> response) {
+
+                // DataManager.getInstance().hideProgressMessage();
+                try {
+                    leveldata = response.body();
+
+                    if (leveldata.getResult().size() > 0) {
+                        leveldata.getResult().get(0).setSelected(true);
+                        pickLevel(event_code);
+
+
+                    }
+
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<SuccessResGetLevel> call, Throwable t) {
+                call.cancel();
+                //DataManager.getInstance().hideProgressMessage();
+            }
+        });
+    }
+
+    public void pickLevel(String  code ) {
+        final Dialog dialogq = new Dialog(HomeScreenGame2Act.this);
+        dialogq.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialogq.getWindow().getAttributes().windowAnimations = android.R.style.Widget_Material_ListPopupWindow;
+        dialogq.setContentView(R.layout.dialog_choose_level);
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        Window window = dialogq.getWindow();
+        lp.copyFrom(window.getAttributes());
+        ImageView imgHeader = dialogq.findViewById(R.id.imgHeader);
+        Button ivSubmit = dialogq.findViewById(R.id.btnDownload);
+        RadioGroup radioGroup = dialogq.findViewById(R.id.radioGroup);
+        RecyclerView level_list = dialogq.findViewById(R.id.level_list);
+        levelAdapter = new LevelAdapter(HomeScreenGame2Act.this, leveldata.getResult(), this::selectedLevelInterface);
+        level_list.setHasFixedSize(true);
+        level_list.setAdapter(levelAdapter);
+        imgHeader.setOnClickListener(D -> dialogq.dismiss());
+        ivSubmit.setOnClickListener(D -> {
+            Apply_code(code,mode);
+
+        });
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.MATCH_PARENT;
+        window.setAttributes(lp);
+        dialogq.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialogq.show();
+    }
+
+    private void Apply_code(String code,String mode) {
         String userId = SharedPreferenceUtility.getInstance(this).getString(USER_ID);
         DataManager.getInstance().showProgressMessage(this, getString(R.string.please_wait));
         Map<String, String> map = new HashMap<>();
         map.put("event_id", result.getId());
         map.put("user_id", userId);
         map.put("event_code", code);
+        map.put("level", mode);
         Call<ResponseBody> call = apiInterface.virus_event_apply_code(map);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
@@ -126,6 +213,7 @@ public class HomeScreenGame2Act extends AppCompatActivity {
                     String data = jsonObject.getString("status");
                     String message = jsonObject.getString("message");
                     if (data.equals("1")) {
+
                         SharedPreferenceUtility.getInstance(HomeScreenGame2Act.this).putString(Constant.EVENT_CODE, code);
                         startActivity(new Intent(HomeScreenGame2Act.this, WelcomeMessageActivity.class).putExtra("instructionID", result));
                     } else
@@ -184,6 +272,15 @@ public class HomeScreenGame2Act extends AppCompatActivity {
                 DataManager.getInstance().hideProgressMessage();
             }
         });
+    }
+
+    @Override
+    public void selectedLevelInterface(int position, SuccessResGetLevel.Result level) {
+        for (int i = 0; i <= leveldata.getResult().size(); i++) {
+            leveldata.getResult().get(i).setSelected(false);
+        }
+        leveldata.getResult().get(position).setSelected(true);
+        //levelAdapter.notifyDataSetChanged();
     }
 
 }

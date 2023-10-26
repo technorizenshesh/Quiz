@@ -369,5 +369,12 @@ Ten cuidado!, estás en un lugar público no controlado.  Ten cuidado al cruzar 
     <string name="medium">Medio</string>
     <string name="hard">Duro</string>
     <string name="level_note">Nota: Solo puedes elegir el nivel de dificultad del equipo por una vez; una vez que elijas el nivel, tu equipo jugará en el nivel seleccionado.</string>
+    <string name="not_on_point_location">Ubicación no puntual</string>
+    <string name="close">cerca</string>
+    <string name="distance">Distancia :- </string>
+    <string name="meters">  Metros</string>
+
+    <string name="its_look_like_your_are_not_on_puzzle_location_n_please_reach_the_point_location_before_begin_the_game"
+        >Its look like your are not on puzzle location.\n You need to be inside the 50 meter radius of target location to begin the game.</string>
 
 </resources>

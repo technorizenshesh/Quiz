@@ -15,6 +15,7 @@ import android.util.Base64;
 import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.loader.content.CursorLoader;
@@ -128,6 +129,26 @@ public class DataManager {
         return distance;
     }
 
+    public static void showSimpleCancelBtnDialog(Activity activity, int contentUri,String distance) {
+        final Dialog dialogq = new Dialog(activity);
+        dialogq.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialogq.getWindow().getAttributes().windowAnimations = android.R.style.Widget_Material_ListPopupWindow;
+        dialogq.setContentView(contentUri);
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        Window window = dialogq.getWindow();
+        lp.copyFrom(window.getAttributes());
+        Button ivCancel = dialogq.findViewById(R.id.btncncel);
+        TextView distance_text = dialogq.findViewById(R.id.distance_text);
+        distance_text.setText(activity.getString(R.string.distance)+distance+activity.getString(R.string.meters));
+        ivCancel.setOnClickListener(D -> {
+            dialogq.dismiss();
+        });
+        lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        window.setAttributes(lp);
+        dialogq.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialogq.show();
+    }
     public static String getRealPathFromURI(Activity activity, Uri contentUri) {
         //TODO: get realpath from uri
         String stringPath = null;

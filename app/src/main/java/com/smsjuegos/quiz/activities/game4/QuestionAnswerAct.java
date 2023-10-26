@@ -1,6 +1,7 @@
 package com.smsjuegos.quiz.activities.game4;
 
 import static android.content.ContentValues.TAG;
+import static com.smsjuegos.quiz.retrofit.Constant.GAME_LAVEL;
 import static com.smsjuegos.quiz.retrofit.Constant.USER_ID;
 import static com.smsjuegos.quiz.retrofit.Constant.showToast;
 
@@ -474,6 +475,8 @@ public class QuestionAnswerAct extends AppCompatActivity {
         map.put("event_game_id", result.getId());
         map.put("ans", answer);
         map.put("event_code", eventCode);
+        String level = SharedPreferenceUtility.getInstance(this).getString(GAME_LAVEL);
+        map.put("level", level);
         Call<ResponseBody> call = apiInterface.submitAnswer(map);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
