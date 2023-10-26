@@ -166,7 +166,11 @@
             android:layout_alignParentBottom="true"
             />
 
-        <LinearLayout
+
+    </RelativeLayout>
+</layout>
+
+<!--        <LinearLayout
             android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -186,6 +190,4 @@
                 custom:donut_progress="0" />
 
         </LinearLayout>
-
-    </RelativeLayout>
-</layout>
+-->

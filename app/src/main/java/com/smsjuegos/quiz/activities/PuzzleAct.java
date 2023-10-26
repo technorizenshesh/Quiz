@@ -1,6 +1,7 @@
 package com.smsjuegos.quiz.activities;
 
 import static android.content.ContentValues.TAG;
+import static com.smsjuegos.quiz.retrofit.Constant.GAME_LAVEL;
 import static com.smsjuegos.quiz.retrofit.Constant.USER_ID;
 import static com.smsjuegos.quiz.retrofit.Constant.showToast;
 
@@ -392,6 +393,8 @@ public class PuzzleAct extends AppCompatActivity {
         map.put("event_game_id", result.getId());
         map.put("ans", answer);
         map.put("event_code", eventCode);
+        String level = SharedPreferenceUtility.getInstance(this).getString(GAME_LAVEL);
+        map.put("level", level);
         if (custom) {
             map.put("custom_type", "custom");
         } else {
@@ -450,6 +453,7 @@ public class PuzzleAct extends AppCompatActivity {
         LinearLayout go_to_map = dialog.findViewById(R.id.go_to_map);
         go_to_map.setOnClickListener(v ->
                 {
+                    dialog.dismiss();
                     onBackPressed();
                 }
         );

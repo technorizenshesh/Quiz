@@ -15,6 +15,9 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+
 /**
  * Created by Ravindra Birla on 16,March,2021
  */
@@ -29,6 +32,7 @@ public class GPSTracker extends Service implements LocationListener {
     Location loc;
     double latitude;
     double longitude;
+    double altitude;
     private Location location;
 
     public GPSTracker(Context mContext) {
@@ -95,6 +99,13 @@ public class GPSTracker extends Service implements LocationListener {
         }
         return longitude;
     }
+  public double getAltitude() {
+        if (loc != null) {
+            altitude = loc.getAltitude();
+            Log.e("TAG", "getAltitude: "+altitude );
+        }
+        return altitude;
+    }
 
     public double getLatitude() {
         if (loc != null) {
@@ -143,5 +154,71 @@ public class GPSTracker extends Service implements LocationListener {
     @Override
     public void onProviderDisabled(@NonNull String s) {
 
+    }
+
+    public static double getDistanceFromPoint(double lat1, double lat2, double lon1,
+                                  double lon2, double el1, double el2) {
+
+        final int R = 6371; // Radius of the earth
+
+        double latDistance = Math.toRadians(lat2 - lat1);
+        double lonDistance = Math.toRadians(lon2 - lon1);
+        double a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2)
+                + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2))
+                * Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        double distance = R * c * 1000; // convert to meters
+
+        double height = el1 - el2;
+        double vv = Math.pow(height, 2);
+        Log.e("TAG", "getDistanceFromPoint:distance  meters "+distance );
+        Log.e("TAG", "getDistanceFromPoint:vv "+vv );
+        distance = Math.pow(distance, 2) +vv;
+        try{
+            final DecimalFormat df = new DecimalFormat("0.00");
+            df.setRoundingMode(RoundingMode.DOWN);
+            System.out.println("salary  distancedistance  : --" + df.format(distance));      //1205.64
+
+
+        }catch (Exception e){
+
+        }
+        return Math.sqrt(distance);
+    }
+
+    public static double getDistanceFromPointWithoutAlt(double lat1, double lon1, double lat2, double lon2) {
+        double theta = lon1 - lon2;
+        double dist = Math.sin(deg2rad(lat1)) * Math.sin(deg2rad(lat2)) + Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.cos(deg2rad(theta));
+        dist = Math.acos(dist);
+        dist = rad2deg(dist);
+        dist = dist * 60 * 1.1515;
+        dist = dist *1.609344;
+        dist = dist*1000;
+        try{
+            Log.e("TAG", "getDistanceFromPointWithoutAlt:mm "+dist);
+             final DecimalFormat df = new DecimalFormat("0.00");
+            df.setRoundingMode(RoundingMode.DOWN);
+            System.out.println("salary :   no alt --" + df.format(dist));
+            double data  = Double.parseDouble(df.format(dist));
+            return data;
+        }catch (Exception e){
+            return (dist);
+
+        }
+        //return (dist);
+    }
+
+    /*:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::*/
+    /*::  This function converts decimal degrees to radians             :*/
+    /*:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::*/
+    public static  double deg2rad(double deg) {
+        return (deg * Math.PI / 180.0);
+    }
+
+    /*:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::*/
+    /*::  This function converts radians to decimal degrees             :*/
+    /*:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::*/
+    public static  double rad2deg(double rad) {
+        return (rad * 180.0 / Math.PI);
     }
 }

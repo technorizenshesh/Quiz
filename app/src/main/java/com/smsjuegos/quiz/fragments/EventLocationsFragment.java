@@ -67,7 +67,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class EventLocationsFragment extends Fragment implements OnMapReadyCallback, LevelAdapter.LevelInterface {
+public class EventLocationsFragment extends Fragment
+        implements OnMapReadyCallback,
+        LevelAdapter.LevelInterface {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     public static String mode = "1";
@@ -387,18 +389,18 @@ public class EventLocationsFragment extends Fragment implements OnMapReadyCallba
                     showToast(getActivity(), "Please enter Team Name");
 
                 } else if (!strCode.equalsIgnoreCase("")) {
-                    if (eventId.equals("18")) {
+                  //  if (eventId.equals("18")) {
                         pickLevel();
-                    } else {
+                  /*  } else {
                         strCode = event_code;
                         strCodeTeam = eventDetails.team_name;
-                      /*  if ( eventDetails.getLevel()!=null){
+                      *//*  if ( eventDetails.getLevel()!=null){
                             mode = eventDetails.getLevel();
-                        }*/
+                        }*//*
                         SharedPreferenceUtility.getInstance(getContext()).putString(GAME_LAVEL, "1");
                         mode = "1";
                         addeventStartTime();
-                    }
+                    }*/
 
                     dialog.dismiss();
 
@@ -583,6 +585,7 @@ public class EventLocationsFragment extends Fragment implements OnMapReadyCallba
             leveldata.getResult().get(i).setSelected(false);
         }
         leveldata.getResult().get(position).setSelected(true);
+        mode =leveldata.getResult().get(position).getId();
         //levelAdapter.notifyDataSetChanged();
     }
 }

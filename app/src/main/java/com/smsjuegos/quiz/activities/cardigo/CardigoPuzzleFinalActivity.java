@@ -1,5 +1,6 @@
 package com.smsjuegos.quiz.activities.cardigo;
 
+import static com.smsjuegos.quiz.retrofit.Constant.GAME_LAVEL;
 import static com.smsjuegos.quiz.retrofit.Constant.USER_ID;
 import static com.smsjuegos.quiz.retrofit.Constant.showToast;
 
@@ -100,6 +101,8 @@ public class CardigoPuzzleFinalActivity extends AppCompatActivity {
         map.put("event_code", eventCode);
         map.put("hint_type", penalty + "");
         map.put("user_id", userId);
+        String level = SharedPreferenceUtility.getInstance(this).getString(GAME_LAVEL);
+        map.put("level", level);
         Call<ResponseBody> call = apiInterface.addPanalties(map);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
@@ -139,6 +142,8 @@ public class CardigoPuzzleFinalActivity extends AppCompatActivity {
         map.put("event_id", eventId);
         map.put("event_code", eventCode);
         map.put("lang", lang);
+        String level = SharedPreferenceUtility.getInstance(this).getString(GAME_LAVEL);
+        map.put("level", level);
         Call<PuzzleList> call = apiInterface.get_event_instructions_game_images(map);
         call.enqueue(new Callback<PuzzleList>() {
             @Override
@@ -182,6 +187,8 @@ public class CardigoPuzzleFinalActivity extends AppCompatActivity {
         map.put("user_id", userId);
         map.put("event_id", eventId);
         map.put("event_code", eventCode);
+        String level = SharedPreferenceUtility.getInstance(this).getString(GAME_LAVEL);
+        map.put("level", level);
         Call<ResponseBody> call = apiInterface.puzzelCompleted(map);
         call.enqueue(new Callback<ResponseBody>() {
             @Override

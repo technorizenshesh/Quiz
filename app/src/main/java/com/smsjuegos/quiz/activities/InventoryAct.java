@@ -1,5 +1,6 @@
 package com.smsjuegos.quiz.activities;
 
+import static com.smsjuegos.quiz.retrofit.Constant.GAME_LAVEL;
 import static com.smsjuegos.quiz.retrofit.Constant.USER_ID;
 import static com.smsjuegos.quiz.retrofit.Constant.showToast;
 
@@ -146,6 +147,8 @@ public class InventoryAct extends AppCompatActivity {
         map.put("event_id", eventId);
         map.put("lang", lang);
         map.put("event_code", eventCode);
+        String level = SharedPreferenceUtility.getInstance(this).getString(GAME_LAVEL);
+        map.put("level", level);
         Call<SuccessResGetInventory> call = apiInterface.getAllInventory(map);
 
         call.enqueue(new Callback<SuccessResGetInventory>() {
@@ -215,7 +218,8 @@ public class InventoryAct extends AppCompatActivity {
         map.put("event_id", eventId);
         map.put("user_id", userId);
         map.put("lang", lang);
-
+        String level = SharedPreferenceUtility.getInstance(this).getString(GAME_LAVEL);
+        map.put("level", level);
         Call<SuccessResGetInventory> call = apiInterface.getGame4AllInventory(map);
 
         call.enqueue(new Callback<SuccessResGetInventory>() {

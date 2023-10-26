@@ -4,6 +4,7 @@ import static com.smsjuegos.quiz.retrofit.Constant.GAME_LAVEL;
 import static com.smsjuegos.quiz.retrofit.Constant.USER_ID;
 import static com.smsjuegos.quiz.retrofit.Constant.showToast;
 import static com.smsjuegos.quiz.utility.DataManager.downloadUrl;
+import static com.smsjuegos.quiz.utility.DataManager.showSimpleCancelBtnDialog;
 
 import android.Manifest;
 import android.animation.ValueAnimator;
@@ -47,6 +48,7 @@ import com.smsjuegos.quiz.retrofit.QuizInterface;
 import com.smsjuegos.quiz.utility.DataManager;
 import com.smsjuegos.quiz.utility.DirectionsJSONParser;
 import com.smsjuegos.quiz.utility.DrawPollyLine;
+import com.smsjuegos.quiz.utility.GPSTracker;
 import com.smsjuegos.quiz.utility.SharedPreferenceUtility;
 
 import org.json.JSONObject;
@@ -68,12 +70,16 @@ public class MapAct extends AppCompatActivity implements OnMapReadyCallback, Goo
     private final ArrayList<SuccessResGetInstruction.Result> instructionList = new ArrayList<>();
     private QuizInterface apiInterface;
     private Snackbar snackbar;
+    GPSTracker gpsTracker;
+    private double MyLatitude = 0, MyLongitude = 0, MyAltitude = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
         apiInterface = ApiClient.getClient().create(QuizInterface.class);
+        gpsTracker = new GPSTracker(this);
+
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -113,31 +119,48 @@ public class MapAct extends AppCompatActivity implements OnMapReadyCallback, Goo
         Log.e("TAG", "onMarkerClick: position" + position);
         Log.e("TAG",
                 "onMarkerClick: instructionList.get(position).getEventType()---" + instructionList.get(position).getEventType());
-        if (instructionList.get(position).getEventType().equalsIgnoreCase("crime")) {
-            startActivity(new Intent(MapAct.this, QuestionAnswerAct.class).
-                    putExtra("instructionID", instructionList.get(position))
-                    .putExtra("eventCode", eventCode));
-            Toast.makeText(getApplicationContext(), "" + position, Toast.LENGTH_SHORT).show();
-        } else if (instructionList.get(position).getEventType().equalsIgnoreCase("codigo_frida")) {
-            Log.e("hh", " instructionList.get(position).getArrival_time()--"+
-                    instructionList.get(position).getArrival_time());
-            instructionList.get(position).getArrival_time();
-            startActivity(new Intent(MapAct.this, QuestionAnswerAct.class).
-                    putExtra("instructionID", instructionList.get(position))
-                    .putExtra("eventCode", eventCode));
-        } else if (instructionList.get(position).getEventType().equalsIgnoreCase("zombie")) {
-            Log.e("hh", " instructionList.get(position).getArrival_time()--"+
-                    instructionList.get(position).getArrival_time());
-            instructionList.get(position).getArrival_time();
-            startActivity(new Intent(MapAct.this, QuestionAnswerAct.class).
-                    putExtra("instructionID", instructionList.get(position))
-                    .putExtra("eventCode", eventCode));
+        if (gpsTracker != null && gpsTracker.canGetLocation()) {
+            MyLatitude = gpsTracker.getLatitude();
+            MyLongitude = gpsTracker.getLongitude();
+        } else {
+            Toast.makeText(getApplicationContext(), "Gps Off", Toast.LENGTH_SHORT).show();
+
+        }
+        double distance = GPSTracker.getDistanceFromPointWithoutAlt(Double.parseDouble(
+                instructionList.get(position).getLat()),
+                Double.parseDouble(instructionList.get(position).getLon()),
+                MyLatitude, MyLongitude);
+        Log.e("TAG", "onMarkerClick: distancedistancedistancedistance"+distance );
+        if (distance >50) {
+            showSimpleCancelBtnDialog(MapAct.this, R.layout.dialog_distance  , distance+"");
         } else {
 
-            Log.e("TAG", "onMarkerClick: " + instructionList.get(position));
-            startActivity(new Intent(MapAct.this, PuzzleAct.class)
-                    .putExtra("instructionID", instructionList.get(position))
-                    .putExtra("eventCode", eventCode));
+            if (instructionList.get(position).getEventType().equalsIgnoreCase("crime")) {
+                startActivity(new Intent(MapAct.this, QuestionAnswerAct.class).
+                        putExtra("instructionID", instructionList.get(position))
+                        .putExtra("eventCode", eventCode));
+                Toast.makeText(getApplicationContext(), "" + position, Toast.LENGTH_SHORT).show();
+            } else if (instructionList.get(position).getEventType().equalsIgnoreCase("codigo_frida")) {
+                Log.e("hh", " instructionList.get(position).getArrival_time()--" +
+                        instructionList.get(position).getArrival_time());
+                instructionList.get(position).getArrival_time();
+                startActivity(new Intent(MapAct.this, QuestionAnswerAct.class).
+                        putExtra("instructionID", instructionList.get(position))
+                        .putExtra("eventCode", eventCode));
+            } else if (instructionList.get(position).getEventType().equalsIgnoreCase("zombie")) {
+                Log.e("hh", " instructionList.get(position).getArrival_time()--" +
+                        instructionList.get(position).getArrival_time());
+                instructionList.get(position).getArrival_time();
+                startActivity(new Intent(MapAct.this, QuestionAnswerAct.class).
+                        putExtra("instructionID", instructionList.get(position))
+                        .putExtra("eventCode", eventCode));
+            } else {
+
+                Log.e("TAG", "onMarkerClick: " + instructionList.get(position));
+                startActivity(new Intent(MapAct.this, PuzzleAct.class)
+                        .putExtra("instructionID", instructionList.get(position))
+                        .putExtra("eventCode", eventCode));
+            }
         }
         return false;
     }
