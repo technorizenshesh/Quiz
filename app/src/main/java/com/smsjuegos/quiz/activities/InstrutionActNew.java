@@ -210,7 +210,8 @@ public class InstrutionActNew extends AppCompatActivity implements OnMapReadyCal
             } else {
 
                 Log.e("TAG", "onMarkerClick: " + instructionList.get(position));
-                startActivity(new Intent(InstrutionActNew.this, PuzzleAct.class)
+           //     startActivity(new Intent(InstrutionActNew.this, PuzzleAct.class)
+                startActivity(new Intent(InstrutionActNew.this, QuestionAnswerAct.class)
                         .putExtra("instructionID", instructionList.get(position))
                         .putExtra("eventCode", eventCode));
             }
