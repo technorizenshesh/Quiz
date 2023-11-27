@@ -4,6 +4,12 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 
+import com.google.gson.Gson;
+import com.smsjuegos.quiz.model.SuccessResGetBanner;
+import com.smsjuegos.quiz.model.SuccessResGetEvents;
+
+import java.util.ArrayList;
+
 
 public class SharedPreferenceUtility {
     private static SharedPreferences mPref;
@@ -117,6 +123,54 @@ public class SharedPreferenceUtility {
             mEditor.commit();
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+    public void putSuccessResGetEvents(String key, SuccessResGetEvents value) {
+        try {
+            Gson gson = new Gson();
+            String jsonText = gson.toJson(value);
+            mEditor = mPref.edit();
+            mEditor.putString(key, jsonText);
+            mEditor.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public SuccessResGetEvents getSuccessResGetEvents(String key) {
+        try {
+            String lvalue;
+            lvalue = mPref.getString(key, "");
+            Gson gson = new Gson();
+            SuccessResGetEvents text = gson.fromJson(lvalue, SuccessResGetEvents.class);  //EDIT: gso to gson
+            return text;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    public void putSuccessResGetBanner(String key, SuccessResGetBanner value) {
+        try {
+            Gson gson = new Gson();
+            String jsonText = gson.toJson(value);
+            mEditor = mPref.edit();
+            mEditor.putString(key, jsonText);
+            mEditor.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public SuccessResGetBanner getSuccessResGetBanner(String key) {
+        try {
+            String lvalue;
+            lvalue = mPref.getString(key, "");
+            Gson gson = new Gson();
+            SuccessResGetBanner text = gson.fromJson(lvalue, SuccessResGetBanner.class);  //EDIT: gso to gson
+            return text;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
         }
     }
 

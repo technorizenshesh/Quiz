@@ -40,6 +40,31 @@ public class SMSApp extends Application implements Application.ActivityLifecycle
 
     }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     @Override
     public void onTerminate() {
         if (gpsTracker != null) {
@@ -49,27 +74,36 @@ public class SMSApp extends Application implements Application.ActivityLifecycle
         super.onTerminate();
     }
 
-    public static void SMSAppShowLog(String track, String message, int type) {
-        try{
-        int WTF = 1;
-        int VERBOSE = 2;
-        int DEBUG = 3;
-        int INFO = 4;
-        int WARN = 5;
-        int ERROR = 6;
-        if (type == ERROR) Log.e(APP_TAG, track + "-------------:  " + message);
-        if (type == VERBOSE) Log.v(APP_TAG, track + "-------------:  " + message);
-        if (type == INFO) Log.i(APP_TAG, track + "-------------:  " + message);
-        if (type == WARN) Log.w(APP_TAG, track + "-------------:  " + message);
-        if (type == DEBUG) Log.d(APP_TAG, track + "-------------:  " + message);
-        if (type == WTF) Log.wtf(APP_TAG, track + "-------------:  " + message);
-    }catch (Exception e){
-            System.out.println("Exception  ---  "+Objects.requireNonNull(e.getCause()).getMessage());
-            System.out.println("Exception  ---  "+Objects.requireNonNull(e.getMessage()));
-            System.out.println("Exception  ---  "+Objects.requireNonNull(e.getLocalizedMessage()));
+    public static void ShowAppLog(String trace, String message, int type) {
+        try {
+            String logMessage = trace + "-------------:  " + message;
+            switch (type) {
+                case 1: // WTF
+                    Log.wtf(APP_TAG, logMessage);
+                    break;
+                case 2: // VERBOSE
+                    Log.v(APP_TAG, logMessage);
+                    break;
+                case 3: // DEBUG
+                    Log.d(APP_TAG, logMessage);
+                    break;
+                case 4: // INFO
+                    Log.i(APP_TAG, logMessage);
+                    break;
+                case 5: // WARN
+                    Log.w(APP_TAG, logMessage);
+                    break;
+                case 6: // ERROR
+                    Log.e(APP_TAG, logMessage);
+                    break;
+                default:
+                    // Handle unexpected log type
+                    break;
+            }
+        } catch (Exception e) {
+            Log.e(APP_TAG, "Exception: " + Log.getStackTraceString(e));
         }
     }
-
     @Override
     public void onActivityCreated(@NonNull Activity activity, Bundle savedInstanceState) {
     }
@@ -78,7 +112,7 @@ public class SMSApp extends Application implements Application.ActivityLifecycle
     public void onActivityStarted(@NonNull Activity activity) {
         if (++activityReferences == 1 && !isActivityChangingConfigurations) {
             // App enters foreground
-            SMSAppShowLog(APP_TAG,"App enters foreground",1);
+            ShowAppLog(APP_TAG,"App enters foreground",1);
 
         }
     }
@@ -98,7 +132,7 @@ public class SMSApp extends Application implements Application.ActivityLifecycle
         isActivityChangingConfigurations = activity.isChangingConfigurations();
         if (--activityReferences == 0 && !isActivityChangingConfigurations) {
             // App enters background
-            SMSAppShowLog(APP_TAG,"App enters background",1);
+            ShowAppLog(APP_TAG,"App enters background",1);
 
         }
     }
@@ -110,11 +144,11 @@ public class SMSApp extends Application implements Application.ActivityLifecycle
 
     @Override
     public void onActivityDestroyed(@NonNull Activity activity) {
-        SMSAppShowLog(APP_TAG,"onActivityDestroyed1",1);
+        ShowAppLog(APP_TAG,"onActivityDestroyed1",1);
         isActivityChangingConfigurations = activity.isChangingConfigurations();
         if (--activityReferences == 0 && !isActivityChangingConfigurations) {
             // App enters background
-            SMSAppShowLog(APP_TAG,"App enters background",1);
+            ShowAppLog(APP_TAG,"App enters background",1);
 
         }
     }

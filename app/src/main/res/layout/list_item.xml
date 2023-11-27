@@ -10,6 +10,7 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cvParent"
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/_5sdp"
@@ -38,6 +39,7 @@
                     android:layout_toRightOf="@+id/img_event"
                     android:fontFamily="@font/poppins_bold"
                     android:text="Khandala Treking"
+                    android:maxLines="1"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_13sdp" />
 
@@ -77,6 +79,7 @@
                     android:layout_marginTop="@dimen/_5sdp"
                     />
                 <TextView
+                    android:visibility="gone"
                     android:id="@+id/tvRate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
