@@ -1,6 +1,7 @@
 package com.smsjuegos.quiz.activities.game4;
 
 import static android.content.ContentValues.TAG;
+import static com.smsjuegos.quiz.SMSApp.ShowAppLog;
 import static com.smsjuegos.quiz.retrofit.Constant.GAME_LAVEL;
 import static com.smsjuegos.quiz.retrofit.Constant.USER_ID;
 import static com.smsjuegos.quiz.retrofit.Constant.showToast;
@@ -98,9 +99,15 @@ public class QuestionAnswerAct extends AppCompatActivity {
             getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
             int height = displayMetrics.heightPixels;
             int width = displayMetrics.widthPixels;
+            ShowAppLog("result.getId()------------",result.getEventId(),1);
+            if (result.getEventId().equals("5")){
+                ShowAppLog("result.getId()------------250   --",result.getEventId(),1);
+                LinearLayout.LayoutParams parms = new LinearLayout.LayoutParams(width-10,height/3);
+                binding.ivPuzzel.setLayoutParams(parms);
+            }
+
             Glide.with(context)
                     .load(result.getImage())
-                    .apply(new RequestOptions().override(width, 200))
                     .centerInside().into(binding.ivPuzzel);
 
         }

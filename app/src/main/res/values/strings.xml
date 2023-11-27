@@ -199,6 +199,15 @@ Be careful! You are in an uncontrolled public place. Be careful when crossing th
     <string name="meters">  Meter\'s</string>
     <string name="distance">Distance :- </string>
     <string name="its_look_like_your_are_not_on_puzzle_location_n_please_reach_the_point_location_before_begin_the_game">Its look like your are not on puzzle location.\n You need to be inside the 50 meter radius of target location to begin the game.</string>
+    <string name="you_have_only">You have only </string>
+    <string name="choose_your_city">Choose your city:</string>
+    <string name="acomplishments">Accomplishments</string>
+    <string name="minutes_to_reach_next_checkpoint_hurry_up">" Minutes To Reach Next CheckPoint Hurry up!"</string>
 
+<array name="city"
+    >
+    <item> CDMX / Metropolitan area </item>
+    <item> Guadalajara </item>
 
+</array>
 </resources>

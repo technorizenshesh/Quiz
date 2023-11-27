@@ -8,6 +8,7 @@ import java.util.regex.Pattern;
 
 public class Constant {
     public static final String BASE_URL = "http://appsmsjuegos.com/Quiz/api/";
+    //public static final String BASE_URL = "http://appsmsjuegos.com/Quiz/webservice/";
     public static final String SELECTED_LANGUAGE = "selectedLanguage";
     public static final String USER_INFO = "user_info";
     public final static String CONNECTIVITY_ACTION = "android.net.conn.CONNECTIVITY_CHANGE";

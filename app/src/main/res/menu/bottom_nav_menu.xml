@@ -6,7 +6,7 @@
         android:title="Home" />
     <item
         android:id="@+id/navigation_calander"
-        android:icon="@drawable/ic_cal"
+        android:icon="@drawable/award_cup"
         android:title="Calander" />
     <item
         android:id="@+id/navigation_test"

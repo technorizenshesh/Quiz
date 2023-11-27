@@ -12,9 +12,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
@@ -24,6 +26,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import com.denzcoskun.imageslider.constants.ScaleTypes;
 import com.denzcoskun.imageslider.models.SlideModel;
 import com.google.gson.Gson;
+import com.skydoves.powerspinner.OnSpinnerItemSelectedListener;
 import com.smsjuegos.quiz.R;
 import com.smsjuegos.quiz.adapter.HomeAdapter;
 import com.smsjuegos.quiz.databinding.FragmentHomeBinding;
@@ -40,6 +43,7 @@ import com.smsjuegos.quiz.utility.SharedPreferenceUtility;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -50,9 +54,10 @@ public class HomeFragment extends Fragment {
     List<SlideModel> bannersList = new LinkedList<>();
     List<SuccessResGetEvents.Result> eventsList = new LinkedList<>();
     GPSTracker gpsTracker;
+    // private SliderAdapter adapter;
+    String city_id = "1";
     private HomeAdapter homeAdapter;
     private QuizInterface apiInterface;
-   // private SliderAdapter adapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -72,22 +77,87 @@ public class HomeFragment extends Fragment {
                             .action_navigation_home_to_viewAllEventsFragment);
                 }
         );
+        binding.spinner.setOnSpinnerItemSelectedListener(new OnSpinnerItemSelectedListener<Object>() {
+            @Override
+            public void onItemSelected(int i, @Nullable Object o, int i1, Object t1) {
+                Log.e("TAG", "onItemSelected: " + i);
+                Log.e("TAG", "onItemSelected: " + o);
+                Log.e("TAG", "onItemSelected: " + i1);
+                Log.e("TAG", "onItemSelected: " + t1);
+                SuccessResGetEvents datadd = SharedPreferenceUtility.getInstance(getActivity())
+                        .getSuccessResGetEvents("SuccessResGetEvents") ;
 
+                switch (i1) {
+
+                    case 0:
+                        city_id = "1";
+                            eventsList.clear();
+                            for (SuccessResGetEvents.Result result : datadd.result){
+                                if (result.city_id.equalsIgnoreCase( city_id)){
+                                    eventsList.add(result);
+                                }
+                            }
+                            homeAdapter.notifyDataSetChanged();
+                        break;
+                    case 1:
+                        city_id = "2";
+                            eventsList.clear();
+                            for (SuccessResGetEvents.Result result : datadd.result){
+                                if (result.city_id.equalsIgnoreCase( city_id)){
+                                    eventsList.add(result);
+                                }
+                            }
+                            homeAdapter.notifyDataSetChanged();
+
+                        break;
+                    default:
+                        break;
+
+                }
+
+            }
+
+        });
         getLocation();
-       // adapter = new SliderAdapter(getContext(), bannersList);
-     /*   binding.imageSlider.setSliderAdapter(adapter);
-        binding.imageSlider.setIndicatorAnimation(IndicatorAnimationType.WORM); //set indicator animation by using SliderLayout.IndicatorAnimations. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!
-        binding.imageSlider.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
-        binding.imageSlider.setAutoCycleDirection(SliderView.AUTO_CYCLE_DIRECTION_BACK_AND_FORTH);
-        binding.imageSlider.setIndicatorSelectedColor(Color.WHITE);
-        binding.imageSlider.setIndicatorUnselectedColor(Color.GRAY);
-        binding.imageSlider.setScrollTimeInSec(3);
-        binding.imageSlider.setAutoCycle(true);
-        binding.imageSlider.startAutoCycle();*/
+
         if (NetworkAvailablity.getInstance(getActivity()).checkNetworkStatus()) {
-            getBannerList();
-            getEventsImages();
-            getEventsImages();
+            if (SharedPreferenceUtility.getInstance(getActivity())
+                    .getSuccessResGetEvents("SuccessResGetEvents") != null) {
+                SuccessResGetEvents data = SharedPreferenceUtility.getInstance(getActivity())
+                        .getSuccessResGetEvents("SuccessResGetEvents");
+                if (data.status.equals("1")) {
+                    eventsList.clear();
+                    eventsList.addAll(data.getResult());
+                    homeAdapter.notifyDataSetChanged();
+                    binding.rvUpcomingEvents.hideShimmerAdapter();
+                } else if (data.status.equals("0")) {
+                    showToast(getActivity(), data.message);
+                }
+                getEventsImages2();
+
+            } else {
+                getEventsImages();
+                getEventsImages();
+            }
+            if (SharedPreferenceUtility.getInstance(getActivity())
+                    .getSuccessResGetBanner("SuccessResGetBanner") != null) {
+                SuccessResGetBanner datax = SharedPreferenceUtility.getInstance(getActivity())
+                        .getSuccessResGetBanner("SuccessResGetBanner");
+                if (datax.status.equals("1")) {
+                    bannersList.clear();
+                    for (SuccessResGetBanner.Result res : datax.getResult()) {
+                        bannersList.add(new SlideModel(res.getImage(), ScaleTypes.FIT));
+                    }
+                    binding.imageSlider.setImageList(bannersList);
+                    binding.imageSlider.setDrawingCacheEnabled(true);
+                    binding.imageSlider.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
+
+                }
+                getBannerList2();
+            } else {
+                getBannerList();
+            }
+
         } else {
             Toast.makeText(getActivity(), getResources().getString(R.string.msg_noInternet), Toast.LENGTH_SHORT).show();
         }
@@ -140,6 +210,7 @@ public class HomeFragment extends Fragment {
         }
         HashMap<String, String> map = new HashMap<>();
         map.put("lang", lang);
+        map.put("city_id", city_id);
         Call<SuccessResGetEvents> call = apiInterface.getEventsList(map);
         call.enqueue(new Callback<SuccessResGetEvents>() {
             @Override
@@ -148,18 +219,59 @@ public class HomeFragment extends Fragment {
                 try {
                     SuccessResGetEvents data = response.body();
                     assert data != null;
-                    Log.e("data", "-----------------"+String.valueOf(response.body()));
+
+                    Log.e("data", "-----------------" + String.valueOf(response.body()));
                     if (data.status.equals("1")) {
+                        SharedPreferenceUtility.getInstance(getActivity()).putSuccessResGetEvents("SuccessResGetEvents", data);
                         eventsList.clear();
                         eventsList.addAll(data.getResult());
                         homeAdapter.notifyDataSetChanged();
                         binding.rvUpcomingEvents.hideShimmerAdapter();
-                    } else if (data.status.equals("0")) {showToast(getActivity(), data.message);}
-                } catch (Exception e) {e.printStackTrace();}}
+                    } else if (data.status.equals("0")) {
+                        showToast(getActivity(), data.message);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
             @Override
             public void onFailure(@NonNull Call<SuccessResGetEvents> call, @NonNull Throwable t) {
                 call.cancel();
                 DataManager.getInstance().hideProgressMessage();
+            }
+        });
+
+    }
+
+    private void getEventsImages2() {
+        boolean val = SharedPreferenceUtility.getInstance(getActivity()).getBoolean(Constant.SELECTED_LANGUAGE);
+        String lang = "";
+        if (!val) {
+            lang = "en";
+        } else {
+            lang = "sp";
+        }
+        HashMap<String, String> map = new HashMap<>();
+        map.put("lang", lang);
+        map.put("city_id", city_id);
+        Call<SuccessResGetEvents> call = apiInterface.getEventsList(map);
+        call.enqueue(new Callback<SuccessResGetEvents>() {
+            @Override
+            public void onResponse(@NonNull Call<SuccessResGetEvents> call, @NonNull Response<SuccessResGetEvents> response) {
+                try {
+                    SuccessResGetEvents data = response.body();
+                    if (data.status.equals("1")) {
+                        SharedPreferenceUtility.getInstance(getActivity()).putSuccessResGetEvents("SuccessResGetEvents", data);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<SuccessResGetEvents> call, @NonNull Throwable t) {
+                call.cancel();
             }
         });
 
@@ -176,13 +288,48 @@ public class HomeFragment extends Fragment {
                     SuccessResGetBanner data = response.body();
                     Log.e("data", data.status);
                     if (data.status.equals("1")) {
-                        String dataResponse = new Gson().toJson(response.body());
+                        SharedPreferenceUtility.getInstance(getActivity())
+                                .putSuccessResGetBanner("SuccessResGetBanner", data);
+
                         bannersList.clear();
-                        for (SuccessResGetBanner.Result res:
-                             data.getResult()) {
+                        for (SuccessResGetBanner.Result res :
+                                data.getResult()) {
                             bannersList.add(new SlideModel(res.getImage(), ScaleTypes.FIT));
                         }
                         binding.imageSlider.setImageList(bannersList);
+                        binding.imageSlider.setDrawingCacheEnabled(true);
+                        binding.imageSlider.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
+                    } else if (data.status.equals("0")) {
+                        showToast(getActivity(), data.message);
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<SuccessResGetBanner> call, Throwable t) {
+                call.cancel();
+                DataManager.getInstance().hideProgressMessage();
+            }
+        });
+
+    }
+
+    private void getBannerList2() {
+        Call<SuccessResGetBanner> call = apiInterface.getBanners();
+        call.enqueue(new Callback<SuccessResGetBanner>() {
+            @Override
+            public void onResponse(Call<SuccessResGetBanner> call, Response<SuccessResGetBanner> response) {
+                DataManager.getInstance().hideProgressMessage();
+                try {
+                    SuccessResGetBanner data = response.body();
+                    Log.e("data", data.status);
+                    if (data.status.equals("1")) {
+                        SharedPreferenceUtility.getInstance(getActivity())
+                                .putSuccessResGetBanner("SuccessResGetBanner", data);
                     } else if (data.status.equals("0")) {
                         showToast(getActivity(), data.message);
                     }

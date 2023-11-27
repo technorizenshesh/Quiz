@@ -131,7 +131,7 @@ public class MapAct extends AppCompatActivity implements OnMapReadyCallback, Goo
                 Double.parseDouble(instructionList.get(position).getLon()),
                 MyLatitude, MyLongitude);
         Log.e("TAG", "onMarkerClick: distancedistancedistancedistance"+distance );
-        if (distance >50) {
+        if (distance <50) {
             showSimpleCancelBtnDialog(MapAct.this, R.layout.dialog_distance  , distance+"");
         } else {
 
@@ -157,7 +157,7 @@ public class MapAct extends AppCompatActivity implements OnMapReadyCallback, Goo
             } else {
 
                 Log.e("TAG", "onMarkerClick: " + instructionList.get(position));
-                startActivity(new Intent(MapAct.this, PuzzleAct.class)
+                startActivity(new Intent(MapAct.this, QuestionAnswerAct.class)
                         .putExtra("instructionID", instructionList.get(position))
                         .putExtra("eventCode", eventCode));
             }
@@ -260,7 +260,7 @@ public class MapAct extends AppCompatActivity implements OnMapReadyCallback, Goo
                                             PolylineOptions options = new PolylineOptions();
                                             options.addAll(latLngs);
                                             options.color(Color.GREEN);
-                                            options.width(5);
+                                            options.width(10);
                                             options.startCap(new SquareCap());
                                             options.endCap(new SquareCap());
                                             Polyline line = mMap.addPolyline(options);
@@ -271,7 +271,7 @@ public class MapAct extends AppCompatActivity implements OnMapReadyCallback, Goo
                                             valueAnimator.setRepeatMode(ValueAnimator.RESTART);
                                             valueAnimator.addUpdateListener(animator -> {
                                                 int alpha = (int) animator.getAnimatedValue();
-                                                line.setColor(Color.argb(alpha, 0, 0, 0));
+                                                line.setColor(Color.BLACK);
                                             });
                                             valueAnimator.start();
                                             LatLngBounds.Builder builder = new LatLngBounds.Builder();
@@ -287,12 +287,14 @@ public class MapAct extends AppCompatActivity implements OnMapReadyCallback, Goo
                                             Snackbar.SnackbarLayout snackbarLayout = (Snackbar.SnackbarLayout) snackbar.getView();
                                             snackbarLayout.setPadding(0, 0, 0, 0);
                                             TextView textView2 = customSnackView.findViewById(R.id.textView2);
-                                            textView2.setText("You have only " + SharedPreferenceUtility.getInstance(getApplicationContext()).getString("ArrTime") + " Minutes To Reach Next CheckPoint Hurry up!");
+                                            textView2.setText(getString(R.string.you_have_only) + SharedPreferenceUtility.getInstance(getApplicationContext()).getString("ArrTime") + getString(R.string.minutes_to_reach_next_checkpoint_hurry_up));
                                             Button bGotoWebsite = customSnackView.findViewById(R.id.gotoWebsiteButton);
                                             bGotoWebsite.setOnClickListener(new View.OnClickListener() {
                                                 @Override
                                                 public void onClick(View v) {
                                                     Toast.makeText(getApplicationContext(), "Reaching Check....", Toast.LENGTH_SHORT).show();
+                                                    SharedPreferenceUtility.getInstance(getApplicationContext()).putString("NevId", "");
+
                                                     snackbar.dismiss();}});
                                             snackbarLayout.addView(customSnackView, 0);
                                             snackbar.show();});

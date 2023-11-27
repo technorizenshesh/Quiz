@@ -47,6 +47,9 @@ public class SuccessResGetEvents implements Serializable {
         @SerializedName("id")
         @Expose
         public String id;
+        @SerializedName("city_id")
+        @Expose
+        public String city_id;
         @SerializedName("event_name")
         @Expose
         public String eventName;
@@ -119,6 +122,14 @@ public class SuccessResGetEvents implements Serializable {
         @SerializedName("after_finish_image")
         @Expose
         public String after_finish_image;
+
+        public String getCity_id() {
+            return city_id;
+        }
+
+        public void setCity_id(String city_id) {
+            this.city_id = city_id;
+        }
 
         public String getAfter_finish_image() {
             return after_finish_image;
