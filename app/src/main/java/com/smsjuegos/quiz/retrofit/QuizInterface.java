@@ -2,6 +2,8 @@ package com.smsjuegos.quiz.retrofit;
 
 import com.smsjuegos.quiz.activities.cardigo.PuzzleList;
 import com.smsjuegos.quiz.model.EventCodeResSuccess;
+import com.smsjuegos.quiz.model.SuccessResAcc;
+import com.smsjuegos.quiz.model.SuccessResCity;
 import com.smsjuegos.quiz.model.SuccessResForgetPassword;
 import com.smsjuegos.quiz.model.SuccessResGetBanner;
 import com.smsjuegos.quiz.model.SuccessResGetCart;
@@ -235,6 +237,11 @@ public interface QuizInterface {
     @POST("get_term_conditions")
     Call<SuccessResGetPP> getPrivacyPolicy(@FieldMap Map<String, String> paramHashMap);
 
-    @POST(value = "")
+    @GET("get_city")
+    Call<SuccessResCity> get_city();
+ @GET("get_Accomplishments")
+    Call<SuccessResAcc> get_Accomplishments();
+
+    @GET
     Call<ResponseBody> getURL(@Url String s);
 }

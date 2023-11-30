@@ -1,6 +1,7 @@
 package com.smsjuegos.quiz.adapter;
 
 import static com.smsjuegos.quiz.SMSApp.ShowAppLog;
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -91,13 +92,17 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.SelectTimeView
                         bundle.putString("id", eventsListList.get(position).getId());
                         Navigation.findNavController(v).navigate(R.id.action_navigation_profile_to_navigation_list
                                 , bundle);
-                    }else if (eventsListList.get(position).getType().equalsIgnoreCase("rescate")) {
+                    } else if (eventsListList.get(position).getType().equalsIgnoreCase("rescate")) {
                         Bundle bundle = new Bundle();
                         bundle.putString("id", eventsListList.get(position).getId());
                         Navigation.findNavController(v).navigate(R.id.action_navigation_profile_to_navigation_list
                                 , bundle);
-                    }else
-                    if (eventsListList.get(position).getType().equalsIgnoreCase("zombie")) {
+                    } else if (eventsListList.get(position).getType().equalsIgnoreCase("mision_magica")) {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("id", eventsListList.get(position).getId());
+                        Navigation.findNavController(v).navigate(R.id.action_navigation_profile_to_navigation_list
+                                , bundle);
+                    } else if (eventsListList.get(position).getType().equalsIgnoreCase("zombie")) {
                         Bundle bundle = new Bundle();
                         bundle.putString("id", eventsListList.get(position).getId());
                         Navigation.findNavController(v).navigate(R.id.action_navigation_profile_to_navigation_list
@@ -105,7 +110,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.SelectTimeView
                     }
                     Log.e("TAG", "onBindViewHolder:eventsListList.get(position).getType() " + eventsListList.get(position).getType());
                 }
-                else if (fromHome.equalsIgnoreCase("cal")) {
+              /*  else if (fromHome.equalsIgnoreCase("cal")) {
 
                     if (eventsListList.get(position).getType().equalsIgnoreCase("puzzle")) {
                         Bundle bundle = new Bundle();
@@ -197,10 +202,11 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.SelectTimeView
 
 
                 }
+    */
             });
-              Glide.with(context)
+            Glide.with(context)
                     .load(eventsListList.get(position).getImage())
-                      .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .centerInside()
                     .into(ivEvents);
             tvEventName.setText(eventsListList.get(position).getEventName());

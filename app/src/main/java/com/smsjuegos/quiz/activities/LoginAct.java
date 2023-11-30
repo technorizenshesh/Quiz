@@ -1,9 +1,14 @@
 package com.smsjuegos.quiz.activities;
 
 import static android.content.ContentValues.TAG;
+import static com.smsjuegos.quiz.SMSApp.getCities;
+import static com.smsjuegos.quiz.retrofit.Constant.LATITUDE;
+import static com.smsjuegos.quiz.retrofit.Constant.LONGITUDE;
 import static com.smsjuegos.quiz.retrofit.Constant.showToast;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
@@ -12,6 +17,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.databinding.DataBindingUtil;
 
 import com.google.firebase.FirebaseApp;
@@ -25,6 +31,7 @@ import com.smsjuegos.quiz.retrofit.Constant;
 import com.smsjuegos.quiz.retrofit.NetworkAvailablity;
 import com.smsjuegos.quiz.retrofit.QuizInterface;
 import com.smsjuegos.quiz.utility.DataManager;
+import com.smsjuegos.quiz.utility.GPSTracker;
 import com.smsjuegos.quiz.utility.SharedPreferenceUtility;
 
 import java.util.HashMap;
@@ -35,6 +42,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class LoginAct extends AppCompatActivity {
+    GPSTracker gpsTracker;
 
     ActivityLoginBinding binding;
     private QuizInterface apiInterface;
@@ -45,9 +53,10 @@ public class LoginAct extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         apiInterface = ApiClient.getClient().create(QuizInterface.class);
+        gpsTracker = new GPSTracker(this);
         //     mAuth = FirebaseAuth.getInstance();
         FirebaseApp.initializeApp(this);
-
+        getLocation();
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login);
         binding.prvc.setText(Html.fromHtml(getString(R.string.datal)));
 
@@ -143,6 +152,28 @@ public class LoginAct extends AppCompatActivity {
         });
     }
 
+    public void getLocation() {
+        if (ActivityCompat.checkSelfPermission(LoginAct.this,
+                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(LoginAct.this,
+                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(LoginAct.this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
+                            Manifest.permission.ACCESS_COARSE_LOCATION},
+                    Constant.LOCATION_REQUEST);
+        } else {
+            if (gpsTracker.canGetLocation()) {
+                SharedPreferenceUtility.getInstance(LoginAct.this).putString(Constant.LATITUDE, gpsTracker.getLatitude() + "");
+                SharedPreferenceUtility.getInstance(LoginAct.this).putString(Constant.LONGITUDE, gpsTracker.getLongitude() + "");
+                String lon = SharedPreferenceUtility.getInstance(LoginAct.this).getString(LONGITUDE);
+                String lat = SharedPreferenceUtility.getInstance(LoginAct.this).getString(LATITUDE);
+                Log.e("TAG", "getLocation:  latlatlat  " + lat);
+                Log.e("TAG", "getLocation:lonlon " + lon);
+              getCities(LoginAct.this, gpsTracker.getLatitude(), gpsTracker.getLongitude());
+                }
+
+        }
+    }
 
     private boolean isValid() {
         if (strEmail.equalsIgnoreCase("")) {

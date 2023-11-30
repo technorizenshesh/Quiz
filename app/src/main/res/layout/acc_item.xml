@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="@dimen/_80sdp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:id="@+id/rlParent">
+<ImageView
+    android:layout_width="@dimen/_15sdp"
+    android:layout_height="@dimen/_15sdp"
+    android:layout_alignParentEnd="true"
+    android:src="@drawable/madel"/>
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/iv_event"
+         android:layout_marginEnd="@dimen/_15sdp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitXY"
+        app:shapeAppearanceOverlay="@style/roundedImageViewRounded"
+         />
+
+</RelativeLayout>

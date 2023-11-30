@@ -22,9 +22,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.bumptech.glide.Glide;
-import com.smsjuegos.quiz.GameAztecStartVideoAct;
 import com.smsjuegos.quiz.R;
-import com.smsjuegos.quiz.activities.DeclimarActivity;
 import com.smsjuegos.quiz.activities.FinishTeamInfo;
 import com.smsjuegos.quiz.databinding.ActivityCardigoPuzzleFinalBinding;
 import com.smsjuegos.quiz.retrofit.ApiClient;
