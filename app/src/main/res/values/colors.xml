@@ -10,6 +10,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="yellow">#FFCE31</color>
     <color name="grey">#D6D6D6</color>
+    <color name="semitrans">#6ED6D6D6</color>
     <color name="dark_gray">#8C8FA5</color>
     <color name="textColor">#868889</color>
     <color name="red">#FA0707</color>

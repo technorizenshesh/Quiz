@@ -127,7 +127,7 @@ public class InstrutionActNew extends AppCompatActivity implements OnMapReadyCal
         binding.tvFinalPuzzel.setOnClickListener(v -> {
 
             Log.e(TAG, "showMainMenu: " + eventId);
-            if (eventId.equals("8") | eventId.equals("15")|eventId.equals("18")) {
+            if (eventId.equals("8") | eventId.equals("15")|eventId.equals("18")|eventId.equals("19")) {
                 startActivity(new Intent(InstrutionActNew
                         .this, CardigoPuzzleFinalActivity.class).putExtra("eventId", eventId)
                         .putExtra("eventCode", eventCode));

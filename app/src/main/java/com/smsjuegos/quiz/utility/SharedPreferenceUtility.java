@@ -5,6 +5,8 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.smsjuegos.quiz.model.SuccessResCity;
 import com.smsjuegos.quiz.model.SuccessResGetBanner;
 import com.smsjuegos.quiz.model.SuccessResGetEvents;
 
@@ -168,6 +170,31 @@ public class SharedPreferenceUtility {
             Gson gson = new Gson();
             SuccessResGetBanner text = gson.fromJson(lvalue, SuccessResGetBanner.class);  //EDIT: gso to gson
             return text;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    public void putSuccessResCity(String key, ArrayList<SuccessResCity.Result> value) {
+        try {
+            Gson gson = new Gson();
+            String jsonText = gson.toJson(value);
+            mEditor = mPref.edit();
+            mEditor.putString(key, jsonText);
+            mEditor.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public  ArrayList<SuccessResCity.Result> getSuccessResCity(String key) {
+        try {
+            String lvalue;
+            lvalue = mPref.getString(key, "");
+            Gson gson = new Gson();
+            ArrayList<SuccessResCity.Result> logs = gson.fromJson(lvalue, new TypeToken<ArrayList<SuccessResCity.Result>>(){}.getType());
+
+            return logs;
         } catch (Exception e) {
             e.printStackTrace();
             return null;

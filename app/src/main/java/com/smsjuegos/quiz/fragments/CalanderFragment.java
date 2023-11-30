@@ -16,9 +16,11 @@ import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.google.gson.Gson;
 import com.smsjuegos.quiz.R;
+import com.smsjuegos.quiz.adapter.AccAdapter;
 import com.smsjuegos.quiz.adapter.HomeAdapter;
 import com.smsjuegos.quiz.databinding.FragmentCalanderBinding;
-import com.smsjuegos.quiz.model.SuccessResGetEvents;
+import com.smsjuegos.quiz.model.SuccessResAcc;
+import com.smsjuegos.quiz.model.SuccessResAcc;
 import com.smsjuegos.quiz.retrofit.ApiClient;
 import com.smsjuegos.quiz.retrofit.Constant;
 import com.smsjuegos.quiz.retrofit.NetworkAvailablity;
@@ -37,21 +39,21 @@ import retrofit2.Response;
 public class CalanderFragment extends Fragment {
 
     FragmentCalanderBinding binding;
-    List<SuccessResGetEvents.Result> eventsList = new LinkedList<>();
-    private HomeAdapter homeAdapter;
+    List<SuccessResAcc.Result> eventsList = new LinkedList<>();
+    private AccAdapter homeAdapter;
     private QuizInterface apiInterface;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_calander, container, false);
-        homeAdapter = new HomeAdapter(getActivity(), eventsList, "cal");
+        homeAdapter = new AccAdapter(getActivity(), eventsList, "cal");
         apiInterface = ApiClient.getClient().create(QuizInterface.class);
 
         binding.rvUpcomingEvents.setHasFixedSize(true);
         // binding.rvUpcomingEvents.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         binding.rvUpcomingEvents.setLayoutManager(new GridLayoutManager(getActivity(),
-                2));
+                3));
         binding.rvUpcomingEvents.setAdapter(homeAdapter);
 
         if (NetworkAvailablity.getInstance(getActivity()).checkNetworkStatus()) {
@@ -78,39 +80,31 @@ public class CalanderFragment extends Fragment {
                 }
 
         );
-
+        get_Accomplishments();
         return binding.getRoot();
     }
 
-    private void getEventsImages() {
+    private void get_Accomplishments() {
         DataManager.getInstance().showProgressMessage(getActivity(), getString(R.string.please_wait));
         boolean val = SharedPreferenceUtility.getInstance(requireContext())
                 .getBoolean(Constant.SELECTED_LANGUAGE);
 
-        HashMap<String, String> map = new HashMap<>();
-        if (!val) {
-            map.put("lang", "en");
-        } else {
-            map.put("lang", "sp");
-        }
-        Call<SuccessResGetEvents> call = apiInterface.getEventsList(map);
+   
+        Call<SuccessResAcc> call = apiInterface.get_Accomplishments();
 
-        call.enqueue(new Callback<SuccessResGetEvents>() {
+        call.enqueue(new Callback<SuccessResAcc>() {
             @Override
-            public void onResponse(Call<SuccessResGetEvents> call, Response<SuccessResGetEvents> response) {
+            public void onResponse(Call<SuccessResAcc> call, Response<SuccessResAcc> response) {
 
                 DataManager.getInstance().hideProgressMessage();
                 try {
-                    SuccessResGetEvents data = response.body();
-                    Log.e("data", data.status);
-                    if (data.status.equals("1")) {
-                        String dataResponse = new Gson().toJson(response.body());
+                    SuccessResAcc data = response.body();
+                    Log.e("data", data.getStatus());
+                    if (data.getStatus().equals("1")) {
                         eventsList.clear();
                         eventsList.addAll(data.getResult());
                         homeAdapter.notifyDataSetChanged();
 
-                    } else if (data.status.equals("0")) {
-                        showToast(getActivity(), data.message);
                     }
 
                 } catch (Exception e) {
@@ -120,7 +114,7 @@ public class CalanderFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<SuccessResGetEvents> call, Throwable t) {
+            public void onFailure(Call<SuccessResAcc> call, Throwable t) {
                 call.cancel();
                 DataManager.getInstance().hideProgressMessage();
             }
@@ -149,7 +143,7 @@ import com.google.gson.Gson;
 import com.smsjuegos.quiz.R;
 import com.smsjuegos.quiz.adapter.HomeAdapter;
 import com.smsjuegos.quiz.databinding.FragmentCalanderBinding;
-import com.smsjuegos.quiz.model.SuccessResGetEvents;
+import com.smsjuegos.quiz.model.SuccessResAcc;
 import com.smsjuegos.quiz.retrofit.ApiClient;
 import com.smsjuegos.quiz.retrofit.Constant;
 import com.smsjuegos.quiz.retrofit.NetworkAvailablity;
@@ -168,7 +162,7 @@ import retrofit2.Response;
 public class CalanderFragment extends Fragment {
 
     FragmentCalanderBinding binding;
-    List<SuccessResGetEvents.Result> eventsList = new LinkedList<>();
+    List<SuccessResAcc.Result> eventsList = new LinkedList<>();
     private HomeAdapter homeAdapter;
     private QuizInterface apiInterface;
 
@@ -224,15 +218,15 @@ public class CalanderFragment extends Fragment {
         } else {
             map.put("lang", "sp");
         }
-        Call<SuccessResGetEvents> call = apiInterface.getEventsList(map);
+        Call<SuccessResAcc> call = apiInterface.getEventsList(map);
 
-        call.enqueue(new Callback<SuccessResGetEvents>() {
+        call.enqueue(new Callback<SuccessResAcc>() {
             @Override
-            public void onResponse(Call<SuccessResGetEvents> call, Response<SuccessResGetEvents> response) {
+            public void onResponse(Call<SuccessResAcc> call, Response<SuccessResAcc> response) {
 
                 DataManager.getInstance().hideProgressMessage();
                 try {
-                    SuccessResGetEvents data = response.body();
+                    SuccessResAcc data = response.body();
                     Log.e("data", data.status);
                     if (data.status.equals("1")) {
                         String dataResponse = new Gson().toJson(response.body());
@@ -251,7 +245,7 @@ public class CalanderFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<SuccessResGetEvents> call, Throwable t) {
+            public void onFailure(Call<SuccessResAcc> call, Throwable t) {
                 call.cancel();
                 DataManager.getInstance().hideProgressMessage();
             }

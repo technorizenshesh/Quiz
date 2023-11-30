@@ -64,115 +64,12 @@ public class GameAztecStartVideoAct extends AppCompatActivity {
 
         btnPlay.setOnClickListener(v -> {
           //  releasePlayer();
+
+
             startActivity(new Intent(getApplicationContext(), InstrutionActNew.class)
                     .putExtra("eventId", eventId).putExtra("eventCode", eventCode));
         });
 
-      /* // exoPlayerView = findViewById(R.id.idExoPlayerVIew);
-        try {
-            // bandwisthmeter is used for
-            // getting default bandwidth
-            BandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
-
-            // track selector is used to navigate between
-            // video using a default seekbar.
-            TrackSelector trackSelector = new DefaultTrackSelector(new AdaptiveTrackSelection.Factory(bandwidthMeter));
-
-            // we are adding our track selector to exoplayer.
-         //   exoPlayer = ExoPlayerFactory.newSimpleInstance(this, trackSelector);
-
-            // we are parsing a video url
-            // and parsing its video uri.
-            Uri videouri = Uri.parse(videoUrl);
-            // we are creating a variable for datasource factory
-            // and setting its user agent as 'exoplayer_view'
-          //  DefaultHttpDataSourceFactory dataSourceFactory = new DefaultHttpDataSourceFactory("exoplayer_video");
-
-            // we are creating a variable for extractor factory
-            // and setting it to default extractor factory.
-            ExtractorsFactory extractorsFactory = new DefaultExtractorsFactory();
-
-            // we are creating a media source with above variables
-            // and passing our event handler as null,
-
-           // MediaSource mediaSource = new ExtractorMediaSource(videouri, dataSourceFactory, extractorsFactory, null, null);
-            // inside our exoplayer view
-            // we are setting our player
-        //    exoPlayerView.setPlayer(exoPlayer);
-            // we are preparing our exoplayer
-            // with media source.
-         //   exoPlayer.prepare(mediaSource);
-
-            // we are setting our exoplayer
-            // when it is ready.
-            exoPlayer.setPlayWhenReady(true);
-
-            exoPlayer.addListener(new Player.EventListener() {
-                @Override
-                public void onTimelineChanged(Timeline timeline, Object manifest, int reason) {
-                }
-
-                @Override
-                public void onTracksChanged(TrackGroupArray trackGroups, TrackSelectionArray trackSelections) {
-
-                }
-
-                @Override
-                public void onLoadingChanged(boolean isLoading) {
-
-                }
-
-                @Override
-                public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
-
-                    if (playbackState == ExoPlayer.STATE_ENDED) {
-                        //player back ended
-                        exoPlayer.stop();
-                        exoPlayer.release();
-                        btnPlay.setAlpha(1);
-                        btnPlay.setOnClickListener(v -> {
-                            startActivity(new Intent(getApplicationContext(), InstrutionActNew.class).putExtra("eventId", eventId).putExtra("eventCode", eventCode));
-                        });
-                    }
-                }
-
-                @Override
-                public void onRepeatModeChanged(int repeatMode) {
-
-                }
-
-                @Override
-                public void onShuffleModeEnabledChanged(boolean shuffleModeEnabled) {
-
-                }
-
-                @Override
-                public void onPlayerError(ExoPlaybackException error) {
-
-                }
-
-                @Override
-                public void onPositionDiscontinuity(int reason) {
-
-                }
-
-                @Override
-                public void onPlaybackParametersChanged(PlaybackParameters playbackParameters) {
-
-                }
-
-                @Override
-                public void onSeekProcessed() {
-
-                }
-            });
-
-        } catch (Exception e) {
-            // below line is used for
-            // handling our errors.
-            Log.e("TAG", "Error : " + e);
-        }
-*/
     }
 
     @Override

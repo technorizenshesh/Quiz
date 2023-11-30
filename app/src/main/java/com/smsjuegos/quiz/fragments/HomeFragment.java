@@ -1,10 +1,12 @@
 package com.smsjuegos.quiz.fragments;
 
+import static com.smsjuegos.quiz.SMSApp.sortLocationsByDistance;
 import static com.smsjuegos.quiz.retrofit.Constant.LATITUDE;
 import static com.smsjuegos.quiz.retrofit.Constant.LONGITUDE;
 import static com.smsjuegos.quiz.retrofit.Constant.showToast;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -25,11 +27,13 @@ import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.denzcoskun.imageslider.constants.ScaleTypes;
 import com.denzcoskun.imageslider.models.SlideModel;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
 import com.skydoves.powerspinner.OnSpinnerItemSelectedListener;
 import com.smsjuegos.quiz.R;
 import com.smsjuegos.quiz.adapter.HomeAdapter;
 import com.smsjuegos.quiz.databinding.FragmentHomeBinding;
+import com.smsjuegos.quiz.model.SuccessResCity;
 import com.smsjuegos.quiz.model.SuccessResGetBanner;
 import com.smsjuegos.quiz.model.SuccessResGetEvents;
 import com.smsjuegos.quiz.retrofit.ApiClient;
@@ -40,6 +44,7 @@ import com.smsjuegos.quiz.utility.DataManager;
 import com.smsjuegos.quiz.utility.GPSTracker;
 import com.smsjuegos.quiz.utility.SharedPreferenceUtility;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -53,17 +58,34 @@ public class HomeFragment extends Fragment {
     FragmentHomeBinding binding;
     List<SlideModel> bannersList = new LinkedList<>();
     List<SuccessResGetEvents.Result> eventsList = new LinkedList<>();
+    ArrayList<SuccessResCity.Result> cityList = new ArrayList<>();
+    ArrayList<String> citys;
     GPSTracker gpsTracker;
     // private SliderAdapter adapter;
     String city_id = "1";
     private HomeAdapter homeAdapter;
     private QuizInterface apiInterface;
 
+    private static ArrayList<String> extractNames(ArrayList<SuccessResCity.Result> modelArrayList) {
+        // Create a String array to store names
+        ArrayList<String> namesArray = new ArrayList<>();
+
+        // Extract 'name' property from each MyModel object
+        for (int i = 0; i < modelArrayList.size(); i++) {
+            SuccessResCity.Result model = modelArrayList.get(i);
+            // Assuming 'name' is a String property in the MyModel class
+            namesArray.add(model.getName());
+        }
+
+        return namesArray;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home,
                 container, false);
+        cityList = SharedPreferenceUtility.getInstance(requireActivity()).getSuccessResCity("SuccessResCity");
         apiInterface = ApiClient.getClient().create(QuizInterface.class);
         gpsTracker = new GPSTracker(requireActivity());
         homeAdapter = new HomeAdapter(getActivity(), eventsList, "home");
@@ -77,6 +99,33 @@ public class HomeFragment extends Fragment {
                             .action_navigation_home_to_viewAllEventsFragment);
                 }
         );
+        if (cityList==null) {
+            binding.spinner.setItems(R.array.city);
+            binding.spinner.setHint(R.string.choose_your_city);
+
+        } else
+        {
+            citys = extractNames(cityList);
+            binding.spinner.setItems(citys);
+            binding.spinner.setHint(cityList.get(0).getName());
+            city_id = cityList.get(0).getId();
+            eventsList.clear();
+            if (SharedPreferenceUtility.getInstance(getActivity())
+                    .getSuccessResGetEvents("SuccessResGetEvents") != null) {
+            SuccessResGetEvents datadd = SharedPreferenceUtility.getInstance(getActivity())
+                    .getSuccessResGetEvents("SuccessResGetEvents");
+            for (SuccessResGetEvents.Result result : datadd.result) {
+                if (result.city_id.equalsIgnoreCase(city_id)) {
+                    eventsList.add(result);
+                }
+            }
+            homeAdapter.notifyDataSetChanged();
+        }else {
+                getEventsImages();
+            }
+        }
+
+
         binding.spinner.setOnSpinnerItemSelectedListener(new OnSpinnerItemSelectedListener<Object>() {
             @Override
             public void onItemSelected(int i, @Nullable Object o, int i1, Object t1) {
@@ -85,35 +134,35 @@ public class HomeFragment extends Fragment {
                 Log.e("TAG", "onItemSelected: " + i1);
                 Log.e("TAG", "onItemSelected: " + t1);
                 SuccessResGetEvents datadd = SharedPreferenceUtility.getInstance(getActivity())
-                        .getSuccessResGetEvents("SuccessResGetEvents") ;
-
-                switch (i1) {
-
+                        .getSuccessResGetEvents("SuccessResGetEvents");
+                city_id = cityList.get(i1).getId();
+                eventsList.clear();
+                for (SuccessResGetEvents.Result result : datadd.result) {
+                    if (result.city_id.equalsIgnoreCase(city_id)) {
+                        eventsList.add(result);
+                    }
+                }
+                homeAdapter.notifyDataSetChanged();
+             /*   switch (i1) {
                     case 0:
-                        city_id = "1";
-                            eventsList.clear();
-                            for (SuccessResGetEvents.Result result : datadd.result){
-                                if (result.city_id.equalsIgnoreCase( city_id)){
-                                    eventsList.add(result);
-                                }
-                            }
-                            homeAdapter.notifyDataSetChanged();
+
                         break;
                     case 1:
+                        city_id = cityList.get(0).getId();
                         city_id = "2";
-                            eventsList.clear();
-                            for (SuccessResGetEvents.Result result : datadd.result){
-                                if (result.city_id.equalsIgnoreCase( city_id)){
-                                    eventsList.add(result);
-                                }
+                        eventsList.clear();
+                        for (SuccessResGetEvents.Result result : datadd.result) {
+                            if (result.city_id.equalsIgnoreCase(city_id)) {
+                                eventsList.add(result);
                             }
-                            homeAdapter.notifyDataSetChanged();
+                        }
+                        homeAdapter.notifyDataSetChanged();
 
                         break;
                     default:
                         break;
 
-                }
+                }*/
 
             }
 
@@ -127,8 +176,14 @@ public class HomeFragment extends Fragment {
                         .getSuccessResGetEvents("SuccessResGetEvents");
                 if (data.status.equals("1")) {
                     eventsList.clear();
-                    eventsList.addAll(data.getResult());
-                    homeAdapter.notifyDataSetChanged();
+                    city_id = cityList.get(0).getId();
+                    eventsList.clear();
+                    for (SuccessResGetEvents.Result result : data.result) {
+                        if (result.city_id.equalsIgnoreCase(city_id)) {
+                            eventsList.add(result);
+                        }
+                    }
+                     homeAdapter.notifyDataSetChanged();
                     binding.rvUpcomingEvents.hideShimmerAdapter();
                 } else if (data.status.equals("0")) {
                     showToast(getActivity(), data.message);
@@ -179,10 +234,13 @@ public class HomeFragment extends Fragment {
                 SharedPreferenceUtility.getInstance(requireActivity()).putString(Constant.LONGITUDE, gpsTracker.getLongitude() + "");
                 String lon = SharedPreferenceUtility.getInstance(getContext()).getString(LONGITUDE);
                 String lat = SharedPreferenceUtility.getInstance(getContext()).getString(LATITUDE);
-
                 Log.e("TAG", "getLocation:  latlatlat  " + lat);
                 Log.e("TAG", "getLocation:lonlon " + lon);
-            }
+                if (cityList==null)
+                {
+                getCities(requireActivity(), gpsTracker.getLatitude(), gpsTracker.getLongitude());
+            }}
+
         }
     }
 
@@ -196,6 +254,61 @@ public class HomeFragment extends Fragment {
                 Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.permisson_denied), Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    private void getCities(Context context, double latitude, double longitude) {
+        QuizInterface apiInterface = ApiClient.getClient().create(QuizInterface.class);
+        final SuccessResCity[] data = {new SuccessResCity()};
+        Call<SuccessResCity> call = apiInterface.get_city();
+        call.enqueue(new Callback<SuccessResCity>() {
+            @Override
+            public void onResponse(Call<SuccessResCity> call
+                    , Response<SuccessResCity> response) {
+                try {
+                    data[0] = response.body();
+                    assert data[0] != null;
+                    if (data[0].status.equals("1")) {
+                        Log.e("TAG", "onResponse:sorted " + data[0].result.toString());
+                        ArrayList<SuccessResCity.Result> sorted =
+                                sortLocationsByDistance(data[0].result, new LatLng(latitude, longitude));
+                        Log.e("TAG", "onResponse:sorted " + sorted.toString());
+                        if (!sorted.isEmpty()) {
+                            SharedPreferenceUtility.getInstance(context).putSuccessResCity("SuccessResCity", sorted);
+                        } else {
+                            SharedPreferenceUtility.getInstance(context).putSuccessResCity("SuccessResCity", data[0].result);
+                        }
+                        cityList = SharedPreferenceUtility.getInstance(requireActivity()).getSuccessResCity("SuccessResCity");
+                        citys = extractNames(cityList);
+                        binding.spinner.setItems(citys);
+                        binding.spinner.setHint(cityList.get(0).getName());
+                        city_id = cityList.get(0).getId();
+                        eventsList.clear();
+                        SuccessResGetEvents datadd = SharedPreferenceUtility.getInstance(getActivity())
+                                .getSuccessResGetEvents("SuccessResGetEvents");
+                        for (SuccessResGetEvents.Result result : datadd.result) {
+                            if (result.city_id.equalsIgnoreCase(city_id)) {
+                                eventsList.add(result);
+                            }
+                        }
+                        homeAdapter.notifyDataSetChanged();
+                    }
+
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    SharedPreferenceUtility.getInstance(context).putSuccessResCity("SuccessResCity", data[0].result);
+
+                }
+
+
+            }
+
+            @Override
+            public void onFailure(Call<SuccessResCity> call, Throwable t) {
+                call.cancel();
+            }
+        });
+
     }
 
     private void getEventsImages() {
@@ -224,7 +337,11 @@ public class HomeFragment extends Fragment {
                     if (data.status.equals("1")) {
                         SharedPreferenceUtility.getInstance(getActivity()).putSuccessResGetEvents("SuccessResGetEvents", data);
                         eventsList.clear();
-                        eventsList.addAll(data.getResult());
+                        for (SuccessResGetEvents.Result result : data.result) {
+                            if (result.city_id.equalsIgnoreCase("1")) {
+                                eventsList.add(result);
+                            }
+                        }
                         homeAdapter.notifyDataSetChanged();
                         binding.rvUpcomingEvents.hideShimmerAdapter();
                     } else if (data.status.equals("0")) {
@@ -348,5 +465,4 @@ public class HomeFragment extends Fragment {
         });
 
     }
-
 }

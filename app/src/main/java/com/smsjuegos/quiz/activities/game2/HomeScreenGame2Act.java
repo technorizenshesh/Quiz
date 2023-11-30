@@ -27,7 +27,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.smsjuegos.quiz.R;
-import com.smsjuegos.quiz.activities.DeclimarActivity;
 import com.smsjuegos.quiz.adapter.LevelAdapter;
 import com.smsjuegos.quiz.databinding.ActivityHomeScreenGame2Binding;
 import com.smsjuegos.quiz.model.EventCodeResSuccess;
@@ -65,7 +64,7 @@ public class HomeScreenGame2Act extends AppCompatActivity implements LevelAdapte
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_home_screen_game2);
         apiInterface = ApiClient.getClient().create(QuizInterface.class);
-        result = (SuccessResGetEvents.Result) getIntent().getSerializableExtra("instructionID");
+        result = (SuccessResGetEvents.Result)getIntent().getSerializableExtra("instructionID");
         is_Apply();
         Glide
                 .with(HomeScreenGame2Act.this)
