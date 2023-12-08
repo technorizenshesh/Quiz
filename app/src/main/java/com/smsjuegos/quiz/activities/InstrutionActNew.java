@@ -14,6 +14,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -27,6 +28,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
+
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -51,7 +53,6 @@ import com.smsjuegos.quiz.model.SuccessResGetInstruction;
 import com.smsjuegos.quiz.retrofit.ApiClient;
 import com.smsjuegos.quiz.retrofit.Constant;
 import com.smsjuegos.quiz.retrofit.QuizInterface;
-import com.smsjuegos.quiz.utility.DataManager;
 import com.smsjuegos.quiz.utility.DrawPollyLine;
 import com.smsjuegos.quiz.utility.GPSTracker;
 import com.smsjuegos.quiz.utility.SharedPreferenceUtility;
@@ -61,6 +62,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -91,13 +93,11 @@ public class InstrutionActNew extends AppCompatActivity implements OnMapReadyCal
         gpsTracker = new GPSTracker(this);
         handler = new Handler();
         apiInterface = ApiClient.getClient().create(QuizInterface.class);
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
-        mapFragment.getMapAsync(InstrutionActNew.this);
         binding.imgHeader.setOnClickListener(v -> finish());
         eventId = getIntent().getExtras().getString("eventId");
         eventCode = getIntent().getExtras().getString("eventCode");
-       //  eventId = "5";
-   //    eventCode = "934121";
+        //  eventId = "5";
+        //    eventCode = "934121";
 
         Log.e("TAG", "eventIdeventIdeventIdeventId: " + eventId);
         Log.e("TAG", "eventCodeeventCodeeventCode: " + eventCode);
@@ -119,7 +119,8 @@ public class InstrutionActNew extends AppCompatActivity implements OnMapReadyCal
 
         binding.tvINventory.setOnClickListener(v -> {
             startActivity(new Intent(InstrutionActNew.this,
-                    InventoryAct.class).putExtra("eventId", eventId).putExtra("eventCode", eventCode));
+                    InventoryAct.class).putExtra("eventId", eventId)
+                    .putExtra("eventCode", eventCode));
             onStop();
 
         });
@@ -127,13 +128,15 @@ public class InstrutionActNew extends AppCompatActivity implements OnMapReadyCal
         binding.tvFinalPuzzel.setOnClickListener(v -> {
 
             Log.e(TAG, "showMainMenu: " + eventId);
-            if (eventId.equals("8") | eventId.equals("15")|eventId.equals("18")|eventId.equals("19")) {
+            if (eventId.equals("8") | eventId.equals("15") | eventId.equals("18") | eventId.equals("19")) {
                 startActivity(new Intent(InstrutionActNew
                         .this, CardigoPuzzleFinalActivity.class).putExtra("eventId", eventId)
                         .putExtra("eventCode", eventCode));
 
             } else {
-                startActivity(new Intent(InstrutionActNew.this, FinalPuzzelAct.class).putExtra("eventId", eventId).putExtra("eventCode", eventCode));
+                startActivity(new Intent(InstrutionActNew.this,
+                        FinalPuzzelAct.class).putExtra("eventId", eventId)
+                        .putExtra("eventCode", eventCode));
             }
             onStop();
 
@@ -145,10 +148,13 @@ public class InstrutionActNew extends AppCompatActivity implements OnMapReadyCal
     @Override
     protected void onResume() {
         //SharedPreferenceUtility.getInstance(getApplicationContext()).putString("NevId", "");
+        super.onResume();
 
         if (mMap != null) {
             mMap.clear();
         }
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+        mapFragment.getMapAsync(InstrutionActNew.this);
 
         if (gpsTracker != null && gpsTracker.canGetLocation()) {
             MyLatitude = gpsTracker.getLatitude();
@@ -158,66 +164,73 @@ public class InstrutionActNew extends AppCompatActivity implements OnMapReadyCal
             Toast.makeText(getApplicationContext(), "Gps Off", Toast.LENGTH_SHORT).show();
 
         }
-
-        getInstruction();
         getTimer();
-        super.onResume();
     }
 
 
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
         mMap = googleMap;
+        mMap.setOnMarkerClickListener(InstrutionActNew.this);
         mMap.clear();
+        getInstruction();
+
         if (ActivityCompat.checkSelfPermission(InstrutionActNew.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(InstrutionActNew.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
         googleMap.setMyLocationEnabled(true);
+
+
     }
 
     @Override
     public boolean onMarkerClick(@NonNull Marker marker) {
         int position = (int) (marker.getTag());
-        Log.e("TAG", "onMarkerClick: position" + position);
-        Log.e("TAG", "onMarkerClick: getIdgetIdgetIdgetId" + instructionList.get(position).getId());
-        Log.e("TAG", "onMarkerClick: instructionList.get(position).getEventType()---" + instructionList.get(position).getEventType());
-        if (gpsTracker != null && gpsTracker.canGetLocation()) {
-            MyLatitude = gpsTracker.getLatitude();
-            MyLongitude = gpsTracker.getLongitude();
-            MyAltitude = gpsTracker.getAltitude();
-        } else {
-            Toast.makeText(getApplicationContext(), "Gps Off", Toast.LENGTH_SHORT).show();
-
+        SharedPreferenceUtility.getInstance(getApplicationContext()).putString("NevId", "");
+        if (snackbar != null) {
+            snackbar.dismiss();
         }
-        double distance = GPSTracker.getDistanceFromPointWithoutAlt(Double.parseDouble(instructionList.get(position).getLat()),
-                Double.parseDouble(instructionList.get(position).getLon()),
-                MyLatitude, MyLongitude);
-        Log.e(TAG, "onMarkerClick: distancedistancedistancedistance"+distance );
-        if (distance <50) {
-            showSimpleCancelBtnDialog(InstrutionActNew.this, R.layout.dialog_distance  , distance+"");
-        } else {
-            if (instructionList.get(position).getEventType().equalsIgnoreCase("crime")) {
-                startActivity(new Intent(InstrutionActNew.this, QuestionAnswerAct.class).
-                        putExtra("instructionID", instructionList.get(position))
-                        .putExtra("eventCode", eventCode));
-                //Toast.makeText(getApplicationContext(), "" + position, Toast.LENGTH_SHORT).show();
-            } else if (instructionList.get(position).getEventType().equalsIgnoreCase("codigo_frida")) {
-                startActivity(new Intent(InstrutionActNew.this, QuestionAnswerAct.class).
-                        putExtra("instructionID", instructionList.get(position))
-                        .putExtra("eventCode", eventCode));
-            } else if (instructionList.get(position).getEventType().equalsIgnoreCase("zombie")) {
-                startActivity(new Intent(InstrutionActNew.this, QuestionAnswerAct.class).
-                        putExtra("instructionID", instructionList.get(position))
-                        .putExtra("eventCode", eventCode));
+        if (Objects.equals(eventId, "15")) {
+            if (gpsTracker != null && gpsTracker.canGetLocation()) {
+                MyLatitude = gpsTracker.getLatitude();
+                MyLongitude = gpsTracker.getLongitude();
+                MyAltitude = gpsTracker.getAltitude();
+                float[] distance = new float[1];
+                Location.distanceBetween(
+                        Double.parseDouble(instructionList.get(position).getLat()),
+                        Double.parseDouble(instructionList.get(position).getLon()),
+                        MyLatitude, MyLongitude,
+                        distance
+                );
+                double distance2 = 0.0;
+                try {
+                    Log.e(TAG, "onMarkerClick: distancedistancedistancedistance" + distance.length);
+                    Log.e(TAG, "onMarkerClick: distancedistancedistancedistance" + distance[0]);
+                    distance2 = Double.parseDouble(String.valueOf(distance[0]));
+                    Log.e(TAG, "onMarkerClick: distancedistancedistancedistance" + distance2);
+                } catch (Exception e) {
+
+                }
+                if (distance2 >= 200.00) {
+                    showSimpleCancelBtnDialog(InstrutionActNew.this, R.layout.dialog_distance, distance + "");
+                } else {
+                    startActivity(new Intent(InstrutionActNew.this, QuestionAnswerAct.class)
+                            .putExtra("instructionID", instructionList.get(position))
+                            .putExtra("position", position)
+                            .putExtra("eventCode", eventCode));
+                }
             } else {
-
-                Log.e("TAG", "onMarkerClick: " + instructionList.get(position));
-           //     startActivity(new Intent(InstrutionActNew.this, PuzzleAct.class)
-                startActivity(new Intent(InstrutionActNew.this, QuestionAnswerAct.class)
-                        .putExtra("instructionID", instructionList.get(position))
-                        .putExtra("eventCode", eventCode));
+                Toast.makeText(getApplicationContext(), "Gps Off", Toast.LENGTH_SHORT).show();
             }
+        } else {
+            startActivity(new Intent(InstrutionActNew.this, QuestionAnswerAct.class)
+                    .putExtra("instructionID", instructionList.get(position))
+                    .putExtra("position", position)
+                    .putExtra("eventCode", eventCode));
+
+
         }
+
         return false;
     }
 
@@ -256,8 +269,136 @@ public class InstrutionActNew extends AppCompatActivity implements OnMapReadyCal
         });
 
     }
+
     private void getInstruction() {
-        DataManager.getInstance().showProgressMessage(this, getString(R.string.please_wait));
+        if (instructionList != null) {
+            instructionList.clear();
+        }
+        ArrayList<SuccessResGetInstruction.Result> data = SharedPreferenceUtility.getInstance(getApplicationContext()).getSuccessResGetInstruction("SuccessResGetInstruction");
+        instructionList.addAll(data);
+        Log.e(TAG, "getInstruction: " + instructionList.toString());
+        marker = new Marker[instructionList.size()];
+        int i = 0;
+        for (SuccessResGetInstruction.Result result : instructionList) {
+
+            if (result.getAnswer_status().equalsIgnoreCase("1")) {
+                if (result.getLat().equalsIgnoreCase("")) return;
+                else
+                    marker[i] = createMarker(i, Double.parseDouble(result.getLat()), Double.parseDouble(result.getLon()),
+                            "#" + i, "", R.drawable.flag_green);
+            } else {
+
+                if (result.getLat().equalsIgnoreCase("")) return;
+                else
+                    marker[i] = createMarker(i, Double.parseDouble(result.getLat()),
+                            Double.parseDouble(result.getLon()),
+                            "#" + i, "", R.drawable.flag_red);
+            }
+            i++;
+
+            Log.e(TAG, "getInstruction: ------------------------------" + SharedPreferenceUtility.getInstance(getApplicationContext()).getString("NevId"));
+            Log.e(TAG, "getInstruction: ------------------------------" + SharedPreferenceUtility.getInstance(getApplicationContext()).getString("ArrTime"));
+            if (SharedPreferenceUtility.getInstance(getApplicationContext()).getString("NevId").equalsIgnoreCase("") | SharedPreferenceUtility.getInstance(getApplicationContext())
+                    .getString("ArrTime").equalsIgnoreCase("")) {
+                strtlat = "";
+                strtlang = "";
+                endlat = "";
+                endlang = "";
+            } else {
+                Log.e("TAG", "SharedPreferenceUtility: " + SharedPreferenceUtility.getInstance(getApplicationContext()).getString("NevId"));
+                Log.e("TAG", "SharedPreferenceUtility: " + result.id);
+                if (SharedPreferenceUtility.getInstance(getApplicationContext()).getString("NevId").equalsIgnoreCase(result.id)) {
+                    strtlat = result.getLat();
+                    strtlang = result.getLon();
+                    //   endlat    = data.getResult().get(i + 1).getLat();
+                    //  endlang  = data.getResult().get(i + 1).getLon();
+                    Log.e("TAG", "SharedPreferenceUtility: " + strtlat + strtlang + endlat + endlang);
+
+                }
+                if ((Integer.parseInt(SharedPreferenceUtility.getInstance(getApplicationContext()).getString("NevId"))) + 1
+                        == Integer.parseInt(result.id)) {
+                    endlat = result.getLat();
+                    endlang = result.getLon();
+
+
+                }
+            }
+
+        }
+        LatLng sydney = new LatLng(Double.parseDouble(instructionList.get(0).getLat()), Double.parseDouble(instructionList.get(0).getLon()));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 15));
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
+        try {
+            if (strtlang.equalsIgnoreCase("")) {
+
+            } else {
+                //     List<LatLng>latLngs = new ArrayList<>();
+                LatLng latLngs1 = new LatLng(Double.parseDouble(strtlat), Double.parseDouble(strtlang));
+                LatLng latLngs2 = new LatLng(Double.parseDouble(endlat), Double.parseDouble(endlang));
+                // latLngs.add(new LatLng(Double.parseDouble(endlat),Double.parseDouble(endlang)));
+                //     drawPolyLineOnMap(latLngs);
+
+                DrawPollyLine.get(getApplicationContext())
+                        .setOrigin(latLngs1)
+                        .setDestination(latLngs2)
+                        .execute(latLngs -> {
+                            PolylineOptions options = new PolylineOptions();
+                            options.addAll(latLngs);
+                            options.color(Color.GREEN);
+                            options.width(10);
+                            options.startCap(new SquareCap());
+                            options.endCap(new SquareCap());
+                            Polyline line = mMap.addPolyline(options);
+                            ValueAnimator valueAnimator = ValueAnimator.ofInt(0, 100);
+                            valueAnimator.setDuration(2000); // 2 seconds
+                            valueAnimator.setRepeatCount(ValueAnimator.INFINITE);
+                            valueAnimator.setRepeatMode(ValueAnimator.RESTART);
+                            valueAnimator.addUpdateListener(animator -> {
+                                int alpha = (int) animator.getAnimatedValue();
+                                line.setColor(Color.BLACK);
+                            });
+                            valueAnimator.start();
+                            LatLngBounds.Builder builder = new LatLngBounds.Builder();
+                            builder.include(latLngs1);
+                            final LatLngBounds bounds = builder.build();
+                            CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 100);
+                            mMap.animateCamera(cu);
+                            snackbar = Snackbar.make(getWindow().getDecorView().getRootView()
+                                    , "", Snackbar.LENGTH_INDEFINITE);
+                            View customSnackView = getLayoutInflater().inflate(R.layout.custom_snackbar_view, null);
+                            snackbar.getView().setBackgroundColor(Color.TRANSPARENT);
+                            // now change the layout of the snackbar
+                            Snackbar.SnackbarLayout snackbarLayout = (Snackbar.SnackbarLayout) snackbar.getView();
+                            snackbarLayout.setPadding(0, 0, 0, 0);
+                            TextView textView2 = customSnackView.findViewById(R.id.textView2);
+                            textView2.setText(getString(R.string.you_have_only) + SharedPreferenceUtility.getInstance(getApplicationContext()).getString("ArrTime") + getString(R.string.minutes_to_reach_next_checkpoint_hurry_up));
+                            Button bGotoWebsite = customSnackView.findViewById(R.id.gotoWebsiteButton);
+                            bGotoWebsite.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Toast.makeText(getApplicationContext(), "Reaching Check....", Toast.LENGTH_SHORT).show();
+                                    SharedPreferenceUtility.getInstance(getApplicationContext()).putString("NevId", "");
+                                    SharedPreferenceUtility.getInstance(getApplicationContext()).putString("ArrTime", "");
+                                    Log.e(TAG, "getInstruction: ------------------------------" + SharedPreferenceUtility.getInstance(getApplicationContext()).getString("NevId"));
+                                    Log.e(TAG, "getInstruction: ------------------------------" + SharedPreferenceUtility.getInstance(getApplicationContext()).getString("ArrTime"));
+
+
+                                    snackbar.dismiss();
+                                }
+                            });
+                            snackbarLayout.addView(customSnackView, 0);
+                            snackbar.show();
+                        });
+            }
+        } catch (Exception e) {
+            Log.e("TAG", "onResponse: " + e.getLocalizedMessage());
+            Log.e("TAG", "onResponse: " + e.getMessage());
+            Log.e("TAG", "onResponse: " + e.getCause());
+        }
+        //getInstruction2();
+    }
+
+    private void getInstruction2() {
         boolean val = SharedPreferenceUtility.getInstance(getApplicationContext()).getBoolean(Constant.SELECTED_LANGUAGE);
         String lang = "";
 
@@ -273,128 +414,17 @@ public class InstrutionActNew extends AppCompatActivity implements OnMapReadyCal
         map.put("event_code", eventCode);
         String level = SharedPreferenceUtility.getInstance(this).getString(GAME_LAVEL);
         map.put("level", level);
-
         Call<SuccessResGetInstruction> call = apiInterface.getInstruction(map);
         call.enqueue(new Callback<SuccessResGetInstruction>() {
             @Override
             public void onResponse(Call<SuccessResGetInstruction> call, Response<SuccessResGetInstruction> response) {
-                DataManager.getInstance().hideProgressMessage();
                 try {
                     SuccessResGetInstruction data = response.body();
                     Log.e("data", data.status);
                     if (data.status.equals("1")) {
                         String dataResponse = new Gson().toJson(response.body());
                         Log.e("MapMap", "EDIT PROFILE RESPONSE" + dataResponse);
-                        instructionList.clear();
-                        instructionList.addAll(data.getResult());
-                        mMap.setOnMarkerClickListener(InstrutionActNew.this);
-                        marker = new Marker[instructionList.size()];
-                        int i = 0;
-
-                        for (SuccessResGetInstruction.Result result : instructionList) {
-
-                            if (result.getAnswer_status().equalsIgnoreCase("1")) {
-                                if (result.getLat().equalsIgnoreCase("")) return;
-                                else
-                                    marker[i] = createMarker(i, Double.parseDouble(result.getLat()), Double.parseDouble(result.getLon()),
-                                            "#" + i, "", R.drawable.flag_green);
-                            } else {
-
-                                if (result.getLat().equalsIgnoreCase("")) return;
-                                else
-                                    marker[i] = createMarker(i, Double.parseDouble(result.getLat()),
-                                            Double.parseDouble(result.getLon()),
-                                            "#" + i, "", R.drawable.flag_red);
-                            }
-                            i++;
-                            if (SharedPreferenceUtility.getInstance(getApplicationContext()).getString("NevId").equalsIgnoreCase("")) {
-
-                            } else  if (SharedPreferenceUtility.getInstance(getApplicationContext()).getString("ArrTime").equalsIgnoreCase("")) {
-
-                            } else {
-                                Log.e("TAG", "SharedPreferenceUtility: " + SharedPreferenceUtility.getInstance(getApplicationContext()).getString("NevId"));
-                                Log.e("TAG", "SharedPreferenceUtility: " + result.id);
-                                if (SharedPreferenceUtility.getInstance(getApplicationContext()).getString("NevId").equalsIgnoreCase(result.id)) {
-                                    strtlat = result.getLat();
-                                    strtlang = result.getLon();
-                                    //   endlat    = data.getResult().get(i + 1).getLat();
-                                    //  endlang  = data.getResult().get(i + 1).getLon();
-                                    Log.e("TAG", "SharedPreferenceUtility: " + strtlat + strtlang + endlat + endlang);
-
-                                }
-                                if ((Integer.parseInt(SharedPreferenceUtility.getInstance(getApplicationContext()).getString("NevId"))) + 1 == Integer.parseInt(result.id)) {
-                                    endlat = result.getLat();
-                                    endlang = result.getLon();
-
-
-                                }
-                            }
-
-                        }
-                        LatLng sydney = new LatLng(Double.parseDouble(instructionList.get(0).getLat()), Double.parseDouble(instructionList.get(0).getLon()));
-                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 15));
-                        mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
-                        try {
-                            if (strtlang.equalsIgnoreCase("")) {
-
-                            } else {
-                                //     List<LatLng>latLngs = new ArrayList<>();
-                                LatLng latLngs1 = new LatLng(Double.parseDouble(strtlat), Double.parseDouble(strtlang));
-                                LatLng latLngs2 = new LatLng(Double.parseDouble(endlat), Double.parseDouble(endlang));
-                                // latLngs.add(new LatLng(Double.parseDouble(endlat),Double.parseDouble(endlang)));
-                                //     drawPolyLineOnMap(latLngs);
-
-                                DrawPollyLine.get(getApplicationContext())
-                                        .setOrigin(latLngs1)
-                                        .setDestination(latLngs2)
-                                        .execute(latLngs -> {
-                                            PolylineOptions options = new PolylineOptions();
-                                            options.addAll(latLngs);
-                                            options.color(Color.GREEN);
-                                            options.width(10);
-                                            options.startCap(new SquareCap());
-                                            options.endCap(new SquareCap());
-                                            Polyline line = mMap.addPolyline(options);
-
-                                            ValueAnimator valueAnimator = ValueAnimator.ofInt(0, 100);
-                                            valueAnimator.setDuration(2000); // 2 seconds
-                                            valueAnimator.setRepeatCount(ValueAnimator.INFINITE);
-                                            valueAnimator.setRepeatMode(ValueAnimator.RESTART);
-                                            valueAnimator.addUpdateListener(animator -> {
-                                                int alpha = (int) animator.getAnimatedValue();
-                                                line.setColor(Color.BLACK);
-                                            });
-                                            valueAnimator.start();
-                                            LatLngBounds.Builder builder = new LatLngBounds.Builder();
-                                            builder.include(latLngs1);
-                                            final LatLngBounds bounds = builder.build();
-                                            CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 100);
-                                            mMap.animateCamera(cu);
-                                            snackbar = Snackbar.make(getWindow().getDecorView().getRootView()
-                                                    , "", Snackbar.LENGTH_INDEFINITE);
-                                            View customSnackView = getLayoutInflater().inflate(R.layout.custom_snackbar_view, null);
-                                            snackbar.getView().setBackgroundColor(Color.TRANSPARENT);
-                                            // now change the layout of the snackbar
-                                            Snackbar.SnackbarLayout snackbarLayout = (Snackbar.SnackbarLayout) snackbar.getView();
-                                            snackbarLayout.setPadding(0, 0, 0, 0);
-                                            TextView textView2 = customSnackView.findViewById(R.id.textView2);
-                                            textView2.setText(getString(R.string.you_have_only) + SharedPreferenceUtility.getInstance(getApplicationContext()).getString("ArrTime") + getString(R.string.minutes_to_reach_next_checkpoint_hurry_up));
-                                            Button bGotoWebsite = customSnackView.findViewById(R.id.gotoWebsiteButton);
-                                            bGotoWebsite.setOnClickListener(new View.OnClickListener() {
-                                                @Override
-                                                public void onClick(View v) {
-                                                    Toast.makeText(getApplicationContext(), "Reaching Check....", Toast.LENGTH_SHORT).show();
-                                                    SharedPreferenceUtility.getInstance(getApplicationContext()).putString("NevId", "");
-                                                    snackbar.dismiss();}});
-                                            snackbarLayout.addView(customSnackView, 0);
-                                            snackbar.show();});
-                            }
-                        } catch (Exception e) {
-                            Log.e("TAG", "onResponse: " + e.getLocalizedMessage());
-                            Log.e("TAG", "onResponse: " + e.getMessage());
-                            Log.e("TAG", "onResponse: " + e.getCause());
-                        }
-
+                        SharedPreferenceUtility.getInstance(getApplicationContext()).putSuccessResGetInstruction("", data.getResult());
                     } else if (data.status.equals("0")) {
                         showToast(InstrutionActNew.this, data.message);
                     } else if (data.status.equals("2")) {
@@ -403,11 +433,16 @@ public class InstrutionActNew extends AppCompatActivity implements OnMapReadyCal
                         startActivity(new Intent(InstrutionActNew.this, HomeAct.class)
                                 .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
 
-                    }} catch (Exception e) {e.printStackTrace();}}
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
             @Override
             public void onFailure(Call<SuccessResGetInstruction> call, Throwable t) {
                 call.cancel();
-                DataManager.getInstance().hideProgressMessage();
             }
         });
     }

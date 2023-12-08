@@ -1,12 +1,21 @@
 package com.smsjuegos.quiz;
 
 import static com.google.android.exoplayer2.C.VIDEO_SCALING_MODE_SCALE_TO_FIT;
+import static com.smsjuegos.quiz.retrofit.Constant.GAME_LAVEL;
+import static com.smsjuegos.quiz.retrofit.Constant.USER_ID;
+import static com.smsjuegos.quiz.retrofit.Constant.showToast;
 
+import android.animation.ValueAnimator;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
@@ -22,8 +31,33 @@ import com.google.android.exoplayer2.ui.StyledPlayerView;
 import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultDataSource;
 import com.google.android.exoplayer2.util.Util;
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.android.gms.maps.model.SquareCap;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.gson.Gson;
+import com.smsjuegos.quiz.activities.HomeAct;
 import com.smsjuegos.quiz.activities.InstrutionActNew;
 import com.smsjuegos.quiz.model.SuccessResGetEvents;
+import com.smsjuegos.quiz.model.SuccessResGetInstruction;
+import com.smsjuegos.quiz.retrofit.ApiClient;
+import com.smsjuegos.quiz.retrofit.Constant;
+import com.smsjuegos.quiz.retrofit.QuizInterface;
+import com.smsjuegos.quiz.utility.DataManager;
+import com.smsjuegos.quiz.utility.DrawPollyLine;
+import com.smsjuegos.quiz.utility.SharedPreferenceUtility;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class GameAztecStartVideoAct extends AppCompatActivity {
     ImageView ivHeader;
@@ -35,11 +69,14 @@ public class GameAztecStartVideoAct extends AppCompatActivity {
     private StyledPlayerView playerView;
     private ExoPlayer player;
     private ImaAdsLoader adsLoader;
+    private QuizInterface apiInterface;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game2_start_video);
+        apiInterface = ApiClient.getClient().create(QuizInterface.class);
+
         ivHeader = findViewById(R.id.ivBack);
         cvVideo = findViewById(R.id.cvBack);
         btnPlay = findViewById(R.id.btnPlay);
@@ -58,18 +95,61 @@ public class GameAztecStartVideoAct extends AppCompatActivity {
         }
         btnPlay.setAlpha(.5f);
         cvVideo.setOnClickListener(v -> {
-         //   releasePlayer();
+            //   releasePlayer();
             finish();
         });
 
         btnPlay.setOnClickListener(v -> {
-          //  releasePlayer();
+            //  releasePlayer();
+            player.pause();
+            getInstruction();
+          });
 
+    }
 
-            startActivity(new Intent(getApplicationContext(), InstrutionActNew.class)
-                    .putExtra("eventId", eventId).putExtra("eventCode", eventCode));
+    private void getInstruction() {
+        DataManager.getInstance().showProgressMessage(this, getString(R.string.please_wait_2));
+        boolean val = SharedPreferenceUtility.getInstance(getApplicationContext()).getBoolean(Constant.SELECTED_LANGUAGE);
+        String lang = "";
+        if (!val) {
+            lang = "en";
+        } else {
+            lang = "sp";
+        }
+        Map<String, String> map = new HashMap<>();
+        map.put("event_id", eventId);
+        map.put("lang", lang);
+        String userId = SharedPreferenceUtility.getInstance(this).getString(USER_ID);
+        map.put("event_code", eventCode);
+        String level = SharedPreferenceUtility.getInstance(this).getString(GAME_LAVEL);
+        map.put("level", level);
+        Call<SuccessResGetInstruction> call = apiInterface.getInstruction(map);
+        call.enqueue(new Callback<SuccessResGetInstruction>() {
+            @Override
+            public void onResponse(Call<SuccessResGetInstruction> call
+                    , Response<SuccessResGetInstruction> response) {
+                DataManager.getInstance().hideProgressMessage();
+                try {
+                    SuccessResGetInstruction data = response.body();
+                    Log.e("data", data.status);
+                    if (data.status.equals("1")) {
+                        SharedPreferenceUtility.getInstance(getApplicationContext()).putSuccessResGetInstruction("SuccessResGetInstruction",data.getResult());
+                        startActivity(new Intent(getApplicationContext(), InstrutionActNew.class)
+                               .putExtra("eventId", eventId)
+                                .putExtra("eventCode", eventCode));
+
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<SuccessResGetInstruction> call, Throwable t) {
+                call.cancel();
+                DataManager.getInstance().hideProgressMessage();
+            }
         });
-
     }
 
     @Override

@@ -107,6 +107,12 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.SelectTimeView
                         bundle.putString("id", eventsListList.get(position).getId());
                         Navigation.findNavController(v).navigate(R.id.action_navigation_profile_to_navigation_list
                                 , bundle);
+                    }else {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("id", eventsListList.get(position).getId());
+                        Navigation.findNavController(v).navigate(R.id.action_navigation_profile_to_navigation_list
+                                , bundle);
+
                     }
                     Log.e("TAG", "onBindViewHolder:eventsListList.get(position).getType() " + eventsListList.get(position).getType());
                 }

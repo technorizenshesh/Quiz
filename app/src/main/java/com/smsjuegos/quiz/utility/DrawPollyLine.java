@@ -64,7 +64,7 @@ public class DrawPollyLine {
 
     public void execute(onPolyLineResponse listener) {
         String URL = getPolyLineUrl(context, origin, destination);
-        QuizInterface apiInterface = ApiClient.getClient().create(QuizInterface.class);
+        QuizInterface apiInterface = ApiClient2.getClient().create(QuizInterface.class);
         apiInterface.getURL(URL).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {

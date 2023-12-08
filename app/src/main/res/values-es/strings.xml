@@ -134,6 +134,7 @@ Ya tienes una cuenta?
     <string name="pass_and_confirm_pass_not_macthed">La contraseña y la contraseña de confirmación no coinciden.</string>
 
     <string name="please_wait">Espere por favor...</string>
+    <string name="please_wait_2">Preparación del juego...</string>
 
     <string name="logged_in_success">Iniciado sesión con éxito</string>
 
@@ -368,14 +369,14 @@ Ten cuidado!, estás en un lugar público no controlado.  Ten cuidado al cruzar 
     <string name="defficalty">Elige dificultad</string>
     <string name="medium">Medio</string>
     <string name="hard">Duro</string>
-    <string name="level_note">Nota: Solo puedes elegir el nivel de dificultad del equipo por una vez; una vez que elijas el nivel, tu equipo jugará en el nivel seleccionado.</string>
+    <string name="level_note">Nota: Únicamente puedes elegir el nivel de dificultad antes de jugar.  Una vez que elijas el nivel de dificultad, no podrás cambiarlo. </string>
     <string name="not_on_point_location">Ubicación no puntual</string>
     <string name="close">cerca</string>
     <string name="distance">Distancia :- </string>
     <string name="meters">  Metros</string>
 
     <string name="its_look_like_your_are_not_on_puzzle_location_n_please_reach_the_point_location_before_begin_the_game"
-        >Parece que no estás en la ubicación del rompecabezas.\n Debes estar dentro del radio de 50 metros de la ubicación objetivo para comenzar el juego.</string>
+        >Parece que no estás en la ubicación del rompecabezas.\n Debes estar dentro del radio de 200 metros de la ubicación objetivo para comenzar el juego.</string>
     <string name="you_have_only">Solo tienes</string>
     <string name="minutes_to_reach_next_checkpoint_hurry_up"> Minutos para llegar al siguiente punto de control ¡Date prisa!</string>
     <string name="choose_your_city">Elige tu ciudad:</string>

@@ -1,5 +1,6 @@
 package com.smsjuegos.quiz.activities;
 
+import static com.smsjuegos.quiz.retrofit.Constant.GAME_LAVEL;
 import static com.smsjuegos.quiz.retrofit.Constant.USER_ID;
 import static com.smsjuegos.quiz.retrofit.Constant.showToast;
 
@@ -155,6 +156,8 @@ public class FinalPuzzelAct extends AppCompatActivity {
         map.put("event_code", eventCode);
         map.put("hint_type", penalty + "");
         map.put("user_id", userId);
+        String level = SharedPreferenceUtility.getInstance(this).getString(GAME_LAVEL);
+        map.put("level", level);
         Call<ResponseBody> call = apiInterface.addPanalties(map);
         call.enqueue(new Callback<ResponseBody>() {
             @Override

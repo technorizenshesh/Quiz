@@ -88,10 +88,7 @@ public class CalanderFragment extends Fragment {
         DataManager.getInstance().showProgressMessage(getActivity(), getString(R.string.please_wait));
         boolean val = SharedPreferenceUtility.getInstance(requireContext())
                 .getBoolean(Constant.SELECTED_LANGUAGE);
-
-   
         Call<SuccessResAcc> call = apiInterface.get_Accomplishments();
-
         call.enqueue(new Callback<SuccessResAcc>() {
             @Override
             public void onResponse(Call<SuccessResAcc> call, Response<SuccessResAcc> response) {
@@ -104,7 +101,6 @@ public class CalanderFragment extends Fragment {
                         eventsList.clear();
                         eventsList.addAll(data.getResult());
                         homeAdapter.notifyDataSetChanged();
-
                     }
 
                 } catch (Exception e) {
