@@ -20,7 +20,6 @@
             >
             <com.denzcoskun.imageslider.ImageSlider
                 android:id="@+id/image_slider"
-                android:layout_margin="@dimen/_5sdp"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/_100sdp"
                 app:iss_auto_cycle="true"

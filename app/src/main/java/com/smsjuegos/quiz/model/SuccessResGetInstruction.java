@@ -4,13 +4,14 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class SuccessResGetInstruction implements Serializable {
 
     @SerializedName("result")
     @Expose
-    public List<Result> result = null;
+    public ArrayList<Result> result = null;
     @SerializedName("message")
     @Expose
     public String message;
@@ -29,11 +30,11 @@ public class SuccessResGetInstruction implements Serializable {
         this.event_instructions = event_instructions;
     }
 
-    public List<Result> getResult() {
+    public ArrayList<Result> getResult() {
         return result;
     }
 
-    public void setResult(List<Result> result) {
+    public void setResult(ArrayList<Result> result) {
         this.result = result;
     }
 

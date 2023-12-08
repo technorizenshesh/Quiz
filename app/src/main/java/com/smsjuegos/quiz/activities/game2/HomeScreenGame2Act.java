@@ -109,7 +109,9 @@ public class HomeScreenGame2Act extends AppCompatActivity implements LevelAdapte
                 {
                     String strCode = editText.getText().toString().trim();
                     if (!strCode.equalsIgnoreCase("")) {
-                        getLevels(strCode);
+                      //  getLevels(strCode);
+                        Apply_code(strCode,"1");
+
                         dialog.dismiss();
 
                     } else {

@@ -1,22 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="@dimen/_80sdp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:id="@+id/rlParent">
-<ImageView
-    android:layout_width="@dimen/_15sdp"
-    android:layout_height="@dimen/_15sdp"
-    android:layout_alignParentEnd="true"
-    android:src="@drawable/madel"/>
+    android:id="@+id/rlParent"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <ImageView
+        android:layout_width="@dimen/_15sdp"
+        android:layout_height="@dimen/_15sdp"
+        android:layout_alignParentEnd="true"
+        android:src="@drawable/madel"
+        android:visibility="gone" />
+
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/iv_event"
-         android:layout_marginEnd="@dimen/_15sdp"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="@dimen/_80sdp"
+        android:layout_height="@dimen/_80sdp"
+        android:layout_marginStart="@dimen/_2sdp"
+        android:layout_marginEnd="@dimen/_2sdp"
         android:scaleType="fitXY"
-        app:shapeAppearanceOverlay="@style/roundedImageViewRounded"
-         />
+        app:shapeAppearanceOverlay="@style/roundedImageViewRounded" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/iv_event"
+        android:layout_centerHorizontal="true"
+        android:gravity="bottom"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="@font/poppins_regular"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_12sdp"
+
+            />
+
+    </LinearLayout>
 
 </RelativeLayout>

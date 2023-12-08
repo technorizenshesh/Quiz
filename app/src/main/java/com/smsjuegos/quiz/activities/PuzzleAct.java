@@ -299,6 +299,8 @@ public class PuzzleAct extends AppCompatActivity {
         map.put("event_code", eventCode);
         map.put("hint_type", penalty + "");
         map.put("user_id", userId);
+        String level = SharedPreferenceUtility.getInstance(this).getString(GAME_LAVEL);
+        map.put("level", level);
         Call<ResponseBody> call = apiInterface.addPanalties(map);
 
         call.enqueue(new Callback<ResponseBody>() {
@@ -360,6 +362,8 @@ public class PuzzleAct extends AppCompatActivity {
         map.put("event_code", eventCode);
         map.put("hint_type", penalty + "");
         map.put("user_id", userId);
+        String level = SharedPreferenceUtility.getInstance(this).getString(GAME_LAVEL);
+        map.put("level", level);
         Call<ResponseBody> call = apiInterface.addPanalties(map);
 
         call.enqueue(new Callback<ResponseBody>() {

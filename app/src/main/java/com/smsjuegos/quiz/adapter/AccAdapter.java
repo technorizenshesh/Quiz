@@ -2,6 +2,7 @@ package com.smsjuegos.quiz.adapter;
 
 import static com.smsjuegos.quiz.SMSApp.ShowAppLog;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -51,23 +52,24 @@ public class AccAdapter extends RecyclerView.Adapter<AccAdapter.SelectTimeViewHo
     public void onBindViewHolder(@NonNull SelectTimeViewHolder holder, int position) {
         try {
             ImageView ivEvents = holder.itemView.findViewById(R.id.iv_event);
-            TextView tvEventName = holder.itemView.findViewById(R.id.tv_event_name);
+            TextView tvEventName = holder.itemView.findViewById(R.id.text);
             RelativeLayout rlParent = holder.itemView.findViewById(R.id.rlParent);
-            if (position==0){
+            tvEventName.setText(eventsListList.get(position).getTitle());
+           // if (position==0){
                 Glide.with(context)
                         .load(eventsListList.get(position).getCompleteImage())
                         .diskCacheStrategy(DiskCacheStrategy.ALL)
                         .centerInside()
                         .into(ivEvents);
-            }else {
+           /* }else {
                 Glide.with(context)
                         .load(eventsListList.get(position).getIncompleteImage())
                         .diskCacheStrategy(DiskCacheStrategy.ALL)
                         .centerInside()
                         .into(ivEvents);
-            }
+            }*/
 
-
+         //   Dialog
            // tvEventName.setText(eventsListList.get(position).getTitle());
         } catch (Exception e) {
             Log.d("TAG", "onBindViewHolder: ");

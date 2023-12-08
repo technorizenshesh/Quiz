@@ -43,6 +43,7 @@ import com.smsjuegos.quiz.utility.SharedPreferenceUtility;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -54,6 +55,7 @@ import retrofit2.Response;
 public class QuestionAnswerAct extends AppCompatActivity {
     final String mimeType = "text/html";
     final String encoding = "UTF-8";
+     int position ;
     private final SuccessResAddAnswer.Result answerResult = null;
     ActivityQuestionAnswerBinding binding;
     RadioGroup radioGroup;
@@ -74,12 +76,14 @@ public class QuestionAnswerAct extends AppCompatActivity {
     private String eventCode;
     private CountDownTimer CountdownTimer;
     private RadioButton selectedRadioButton;
+    ArrayList<SuccessResGetInstruction.Result> data = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_question_answer);
         context = this;
+        data =  SharedPreferenceUtility.getInstance(getApplicationContext()).getSuccessResGetInstruction("SuccessResGetInstruction");
         apiInterface = ApiClient.getClient().create(QuizInterface.class);
         binding.imgHeader.setOnClickListener(v -> {
             finish();
@@ -88,6 +92,7 @@ public class QuestionAnswerAct extends AppCompatActivity {
         Log.e(TAG, "onCreate:resultresultresultresultresultresultresultresultresult " + result.toString());
         Log.e(TAG, "onCreate:resultresultresultresultresultresultresultresultresultgetArrival_timegetArrival_time " + result.getArrival_time());
         eventCode = getIntent().getExtras().getString("eventCode");
+        position = getIntent().getExtras().getInt("position");
         binding.tvHeader.setText(getString(R.string.riddle));
         binding.btnAnswer.setOnClickListener(v -> {
             showDialog();
@@ -381,6 +386,8 @@ public class QuestionAnswerAct extends AppCompatActivity {
         map.put("event_code", eventCode);
         map.put("hint_type", penalty + "");
         map.put("user_id", userId);
+        String level = SharedPreferenceUtility.getInstance(this).getString(GAME_LAVEL);
+        map.put("level", level);
         Call<ResponseBody> call = apiInterface.addPanalties(map);
 
         call.enqueue(new Callback<ResponseBody>() {
@@ -441,6 +448,8 @@ public class QuestionAnswerAct extends AppCompatActivity {
         map.put("event_code", eventCode);
         map.put("hint_type", penalty + "");
         map.put("user_id", userId);
+        String level = SharedPreferenceUtility.getInstance(this).getString(GAME_LAVEL);
+        map.put("level", level);
         Call<ResponseBody> call = apiInterface.addPanalties(map);
 
         call.enqueue(new Callback<ResponseBody>() {
@@ -484,6 +493,11 @@ public class QuestionAnswerAct extends AppCompatActivity {
         map.put("event_code", eventCode);
         String level = SharedPreferenceUtility.getInstance(this).getString(GAME_LAVEL);
         map.put("level", level);
+        if (custom) {
+            map.put("custom_type", "custom");
+        } else {
+            map.put("custom_type", "no");
+        }
         Call<ResponseBody> call = apiInterface.submitAnswer(map);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
@@ -522,8 +536,18 @@ public class QuestionAnswerAct extends AppCompatActivity {
             }
         });
     }
-
+    private static <T> int findIndex(ArrayList<T> arrayList, T searchObject) {
+        return arrayList.indexOf(searchObject);
+    }
     private void answerSuccess() {
+        result.setAnswer_status("1");
+        if (position!=-1){
+            data.set(position,result);
+            SharedPreferenceUtility.getInstance(getApplicationContext()).putSuccessResGetInstruction("SuccessResGetInstruction",data);
+
+        }else {
+
+        }
 
         if (result.getArrival_time() == null) {
 
@@ -565,3 +589,4 @@ public class QuestionAnswerAct extends AppCompatActivity {
         dialog.show();
     }
 }
+
