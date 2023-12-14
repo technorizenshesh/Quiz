@@ -66,6 +66,8 @@ public class CardigoPuzzleFinalActivity extends AppCompatActivity {
         getPeople();
         binding.btnSubmit.setOnClickListener(v ->
                 {
+                  //  showCongrats();
+
                     if (!binding.etAnswer.getText().toString().equalsIgnoreCase("")) {
                         if (binding.etAnswer.getText().toString().trim().equalsIgnoreCase(FinalAnswer)) {
                             puzzelComplete();
@@ -245,6 +247,8 @@ public class CardigoPuzzleFinalActivity extends AppCompatActivity {
             ImageView intro_image = dialogq.findViewById(R.id.image_intro);
             ImageView imgHeader = dialogq.findViewById(R.id.imgHeader);
             tv_intro.loadDataWithBaseURL("", FinalHTML, mimeType, encoding, "");
+            tv_intro.getSettings().setLoadWithOverviewMode(true);
+            tv_intro.getSettings().setUseWideViewPort(true);
             tv_intro.getSettings().setBuiltInZoomControls(true);
             tv_intro.getSettings().setDisplayZoomControls(false);
             Glide.with(getApplicationContext()).load(FinalImage).into(intro_image);

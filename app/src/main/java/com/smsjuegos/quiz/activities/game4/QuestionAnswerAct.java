@@ -117,6 +117,9 @@ public class QuestionAnswerAct extends AppCompatActivity {
 
         }
         Log.e(TAG, "result.getInstructions()result.getInstructions(): " + result.getInstructions());
+        binding.tvContent.getSettings().setLoadWithOverviewMode(true);
+        binding.tvContent.getSettings().setUseWideViewPort(true);
+
         binding.tvContent.getSettings().setBuiltInZoomControls(true);
         binding.tvContent.getSettings().setDisplayZoomControls(false);
         binding.tvContent.getSettings().setSupportZoom(true);

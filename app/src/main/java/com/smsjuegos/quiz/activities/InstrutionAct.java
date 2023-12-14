@@ -85,6 +85,9 @@ public class InstrutionAct extends AppCompatActivity {
                         // binding.tvInstruction.setText(data.getResult().get(0).getInstructions());
                         binding.tvInstruction.loadDataWithBaseURL("", data.getEvent_instructions(),
                                 mimeType, encoding, "");
+                        binding.tvInstruction.getSettings().setLoadWithOverviewMode(true);
+                        binding.tvInstruction.getSettings().setUseWideViewPort(true);
+
                         binding.tvInstruction.getSettings().setBuiltInZoomControls(true);
                         binding.tvInstruction.getSettings().setDisplayZoomControls(false);
 

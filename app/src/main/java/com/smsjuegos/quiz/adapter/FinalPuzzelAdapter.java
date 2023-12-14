@@ -215,6 +215,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.target.Target;
 import com.smsjuegos.quiz.R;
 import com.smsjuegos.quiz.model.SuccessResGetInventory;
 import com.smsjuegos.quiz.utility.FinalPuzzelInterface;
@@ -225,13 +227,12 @@ import java.util.List;
 
 public class FinalPuzzelAdapter extends RecyclerView.Adapter<FinalPuzzelAdapter.SelectTimeViewHolder> {
 
-    ArrayAdapter ad;
-    private List<String> dates;
     private final Context context;
     private final ArrayList<SuccessResGetInventory.Result> peopleList;
-    private int selectedPosition = -1;
-
     private final FinalPuzzelInterface finalPuzzelInterface;
+    ArrayAdapter ad;
+    private List<String> dates;
+    private int selectedPosition = -1;
 
     public FinalPuzzelAdapter(Context context, ArrayList<SuccessResGetInventory.Result> peopleList, FinalPuzzelInterface finalPuzzelInterface) {
         this.context = context;
@@ -253,11 +254,20 @@ public class FinalPuzzelAdapter extends RecyclerView.Adapter<FinalPuzzelAdapter.
 
         ImageView ivFinalImage = holder.itemView.findViewById(R.id.ivFinalImage);
         ImageView ivCheckedImage = holder.itemView.findViewById(R.id.checked);
+        if (peopleList.get(position).getFinalPuzzleImage()
+                .equalsIgnoreCase("http://appsmsjuegos.com/Quiz/uploads/images/")) {
+            holder.itemView.setVisibility(View.GONE);
+            ivFinalImage.setVisibility(View.GONE);
+        }else {
+            Glide.with(context)
+                    .load(peopleList.get(position).getFinalPuzzleImage())
+                    .override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
+                    .placeholder(R.drawable.default_error)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .centerCrop()
+                    .into(ivFinalImage);
+        }
 
-        Glide.with(context)
-                .load(peopleList.get(position).getFinalPuzzleImage())
-                .centerCrop()
-                .into(ivFinalImage);
 
         if (selectedPosition == position) {
             ivCheckedImage.setVisibility(View.VISIBLE);

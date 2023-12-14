@@ -31,7 +31,7 @@ public class CardigoPuzzleAdapter extends RecyclerView.Adapter<CardigoPuzzleAdap
     @Override
     public CardigoPuzzleAdapter.SelectTimeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View listItem = layoutInflater.inflate(R.layout.final_puzzel_item, parent, false);
+        View listItem = layoutInflater.inflate(R.layout.cardigo_final_puzzel_item, parent, false);
         return new SelectTimeViewHolder(listItem);
     }
 

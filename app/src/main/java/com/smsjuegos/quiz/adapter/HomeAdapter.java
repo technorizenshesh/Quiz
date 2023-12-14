@@ -55,6 +55,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.SelectTimeView
             rlParent.setOnClickListener(v ->
             {
                 ShowAppLog("onBindViewHolder", eventsListList.get(position).getType(), 1);
+                ShowAppLog("onBindViewHolder", eventsListList.get(position).getId(), 1);
                 //   Log.e("TAG", "onBindViewHolder: eventsListList.get(position).getType(). -- "+eventsListList.get(position).getType() );
                 //  return;
 

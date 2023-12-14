@@ -178,6 +178,7 @@ public class Game4FinalActivity extends AppCompatActivity {
         map.put("event_id", eventId);
         map.put("user_id", userId);
         map.put("type", "Objects");
+
         Call<SuccessResGetInventory> call = apiInterface.getGame4Inventory(map);
 
         call.enqueue(new Callback<SuccessResGetInventory>() {

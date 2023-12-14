@@ -262,7 +262,6 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.Sele
         tvDescription.setVerticalScrollBarEnabled(true);
         tvDescription.setText(Html.fromHtml(stringArrayList.get(position).getHint_discovered()));
         tvDescription.setMovementMethod(new ScrollingMovementMethod());
-
         tvDescription.setOnClickListener(v -> {
             holder.itemView.performClick();
         });

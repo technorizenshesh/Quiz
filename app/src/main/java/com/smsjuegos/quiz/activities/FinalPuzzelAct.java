@@ -12,7 +12,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
+import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.ImageView;
 
@@ -21,6 +24,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.Target;
 import com.google.gson.Gson;
 import com.smsjuegos.quiz.R;
 import com.smsjuegos.quiz.adapter.FinalPuzzelAdapter;
@@ -47,7 +51,7 @@ import retrofit2.Response;
 public class FinalPuzzelAct extends AppCompatActivity {
     ActivityFinalPuzzelBinding binding;
     final String encoding = "UTF-8";
-    final String mimeType = "text/html";
+    final String mimeType = "image/html";
     private String eventId, eventCode,FinalHTML = "",FinalImage="";
     private QuizInterface apiInterface;
     private final ArrayList<SuccessResGetInventory.Result> peopleList = new ArrayList<>();
@@ -94,16 +98,14 @@ public class FinalPuzzelAct extends AppCompatActivity {
         });
 
         apiInterface = ApiClient.getClient().create(QuizInterface.class);
-        eventId = getIntent().getExtras().getString("eventId");
-        eventCode = getIntent().getExtras().getString("eventCode");
-
-        binding.rvObjects.setHasFixedSize(true);
+       eventId = getIntent().getExtras().getString("eventId");
+       eventCode = getIntent().getExtras().getString("eventCode");
+       //  eventId=   "18";
+      //   eventCode=   "604423";
         binding.rvObjects.setLayoutManager(new GridLayoutManager(FinalPuzzelAct.this, 3));
         binding.rvObjects.setAdapter(objectAdapter);
-        binding.rvPeople.setHasFixedSize(true);
         binding.rvPeople.setLayoutManager(new GridLayoutManager(FinalPuzzelAct.this, 3));
         binding.rvPeople.setAdapter(peopleAdapter);
-        binding.rvPlaces.setHasFixedSize(true);
 
         binding.rvPlaces.setLayoutManager(new GridLayoutManager(FinalPuzzelAct.this, 3));
         binding.rvPlaces.setAdapter(placesAdapter);
@@ -115,7 +117,7 @@ public class FinalPuzzelAct extends AppCompatActivity {
         binding.btnFinsh.setOnClickListener(v ->
                 {
                     //showCongrats();
-
+                   // showCongrats();
                     if (placeSelected == -1) {
                         showToast(FinalPuzzelAct.this, "" + getString(R.string.select_places_image));
                     } else if (peopleSelected == -1) {
@@ -193,6 +195,8 @@ public class FinalPuzzelAct extends AppCompatActivity {
         map.put("event_id", eventId);
         map.put("event_code", eventCode);
         map.put("lang", lang);
+        String level = SharedPreferenceUtility.getInstance(this).getString(GAME_LAVEL);
+        map.put("level", level);
         // map.put("type", "People");
         Call<SuccessResGetInventory> call = apiInterface.getInventory(map);
         call.enqueue(new Callback<SuccessResGetInventory>() {
@@ -204,11 +208,17 @@ public class FinalPuzzelAct extends AppCompatActivity {
                     Log.e("data", data.status);
                     final String mimeType = "text/html";
                     final String encoding = "UTF-8";
-                    binding.tvContent.loadDataWithBaseURL("", data.getNotice(), mimeType, encoding, "");
-                    binding.tvContent.getSettings().setBuiltInZoomControls(true);
-                    binding.tvContent.getSettings().setDisplayZoomControls(false);
-                    binding.tvContent.getSettings().setSupportZoom(true);
-
+                     binding.tvContent.setWebViewClient(new WebViewClient());
+                    binding.tvContent.getSettings().setLoadWithOverviewMode(true);
+                    binding.tvContent.getSettings().setUseWideViewPort(true);
+                    binding.tvContent.getSettings().setJavaScriptEnabled(true);
+                     binding.tvContent.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+                     binding.tvContent.getSettings().setPluginState(WebSettings.PluginState.ON);
+                     binding.tvContent.getSettings().setMediaPlaybackRequiresUserGesture(false);
+                     binding.tvContent.setWebChromeClient(new WebChromeClient());
+                     binding.tvContent.loadDataWithBaseURL(null, data.getNotice(), "text/html", "UTF-8", null);
+                     binding.tvContent.getSettings().setBuiltInZoomControls(true);
+                     binding.tvContent.getSettings().setDisplayZoomControls(false);
                     if (data.status.equals("1")) {
                         FinalHTML = data.getAfter_finish_text();
                         FinalImage = data.getAfter_finish_image();
@@ -224,11 +234,12 @@ public class FinalPuzzelAct extends AppCompatActivity {
                             for (int i = 0; i < ArrayListss.size(); i++) {
                                 SuccessResGetInventory.Result res = ArrayListss.get(i);
                                 if (res.getType().equalsIgnoreCase("Places")) {
-                                    placesList.add(res);
+
+                                    if (!res.getFinalPuzzleImage().equalsIgnoreCase("http://appsmsjuegos.com/Quiz/uploads/images/")) placesList.add(res);
                                 } else if (res.getType().equalsIgnoreCase("People")) {
-                                    peopleList.add(res);
+                                    if (!res.getFinalPuzzleImage().equalsIgnoreCase("http://appsmsjuegos.com/Quiz/uploads/images/")) peopleList.add(res);
                                 } else if (res.getType().equalsIgnoreCase("Objects")) {
-                                    objectList.add(res);
+                                    if (!res.getFinalPuzzleImage().equalsIgnoreCase("http://appsmsjuegos.com/Quiz/uploads/images/"))  objectList.add(res);
                                 }
                             }
 
@@ -263,6 +274,8 @@ public class FinalPuzzelAct extends AppCompatActivity {
         map.put("user_id", userId);
         map.put("event_id", eventId);
         map.put("event_code", eventCode);
+        String level = SharedPreferenceUtility.getInstance(this).getString(GAME_LAVEL);
+        map.put("level", level);
         Call<ResponseBody> call = apiInterface.puzzelCompleted(map);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
@@ -311,10 +324,20 @@ public class FinalPuzzelAct extends AppCompatActivity {
         WebView tv_intro = dialogq.findViewById(R.id.tv_intro);
         ImageView intro_image = dialogq.findViewById(R.id.image_intro);
         ImageView imgHeader = dialogq.findViewById(R.id.imgHeader);
-        tv_intro.loadDataWithBaseURL("", FinalHTML, mimeType, encoding, "");
+      //  tv_intro.loadDataWithBaseURL("", FinalHTML, mimeType, encoding, "");
+        //tv_intro.getSettings().setLoadWithOverviewMode(true);
+       // tv_intro.getSettings().setUseWideViewPort(true);
+       tv_intro.setWebViewClient(new WebViewClient());
+       tv_intro.getSettings().setJavaScriptEnabled(true);
+       tv_intro.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+       tv_intro.getSettings().setPluginState(WebSettings.PluginState.ON);
+       tv_intro.getSettings().setMediaPlaybackRequiresUserGesture(false);
+       tv_intro.setWebChromeClient(new WebChromeClient());
+       tv_intro.loadDataWithBaseURL(null, FinalHTML, "text/html", "UTF-8", null);
         tv_intro.getSettings().setBuiltInZoomControls(true);
         tv_intro.getSettings().setDisplayZoomControls(false);
-        Glide.with(getApplicationContext()).load(FinalImage).into(intro_image);
+        Glide.with(getApplicationContext()).load(FinalImage)
+                .into(intro_image);
         Button ivSubmit = dialogq.findViewById(R.id.btnDownload);
         imgHeader.setOnClickListener(D ->
                 {
@@ -337,7 +360,7 @@ public class FinalPuzzelAct extends AppCompatActivity {
         window.setAttributes(lp);
         dialogq.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialogq.show();
-        dialogq.setOnDismissListener(dialog ->{
+     /*   dialogq.setOnDismissListener(dialog ->{
                 startActivity(new Intent(FinalPuzzelAct.this,
                         FinishTeamInfo.class)
                         .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -346,7 +369,7 @@ public class FinalPuzzelAct extends AppCompatActivity {
                         .putExtra("eventCode", eventCode));
         });
 
-
+*/
 
 
 

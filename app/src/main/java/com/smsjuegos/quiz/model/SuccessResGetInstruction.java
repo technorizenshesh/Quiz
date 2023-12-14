@@ -134,6 +134,17 @@ public class SuccessResGetInstruction implements Serializable {
         @SerializedName("timer")
         @Expose
         public String timer;
+        @SerializedName("geolocation")
+        @Expose
+        public String geolocation;
+
+        public String getGeolocation() {
+            return geolocation;
+        }
+
+        public void setGeolocation(String geolocation) {
+            this.geolocation = geolocation;
+        }
 
         public String getCustom_ans() {
             return custom_ans;
