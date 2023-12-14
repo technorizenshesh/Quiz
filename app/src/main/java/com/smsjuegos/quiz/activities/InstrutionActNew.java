@@ -190,50 +190,50 @@ public class InstrutionActNew extends AppCompatActivity implements OnMapReadyCal
         if (snackbar != null) {
             snackbar.dismiss();
         }
-        if (Objects.equals(eventId, "15")) {
-            if (gpsTracker != null && gpsTracker.canGetLocation()) {
-                MyLatitude = gpsTracker.getLatitude();
-                MyLongitude = gpsTracker.getLongitude();
-                MyAltitude = gpsTracker.getAltitude();
-                float[] distance = new float[1];
-                Location.distanceBetween(
-                        Double.parseDouble(instructionList.get(position).getLat()),
-                        Double.parseDouble(instructionList.get(position).getLon()),
-                        MyLatitude, MyLongitude,
-                        distance
-                );
-                double distance2 = 0.0;
-                try {
-                    Log.e(TAG, "onMarkerClick: distancedistancedistancedistance" + distance.length);
-                    Log.e(TAG, "onMarkerClick: distancedistancedistancedistance" + distance[0]);
-                    distance2 = Double.parseDouble(String.valueOf(distance[0]));
-                    Log.e(TAG, "onMarkerClick: distancedistancedistancedistance" + distance2);
-                } catch (Exception e) {
-
-                }
-                if (distance2 >= 200.00) {
-                    showSimpleCancelBtnDialog(InstrutionActNew.this, R.layout.dialog_distance, distance + "");
-                } else {
-                    startActivity(new Intent(InstrutionActNew.this, QuestionAnswerAct.class)
-                            .putExtra("instructionID", instructionList.get(position))
-                            .putExtra("position", position)
-                            .putExtra("eventCode", eventCode));
-                }
-            } else {
-                Toast.makeText(getApplicationContext(), "Gps Off", Toast.LENGTH_SHORT).show();
-            }
+        Log.e(TAG, "onMarkerClick: "+instructionList.get(position).getGeolocation() );
+        Log.e(TAG, "onMarkerClick: "+instructionList.get(position).getEventId() );
+        Log.e(TAG, "onMarkerClick: "+eventId);
+        if (eventId.equalsIgnoreCase("5") || eventId.equalsIgnoreCase("8") || eventId.equalsIgnoreCase("1")) {
+            handleEventWithLocation(position);
         } else {
-            startActivity(new Intent(InstrutionActNew.this, QuestionAnswerAct.class)
-                    .putExtra("instructionID", instructionList.get(position))
-                    .putExtra("position", position)
-                    .putExtra("eventCode", eventCode));
-
-
+            startQuestionAnswerActivity(position);
         }
-
         return false;
     }
 
+    private void handleEventWithLocation(int position) {
+        if (instructionList.get(position).getGeolocation().equalsIgnoreCase("on")) {
+            if (gpsTracker != null && gpsTracker.canGetLocation()) {
+                MyLatitude = gpsTracker.getLatitude();
+                MyLongitude = gpsTracker.getLongitude();
+            } else {
+                Toast.makeText(getApplicationContext(), "Gps Off", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            double distance = GPSTracker.getDistanceFromPointWithoutAlt(
+                    Double.parseDouble(instructionList.get(position).getLat()),
+                    Double.parseDouble(instructionList.get(position).getLon()),
+                    MyLatitude, MyLongitude);
+            Log.e("TAG", "onMarkerClick: distancedistancedistancedistance" + distance);
+            if (distance > 200) {
+                showSimpleCancelBtnDialog(InstrutionActNew.this, R.layout.dialog_distance, distance + "");
+            } else {
+                Log.e("TAG", "onMarkerClick: " + instructionList.get(position));
+                startQuestionAnswerActivity(position);
+            }
+        } else {
+            startQuestionAnswerActivity(position);
+        }
+    }
+
+    private void startQuestionAnswerActivity(int position) {
+        Intent intent = new Intent(InstrutionActNew.this, QuestionAnswerAct.class)
+                .putExtra("instructionID", instructionList.get(position))
+                .putExtra("eventCode", eventCode)
+                .putExtra("position", position);
+        startActivity(intent);
+    }
+    /**/
     private void getTimer() {
         handler = new Handler();
         String userId = SharedPreferenceUtility.getInstance(this).getString(USER_ID);
@@ -284,15 +284,34 @@ public class InstrutionActNew extends AppCompatActivity implements OnMapReadyCal
             if (result.getAnswer_status().equalsIgnoreCase("1")) {
                 if (result.getLat().equalsIgnoreCase("")) return;
                 else
+                {
+                    try {
+
+
                     marker[i] = createMarker(i, Double.parseDouble(result.getLat()), Double.parseDouble(result.getLon()),
-                            "#" + i, "", R.drawable.flag_green);
+                            "#" + i, "", R.drawable.flag_green); }
+                    catch (NumberFormatException e){
+                        Log.e(TAG, "onMarkerClick: NumberFormatExceptionNumberFormatException" + result.getId());
+
+                        continue;
+                    }}
             } else {
 
                 if (result.getLat().equalsIgnoreCase("")) return;
                 else
-                    marker[i] = createMarker(i, Double.parseDouble(result.getLat()),
-                            Double.parseDouble(result.getLon()),
-                            "#" + i, "", R.drawable.flag_red);
+                {
+                   try {
+                       marker[i] = createMarker(i, Double.parseDouble(result.getLat()),
+                               Double.parseDouble(result.getLon()),
+                               "#" + i, "", R.drawable.flag_red);
+
+                   }   catch (NumberFormatException e){
+                       Log.e(TAG, "onMarkerClick: NumberFormatExceptionNumberFormatException" + result.getId());
+
+                       continue;
+                }
+                }
+
             }
             i++;
 

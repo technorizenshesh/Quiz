@@ -369,6 +369,9 @@ public class QuestionAct extends AppCompatActivity {
         final String mimeType = "text/html";
         final String encoding = "UTF-8";
         binding.webView.loadDataWithBaseURL("", instructionList.get(position).getInstructions(), mimeType, encoding, "");
+        binding.webView.getSettings().setLoadWithOverviewMode(true);
+        binding.webView.getSettings().setUseWideViewPort(true);
+
         binding.webView.getSettings().setBuiltInZoomControls(true);
         binding.webView.getSettings().setDisplayZoomControls(false);
 
