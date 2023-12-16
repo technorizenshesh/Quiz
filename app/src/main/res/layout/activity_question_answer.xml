@@ -94,12 +94,12 @@
                     android:id="@+id/ivPuzzel"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:scaleType="fitXY"
+                    android:maxHeight="@dimen/_120sdp"
                     />
                 <WebView
                     android:id="@+id/tvContent"
-                    android:layout_marginStart="@dimen/_2sdp"
-                    android:layout_marginEnd="@dimen/_2sdp"
+
+
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     />

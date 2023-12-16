@@ -235,7 +235,7 @@ public class SuccessResGetInstruction implements Serializable {
         }
 
         public String getLat() {
-            return lat;
+            return lat.trim();
         }
 
         public void setLat(String lat) {
@@ -243,7 +243,7 @@ public class SuccessResGetInstruction implements Serializable {
         }
 
         public String getLon() {
-            return lon;
+            return lon.trim();
         }
 
         public void setLon(String lon) {

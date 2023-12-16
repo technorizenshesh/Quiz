@@ -279,15 +279,23 @@ public class InstrutionActNew extends AppCompatActivity implements OnMapReadyCal
         Log.e(TAG, "getInstruction: " + instructionList.toString());
         marker = new Marker[instructionList.size()];
         int i = 0;
+        try {
+            LatLng sydney = new LatLng(Double.parseDouble(instructionList.get(0).getLat()), Double.parseDouble(instructionList.get(0).getLon()));
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 15));
+            mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
+
+        }catch (Exception e ){
+            Log.e(TAG, "moveCameramoveCamera: "+e.getLocalizedMessage());
+            Log.e(TAG, "moveCameramoveCamera: "+e.getMessage());
+        }
         for (SuccessResGetInstruction.Result result : instructionList) {
 
             if (result.getAnswer_status().equalsIgnoreCase("1")) {
-                if (result.getLat().equalsIgnoreCase("")) return;
+                if (result.getLat().equalsIgnoreCase(""))
+                    return;
                 else
                 {
                     try {
-
-
                     marker[i] = createMarker(i, Double.parseDouble(result.getLat()), Double.parseDouble(result.getLon()),
                             "#" + i, "", R.drawable.flag_green); }
                     catch (NumberFormatException e){
@@ -344,10 +352,8 @@ public class InstrutionActNew extends AppCompatActivity implements OnMapReadyCal
             }
 
         }
-        LatLng sydney = new LatLng(Double.parseDouble(instructionList.get(0).getLat()), Double.parseDouble(instructionList.get(0).getLon()));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 15));
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
-        try {
+
+            try {
             if (strtlang.equalsIgnoreCase("")) {
 
             } else {

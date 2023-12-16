@@ -377,8 +377,8 @@ public class ZombieQuestionAct extends AppCompatActivity {
                 instructionList.get(position).getInstructions(), mimeType, encoding, "");
         binding.webView.getSettings().setBuiltInZoomControls(true);
         binding.webView.getSettings().setDisplayZoomControls(false);
-        binding.webView.getSettings().setLoadWithOverviewMode(true);
-        binding.webView.getSettings().setUseWideViewPort(false);
+        //binding.webView.getSettings().setLoadWithOverviewMode(true);
+       // binding.webView.getSettings().setUseWideViewPort(false);
         binding.webView.setWebViewClient(new WebViewClient());
         binding.webView.setWebChromeClient(new WebChromeClient());
         if (instructionList.get(position).getOptionAns().equalsIgnoreCase("None")) {
