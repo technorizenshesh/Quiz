@@ -168,7 +168,16 @@ public class MapAct extends AppCompatActivity implements OnMapReadyCallback, Goo
         mMap.setOnMarkerClickListener(MapAct.this);
         marker = new Marker[instructionList.size()];
         int i = 0;
+        try {
+            LatLng sydney = new LatLng(Double.parseDouble(instructionList.get(0).getLat()), Double.parseDouble(instructionList.get(0).getLon()));
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 15));
+            mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
 
+        }catch (Exception e ){
+            Log.e("TAG", "moveCameramoveCamera: "+e.getLocalizedMessage());
+            Log.e("TAG", "moveCameramoveCamera: "+e.getMessage());
+
+        }
         for (SuccessResGetInstruction.Result result : instructionList) {
 
             if (result.getAnswer_status().equalsIgnoreCase("1")) {
@@ -219,9 +228,9 @@ public class MapAct extends AppCompatActivity implements OnMapReadyCallback, Goo
             }
 
         }
-        LatLng sydney = new LatLng(Double.parseDouble(instructionList.get(0).getLat()), Double.parseDouble(instructionList.get(0).getLon()));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 15));
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
+       // LatLng sydney = new LatLng(Double.parseDouble(instructionList.get(0).getLat()), Double.parseDouble(instructionList.get(0).getLon()));
+     //   mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 15));
+     //   mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
         try {
             if (strtlang.equalsIgnoreCase("")) {
 

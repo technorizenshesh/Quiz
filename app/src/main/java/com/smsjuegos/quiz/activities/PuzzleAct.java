@@ -102,8 +102,8 @@ public class PuzzleAct extends AppCompatActivity {
         Log.e(TAG, "result.getInstructions()result.getInstructions(): " + result.getInstructions());
         binding.tvContent.loadDataWithBaseURL("", result.getInstructions(),
                 mimeType, encoding, "");
-        binding.tvContent.getSettings().setLoadWithOverviewMode(true);
-        binding.tvContent.getSettings().setUseWideViewPort(true);
+     //   binding.tvContent.getSettings().setLoadWithOverviewMode(true);
+       // binding.tvContent.getSettings().setUseWideViewPort(true);
 
         binding.tvContent.getSettings().setBuiltInZoomControls(true);
         binding.tvContent.getSettings().setDisplayZoomControls(false);

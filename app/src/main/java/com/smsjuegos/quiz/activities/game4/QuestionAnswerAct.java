@@ -100,7 +100,7 @@ public class QuestionAnswerAct extends AppCompatActivity {
         if (result.getImage() != null && result.getImage().equalsIgnoreCase("")) {
 
         } else {
-            DisplayMetrics displayMetrics = new DisplayMetrics();
+          /*  DisplayMetrics displayMetrics = new DisplayMetrics();
             getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
             int height = displayMetrics.heightPixels;
             int width = displayMetrics.widthPixels;
@@ -109,7 +109,7 @@ public class QuestionAnswerAct extends AppCompatActivity {
                 ShowAppLog("result.getId()------------250   --",result.getEventId(),1);
                 LinearLayout.LayoutParams parms = new LinearLayout.LayoutParams(width-10,height/3);
                 binding.ivPuzzel.setLayoutParams(parms);
-            }
+            }*/
 
             Glide.with(context)
                     .load(result.getImage())
@@ -117,8 +117,8 @@ public class QuestionAnswerAct extends AppCompatActivity {
 
         }
         Log.e(TAG, "result.getInstructions()result.getInstructions(): " + result.getInstructions());
-        binding.tvContent.getSettings().setLoadWithOverviewMode(true);
-        binding.tvContent.getSettings().setUseWideViewPort(true);
+     //   binding.tvContent.getSettings().setLoadWithOverviewMode(true);
+      //  binding.tvContent.getSettings().setUseWideViewPort(true);
 
         binding.tvContent.getSettings().setBuiltInZoomControls(true);
         binding.tvContent.getSettings().setDisplayZoomControls(false);

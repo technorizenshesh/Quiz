@@ -209,8 +209,8 @@ public class FinalPuzzelAct extends AppCompatActivity {
                     final String mimeType = "text/html";
                     final String encoding = "UTF-8";
                      binding.tvContent.setWebViewClient(new WebViewClient());
-                    binding.tvContent.getSettings().setLoadWithOverviewMode(true);
-                    binding.tvContent.getSettings().setUseWideViewPort(true);
+                  //  binding.tvContent.getSettings().setLoadWithOverviewMode(true);
+                  //  binding.tvContent.getSettings().setUseWideViewPort(true);
                     binding.tvContent.getSettings().setJavaScriptEnabled(true);
                      binding.tvContent.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
                      binding.tvContent.getSettings().setPluginState(WebSettings.PluginState.ON);

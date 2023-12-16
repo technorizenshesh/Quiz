@@ -74,8 +74,8 @@ public class DeclimarActivity extends AppCompatActivity {
             ImageView imgHeader = dialogq.findViewById(R.id.imgHeader);
             tv_intro.loadDataWithBaseURL("", eventDetails.getIntro(),
                     mimeType, encoding, "");
-            tv_intro.getSettings().setLoadWithOverviewMode(true);
-            tv_intro.getSettings().setUseWideViewPort(true);
+           // tv_intro.getSettings().setLoadWithOverviewMode(true);
+          //  tv_intro.getSettings().setUseWideViewPort(true);
             tv_intro.getSettings().setBuiltInZoomControls(true);
             tv_intro.getSettings().setDisplayZoomControls(false);
 

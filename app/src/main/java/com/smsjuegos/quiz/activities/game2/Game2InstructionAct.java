@@ -60,8 +60,8 @@ public class Game2InstructionAct extends AppCompatActivity {
             final String encoding = "UTF-8";
             binding.tvInstruction.loadDataWithBaseURL("", result.getEvent_instructions1()
                     , mimeType, encoding, "");
-            binding.tvInstruction.getSettings().setLoadWithOverviewMode(true);
-            binding.tvInstruction.getSettings().setUseWideViewPort(true);
+           // binding.tvInstruction.getSettings().setLoadWithOverviewMode(true);
+        //    binding.tvInstruction.getSettings().setUseWideViewPort(true);
             binding.tvInstruction.getSettings().setBuiltInZoomControls(true);
             binding.tvInstruction.getSettings().setDisplayZoomControls(false);
 
@@ -70,8 +70,8 @@ public class Game2InstructionAct extends AppCompatActivity {
             final String encoding = "UTF-8";
             binding.tvInstruction.loadDataWithBaseURL("", result.getEventInstructions()
                     , mimeType, encoding, "");
-            binding.tvInstruction.getSettings().setLoadWithOverviewMode(true);
-            binding.tvInstruction.getSettings().setUseWideViewPort(true);
+           // binding.tvInstruction.getSettings().setLoadWithOverviewMode(true);
+         //   binding.tvInstruction.getSettings().setUseWideViewPort(true);
             binding.tvInstruction.getSettings().setBuiltInZoomControls(true);
             binding.tvInstruction.getSettings().setDisplayZoomControls(false);
 
