@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.navigation.Navigation;
@@ -56,10 +57,13 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.SelectTimeView
             {
                 ShowAppLog("onBindViewHolder", eventsListList.get(position).getType(), 1);
                 ShowAppLog("onBindViewHolder", eventsListList.get(position).getId(), 1);
-                //   Log.e("TAG", "onBindViewHolder: eventsListList.get(position).getType(). -- "+eventsListList.get(position).getType() );
-                //  return;
+                ShowAppLog("onBindViewHolder--------------", eventsListList.get(position).getCity_id(), 1);
 
-                if (fromHome.equalsIgnoreCase("home")) {
+                if    (  eventsListList.get(position).getCity_id().trim().equalsIgnoreCase("3")
+                        |eventsListList.get(position).getCity_id().trim().equalsIgnoreCase("4")
+                       | eventsListList.get(position).getCity_id().trim().equalsIgnoreCase("5")) {
+                    Toast.makeText(context, "Coming Soon..", Toast.LENGTH_LONG).show();
+                } else if (fromHome.equalsIgnoreCase("home")) {
                     if (eventsListList.get(position).getType().equalsIgnoreCase("puzzle")) {
                         Bundle bundle = new Bundle();
                         bundle.putString("id", eventsListList.get(position).getId());
@@ -108,7 +112,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.SelectTimeView
                         bundle.putString("id", eventsListList.get(position).getId());
                         Navigation.findNavController(v).navigate(R.id.action_navigation_profile_to_navigation_list
                                 , bundle);
-                    }else {
+                    } else {
                         Bundle bundle = new Bundle();
                         bundle.putString("id", eventsListList.get(position).getId());
                         Navigation.findNavController(v).navigate(R.id.action_navigation_profile_to_navigation_list
@@ -117,103 +121,12 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.SelectTimeView
                     }
                     Log.e("TAG", "onBindViewHolder:eventsListList.get(position).getType() " + eventsListList.get(position).getType());
                 }
-              /*  else if (fromHome.equalsIgnoreCase("cal")) {
-
-                    if (eventsListList.get(position).getType().equalsIgnoreCase("puzzle")) {
-                        Bundle bundle = new Bundle();
-                        bundle.putString("id", eventsListList.get(position).getId());
-                        Navigation.findNavController(v).navigate(R.id.action_navigation_profile_to_navigation_list
-                                , bundle);
-                    } else if (eventsListList.get(position).getType().equalsIgnoreCase("Virus")) {
-                        context.startActivity(new Intent(context, HomeScreenGame2Act.class).putExtra("instructionID"
-                                , eventsListList.get(position)));
-                    } else if (eventsListList.get(position).getType().equalsIgnoreCase("cabana")) {
-                        context.startActivity(new Intent(context, HomeScreenGame2Act.class).putExtra("instructionID"
-                                , eventsListList.get(position)));
-                    } else if (eventsListList.get(position).getType().equalsIgnoreCase("lajoya")) {
-                        context.startActivity(new Intent(context, HomeScreenGame2Act.class).putExtra("instructionID"
-                                , eventsListList.get(position)));
-                    } else if (eventsListList.get(position).getType().equalsIgnoreCase("crime")) {
-                        Bundle bundle = new Bundle();
-                        bundle.putString("id", eventsListList.get(position).getId());
-                        Navigation.findNavController(v).navigate(R.id.action_navigation_profile_to_navigation_list
-                                , bundle);
-                    } else if (eventsListList.get(position).getType().equalsIgnoreCase("Amenaza_Nuclear")) {
-
-                        // openWeb();
-                        context.startActivity(new Intent(context, HomeScreenGame2Act.class)
-                                .putExtra("instructionID", eventsListList.get(position)));
-
-                    } else if (eventsListList.get(position).getType().equalsIgnoreCase("codigo_frida")) {
-                        Bundle bundle = new Bundle();
-                        bundle.putString("id", eventsListList.get(position).getId());
-                        Navigation.findNavController(v).navigate(R.id.action_navigation_profile_to_navigation_list
-                                , bundle);
-                    } else if (eventsListList.get(position).getType().equalsIgnoreCase("rescate")) {
-                        Bundle bundle = new Bundle();
-                        bundle.putString("id", eventsListList.get(position).getId());
-                        Navigation.findNavController(v).navigate(R.id.action_navigation_profile_to_navigation_list
-                                , bundle);
-                    } else if (eventsListList.get(position).getType().equalsIgnoreCase("zombie")) {
-                        Bundle bundle = new Bundle();
-                        bundle.putString("id", eventsListList.get(position).getId());
-                        Navigation.findNavController(v).navigate(R.id.action_navigation_profile_to_navigation_list
-                                , bundle);
-                    }
-                }
-                else if (fromHome.equalsIgnoreCase("search")) {
-                    if (eventsListList.get(position).getType().equalsIgnoreCase("puzzle")) {
-                        Bundle bundle = new Bundle();
-                        bundle.putString("id", eventsListList.get(position).getId());
-                        Navigation.findNavController(v).navigate(R.id.action_navigation_profile_to_navigation_list
-                                , bundle);
-                    } else if (eventsListList.get(position).getType().equalsIgnoreCase("Virus")) {
-                        context.startActivity(new Intent(context
-                                , HomeScreenGame2Act.class).putExtra("instructionID"
-                                , eventsListList.get(position)));
-                    } else if (eventsListList.get(position).getType().equalsIgnoreCase("cabana")) {
-                        context.startActivity(new Intent(context
-                                , HomeScreenGame2Act.class).putExtra("instructionID"
-                                , eventsListList.get(position)));
-                    } else if (eventsListList.get(position).getType().equalsIgnoreCase("lajoya")) {
-                        context.startActivity(new Intent(context
-                                , HomeScreenGame2Act.class).putExtra("instructionID"
-                                , eventsListList.get(position)));
-                    } else if (eventsListList.get(position).getType().equalsIgnoreCase("crime")) {
-                        Bundle bundle = new Bundle();
-                        bundle.putString("id", eventsListList.get(position).getId());
-                        Navigation.findNavController(v).navigate(R.id.action_navigation_profile_to_navigation_list
-                                , bundle);
-                    } else if (eventsListList.get(position).getType().equalsIgnoreCase("Amenaza_Nuclear")) {
-
-                        //    openWeb();
-                        context.startActivity(new Intent(context
-                                , HomeScreenGame2Act.class).putExtra("instructionID"
-                                , eventsListList.get(position)));
-                    } else if (eventsListList.get(position).getType().equalsIgnoreCase("codigo_frida")) {
-                        Bundle bundle = new Bundle();
-                        bundle.putString("id", eventsListList.get(position).getId());
-                        Navigation.findNavController(v).navigate(R.id.action_navigation_profile_to_navigation_list
-                                , bundle);
-                    } else  if (eventsListList.get(position).getType().equalsIgnoreCase("rescate")) {
-                        Bundle bundle = new Bundle();
-                        bundle.putString("id", eventsListList.get(position).getId());
-                        Navigation.findNavController(v).navigate(R.id.action_navigation_profile_to_navigation_list
-                                , bundle);
-                    } else if (eventsListList.get(position).getType().equalsIgnoreCase("zombie")) {
-                        Bundle bundle = new Bundle();
-                        bundle.putString("id", eventsListList.get(position).getId());
-                        Navigation.findNavController(v).navigate(R.id.action_navigation_profile_to_navigation_list
-                                , bundle);
-                    }
-
-
-                }
-    */
             });
             Glide.with(context)
                     .load(eventsListList.get(position).getImage())
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .placeholder(R.drawable.default_loading)
+                    .error(R.drawable.default_error)
                     .centerInside()
                     .into(ivEvents);
             tvEventName.setText(eventsListList.get(position).getEventName());

@@ -55,7 +55,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class HomeFragment extends Fragment {
-    FragmentHomeBinding binding;
+ public static FragmentHomeBinding binding;
     List<SlideModel> bannersList = new LinkedList<>();
     List<SuccessResGetEvents.Result> eventsList = new LinkedList<>();
     ArrayList<SuccessResCity.Result> cityList = new ArrayList<>();
@@ -119,56 +119,44 @@ public class HomeFragment extends Fragment {
                     eventsList.add(result);
                 }
             }
-            homeAdapter.notifyDataSetChanged();
-        }else {
+                if (eventsList.size()>=1){
+                    homeAdapter.notifyDataSetChanged();
+                    binding.noResultFound.setVisibility(View.GONE);
+
+                }else {
+                    showToast(getActivity(), "Coming Soon..");
+                    binding.noResultFound.setVisibility(View.VISIBLE);
+                }
+            }else {
                 getEventsImages();
             }
         }
 
-
-        binding.spinner.setOnSpinnerItemSelectedListener(new OnSpinnerItemSelectedListener<Object>() {
-            @Override
-            public void onItemSelected(int i, @Nullable Object o, int i1, Object t1) {
-                Log.e("TAG", "onItemSelected: " + i);
-                Log.e("TAG", "onItemSelected: " + o);
-                Log.e("TAG", "onItemSelected: " + i1);
-                Log.e("TAG", "onItemSelected: " + t1);
-                SuccessResGetEvents datadd = SharedPreferenceUtility.getInstance(getActivity())
-                        .getSuccessResGetEvents("SuccessResGetEvents");
-                city_id = cityList.get(i1).getId();
-                eventsList.clear();
-                for (SuccessResGetEvents.Result result : datadd.result) {
-                    if (result.city_id.equalsIgnoreCase(city_id)) {
-                        eventsList.add(result);
-                    }
+        binding.spinner.setLifecycleOwner(HomeFragment.this);
+        binding.spinner.setOnSpinnerItemSelectedListener((i, o, i1, t1) -> {
+            Log.e("TAG", "onItemSelected: " + i);
+            Log.e("TAG", "onItemSelected: " + o);
+            Log.e("TAG", "onItemSelected: " + i1);
+            Log.e("TAG", "onItemSelected: " + t1);
+            SuccessResGetEvents datadd = SharedPreferenceUtility.getInstance(getActivity())
+                    .getSuccessResGetEvents("SuccessResGetEvents");
+            city_id = cityList.get(i1).getId();
+            eventsList.clear();
+            for (SuccessResGetEvents.Result result : datadd.result) {
+                if (result.city_id.equalsIgnoreCase(city_id)) {
+                    eventsList.add(result);
                 }
-                homeAdapter.notifyDataSetChanged();
-             /*   switch (i1) {
-                    case 0:
-
-                        break;
-                    case 1:
-                        city_id = cityList.get(0).getId();
-                        city_id = "2";
-                        eventsList.clear();
-                        for (SuccessResGetEvents.Result result : datadd.result) {
-                            if (result.city_id.equalsIgnoreCase(city_id)) {
-                                eventsList.add(result);
-                            }
-                        }
-                        homeAdapter.notifyDataSetChanged();
-
-                        break;
-                    default:
-                        break;
-
-                }*/
-
             }
+            if (eventsList.size()>=1){
+                homeAdapter.notifyDataSetChanged();
+                binding.noResultFound.setVisibility(View.GONE);
 
+            }else {
+                showToast(getActivity(), "Coming Soon..");
+                binding.noResultFound.setVisibility(View.VISIBLE);
+            }
         });
         getLocation();
-
         if (NetworkAvailablity.getInstance(getActivity()).checkNetworkStatus()) {
             if (SharedPreferenceUtility.getInstance(getActivity())
                     .getSuccessResGetEvents("SuccessResGetEvents") != null) {
@@ -183,8 +171,14 @@ public class HomeFragment extends Fragment {
                             eventsList.add(result);
                         }
                     }
-                     homeAdapter.notifyDataSetChanged();
-                    binding.rvUpcomingEvents.hideShimmerAdapter();
+                    if (eventsList.size()>=1){
+                        homeAdapter.notifyDataSetChanged();
+                        binding.noResultFound.setVisibility(View.GONE);
+
+                    }else {
+                        showToast(getActivity(), "Coming Soon..");
+                        binding.noResultFound.setVisibility(View.VISIBLE);
+                    }                     binding.rvUpcomingEvents.hideShimmerAdapter();
                 } else if (data.status.equals("0")) {
                     showToast(getActivity(), data.message);
                 }
@@ -217,6 +211,12 @@ public class HomeFragment extends Fragment {
             Toast.makeText(getActivity(), getResources().getString(R.string.msg_noInternet), Toast.LENGTH_SHORT).show();
         }
         return binding.getRoot();
+    }
+
+    @Override
+    public void onPause() {
+        binding.spinner.dismiss();
+        super.onPause();
     }
 
     public void getLocation() {
@@ -290,8 +290,14 @@ public class HomeFragment extends Fragment {
                                 eventsList.add(result);
                             }
                         }
-                        homeAdapter.notifyDataSetChanged();
-                    }
+                        if (eventsList.size()>=1){
+                            homeAdapter.notifyDataSetChanged();
+                            binding.noResultFound.setVisibility(View.GONE);
+
+                        }else {
+                            showToast(getActivity(), "Coming Soon..");
+                            binding.noResultFound.setVisibility(View.VISIBLE);
+                        }                 }
 
 
                 } catch (Exception e) {
@@ -342,8 +348,14 @@ public class HomeFragment extends Fragment {
                                 eventsList.add(result);
                             }
                         }
-                        homeAdapter.notifyDataSetChanged();
-                        binding.rvUpcomingEvents.hideShimmerAdapter();
+                        if (eventsList.size()>=1){
+                            homeAdapter.notifyDataSetChanged();
+                            binding.noResultFound.setVisibility(View.GONE);
+
+                        }else {
+                            showToast(getActivity(), "Coming Soon..");
+                            binding.noResultFound.setVisibility(View.VISIBLE);
+                        }                        binding.rvUpcomingEvents.hideShimmerAdapter();
                     } else if (data.status.equals("0")) {
                         showToast(getActivity(), data.message);
                     }
@@ -464,5 +476,9 @@ public class HomeFragment extends Fragment {
             }
         });
 
+    }
+
+    public  static  void hideDropdown( FragmentHomeBinding binding){
+        binding.spinner.dismiss();
     }
 }
