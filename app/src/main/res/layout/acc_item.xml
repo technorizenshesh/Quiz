@@ -16,10 +16,10 @@
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/iv_event"
         android:layout_width="@dimen/_80sdp"
-        android:layout_height="@dimen/_80sdp"
+        android:layout_height="@dimen/_90sdp"
         android:layout_marginStart="@dimen/_2sdp"
         android:layout_marginEnd="@dimen/_2sdp"
-        android:scaleType="fitXY"
+        android:scaleType="fitCenter"
         app:shapeAppearanceOverlay="@style/roundedImageViewRounded" />
 
     <LinearLayout
