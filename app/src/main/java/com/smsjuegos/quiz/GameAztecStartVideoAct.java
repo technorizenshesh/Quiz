@@ -3,18 +3,12 @@ package com.smsjuegos.quiz;
 import static com.google.android.exoplayer2.C.VIDEO_SCALING_MODE_SCALE_TO_FIT;
 import static com.smsjuegos.quiz.retrofit.Constant.GAME_LAVEL;
 import static com.smsjuegos.quiz.retrofit.Constant.USER_ID;
-import static com.smsjuegos.quiz.retrofit.Constant.showToast;
 
-import android.animation.ValueAnimator;
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -31,17 +25,6 @@ import com.google.android.exoplayer2.ui.StyledPlayerView;
 import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultDataSource;
 import com.google.android.exoplayer2.util.Util;
-import com.google.android.gms.maps.CameraUpdate;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.LatLngBounds;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.Polyline;
-import com.google.android.gms.maps.model.PolylineOptions;
-import com.google.android.gms.maps.model.SquareCap;
-import com.google.android.material.snackbar.Snackbar;
-import com.google.gson.Gson;
-import com.smsjuegos.quiz.activities.HomeAct;
 import com.smsjuegos.quiz.activities.InstrutionActNew;
 import com.smsjuegos.quiz.model.SuccessResGetEvents;
 import com.smsjuegos.quiz.model.SuccessResGetInstruction;
@@ -49,7 +32,6 @@ import com.smsjuegos.quiz.retrofit.ApiClient;
 import com.smsjuegos.quiz.retrofit.Constant;
 import com.smsjuegos.quiz.retrofit.QuizInterface;
 import com.smsjuegos.quiz.utility.DataManager;
-import com.smsjuegos.quiz.utility.DrawPollyLine;
 import com.smsjuegos.quiz.utility.SharedPreferenceUtility;
 
 import java.util.HashMap;
@@ -103,7 +85,7 @@ public class GameAztecStartVideoAct extends AppCompatActivity {
             //  releasePlayer();
             player.pause();
             getInstruction();
-          });
+        });
 
     }
 
@@ -133,11 +115,13 @@ public class GameAztecStartVideoAct extends AppCompatActivity {
                     SuccessResGetInstruction data = response.body();
                     Log.e("data", data.status);
                     if (data.status.equals("1")) {
-                        SharedPreferenceUtility.getInstance(getApplicationContext()).putSuccessResGetInstruction("SuccessResGetInstruction",data.getResult());
-                        startActivity(new Intent(getApplicationContext(), InstrutionActNew.class)
-                               .putExtra("eventId", eventId)
-                                .putExtra("eventCode", eventCode));
 
+                        SharedPreferenceUtility.getInstance(getApplicationContext()).putSuccessResGetInstruction("SuccessResGetInstruction", data.getResult());
+                        startActivity(new Intent(getApplicationContext(), InstrutionActNew.class)
+                                .putExtra("eventId", eventId)
+                                .putExtra("eventCode", eventCode));
+                    } else {
+                        Toast.makeText(getApplicationContext(), getApplicationContext().getString(R.string.no_result_found), Toast.LENGTH_SHORT).show();
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
