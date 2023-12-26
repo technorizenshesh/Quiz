@@ -1,5 +1,6 @@
 package com.smsjuegos.quiz.activities;
 
+import static com.smsjuegos.quiz.activities.InstrutionActNew.convertDMSToDecimal;
 import static com.smsjuegos.quiz.retrofit.Constant.GAME_LAVEL;
 import static com.smsjuegos.quiz.retrofit.Constant.USER_ID;
 import static com.smsjuegos.quiz.retrofit.Constant.showToast;
@@ -188,6 +189,10 @@ public class MapAct extends AppCompatActivity implements OnMapReadyCallback, Goo
                         marker[i] = createMarker(i, Double.parseDouble(result.getLat()), Double.parseDouble(result.getLon()),
                                 "#" + i, "", R.drawable.flag_green);
                     } catch (NumberFormatException e) {
+
+                        marker[i] = createMarker(i, convertDMSToDecimal(result.getLat()), convertDMSToDecimal(result.getLon()),
+                                "#" + i, "", R.drawable.flag_green);
+
                         continue;
                     }
                 }
@@ -200,6 +205,10 @@ public class MapAct extends AppCompatActivity implements OnMapReadyCallback, Goo
                                 Double.parseDouble(result.getLon()),
                                 "#" + i, "", R.drawable.flag_red);
                     } catch (NumberFormatException e) {
+                        marker[i] = createMarker(i, convertDMSToDecimal(result.getLat()),
+                                convertDMSToDecimal(result.getLon()),
+                                "#" + i, "", R.drawable.flag_red);
+
                         continue;
                     }
                 }

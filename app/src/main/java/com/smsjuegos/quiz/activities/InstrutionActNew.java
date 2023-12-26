@@ -300,8 +300,10 @@ public class InstrutionActNew extends AppCompatActivity implements OnMapReadyCal
                             "#" + i, "", R.drawable.flag_green); }
                     catch (NumberFormatException e){
                         Log.e(TAG, "onMarkerClick: NumberFormatExceptionNumberFormatException" + result.getId());
+                        marker[i] = createMarker(i, convertDMSToDecimal(result.getLat()), convertDMSToDecimal(result.getLon()),
+                                "#" + i, "", R.drawable.flag_green);
 
-                        continue;
+                    continue;
                     }}
             } else {
 
@@ -315,6 +317,9 @@ public class InstrutionActNew extends AppCompatActivity implements OnMapReadyCal
 
                    }   catch (NumberFormatException e){
                        Log.e(TAG, "onMarkerClick: NumberFormatExceptionNumberFormatException" + result.getId());
+                       marker[i] = createMarker(i, convertDMSToDecimal(result.getLat()),
+                               convertDMSToDecimal(result.getLon()),
+                               "#" + i, "", R.drawable.flag_red);
 
                        continue;
                 }
@@ -422,7 +427,24 @@ public class InstrutionActNew extends AppCompatActivity implements OnMapReadyCal
         }
         //getInstruction2();
     }
+    public static double convertDMSToDecimal(String dmsCoordinate) {
+        // Split degrees, minutes, and seconds
+        String[] parts = dmsCoordinate.split("[°'\"NWE]");
 
+        double degrees = Double.parseDouble(parts[0]);
+        double minutes = Double.parseDouble(parts[1]);
+        double seconds = Double.parseDouble(parts[2]);
+
+        // Calculate decimal degrees
+        double decimalDegrees = degrees + (minutes / 60.0) + (seconds / 3600.0);
+
+        // Adjust for South or West coordinates (negative values)
+        if (dmsCoordinate.contains("S") || dmsCoordinate.contains("W")) {
+            decimalDegrees = -decimalDegrees;
+        }
+
+        return decimalDegrees;
+    }
     private void getInstruction2() {
         boolean val = SharedPreferenceUtility.getInstance(getApplicationContext()).getBoolean(Constant.SELECTED_LANGUAGE);
         String lang = "";
