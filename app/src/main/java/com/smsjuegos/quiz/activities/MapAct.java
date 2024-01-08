@@ -139,7 +139,7 @@ public class MapAct extends AppCompatActivity implements OnMapReadyCallback, Goo
                     Double.parseDouble(instructionList.get(position).getLon()),
                     MyLatitude, MyLongitude);
             Log.e("TAG", "onMarkerClick: distancedistancedistancedistance" + distance);
-            if (distance > 200) {
+            if (distance > 100) {
                 showSimpleCancelBtnDialog(MapAct.this, R.layout.dialog_distance, distance + "");
             } else {
                 Log.e("TAG", "onMarkerClick: " + instructionList.get(position));

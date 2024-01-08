@@ -53,17 +53,16 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.SelectTimeView
             ImageView ivEvents = holder.itemView.findViewById(R.id.iv_event);
             TextView tvEventName = holder.itemView.findViewById(R.id.tv_event_name);
             RelativeLayout rlParent = holder.itemView.findViewById(R.id.rlParent);
-            rlParent.setOnClickListener(v ->
-            {
+            rlParent.setOnClickListener(v -> {
                 ShowAppLog("onBindViewHolder", eventsListList.get(position).getType(), 1);
                 ShowAppLog("onBindViewHolder", eventsListList.get(position).getId(), 1);
                 ShowAppLog("onBindViewHolder--------------", eventsListList.get(position).getCity_id(), 1);
-
                 if    (  eventsListList.get(position).getCity_id().trim().equalsIgnoreCase("3")
                         |eventsListList.get(position).getCity_id().trim().equalsIgnoreCase("4")
                        | eventsListList.get(position).getCity_id().trim().equalsIgnoreCase("5")) {
                     Toast.makeText(context, "Coming Soon..", Toast.LENGTH_LONG).show();
-                } else if (fromHome.equalsIgnoreCase("home")) {
+                } else if (fromHome.equalsIgnoreCase("home"))
+                {
                     if (eventsListList.get(position).getType().equalsIgnoreCase("puzzle")) {
                         Bundle bundle = new Bundle();
                         bundle.putString("id", eventsListList.get(position).getId());
@@ -83,6 +82,11 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.SelectTimeView
                         context.startActivity(new Intent(context, HomeScreenGame2Act.class)
                                 .putExtra("instructionID", eventsListList.get(position)));
                     } else if (eventsListList.get(position).getType().equalsIgnoreCase("crime")) {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("id", eventsListList.get(position).getId());
+                        Navigation.findNavController(v).navigate(R.id.action_navigation_profile_to_navigation_list
+                                , bundle);
+                    } else if (eventsListList.get(position).getType().equalsIgnoreCase("mystery_city")) {
                         Bundle bundle = new Bundle();
                         bundle.putString("id", eventsListList.get(position).getId());
                         Navigation.findNavController(v).navigate(R.id.action_navigation_profile_to_navigation_list

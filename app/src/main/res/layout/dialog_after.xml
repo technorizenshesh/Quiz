@@ -48,14 +48,14 @@
                     android:layout_margin="@dimen/_10sdp"
                     android:id="@+id/image_intro"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
 
                     />
                 <WebView
                     android:id="@+id/tv_intro"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:minHeight="@dimen/_500sdp"
+                    android:minHeight="@dimen/_300sdp"
                     android:fontFamily="@font/comic"
                     android:textStyle="italic"
                     android:textSize="@dimen/_14sdp"

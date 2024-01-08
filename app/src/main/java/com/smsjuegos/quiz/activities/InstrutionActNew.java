@@ -128,7 +128,7 @@ public class InstrutionActNew extends AppCompatActivity implements OnMapReadyCal
         binding.tvFinalPuzzel.setOnClickListener(v -> {
 
             Log.e(TAG, "showMainMenu: " + eventId);
-            if (eventId.equals("8") | eventId.equals("15") | eventId.equals("18") | eventId.equals("19")) {
+            if (eventId.equals("8") | eventId.equals("15") | eventId.equals("18") | eventId.equals("19") | eventId.equals("34")) {
                 startActivity(new Intent(InstrutionActNew
                         .this, CardigoPuzzleFinalActivity.class).putExtra("eventId", eventId)
                         .putExtra("eventCode", eventCode));
@@ -190,10 +190,13 @@ public class InstrutionActNew extends AppCompatActivity implements OnMapReadyCal
         if (snackbar != null) {
             snackbar.dismiss();
         }
-        Log.e(TAG, "onMarkerClick: "+instructionList.get(position).getGeolocation() );
-        Log.e(TAG, "onMarkerClick: "+instructionList.get(position).getEventId() );
-        Log.e(TAG, "onMarkerClick: "+eventId);
-        if (eventId.equalsIgnoreCase("5") || eventId.equalsIgnoreCase("8") || eventId.equalsIgnoreCase("1")) {
+        Log.e(TAG, "onMarkerClick: " + instructionList.get(position).getGeolocation());
+        Log.e(TAG, "onMarkerClick: " + instructionList.get(position).getEventId());
+        Log.e(TAG, "onMarkerClick: " + eventId);
+        if (  eventId.equalsIgnoreCase("18")
+                || eventId.equalsIgnoreCase("5")
+                || eventId.equalsIgnoreCase("8")
+                || eventId.equalsIgnoreCase("1")) {
             handleEventWithLocation(position);
         } else {
             startQuestionAnswerActivity(position);
@@ -215,7 +218,7 @@ public class InstrutionActNew extends AppCompatActivity implements OnMapReadyCal
                     Double.parseDouble(instructionList.get(position).getLon()),
                     MyLatitude, MyLongitude);
             Log.e("TAG", "onMarkerClick: distancedistancedistancedistance" + distance);
-            if (distance > 200) {
+            if (distance > 100) {
                 showSimpleCancelBtnDialog(InstrutionActNew.this, R.layout.dialog_distance, distance + "");
             } else {
                 Log.e("TAG", "onMarkerClick: " + instructionList.get(position));
@@ -233,6 +236,7 @@ public class InstrutionActNew extends AppCompatActivity implements OnMapReadyCal
                 .putExtra("position", position);
         startActivity(intent);
     }
+
     /**/
     private void getTimer() {
         handler = new Handler();
@@ -284,45 +288,44 @@ public class InstrutionActNew extends AppCompatActivity implements OnMapReadyCal
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 15));
             mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
 
-        }catch (Exception e ){
-            Log.e(TAG, "moveCameramoveCamera: "+e.getLocalizedMessage());
-            Log.e(TAG, "moveCameramoveCamera: "+e.getMessage());
+        } catch (Exception e) {
+            Log.e(TAG, "moveCameramoveCamera: " + e.getLocalizedMessage());
+            Log.e(TAG, "moveCameramoveCamera: " + e.getMessage());
         }
         for (SuccessResGetInstruction.Result result : instructionList) {
 
             if (result.getAnswer_status().equalsIgnoreCase("1")) {
                 if (result.getLat().equalsIgnoreCase(""))
                     return;
-                else
-                {
+                else {
                     try {
-                    marker[i] = createMarker(i, Double.parseDouble(result.getLat()), Double.parseDouble(result.getLon()),
-                            "#" + i, "", R.drawable.flag_green); }
-                    catch (NumberFormatException e){
+                        marker[i] = createMarker(i, Double.parseDouble(result.getLat()), Double.parseDouble(result.getLon()),
+                                "#" + i, "", R.drawable.flag_green);
+                    } catch (NumberFormatException e) {
                         Log.e(TAG, "onMarkerClick: NumberFormatExceptionNumberFormatException" + result.getId());
                         marker[i] = createMarker(i, convertDMSToDecimal(result.getLat()), convertDMSToDecimal(result.getLon()),
                                 "#" + i, "", R.drawable.flag_green);
 
-                    continue;
-                    }}
+                        continue;
+                    }
+                }
             } else {
 
                 if (result.getLat().equalsIgnoreCase("")) return;
-                else
-                {
-                   try {
-                       marker[i] = createMarker(i, Double.parseDouble(result.getLat()),
-                               Double.parseDouble(result.getLon()),
-                               "#" + i, "", R.drawable.flag_red);
+                else {
+                    try {
+                        marker[i] = createMarker(i, Double.parseDouble(result.getLat()),
+                                Double.parseDouble(result.getLon()),
+                                "#" + i, "", R.drawable.flag_red);
 
-                   }   catch (NumberFormatException e){
-                       Log.e(TAG, "onMarkerClick: NumberFormatExceptionNumberFormatException" + result.getId());
-                       marker[i] = createMarker(i, convertDMSToDecimal(result.getLat()),
-                               convertDMSToDecimal(result.getLon()),
-                               "#" + i, "", R.drawable.flag_red);
+                    } catch (NumberFormatException e) {
+                        Log.e(TAG, "onMarkerClick: NumberFormatExceptionNumberFormatException" + result.getId());
+                        marker[i] = createMarker(i, convertDMSToDecimal(result.getLat()),
+                                convertDMSToDecimal(result.getLon()),
+                                "#" + i, "", R.drawable.flag_red);
 
-                       continue;
-                }
+                        continue;
+                    }
                 }
 
             }
@@ -358,7 +361,7 @@ public class InstrutionActNew extends AppCompatActivity implements OnMapReadyCal
 
         }
 
-            try {
+        try {
             if (strtlang.equalsIgnoreCase("")) {
 
             } else {
@@ -427,6 +430,7 @@ public class InstrutionActNew extends AppCompatActivity implements OnMapReadyCal
         }
         //getInstruction2();
     }
+
     public static double convertDMSToDecimal(String dmsCoordinate) {
         // Split degrees, minutes, and seconds
         String[] parts = dmsCoordinate.split("[°'\"NWE]");
@@ -445,6 +449,7 @@ public class InstrutionActNew extends AppCompatActivity implements OnMapReadyCal
 
         return decimalDegrees;
     }
+
     private void getInstruction2() {
         boolean val = SharedPreferenceUtility.getInstance(getApplicationContext()).getBoolean(Constant.SELECTED_LANGUAGE);
         String lang = "";

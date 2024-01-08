@@ -360,7 +360,7 @@ public class FinalPuzzelAct extends AppCompatActivity {
         window.setAttributes(lp);
         dialogq.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialogq.show();
-     /*   dialogq.setOnDismissListener(dialog ->{
+       dialogq.setOnDismissListener(dialog ->{
                 startActivity(new Intent(FinalPuzzelAct.this,
                         FinishTeamInfo.class)
                         .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -369,7 +369,7 @@ public class FinalPuzzelAct extends AppCompatActivity {
                         .putExtra("eventCode", eventCode));
         });
 
-*/
+
 
 
 

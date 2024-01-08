@@ -99,7 +99,6 @@ public class DeclimarActivity extends AppCompatActivity {
                                 // .putExtras(bundle )
                                 .putExtra("videoUrl", eventDetails.getVideo())
                                 .putExtra("eventId", eventId)
-                                .putExtra("eventId", eventId)
                                 .putExtra("eventCode", eventCode));
                     }
             );
