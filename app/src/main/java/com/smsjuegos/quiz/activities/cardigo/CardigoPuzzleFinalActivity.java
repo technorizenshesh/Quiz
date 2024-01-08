@@ -261,7 +261,7 @@ public class CardigoPuzzleFinalActivity extends AppCompatActivity {
             ivSubmit.setOnClickListener(D ->
                     {
                         dialogq.dismiss();
-                       /* startActivity(new Intent(CardigoPuzzleFinalActivity.this,
+                      /* startActivity(new Intent(CardigoPuzzleFinalActivity.this,
                                 FinishTeamInfo.class)
                                 .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK)
                                 .putExtra("from", "1")
