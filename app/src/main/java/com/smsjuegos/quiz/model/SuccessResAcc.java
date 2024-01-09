@@ -47,7 +47,9 @@ public class SuccessResAcc implements Serializable {
 
         @SerializedName("id")
         @Expose
-        private String id;
+        private String id;    @SerializedName("event_award")
+        @Expose
+        private String event_award;
         @SerializedName("event_id")
         @Expose
         private String eventId;
@@ -72,6 +74,14 @@ public class SuccessResAcc implements Serializable {
         @SerializedName("date_time")
         @Expose
         private String dateTime;
+
+        public String getEvent_award() {
+            return event_award;
+        }
+
+        public void setEvent_award(String event_award) {
+            this.event_award = event_award;
+        }
 
         public String getId() {
             return id;

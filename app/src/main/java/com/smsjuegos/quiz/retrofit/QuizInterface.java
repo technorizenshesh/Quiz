@@ -239,8 +239,9 @@ public interface QuizInterface {
 
     @GET("get_city")
     Call<SuccessResCity> get_city();
- @GET("get_Accomplishments")
-    Call<SuccessResAcc> get_Accomplishments();
+ @FormUrlEncoded
+ @POST("get_Accomplishments")
+    Call<SuccessResAcc> get_Accomplishments(@FieldMap Map<String, String> paramHashMap);
 
     @GET
     Call<ResponseBody> getURL(@Url String s);

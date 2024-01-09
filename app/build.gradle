@@ -85,6 +85,7 @@ dependencies {
 
     implementation 'com.github.sharish:ShimmerRecyclerView:v1.3'
     implementation "com.github.skydoves:powerspinner:1.2.7"
+    //implementation "com.github.chungkwong:mathocr-myscript:1.1"
 
     //implementation 'com.github.sd6352051:NiftyDialogEffects:v1.0.3'
     def lottieVersion = "3.4.0"

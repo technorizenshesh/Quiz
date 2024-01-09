@@ -31,6 +31,7 @@ import com.smsjuegos.quiz.utility.SharedPreferenceUtility;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -86,9 +87,11 @@ public class CalanderFragment extends Fragment {
 
     private void get_Accomplishments() {
         DataManager.getInstance().showProgressMessage(getActivity(), getString(R.string.please_wait));
-        boolean val = SharedPreferenceUtility.getInstance(requireContext())
-                .getBoolean(Constant.SELECTED_LANGUAGE);
-        Call<SuccessResAcc> call = apiInterface.get_Accomplishments();
+        String val = SharedPreferenceUtility.getInstance(requireContext())
+                .getString(Constant.USER_ID);
+        Map<String, String> map = new HashMap<>();
+            map.put("user_id",val);
+        Call<SuccessResAcc> call = apiInterface.get_Accomplishments(map);
         call.enqueue(new Callback<SuccessResAcc>() {
             @Override
             public void onResponse(Call<SuccessResAcc> call, Response<SuccessResAcc> response) {
