@@ -44,13 +44,14 @@ import retrofit2.Response;
 
 public class CardigoPuzzleFinalActivity extends AppCompatActivity {
     ActivityCardigoPuzzleFinalBinding binding;
-    private String eventId = "", eventCode = "", FinalAnswer = "",FinalHTML = "",FinalImage="";
+    private String eventId = "", eventCode = "", FinalAnswer = "", FinalHTML = "", FinalImage = "";
     private QuizInterface apiInterface;
     private ArrayList<PuzzleList.Result> peopleList = new ArrayList<>();
     private CardigoPuzzleAdapter peopleAdapter;
     private final int peopleSelected = -1;
     final String encoding = "UTF-8";
     final String mimeType = "text/html";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,15 +59,15 @@ public class CardigoPuzzleFinalActivity extends AppCompatActivity {
         binding.header.imgHeader.setOnClickListener(v -> finish());
         binding.header.tvHeader.setText(getString(R.string.final_puzzel));
         binding.tvContent.getSettings().setBuiltInZoomControls(true);
-      eventId = getIntent().getExtras().getString("eventId");
-      eventCode = getIntent().getExtras().getString("eventCode");
-       //   eventId = "8";
-       //   eventCode = "855297";
+        eventId = getIntent().getExtras().getString("eventId");
+        eventCode = getIntent().getExtras().getString("eventCode");
+        //   eventId = "8";
+        //   eventCode = "855297";
         apiInterface = ApiClient.getClient().create(QuizInterface.class);
         getPeople();
         binding.btnSubmit.setOnClickListener(v ->
                 {
-                  //  showCongrats();
+                    //  showCongrats();
 
                     if (!binding.etAnswer.getText().toString().equalsIgnoreCase("")) {
                         if (binding.etAnswer.getText().toString().trim().equalsIgnoreCase(FinalAnswer)) {
@@ -233,54 +234,54 @@ public class CardigoPuzzleFinalActivity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
     }
-    public void showCongrats()
-        {
-            final Dialog dialogq = new Dialog(CardigoPuzzleFinalActivity.this);
-            dialogq.requestWindowFeature(Window.FEATURE_NO_TITLE);
-            dialogq.getWindow().getAttributes().windowAnimations
-                    = android.R.style.Widget_Material_ListPopupWindow;
-            dialogq.setContentView(R.layout.dialog_after);
-            WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-            Window window = dialogq.getWindow();
-            lp.copyFrom(window.getAttributes());
-            WebView tv_intro = dialogq.findViewById(R.id.tv_intro);
-            ImageView intro_image = dialogq.findViewById(R.id.image_intro);
-            ImageView imgHeader = dialogq.findViewById(R.id.imgHeader);
-            tv_intro.loadDataWithBaseURL("", FinalHTML, mimeType, encoding, "");
-           // tv_intro.getSettings().setLoadWithOverviewMode(true);
-          //  tv_intro.getSettings().setUseWideViewPort(true);
-            tv_intro.getSettings().setBuiltInZoomControls(true);
-            tv_intro.getSettings().setDisplayZoomControls(false);
-            Glide.with(getApplicationContext()).load(FinalImage).into(intro_image);
-            Button ivSubmit = dialogq.findViewById(R.id.btnDownload);
-            imgHeader.setOnClickListener(D ->
-                    {
+
+    public void showCongrats() {
+        final Dialog dialogq = new Dialog(CardigoPuzzleFinalActivity.this);
+        dialogq.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialogq.getWindow().getAttributes().windowAnimations
+                = android.R.style.Widget_Material_ListPopupWindow;
+        dialogq.setContentView(R.layout.dialog_after);
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        Window window = dialogq.getWindow();
+        lp.copyFrom(window.getAttributes());
+        WebView tv_intro = dialogq.findViewById(R.id.tv_intro);
+        ImageView intro_image = dialogq.findViewById(R.id.image_intro);
+        ImageView imgHeader = dialogq.findViewById(R.id.imgHeader);
+        tv_intro.loadDataWithBaseURL("", FinalHTML, mimeType, encoding, "");
+        // tv_intro.getSettings().setLoadWithOverviewMode(true);
+        //  tv_intro.getSettings().setUseWideViewPort(true);
+        tv_intro.getSettings().setBuiltInZoomControls(true);
+        tv_intro.getSettings().setDisplayZoomControls(false);
+        Glide.with(getApplicationContext()).load(FinalImage).into(intro_image);
+        Button ivSubmit = dialogq.findViewById(R.id.btnDownload);
+        imgHeader.setOnClickListener(D ->
+                {
                     //    dialogq.dismiss();
-                    }
-            );
-            ivSubmit.setOnClickListener(D ->
-                    {
-                        dialogq.dismiss();
+                }
+        );
+        ivSubmit.setOnClickListener(D ->
+                {
+                    dialogq.dismiss();
                       /* startActivity(new Intent(CardigoPuzzleFinalActivity.this,
                                 FinishTeamInfo.class)
                                 .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK)
                                 .putExtra("from", "1")
                                 .putExtra("eventId", eventId)
                                 .putExtra("eventCode", eventCode));*/
-                    }
-            );
-            lp.width = WindowManager.LayoutParams.MATCH_PARENT;
-            lp.height = WindowManager.LayoutParams.MATCH_PARENT;
-            window.setAttributes(lp);
-            dialogq.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-            dialogq.show();
-dialogq.setOnDismissListener(dialog -> startActivity(new Intent(CardigoPuzzleFinalActivity.this,
-        FinishTeamInfo.class)
-        .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK)
-        .putExtra("from", "1")
-        .putExtra("eventId", eventId)
-        .putExtra("eventCode", eventCode)));
+                }
+        );
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.MATCH_PARENT;
+        window.setAttributes(lp);
+        dialogq.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialogq.show();
+        dialogq.setOnDismissListener(dialog -> startActivity(new Intent(CardigoPuzzleFinalActivity.this,
+                FinishTeamInfo.class)
+                .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK)
+                .putExtra("from", "1")
+                .putExtra("eventId", eventId)
+                .putExtra("eventCode", eventCode)));
 
-        }
+    }
 
 }

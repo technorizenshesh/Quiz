@@ -26,6 +26,7 @@ import com.smsjuegos.quiz.model.SuccessResAcc;
 import com.smsjuegos.quiz.model.SuccessResAcc;
 
 import java.util.List;
+import java.util.Objects;
 
 public class AccAdapter extends RecyclerView.Adapter<AccAdapter.SelectTimeViewHolder> {
 
@@ -55,9 +56,16 @@ public class AccAdapter extends RecyclerView.Adapter<AccAdapter.SelectTimeViewHo
             TextView tvEventName = holder.itemView.findViewById(R.id.text);
             RelativeLayout rlParent = holder.itemView.findViewById(R.id.rlParent);
             tvEventName.setText(eventsListList.get(position).getTitle());
+            String image="";
+            if (Objects.equals(eventsListList.get(position).getEvent_award(), "true")){
+                image = eventsListList.get(position).getCompleteImage();
+            }else{
+                image = eventsListList.get(position).getIncompleteImage();
+
+            }
            // if (position==0){
                 Glide.with(context)
-                        .load(eventsListList.get(position).getCompleteImage())
+                        .load(image)
                         .diskCacheStrategy(DiskCacheStrategy.ALL)
                         .centerInside()
                         .into(ivEvents);
