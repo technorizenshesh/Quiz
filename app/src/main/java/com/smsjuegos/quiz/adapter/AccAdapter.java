@@ -69,16 +69,7 @@ public class AccAdapter extends RecyclerView.Adapter<AccAdapter.SelectTimeViewHo
                         .diskCacheStrategy(DiskCacheStrategy.ALL)
                         .centerInside()
                         .into(ivEvents);
-           /* }else {
-                Glide.with(context)
-                        .load(eventsListList.get(position).getIncompleteImage())
-                        .diskCacheStrategy(DiskCacheStrategy.ALL)
-                        .centerInside()
-                        .into(ivEvents);
-            }*/
 
-         //   Dialog
-           // tvEventName.setText(eventsListList.get(position).getTitle());
         } catch (Exception e) {
             Log.d("TAG", "onBindViewHolder: ");
         }
