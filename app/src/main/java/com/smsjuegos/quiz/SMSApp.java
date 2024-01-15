@@ -93,8 +93,6 @@ public class SMSApp extends Application implements Application.ActivityLifecycle
         }
 
         Collections.sort(unsortedLocations, (location1, location2) -> Float.compare(location1.getDistance(), location2.getDistance()));
-
-        // Return the sorted ArrayList
         return unsortedLocations;
     }
 

@@ -23,7 +23,7 @@ import java.text.DecimalFormat;
  */
 public class GPSTracker extends Service implements LocationListener {
     private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 10;
-    private static final long MIN_TIME_BW_UPDATES = 1000 * 60;
+    private static final long MIN_TIME_BW_UPDATES = 1000 * 10;
     private final Context mContext;
     protected LocationManager locationManager;
     boolean checkGPS = false;

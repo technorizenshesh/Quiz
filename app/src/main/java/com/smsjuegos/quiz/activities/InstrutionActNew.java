@@ -400,7 +400,7 @@ public class InstrutionActNew extends AppCompatActivity implements OnMapReadyCal
                                     , "", Snackbar.LENGTH_INDEFINITE);
                             View customSnackView = getLayoutInflater().inflate(R.layout.custom_snackbar_view, null);
                             snackbar.getView().setBackgroundColor(Color.TRANSPARENT);
-                            // now change the layout of the snackbar
+                        // now change the layout of the snackbar
                             Snackbar.SnackbarLayout snackbarLayout = (Snackbar.SnackbarLayout) snackbar.getView();
                             snackbarLayout.setPadding(0, 0, 0, 0);
                             TextView textView2 = customSnackView.findViewById(R.id.textView2);
