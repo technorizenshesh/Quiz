@@ -39,9 +39,7 @@ public class SimpleDrawView extends View implements OnTouchListener {
         super(context, attributeSet);
         setFocusable(true);
         setFocusableInTouchMode(true);
-
         this.setOnTouchListener(this);
-
         paint = new Paint(Paint.ANTI_ALIAS_FLAG);
         paint.setStyle(Paint.Style.STROKE);
         paint.setStrokeWidth(STROKE_WIDTH);
