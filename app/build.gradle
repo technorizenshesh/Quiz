@@ -14,7 +14,6 @@ android {
         versionName "1.10.05"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
-
     }
     buildFeatures {
         dataBinding true

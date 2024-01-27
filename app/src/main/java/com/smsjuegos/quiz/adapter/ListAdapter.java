@@ -225,14 +225,7 @@ import com.smsjuegos.quiz.model.SuccessResGetMyEvents;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Ravindra Birla on 05,August,2021
- */
-
 public class ListAdapter extends RecyclerView.Adapter<ListAdapter.SelectTimeViewHolder> {
-
-    ArrayAdapter ad;
-    private List<String> dates;
     private final Context context;
     private final ArrayList<SuccessResGetMyEvents.Result> eventList;
 
@@ -246,8 +239,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.SelectTimeView
     public SelectTimeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         View listItem = layoutInflater.inflate(R.layout.list_item, parent, false);
-        SelectTimeViewHolder viewHolder = new SelectTimeViewHolder(listItem);
-        return viewHolder;
+        return new SelectTimeViewHolder(listItem);
     }
 
     @Override
@@ -306,7 +298,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.SelectTimeView
         return eventList.size();
     }
 
-    public class SelectTimeViewHolder extends RecyclerView.ViewHolder {
+    public static class SelectTimeViewHolder extends RecyclerView.ViewHolder {
         public SelectTimeViewHolder(@NonNull View itemView) {
             super(itemView);
         }

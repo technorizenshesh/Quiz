@@ -231,7 +231,6 @@ import java.util.ArrayList;
 
 public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.SelectTimeViewHolder> {
 
-    ArrayAdapter ad;
     private final ArrayList<SuccessResGetInventory.Result> stringArrayList;
     private final Context context;
 
@@ -266,48 +265,45 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.Sele
             holder.itemView.performClick();
         });
         // tvDescription.loadDataWithBaseURL("", stringArrayList.get(position).getInstructions(), mimeType, encoding, "");
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Rect displayRectangle = new Rect();
-                Window window = ((Activity) context).getWindow();
-                window.getDecorView().getWindowVisibleDisplayFrame(displayRectangle);
-                final AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.CustomAlertDialog);
-                ViewGroup viewGroup = ((Activity) context).findViewById(android.R.id.content);
-                View dialogView = LayoutInflater.from(v.getContext()).inflate(R.layout.inventory_details, viewGroup, false);
-                dialogView.setMinimumWidth((int) (displayRectangle.width()));
-                dialogView.setMinimumHeight((int) (displayRectangle.height()));
-                builder.setView(dialogView);
-                final AlertDialog alertDialog = builder.create();
-                ImageView image = dialogView.findViewById(R.id.image);
-                WebView tvInstruction = dialogView.findViewById(R.id.tvInstruction);
+        holder.itemView.setOnClickListener(v -> {
+            Rect displayRectangle = new Rect();
+            Window window = ((Activity) context).getWindow();
+            window.getDecorView().getWindowVisibleDisplayFrame(displayRectangle);
+            final AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.CustomAlertDialog);
+            ViewGroup viewGroup = ((Activity) context).findViewById(android.R.id.content);
+            View dialogView = LayoutInflater.from(v.getContext()).inflate(R.layout.inventory_details, viewGroup, false);
+            dialogView.setMinimumWidth((int) (displayRectangle.width()));
+            dialogView.setMinimumHeight((int) (displayRectangle.height()));
+            builder.setView(dialogView);
+            final AlertDialog alertDialog = builder.create();
+            ImageView image = dialogView.findViewById(R.id.image);
+            WebView tvInstruction = dialogView.findViewById(R.id.tvInstruction);
 
-                Glide.with(context)
-                        .load(stringArrayList.get(position).getFinalPuzzleImage())
-                        .centerCrop()
-                        .into(image);
-                final String mimeType = "text/html";
-                final String encoding = "UTF-8";
-                tvInstruction.setVerticalScrollBarEnabled(true);
-                if (stringArrayList.get(position).getHint_discovered().equalsIgnoreCase("")) {
-                    tvInstruction.loadDataWithBaseURL("", stringArrayList.get(position).getInstructions(), mimeType, encoding, "");
-                    tvInstruction.getSettings().setBuiltInZoomControls(true);
-                    tvInstruction.getSettings().setDisplayZoomControls(false);
-                } else {
-                    tvInstruction.loadDataWithBaseURL("", stringArrayList.get(position).getHint_discovered(), mimeType, encoding, "");
-                    tvInstruction.getSettings().setBuiltInZoomControls(true);
-                    tvInstruction.getSettings().setDisplayZoomControls(false);
+            Glide.with(context)
+                    .load(stringArrayList.get(position).getFinalPuzzleImage())
+                    .centerCrop()
+                    .into(image);
+            final String mimeType1 = "text/html";
+            final String encoding1 = "UTF-8";
+            tvInstruction.setVerticalScrollBarEnabled(true);
+            if (stringArrayList.get(position).getHint_discovered().equalsIgnoreCase("")) {
+                tvInstruction.loadDataWithBaseURL("", stringArrayList.get(position).getInstructions(), mimeType1, encoding1, "");
+                tvInstruction.getSettings().setBuiltInZoomControls(true);
+                tvInstruction.getSettings().setDisplayZoomControls(false);
+            } else {
+                tvInstruction.loadDataWithBaseURL("", stringArrayList.get(position).getHint_discovered(), mimeType1, encoding1, "");
+                tvInstruction.getSettings().setBuiltInZoomControls(true);
+                tvInstruction.getSettings().setDisplayZoomControls(false);
 
-                }
-                Button buttonOk = dialogView.findViewById(R.id.btnok);
-                buttonOk.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        alertDialog.dismiss();
-                    }
-                });
-                alertDialog.show();
             }
+            Button buttonOk = dialogView.findViewById(R.id.btnok);
+            buttonOk.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    alertDialog.dismiss();
+                }
+            });
+            alertDialog.show();
         });
         // tvDescription.setText(stringArrayList.get(position).getInstructions());
     }
@@ -317,7 +313,7 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.Sele
         return stringArrayList.size();
     }
 
-    public class SelectTimeViewHolder extends RecyclerView.ViewHolder {
+    public static class SelectTimeViewHolder extends RecyclerView.ViewHolder {
         public SelectTimeViewHolder(@NonNull View itemView) {
             super(itemView);
         }

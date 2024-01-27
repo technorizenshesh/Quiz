@@ -70,6 +70,7 @@ public interface QuizInterface {
     @FormUrlEncoded
     @POST("get_event_details")
     Call<SuccessResGetEventDetail> getEventDetails(@FieldMap Map<String, String> paramHashMap);
+
     @FormUrlEncoded
     @POST("get_level")
     Call<SuccessResGetLevel> get_level(@FieldMap Map<String, String> paramHashMap);
@@ -205,6 +206,7 @@ public interface QuizInterface {
     @FormUrlEncoded
     @POST("virus_event_end_time")
     Call<ResponseBody> addVirusEndTime(@FieldMap Map<String, String> paramHashMap);
+
     @FormUrlEncoded
     @POST("virus_event_end_time")
     Call<VirusEndRes> addVirusEndTime2(@FieldMap Map<String, String> paramHashMap);
@@ -239,8 +241,9 @@ public interface QuizInterface {
 
     @GET("get_city")
     Call<SuccessResCity> get_city();
- @FormUrlEncoded
- @POST("get_Accomplishments")
+
+    @FormUrlEncoded
+    @POST("get_Accomplishments")
     Call<SuccessResAcc> get_Accomplishments(@FieldMap Map<String, String> paramHashMap);
 
     @GET

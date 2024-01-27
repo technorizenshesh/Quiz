@@ -226,7 +226,6 @@ public class LevelAdapter extends RecyclerView.Adapter<LevelAdapter.SelectTimeVi
 
     private final Context context;
     private final LevelInterface finalPuzzelInterface;
-    ArrayAdapter ad;
     private ArrayList<SuccessResGetLevel.Result> peopleList;
     private List<String> dates;
 

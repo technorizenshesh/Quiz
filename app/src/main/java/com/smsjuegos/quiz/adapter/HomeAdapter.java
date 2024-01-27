@@ -57,8 +57,8 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.SelectTimeView
                 ShowAppLog("onBindViewHolder", eventsListList.get(position).getType(), 1);
                 ShowAppLog("onBindViewHolder", eventsListList.get(position).getId(), 1);
                 ShowAppLog("onBindViewHolder--------------", eventsListList.get(position).getCity_id(), 1);
-                if    (  eventsListList.get(position).getCity_id().trim().equalsIgnoreCase("3")
-                        |eventsListList.get(position).getCity_id().trim().equalsIgnoreCase("4")
+                if    ( /* eventsListList.get(position).getCity_id().trim().equalsIgnoreCase("3")
+                        |*/eventsListList.get(position).getCity_id().trim().equalsIgnoreCase("4")
                        | eventsListList.get(position).getCity_id().trim().equalsIgnoreCase("5")) {
                     Toast.makeText(context, "Coming Soon..", Toast.LENGTH_LONG).show();
                 } else if (fromHome.equalsIgnoreCase("home"))
