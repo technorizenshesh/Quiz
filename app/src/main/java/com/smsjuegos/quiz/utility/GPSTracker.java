@@ -22,8 +22,8 @@ import java.text.DecimalFormat;
  * Created by Ravindra Birla on 16,March,2021
  */
 public class GPSTracker extends Service implements LocationListener {
-    private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 10;
-    private static final long MIN_TIME_BW_UPDATES = 1000 * 10;
+    private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 5;
+    private static final long MIN_TIME_BW_UPDATES = 1000 * 6;
     private final Context mContext;
     protected LocationManager locationManager;
     boolean checkGPS = false;

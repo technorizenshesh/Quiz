@@ -119,7 +119,12 @@ public class MapAct extends AppCompatActivity implements OnMapReadyCallback, Goo
         Log.e("TAG", "onMarkerClick: "+instructionList.get(position).getGeolocation() );
         Log.e("TAG", "onMarkerClick: "+instructionList.get(position).getEventId() );
         Log.e("TAG", "onMarkerClick: "+eventId);
-        if (eventId.equalsIgnoreCase("5") || eventId.equalsIgnoreCase("8") || eventId.equalsIgnoreCase("1")) {
+        if (  eventId.equalsIgnoreCase("19")
+                || eventId.equalsIgnoreCase("18")
+                || eventId.equalsIgnoreCase("5")
+                || eventId.equalsIgnoreCase("8")
+                || eventId.equalsIgnoreCase("1")|| eventId.equalsIgnoreCase("28")) {
+
             handleEventWithLocation(position);
         } else {
             startQuestionAnswerActivity(position);
@@ -129,7 +134,8 @@ public class MapAct extends AppCompatActivity implements OnMapReadyCallback, Goo
 
     private void handleEventWithLocation(int position) {
         if (instructionList.get(position).getGeolocation().equalsIgnoreCase("on")) {
-            if (gpsTracker != null && gpsTracker.canGetLocation()) {
+            gpsTracker = new GPSTracker(MapAct.this);
+            if (gpsTracker.canGetLocation()) {
                 MyLatitude = gpsTracker.getLatitude();
                 MyLongitude = gpsTracker.getLongitude();
             } else {
@@ -141,7 +147,7 @@ public class MapAct extends AppCompatActivity implements OnMapReadyCallback, Goo
                     Double.parseDouble(instructionList.get(position).getLon()),
                     MyLatitude, MyLongitude);
             Log.e("TAG", "onMarkerClick: distancedistancedistancedistance" + distance);
-            if (distance > 100) {
+            if (distance > 150) {
                 showSimpleCancelBtnDialog(MapAct.this, R.layout.dialog_distance, distance + "");
             } else {
                 Log.e("TAG", "onMarkerClick: " + instructionList.get(position));

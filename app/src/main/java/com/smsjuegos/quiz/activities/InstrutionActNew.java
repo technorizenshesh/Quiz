@@ -128,7 +128,8 @@ public class InstrutionActNew extends AppCompatActivity implements OnMapReadyCal
         binding.tvFinalPuzzel.setOnClickListener(v -> {
 
             Log.e(TAG, "showMainMenu: " + eventId);
-            if (eventId.equals("8") | eventId.equals("15") | eventId.equals("18") | eventId.equals("19") | eventId.equals("34") | eventId.equals("28")) {
+            if (eventId.equals("8") | eventId.equals("15") | eventId.equals("18")
+                    | eventId.equals("19") | eventId.equals("34") | eventId.equals("28")) {
                 startActivity(new Intent(InstrutionActNew
                         .this, CardigoPuzzleFinalActivity.class).putExtra("eventId", eventId)
                         .putExtra("eventCode", eventCode));
@@ -155,8 +156,9 @@ public class InstrutionActNew extends AppCompatActivity implements OnMapReadyCal
         }
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(InstrutionActNew.this);
+        gpsTracker = new GPSTracker(InstrutionActNew.this);
 
-        if (gpsTracker != null && gpsTracker.canGetLocation()) {
+        if (gpsTracker.canGetLocation()) {
             MyLatitude = gpsTracker.getLatitude();
             MyLongitude = gpsTracker.getLongitude();
             MyAltitude = gpsTracker.getAltitude();
@@ -193,10 +195,11 @@ public class InstrutionActNew extends AppCompatActivity implements OnMapReadyCal
         Log.e(TAG, "onMarkerClick: " + instructionList.get(position).getGeolocation());
         Log.e(TAG, "onMarkerClick: " + instructionList.get(position).getEventId());
         Log.e(TAG, "onMarkerClick: " + eventId);
-        if (  eventId.equalsIgnoreCase("18")
+        if (  eventId.equalsIgnoreCase("19")
+                || eventId.equalsIgnoreCase("18")
                 || eventId.equalsIgnoreCase("5")
                 || eventId.equalsIgnoreCase("8")
-                || eventId.equalsIgnoreCase("1")) {
+                || eventId.equalsIgnoreCase("1")|| eventId.equalsIgnoreCase("28")) {
             handleEventWithLocation(position);
         } else {
             startQuestionAnswerActivity(position);
@@ -218,12 +221,13 @@ public class InstrutionActNew extends AppCompatActivity implements OnMapReadyCal
                     Double.parseDouble(instructionList.get(position).getLon()),
                     MyLatitude, MyLongitude);
             Log.e("TAG", "onMarkerClick: distancedistancedistancedistance" + distance);
-            if (distance > 100) {
+            Toast.makeText(getApplicationContext(),""+distance,Toast.LENGTH_SHORT).show();
+          /*  if (distance >= 150) {
                 showSimpleCancelBtnDialog(InstrutionActNew.this, R.layout.dialog_distance, distance + "");
             } else {
                 Log.e("TAG", "onMarkerClick: " + instructionList.get(position));
                 startQuestionAnswerActivity(position);
-            }
+            }*/
         } else {
             startQuestionAnswerActivity(position);
         }

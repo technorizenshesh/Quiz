@@ -3,7 +3,6 @@
     <string name="api_key">AIzaSyBduv61ywGy3e9mU6NJ_a7GHCf5oSbxT2w</string>
     <string name="already_have_an_account_sign_in_now">Already have an account? <u><font color='#090F47'>Sign In Now</font></u></string>
     <string name="dont_have_an_account_sign_in_now">Don’t have an account? <u><font color='#090F47'>Sign Up Now</font></u></string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="log_out">LOG OUT</string>
     <string name="save_details">SAVE DETAILS</string>
