@@ -222,12 +222,12 @@ public class InstrutionActNew extends AppCompatActivity implements OnMapReadyCal
                     MyLatitude, MyLongitude);
             Log.e("TAG", "onMarkerClick: distancedistancedistancedistance" + distance);
             Toast.makeText(getApplicationContext(),""+distance,Toast.LENGTH_SHORT).show();
-          /*  if (distance >= 150) {
+           if (distance >= 150) {
                 showSimpleCancelBtnDialog(InstrutionActNew.this, R.layout.dialog_distance, distance + "");
             } else {
-                Log.e("TAG", "onMarkerClick: " + instructionList.get(position));
-                startQuestionAnswerActivity(position);
-            }*/
+               Log.e("TAG", "onMarkerClick: " + instructionList.get(position));
+               startQuestionAnswerActivity(position);
+           }
         } else {
             startQuestionAnswerActivity(position);
         }
