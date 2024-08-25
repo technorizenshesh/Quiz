@@ -68,7 +68,9 @@ public class MissionCompletedAct extends AppCompatActivity {
                 .load(result.getAfter_finish_image())
                 .fitCenter()
                 .into(binding.ivGame);
+/*
 binding.tvInstruction.setText(""+result.getAfter_finish_text());
+*/
         binding.btnEndOfGame.setOnClickListener(v ->
                 {
                     eventCompleted();

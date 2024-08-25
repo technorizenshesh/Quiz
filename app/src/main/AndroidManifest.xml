@@ -28,6 +28,24 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Quiz"
         android:usesCleartextTraffic="true">
+
+
+
+        <activity
+            android:name=".activities.CompleteGameListAct"
+            android:exported="false" />
+
+
+        <activity
+            android:name=".activities.ShowResultAct"
+            android:exported="false" />
+
+        <activity
+            android:name=".activities.puzzle.SamplePuzzleActivity"
+            android:exported="false" />
+
+
+
         <activity
             android:name=".activities.game2.ZombieQuestionAct"
             android:exported="false" />

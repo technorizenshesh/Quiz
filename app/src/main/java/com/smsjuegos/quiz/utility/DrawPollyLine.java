@@ -49,7 +49,7 @@ public class DrawPollyLine {
         return this;
     }
 
-    public String getPolyLineUrl(Context context, LatLng origin, LatLng dest) {
+    public static String getPolyLineUrl(Context context, LatLng origin, LatLng dest) {
         String str_origin = "origin=" + origin.latitude + "," + origin.longitude;
         String str_dest = "destination=" + dest.latitude + "," + dest.longitude;
         String sensor = "sensor=false";

@@ -27,8 +27,23 @@ public class SuccessResGetInventory implements Serializable {
     @Expose
     private String after_finish_image;
 
+    @SerializedName("final_puzzle_image")
+    @Expose
+    private String final_puzzle_image;
+
+
+
+
     public String getAfter_finish_text() {
         return after_finish_text;
+    }
+
+    public String getFinal_puzzle_image() {
+        return final_puzzle_image;
+    }
+
+    public void setFinal_puzzle_image(String final_puzzle_image) {
+        this.final_puzzle_image = final_puzzle_image;
     }
 
     public void setAfter_finish_text(String after_finish_text) {

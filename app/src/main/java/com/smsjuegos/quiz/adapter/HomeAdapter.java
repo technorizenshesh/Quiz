@@ -69,12 +69,23 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.SelectTimeView
                         bundle.putString("id", eventsListList.get(position).getId());
                         Navigation.findNavController(v).navigate(R.id.action_navigation_profile_to_navigation_list
                                 , bundle);
-                    } else if (eventsListList.get(position).getType().equalsIgnoreCase("Virus")) {
+                    }
+                    else if (eventsListList.get(position).getType().equalsIgnoreCase("Virus")) {
 
                         context.startActivity(new Intent(context, HomeScreenGame2Act.class)
                                 .putExtra("instructionID", eventsListList.get(position)));
 
-                    } else if (eventsListList.get(position).getType().equalsIgnoreCase("cabana")) {
+                    }
+
+                    else if (eventsListList.get(position).getType().equalsIgnoreCase("riddle")) {
+
+                        context.startActivity(new Intent(context, HomeScreenGame2Act.class)
+                                .putExtra("instructionID", eventsListList.get(position)));
+
+                    }
+
+
+                    else if (eventsListList.get(position).getType().equalsIgnoreCase("cabana")) {
 
                         context.startActivity(new Intent(context, HomeScreenGame2Act.class)
                                 .putExtra("instructionID", eventsListList.get(position)));

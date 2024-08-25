@@ -13,11 +13,13 @@
             layout="@layout/header_layout" />
 
         <androidx.core.widget.NestedScrollView
+            android:id="@+id/mainScroll"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fillViewport="true"
             android:layout_above="@id/btnFinsh"
             android:layout_below="@id/header"
+            android:visibility="gone"
             >
             <LinearLayout
                 android:layout_width="match_parent"
@@ -84,6 +86,9 @@
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
 
+
+
+
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnFinsh"
             android:layout_width="match_parent"
@@ -96,7 +101,141 @@
             android:layout_marginHorizontal="@dimen/_15sdp"
             android:layout_alignParentBottom="true"
             android:fontFamily="@font/poppins_medium"
-            android:background="@drawable/bt_bg"/>
+            android:background="@drawable/bt_bg"
+            android:visibility="gone"/>
+
+
+
+
+        <RelativeLayout
+            android:id="@+id/llOther"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/header">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_above="@+id/llBottom"
+                android:orientation="vertical"
+                android:weightSum="2">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:orientation="horizontal"
+                    android:layout_weight="1"
+                    android:weightSum="2"
+                    >
+
+                    <ImageView
+                        android:id="@+id/img1"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:scaleType="fitXY"/>
+
+                    <ImageView
+                        android:id="@+id/img2"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:scaleType="fitXY"/>
+
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:orientation="horizontal"
+                    android:layout_weight="1"
+                    android:weightSum="2">
+                    <ImageView
+                        android:id="@+id/img3"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:scaleType="fitXY"/>
+
+                    <ImageView
+                        android:id="@+id/img4"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:scaleType="fitXY"/>
+
+
+
+                </LinearLayout>
+
+
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/llBottom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_alignParentBottom="true"
+                android:padding="@dimen/_10sdp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/answer"
+                    android:textSize="@dimen/_12sdp"
+                    android:textColor="@color/purple_700"
+                    android:fontFamily="@font/montserrat_semibold"
+                    />
+
+
+                <RelativeLayout
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal">
+
+                    <EditText
+                        android:id="@+id/etAnswer"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_40sdp"
+                        android:layout_marginRight="@dimen/_10sdp"
+                        android:background="@drawable/et_bg"
+                        android:hint="@string/enter_answer"
+                        android:layout_toLeftOf="@+id/btnSubmit"
+                        android:paddingLeft="@dimen/_10sdp"
+                        android:textStyle="bold" />
+
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btnSubmit"
+                        android:layout_marginTop="@dimen/_3sdp"
+                        android:layout_width="@dimen/_80sdp"
+                        android:layout_height="@dimen/_35sdp"
+                        android:textColor="@color/white"
+                        android:text="@string/submit"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerInParent="true"
+                        android:textSize="@dimen/_13sdp"
+                        android:fontFamily="@font/poppins_medium"
+                        android:background="@drawable/green_rounded_bg"/>
+
+
+
+                </RelativeLayout>
+
+
+
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
 
     </RelativeLayout>
 </layout>

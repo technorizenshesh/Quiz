@@ -8,9 +8,11 @@ import static com.smsjuegos.quiz.utility.DataManager.showSimpleCancelBtnDialog;
 import android.Manifest;
 import android.animation.ValueAnimator;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -36,6 +38,8 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.Circle;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
@@ -48,19 +52,30 @@ import com.google.gson.Gson;
 import com.smsjuegos.quiz.R;
 import com.smsjuegos.quiz.activities.cardigo.CardigoPuzzleFinalActivity;
 import com.smsjuegos.quiz.activities.game4.QuestionAnswerAct;
+import com.smsjuegos.quiz.activities.puzzle.SamplePuzzleActivity;
 import com.smsjuegos.quiz.databinding.ActivityInstrutionNewBinding;
 import com.smsjuegos.quiz.model.SuccessResGetInstruction;
 import com.smsjuegos.quiz.retrofit.ApiClient;
+import com.smsjuegos.quiz.retrofit.ApiClient2;
+import com.smsjuegos.quiz.retrofit.ApiClient3;
 import com.smsjuegos.quiz.retrofit.Constant;
 import com.smsjuegos.quiz.retrofit.QuizInterface;
+import com.smsjuegos.quiz.utility.DataManager;
+import com.smsjuegos.quiz.utility.DataParser;
+import com.smsjuegos.quiz.utility.DataParser2;
 import com.smsjuegos.quiz.utility.DrawPollyLine;
 import com.smsjuegos.quiz.utility.GPSTracker;
+import com.smsjuegos.quiz.utility.LocationUtil;
 import com.smsjuegos.quiz.utility.SharedPreferenceUtility;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -69,7 +84,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class InstrutionActNew extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
+public class InstrutionActNew extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener, LocationUtil.LocationListener {
     private final ArrayList<SuccessResGetInstruction.Result> instructionList = new ArrayList<>();
     String TAG = "InstrutionActNew";
     ActivityInstrutionNewBinding binding;
@@ -78,14 +93,17 @@ public class InstrutionActNew extends AppCompatActivity implements OnMapReadyCal
     GPSTracker gpsTracker;
     private Dialog mDialog;
     private QuizInterface apiInterface;
-    private String eventId, eventCode, strtlat = "", strtlang = "", endlat = "", endlang = "";
+    private String eventId, eventCode, strtlat = "", strtlang = "", endlat = "", endlang = "", getDis = "";
     private GoogleMap mMap;
+    Circle circle;
     private Handler handler;
     private Runnable runnable;
     private Long result;
     private Snackbar snackbar;
     private double MyLatitude = 0, MyLongitude = 0, MyAltitude = 0;
-
+    LocationUtil mLocationUtil;
+    LatLng location;
+    String updateTime ="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -158,10 +176,13 @@ public class InstrutionActNew extends AppCompatActivity implements OnMapReadyCal
         mapFragment.getMapAsync(InstrutionActNew.this);
         gpsTracker = new GPSTracker(InstrutionActNew.this);
 
+        mLocationUtil = new LocationUtil(InstrutionActNew.this);
+
         if (gpsTracker.canGetLocation()) {
-            MyLatitude = gpsTracker.getLatitude();
-            MyLongitude = gpsTracker.getLongitude();
-            MyAltitude = gpsTracker.getAltitude();
+            //   MyLatitude = gpsTracker.getLatitude();
+            //   MyLongitude = gpsTracker.getLongitude();
+            //    MyAltitude = gpsTracker.getAltitude();
+
         } else {
             Toast.makeText(getApplicationContext(), "Gps Off", Toast.LENGTH_SHORT).show();
 
@@ -173,45 +194,77 @@ public class InstrutionActNew extends AppCompatActivity implements OnMapReadyCal
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
         mMap = googleMap;
-        mMap.setOnMarkerClickListener(InstrutionActNew.this);
-        mMap.clear();
-        getInstruction();
+        mLocationUtil.fetchApproximateLocation(this);
+        mLocationUtil.fetchPreciseLocation(this);
 
-        if (ActivityCompat.checkSelfPermission(InstrutionActNew.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(InstrutionActNew.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return;
-        }
-        googleMap.setMyLocationEnabled(true);
+        // mMap.setMyLocationEnabled(true);
+        // googleMap.setLocationSource();
 
 
     }
 
     @Override
     public boolean onMarkerClick(@NonNull Marker marker) {
-        int position = (int) (marker.getTag());
-        SharedPreferenceUtility.getInstance(getApplicationContext()).putString("NevId", "");
-        if (snackbar != null) {
-            snackbar.dismiss();
-        }
-        Log.e(TAG, "onMarkerClick: " + instructionList.get(position).getGeolocation());
-        Log.e(TAG, "onMarkerClick: " + instructionList.get(position).getEventId());
-        Log.e(TAG, "onMarkerClick: " + eventId);
-        if (  eventId.equalsIgnoreCase("19")
-                || eventId.equalsIgnoreCase("18")
-                || eventId.equalsIgnoreCase("5")
-                || eventId.equalsIgnoreCase("8")
-                || eventId.equalsIgnoreCase("1")|| eventId.equalsIgnoreCase("28")) {
-            handleEventWithLocation(position);
+        if (marker.getTitle().equalsIgnoreCase("My Location")) {
+
         } else {
-            startQuestionAnswerActivity(position);
+            int position = (int) (marker.getTag());
+            SharedPreferenceUtility.getInstance(getApplicationContext()).putString("NevId", "");
+            if (snackbar != null) {
+                snackbar.dismiss();
+            }
+            Log.e(TAG, "onMarkerClick: " + instructionList.get(position).getGeolocation());
+            Log.e(TAG, "onMarkerClick: " + instructionList.get(position).getEventId());
+            Log.e(TAG, "onMarkerClick: " + eventId);
+            if (eventId.equalsIgnoreCase("19")  // Rescate Gaudalajara
+                    || eventId.equalsIgnoreCase("18")
+                    || eventId.equalsIgnoreCase("28")
+
+                    || eventId.equalsIgnoreCase("1")
+
+
+                    || eventId.equalsIgnoreCase("5") // crime
+                    || eventId.equalsIgnoreCase("20") // crime
+
+                    || eventId.equalsIgnoreCase("15") // zoombi (Mexico,Gudaljar)
+
+
+                    || eventId.equalsIgnoreCase("8")   //Codigo (Mexico)
+
+                    || eventId.equalsIgnoreCase("4")  // virus
+                    || eventId.equalsIgnoreCase("7")  // Amenaza Nuclear
+                    || eventId.equalsIgnoreCase("17") // lajoya
+                    || eventId.equalsIgnoreCase("39") //
+
+                    || eventId.equalsIgnoreCase("24") // mission magica
+                    || eventId.equalsIgnoreCase("22") // mission magica Gaudalajara
+                    || eventId.equalsIgnoreCase("31") // mission magica Monterrey
+                    || eventId.equalsIgnoreCase("32") // mission magica Monterrey
+
+
+                    || eventId.equalsIgnoreCase("40") // riddle (Mexico)
+
+            ) {
+                handleEventWithLocation(position);
+            } else {
+                startQuestionAnswerActivity(position);
+
+            }
+
         }
         return false;
     }
 
     private void handleEventWithLocation(int position) {
         if (instructionList.get(position).getGeolocation().equalsIgnoreCase("on")) {
-            if (gpsTracker != null && gpsTracker.canGetLocation()) {
-                MyLatitude = gpsTracker.getLatitude();
-                MyLongitude = gpsTracker.getLongitude();
+            //  if (gpsTracker != null && gpsTracker.canGetLocation()) {
+            //      MyLatitude = gpsTracker.getLatitude();
+            //       MyLongitude = gpsTracker.getLongitude();
+            //    }
+
+            if (location != null) {
+                MyLatitude = location.latitude;
+                MyLongitude = location.longitude;
             } else {
                 Toast.makeText(getApplicationContext(), "Gps Off", Toast.LENGTH_SHORT).show();
                 return;
@@ -220,18 +273,58 @@ public class InstrutionActNew extends AppCompatActivity implements OnMapReadyCal
                     Double.parseDouble(instructionList.get(position).getLat()),
                     Double.parseDouble(instructionList.get(position).getLon()),
                     MyLatitude, MyLongitude);
+
+
+/*
+            double distance =  Double.parseDouble(getDistanceBtTwoPoints(InstrutionActNew.this,
+                    new LatLng(Double.parseDouble(instructionList.get(position).getLat().trim()),
+                    Double.parseDouble(instructionList.get(position).getLon().trim())),
+                    new LatLng(MyLatitude,MyLongitude)));
+*/
+
+            //       LatLng latLngs1 = new LatLng(Double.parseDouble(strtlat), Double.parseDouble(strtlang));
+
+            Log.e("location=====", MyLatitude + "," + MyLongitude + "");
+
             Log.e("TAG", "onMarkerClick: distancedistancedistancedistance" + distance);
-            Toast.makeText(getApplicationContext(),""+distance,Toast.LENGTH_SHORT).show();
-           if (distance >= 150) {
+            Toast.makeText(getApplicationContext(), "" + distance, Toast.LENGTH_SHORT).show();
+
+
+       /*     if (instructionList.get(position).JigsawPuzzleStatus.equalsIgnoreCase("enable")) {
+                startActivity(new Intent(InstrutionActNew.this, SamplePuzzleActivity.class)
+                        .putExtra("myData",instructionList.get(position))
+                        .putExtra("eventCode",eventCode));
+                String urlImg[] = instructionList.get(position).getJigsawPuzzleImage().split(".png");
+                for(int i =0;i<urlImg.length;i++){
+                    Log.e("split value====",i+"======="+urlImg[i]);
+                }
+
+            } else startQuestionAnswerActivity(position);*/
+
+
+            if (distance > 100) {  //  if (distance >= 150)         {
                 showSimpleCancelBtnDialog(InstrutionActNew.this, R.layout.dialog_distance, distance + "");
             } else {
-               Log.e("TAG", "onMarkerClick: " + instructionList.get(position));
-               startQuestionAnswerActivity(position);
-           }
+                Log.e("TAG", "onMarkerClick: " + instructionList.get(position));
+                if (instructionList.get(position).JigsawPuzzleStatus.equalsIgnoreCase("enable")) {
+                    startActivity(new Intent(InstrutionActNew.this, SamplePuzzleActivity.class)
+                            .putExtra("myData",instructionList.get(position))
+                            .putExtra("eventCode",eventCode));
+                    String urlImg[] = instructionList.get(position).getJigsawPuzzleImage().split(".png");
+                      for(int i =0;i<urlImg.length;i++){
+                          Log.e("split value====",i+"======="+urlImg[i]);
+                      }
+
+                } else startQuestionAnswerActivity(position);
+            }
+
         } else {
             startQuestionAnswerActivity(position);
+
+
         }
     }
+
 
     private void startQuestionAnswerActivity(int position) {
         Intent intent = new Intent(InstrutionActNew.this, QuestionAnswerAct.class)
@@ -278,55 +371,134 @@ public class InstrutionActNew extends AppCompatActivity implements OnMapReadyCal
 
     }
 
+
+    private void PlayPauseTimer(String status,String time) {
+        handler = new Handler();
+        String userId = SharedPreferenceUtility.getInstance(this).getString(USER_ID);
+        Map<String, String> map = new HashMap<>();
+        map.put("event_id", eventId);
+        map.put("event_code", eventCode);
+        map.put("user_id", userId);
+      //  String level = SharedPreferenceUtility.getInstance(this).getString(GAME_LAVEL);
+      //  map.put("level", level);
+        map.put("event_status", status);
+        map.put("time", time);
+
+
+        Call<ResponseBody> call = apiInterface.get_event_time(map);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
+                try {
+                    JSONObject jsonObject = new JSONObject(response.body().string());
+                    String data = jsonObject.getString("status");
+                    String message = jsonObject.getString("message");
+                    result = jsonObject.getLong("result");
+                    result = result;
+                    if (result == null & result <= 0) {
+                    } else {
+                        startTimer();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                call.cancel();
+            }
+        });
+
+    }
+
+
+
     private void getInstruction() {
         if (instructionList != null) {
             instructionList.clear();
         }
         ArrayList<SuccessResGetInstruction.Result> data = SharedPreferenceUtility.getInstance(getApplicationContext()).getSuccessResGetInstruction("SuccessResGetInstruction");
         instructionList.addAll(data);
-        Log.e(TAG, "getInstruction: " + instructionList.toString());
+
+
+        // For check my current location
+
+        Log.e(TAG, "getInstruction======size: " + instructionList.size());
+
+
+
+
+/*
+        for(int i =0;i<instructionList.size();i++){
+           // Long cordinate
+         //   instructionList.get(i).setLat("25.8802392");
+        //    instructionList.get(i).setLon("78.3143733");
+
+            // Shore Co ordinate under 100 m
+            instructionList.get(i).setLat("25.879474");
+            instructionList.get(i).setLon("78.313540");
+
+
+        }
+*/
+
+
+
         marker = new Marker[instructionList.size()];
         int i = 0;
         try {
             LatLng sydney = new LatLng(Double.parseDouble(instructionList.get(0).getLat()), Double.parseDouble(instructionList.get(0).getLon()));
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 15));
-            mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 16));
+            mMap.animateCamera(CameraUpdateFactory.zoomTo(16));
+
 
         } catch (Exception e) {
             Log.e(TAG, "moveCameramoveCamera: " + e.getLocalizedMessage());
             Log.e(TAG, "moveCameramoveCamera: " + e.getMessage());
         }
+
         for (SuccessResGetInstruction.Result result : instructionList) {
 
             if (result.getAnswer_status().equalsIgnoreCase("1")) {
-                if (result.getLat().equalsIgnoreCase(""))
-                    return;
-                else {
+                if (result.getLat().equalsIgnoreCase("")) {
+
+                } else {
                     try {
                         marker[i] = createMarker(i, Double.parseDouble(result.getLat()), Double.parseDouble(result.getLon()),
-                                "#" + i, "", R.drawable.flag_green);
+                                "#" + i, "", R.drawable.flag_green,result.getEventId(),result.getId());
+
+                        Log.e("Lat Lon Position === ", +i + "  " + result.getLat() + " , " + result.getLon());
                     } catch (NumberFormatException e) {
                         Log.e(TAG, "onMarkerClick: NumberFormatExceptionNumberFormatException" + result.getId());
                         marker[i] = createMarker(i, convertDMSToDecimal(result.getLat()), convertDMSToDecimal(result.getLon()),
-                                "#" + i, "", R.drawable.flag_green);
+                                "#" + i, "", R.drawable.flag_green,result.getEventId(),result.getId());
+
+
 
                         continue;
                     }
                 }
             } else {
 
-                if (result.getLat().equalsIgnoreCase("")) return;
-                else {
+                if (result.getLat().equalsIgnoreCase("")) {
+
+                } else {
                     try {
                         marker[i] = createMarker(i, Double.parseDouble(result.getLat()),
                                 Double.parseDouble(result.getLon()),
-                                "#" + i, "", R.drawable.flag_red);
+                                "#" + i, "", R.drawable.flag_red,result.getEventId(),result.getId());
+
+                        Log.e("Lat Lon Position === ", +i + "  " + result.getLat() + " , " + result.getLon());
+
 
                     } catch (NumberFormatException e) {
                         Log.e(TAG, "onMarkerClick: NumberFormatExceptionNumberFormatException" + result.getId());
                         marker[i] = createMarker(i, convertDMSToDecimal(result.getLat()),
                                 convertDMSToDecimal(result.getLon()),
-                                "#" + i, "", R.drawable.flag_red);
+                              "#" + i, "", R.drawable.flag_red,result.getEventId(),result.getId());
+
+
 
                         continue;
                     }
@@ -404,7 +576,7 @@ public class InstrutionActNew extends AppCompatActivity implements OnMapReadyCal
                                     , "", Snackbar.LENGTH_INDEFINITE);
                             View customSnackView = getLayoutInflater().inflate(R.layout.custom_snackbar_view, null);
                             snackbar.getView().setBackgroundColor(Color.TRANSPARENT);
-                        // now change the layout of the snackbar
+                            // now change the layout of the snackbar
                             Snackbar.SnackbarLayout snackbarLayout = (Snackbar.SnackbarLayout) snackbar.getView();
                             snackbarLayout.setPadding(0, 0, 0, 0);
                             TextView textView2 = customSnackView.findViewById(R.id.textView2);
@@ -504,10 +676,20 @@ public class InstrutionActNew extends AppCompatActivity implements OnMapReadyCal
     }
 
 
-    protected Marker createMarker(int position, double latitude, double longitude, String title, String snippet, int iconResID) {
+    protected Marker createMarker(int position, double latitude, double longitude, String title, String snippet, int iconResID,String eventId,String id) {
         BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(iconResID);
-        myMarker = mMap.addMarker(new MarkerOptions().position(new LatLng(latitude, longitude)).anchor(0.5f, 0.5f).title(title).icon(icon).snippet(snippet));
+        myMarker = mMap.addMarker(new MarkerOptions().position(new LatLng(latitude, longitude)).anchor(0.5f, 0.5f).title(id).icon(icon).snippet(snippet));
         myMarker.setTag(position);
+
+        if(eventId.equalsIgnoreCase("15")) {
+            // Set custom InfoWindowAdapter
+          //  mMap.setInfoWindowAdapter(new CustomInfoWindowAdapter(id));
+            // Show info window immediately
+            if (myMarker != null) {
+                myMarker.showInfoWindow();
+            }
+        }
+
         return myMarker;
     }
 
@@ -545,6 +727,7 @@ public class InstrutionActNew extends AppCompatActivity implements OnMapReadyCal
         Log.e(TAG, "updateTimer: hours   ---  " + hours);
 
         String time = String.format("%02d:%02d:%02d", hours, minutes, seconds);
+        updateTime = time;
         binding.tvHeader.setText(time);
         result = result + 1000;
     }
@@ -561,4 +744,112 @@ public class InstrutionActNew extends AppCompatActivity implements OnMapReadyCal
         // Stop the timer and remove the handler callbacks
         handler.removeCallbacks(runnable);
     }
+
+    public String getDistanceBtTwoPoints(Context context, LatLng origin, LatLng destination) {
+
+        String URL = DrawPollyLine.getPolyLineUrl(context, origin, destination);
+        QuizInterface quizInterface = ApiClient2.getClient().create(QuizInterface.class);
+        quizInterface.getURL(URL).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                try {
+                    JSONObject object = new JSONObject(response.body().string());
+                    Log.e("Check response=====", object.toString());
+                    DataParser2 parser = new DataParser2();
+                    getDis = parser.parse2(object);
+                    Log.e("Distance===", getDis);
+
+                } catch (JSONException | IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+            }
+        });
+
+        return getDis;
+    }
+
+    @Override
+    public void onLocationReceived(@NonNull LatLng location) {
+        if (location != null) {
+            this.location = location;
+            mMap.setOnMarkerClickListener(InstrutionActNew.this);
+            mMap.clear();
+            getInstruction();
+            MyLatitude = location.latitude;
+            MyLongitude = location.longitude;
+            MyAltitude = gpsTracker.getAltitude();
+
+            Log.e("Try new location====", MyLatitude + "," + MyLongitude + "");
+
+            if (ActivityCompat.checkSelfPermission(InstrutionActNew.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(InstrutionActNew.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                return;
+            }
+
+            if (MyLatitude != 0) {
+                LatLngBounds bounds = mMap.getProjection().getVisibleRegion().latLngBounds;
+                bounds.contains(new LatLng(MyLatitude, MyLongitude));
+            }
+
+            mMap.addMarker(new MarkerOptions()
+                    .title("My Location")
+                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_loca_green))
+                    .position(new LatLng(MyLatitude, MyLongitude))
+                    .flat(true));
+
+
+            circle = mMap.addCircle(new CircleOptions()
+                    .center(new LatLng(MyLatitude, MyLongitude))
+                    .radius(100)
+                    .strokeWidth(0)
+                    .strokeColor(Color.parseColor("#2271cce7"))
+                    .fillColor(Color.parseColor("#2271cce7")));
+
+
+        }
+    }
+
+
+
+    private class CustomInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
+        private final View mWindow;
+        private String id;
+
+        CustomInfoWindowAdapter(String flagId) {
+            mWindow = getLayoutInflater().inflate(R.layout.layout_custom_info_window, null);
+            id = flagId;
+        }
+
+        @Override
+        public View getInfoWindow(Marker marker) {
+            render(marker, mWindow);
+            return mWindow;
+        }
+
+        @Override
+        public View getInfoContents(Marker marker) {
+            render(marker, mWindow);
+            return mWindow;
+        }
+
+        private void render(Marker marker, View view) {
+            TextView title = view.findViewById(R.id.title);
+           // TextView snippet = view.findViewById(R.id.snippet);
+
+         //   title.setText(marker.getTitle());
+         //   snippet.setText(marker.getSnippet());
+
+
+            title.setText(id);
+           // snippet.setText("1");
+        }
+    }
 }
+
+
+
+

@@ -22,7 +22,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:fontFamily="@font/poppins_medium"
-                android:text="Hello"
+                android:text="@string/completed_event"
                 android:textColor="@color/white"
                 android:textSize="@dimen/_12sdp" />
 
@@ -34,51 +34,7 @@
                 android:src="@drawable/ic_back" />
         </RelativeLayout>
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_20sdp"
-            android:layout_marginEnd="@dimen/_20sdp"
-            android:layout_marginTop="@dimen/_20sdp">
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btnUseCode"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/bt_bg"
-                android:fontFamily="@font/poppins_medium"
-                android:text="@string/use_a_code"
-                android:textColor="@color/yellow"
-                android:textSize="@dimen/_13sdp"
-                android:layout_toStartOf="@+id/ivCompleteEvent"/>
-
-
-            <ImageView
-                android:id="@+id/ivCompleteEvent"
-                android:layout_width="@dimen/_30sdp"
-                android:layout_height="@dimen/_40sdp"
-                android:layout_marginStart="@dimen/_20sdp"
-                android:src="@drawable/ic_completed_event"
-                android:layout_alignParentEnd="true"/>
-
-
-
-
-        </RelativeLayout>
-
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btngenerateCode"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_30sdp"
-            android:layout_marginEnd="@dimen/_30sdp"
-            android:background="@drawable/bt_bg"
-            android:fontFamily="@font/poppins_medium"
-            android:text="@string/completed_event"
-            android:textColor="@color/yellow"
-            android:textSize="@dimen/_13sdp"
-            android:visibility="gone" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -98,9 +54,11 @@
                 app:lottie_rawRes="@raw/no_data" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvListItems"
+                android:id="@+id/rvEventCompleteList"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/item_complete_game"/>
         </LinearLayout>
 
 

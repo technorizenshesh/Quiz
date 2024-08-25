@@ -22,8 +22,8 @@ import java.text.DecimalFormat;
  * Created by Ravindra Birla on 16,March,2021
  */
 public class GPSTracker extends Service implements LocationListener {
-    private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 5;
-    private static final long MIN_TIME_BW_UPDATES = 1000 * 6;
+    private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 0;  // 5  meter
+    private static final long MIN_TIME_BW_UPDATES = 1000 ; // 1000 * 60 * 1
     private final Context mContext;
     protected LocationManager locationManager;
     boolean checkGPS = false;
@@ -66,8 +66,11 @@ public class GPSTracker extends Service implements LocationListener {
                     if (locationManager != null) {
                         location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
                         if (location != null) {
-                            latitude = location.getLatitude();
-                            longitude = location.getLongitude();
+                            Log.e("location Manager accuracy====",location.getAccuracy()+"");
+                           // if(location.getAccuracy()<=100) {
+                                latitude = location.getLatitude();
+                                longitude = location.getLongitude();
+                          //  }
                         }
                     }
                 }
@@ -81,8 +84,11 @@ public class GPSTracker extends Service implements LocationListener {
                         if (locationManager != null) {
                             location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
                             if (location != null) {
-                                latitude = location.getLatitude();
-                                longitude = location.getLongitude();
+                                Log.e("location GpS accuracy====",location.getAccuracy()+"");
+                            //    if(location.getAccuracy()<=100) {
+                                    latitude = location.getLatitude();
+                                    longitude = location.getLongitude();
+                            //    }
                             }
                         }
                     }
@@ -94,22 +100,22 @@ public class GPSTracker extends Service implements LocationListener {
     }
 
     public double getLongitude() {
-        if (loc != null) {
-            longitude = loc.getLongitude();
+        if (location != null) {
+            longitude = location.getLongitude();
         }
         return longitude;
     }
   public double getAltitude() {
-        if (loc != null) {
-            altitude = loc.getAltitude();
+        if (location != null) {
+            altitude = location.getAltitude();
             Log.e("TAG", "getAltitude: "+altitude );
         }
         return altitude;
     }
 
     public double getLatitude() {
-        if (loc != null) {
-            latitude = loc.getLatitude();
+        if (location != null) {
+            latitude = location.getLatitude();
         }
         return latitude;
     }
@@ -138,6 +144,14 @@ public class GPSTracker extends Service implements LocationListener {
 
     @Override
     public void onLocationChanged(@NonNull Location location) {
+        if (location != null) {
+            this.location = location;
+            Log.e("Change location List accuracy====",location.getAccuracy()+"");
+           // if(location.getAccuracy()<=100) {
+                latitude = location.getLatitude();
+                longitude = location.getLongitude();
+         //  }
+        }
 
     }
 
@@ -221,4 +235,23 @@ public class GPSTracker extends Service implements LocationListener {
     public static  double rad2deg(double rad) {
         return (rad * 180.0 / Math.PI);
     }
+
+
+
+    public static double distanceBetween(double lat1, double lon1, double lat2, double lon2) {
+        double theta = lon1 - lon2;
+        double dist = Math.sin(deg2rad(lat1))
+                * Math.sin(deg2rad(lat2))
+                + Math.cos(deg2rad(lat1))
+                * Math.cos(deg2rad(lat2))
+                * Math.cos(deg2rad(theta));
+        dist = Math.acos(dist);
+        dist = dist * 180.0 / Math.PI;
+        dist = dist * 60 * 1.1515*1000;
+        return (dist);
+    }
+
+
+
+
 }

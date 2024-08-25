@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">Secret Mission Society</string>
-    <string name="api_key">AIzaSyBduv61ywGy3e9mU6NJ_a7GHCf5oSbxT2w</string>
+    <!--
+     AIzaSyBduv61ywGy3e9mU6NJ_a7GHCf5oSbxT2w
+-->
+    <string name="api_key">AIzaSyAZuYfqXrxTHGmtKCSo7n-7b1ARlY6nIGI</string>
     <string name="already_have_an_account_sign_in_now">Already have an account? <u><font color='#090F47'>Sign In Now</font></u></string>
     <string name="dont_have_an_account_sign_in_now">Don’t have an account? <u><font color='#090F47'>Sign Up Now</font></u></string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -204,10 +207,26 @@ Be careful! You are in an uncontrolled public place. Be careful when crossing th
     <string name="acomplishments">Accomplishments</string>
     <string name="minutes_to_reach_next_checkpoint_hurry_up">" Minutes To Reach Next CheckPoint Hurry up!"</string>
 
-<array name="city"
-    >
-    <item> CDMX / Metropolitan area </item>
-    <item> Guadalajara </item>
+    <array name="city">
+        <item>CDMX / Metropolitan area</item>
+        <item>Guadalajara</item>
 
-</array>
+    </array>
+
+    <string name="ok">Ok</string>
+
+    <string name="msg_request_location_message">Your current location is required to share it. By this we can show everyone else where you are.</string>
+    <string name="msg_never_ask_sharing">Your current location is required for sharing. Please navigate to application settings -> Permissions and grant location permission.</string>
+    <string name="msg_location_permission_title">Location Permission Required.</string>
+    <string name="txt_open_settings">Open Settings</string>
+
+
+
+    <string name="invalid_move">Invalid move</string>
+    <string name="winner">PUZZLE SOLVED!</string>
+    <string name="solve_puzzle">Solve Puzzle</string>
+    <string name="please_enter_answer">Please enter answer</string>
+    <string name="result">Event Result</string>
+
+
 </resources>

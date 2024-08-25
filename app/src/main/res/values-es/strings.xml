@@ -3,7 +3,11 @@
 
     <string name="app_name">Secret Mission Society</string>
 
-    <string name="api_key">AIzaSyBduv61ywGy3e9mU6NJ_a7GHCf5oSbxT2w</string>
+<!--
+     AIzaSyBduv61ywGy3e9mU6NJ_a7GHCf5oSbxT2w
+-->
+
+    <string name="api_key">AIzaSyAZuYfqXrxTHGmtKCSo7n-7b1ARlY6nIGI</string>
 
     -
     <string name="already_have_an_account_sign_in_now">
@@ -73,7 +77,11 @@ Ya tienes una cuenta?
 
     <string name="enter_description">Introduce la descripción</string>
 
+<!--
     <string name="submit">ENVIAR</string>
+-->
+    <string name="submit">RESPUESTA</string>
+
 
     <string name="login">¡ACCESO!</string>
 
@@ -225,7 +233,7 @@ Ya tienes una cuenta?
 
 </string>
 
-    <string name="give_up_message"> Si te rindes, se te dará la respuesta pero se te penalizará con 10 minutos en tu tiempo. </string>
+    <string name="give_up_message"> Si te das por vencido, se te dará la respuesta pero se te añadirán 5 minutos a tu tiempo. </string>
 
     <string name="test">¡Cuidadoso! \nAbra ambos tubos de ensayo con cuidado. \nVierta el antídoto en el tubo de ensayo de virus. \nNo te preocupes si te cae algo encima.\nEl virus ahora está desactivado y es inofensivo.\n¡MISIÓN COMPLETADA! \nEl mundo vuelve a estar seguro</string>
 
@@ -240,9 +248,9 @@ Ya tienes una cuenta?
 
     <string name="hello">Hola</string>
 
-     <string name="_5_places">lugares</string>
+    <string name="_5_places">lugares</string>
 
-     <string name="_5_people">personas</string>
+    <string name="_5_people">personas</string>
 
     <string name="_5_objects">objetos</string>
 
@@ -375,17 +383,31 @@ Ten cuidado!, estás en un lugar público no controlado.  Ten cuidado al cruzar 
     <string name="distance">Distancia :- </string>
     <string name="meters">  Metros</string>
 
-    <string name="its_look_like_your_are_not_on_puzzle_location_n_please_reach_the_point_location_before_begin_the_game"
-        >Parece que no estás en la ubicación del rompecabezas.\n Debes estar dentro del radio de 100 metros de la ubicación objetivo para comenzar el juego.</string>
+    <string name="its_look_like_your_are_not_on_puzzle_location_n_please_reach_the_point_location_before_begin_the_game">Parece que no estás en la ubicación del rompecabezas.\n Debes estar dentro del radio de 100 metros de la ubicación objetivo para comenzar el juego.</string>
     <string name="you_have_only">Solo tienes</string>
     <string name="minutes_to_reach_next_checkpoint_hurry_up"> Minutos para llegar al siguiente punto de control ¡Date prisa!</string>
     <string name="choose_your_city">Elige tu ciudad:</string>
     <string name="acomplishments">Logros</string>
 
-    <array name="city"
-        >
+    <array name="city">
         <item>CDMX / Metropolitan area</item>
         <item>Guadalajara</item>
 
     </array>
+
+    <string name="ok">Ok</string>
+
+    <string name="msg_request_location_message">Your current location is required to share it. By this we can show everyone else where you are.</string>
+    <string name="msg_never_ask_sharing">Your current location is required for sharing. Please navigate to application settings -> Permissions and grant location permission.</string>
+    <string name="msg_location_permission_title">Location Permission Required.</string>
+    <string name="txt_open_settings">Open Settings</string>
+
+
+    <string name="invalid_move">Invalid move</string>
+    <string name="winner">PUZZLE SOLVED!</string>
+    <string name="solve_puzzle">Solve Puzzle</string>
+
+    <string name="please_enter_answer">Please enter answer</string>
+
+
 </resources>

@@ -1,5 +1,15 @@
 plugins {
     id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+/*
+    id 'com.google.firebase.crashlytics'
+*/
+
+
+/*
+    id 'kotlin-android-extensions'
+*/
+
 }
 
 android {
@@ -10,8 +20,8 @@ android {
         applicationId "com.smsjuegos.quiz"
         minSdkVersion 23
         targetSdkVersion 33
-        versionCode 21
-        versionName "1.10.07"
+        versionCode 29   // 28
+        versionName "1.10.15" // 1.10.14
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
@@ -31,6 +41,11 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+
+
 }
 
 dependencies {
@@ -45,7 +60,9 @@ dependencies {
 
     // Add the dependency for the Firebase SDK for Google Analytics
     implementation 'com.google.firebase:firebase-analytics'
+    implementation 'com.google.firebase:firebase-crashlytics'
     implementation 'com.google.firebase:firebase-messaging:23.1.2'
+
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
@@ -90,6 +107,19 @@ dependencies {
     def lottieVersion = "3.4.0"
     implementation "com.airbnb.android:lottie:$lottieVersion"
 
+
+    implementation "androidx.core:core-ktx:1.9.0"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.8.20"
+
+  //  implementation("io.coil-kt:coil:2.6.0")
+
+
+    //  implementation 'com.github.developeramit3:ApiCall:8f4053a663'
+
 }
 //apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.firebase.crashlytics'
+
+
 //  release pass-- quiz@22

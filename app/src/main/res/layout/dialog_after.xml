@@ -38,17 +38,25 @@
             android:layout_height="match_parent"
             android:fillViewport="true"
             >
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
                 >
 
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_above="@+id/btnDownload"
+                >
                 <ImageView
                     android:layout_margin="@dimen/_10sdp"
                     android:id="@+id/image_intro"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
 
                     />
                 <WebView
@@ -63,8 +71,10 @@
                     android:layout_marginHorizontal="@dimen/_15sdp"
                     android:text="@string/desclemer"
                     android:textColor="@color/black"
+                    android:visibility="gone"
                     android:layout_margin="@dimen/_5sdp"
                     />
+            </LinearLayout>
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/btnDownload"
                     android:layout_width="match_parent"
@@ -76,10 +86,11 @@
                     android:visibility="visible"
                     android:layout_marginBottom="@dimen/_10sdp"
                     android:layout_marginHorizontal="@dimen/_15sdp"
+                    android:layout_alignParentBottom="true"
                     android:fontFamily="@font/poppins_medium"
                     android:background="@drawable/bt_bg"/>
 
-            </LinearLayout>
+            </RelativeLayout>
 
         </ScrollView>
 

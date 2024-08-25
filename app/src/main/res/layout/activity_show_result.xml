@@ -8,35 +8,30 @@
         tools:context=".fragments.EditProfileFragment">
 
         <RelativeLayout
+            android:id="@+id/rlParent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            >
-        <include layout="@layout/header_layout" android:id="@+id/header"/>
+            android:background="@color/appcolor"
+            android:padding="@dimen/_15sdp">
+
+            <TextView
+                android:id="@+id/tvHeader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:fontFamily="@font/poppins_medium"
+                android:text="@string/result"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_12sdp" />
 
             <ImageView
-                android:id="@+id/ivHome"
-                android:layout_width="@dimen/_22sdp"
-                android:layout_height="@dimen/_22sdp"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="@dimen/_15sdp"
+                android:id="@+id/imgHeader"
+                android:layout_width="@dimen/_20sdp"
+                android:layout_height="@dimen/_20sdp"
                 android:padding="@dimen/_2sdp"
-                android:src="@drawable/ic_home" />
-
+                android:src="@drawable/ic_back" />
         </RelativeLayout>
 
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tabLayoutEventDay"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_50sdp"
-            app:tabSelectedTextColor="@color/purple_700"
-            app:tabBackground="@drawable/tab_color_selector"
-            app:tabTextColor="@color/grey"
-            app:tabTextAppearance="@style/AppTabTextAppearance"
-            android:theme="@style/AppTabLayout"
-            app:tabIndicatorHeight="0dp"
-            android:elevation="@dimen/_15sdp"
-            />
         <LinearLayout
             android:id="@+id/llInfo"
             android:layout_width="match_parent"

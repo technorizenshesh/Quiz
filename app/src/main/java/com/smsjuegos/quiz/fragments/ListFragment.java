@@ -5,6 +5,7 @@ import static com.smsjuegos.quiz.retrofit.Constant.USER_ID;
 import static com.smsjuegos.quiz.retrofit.Constant.showToast;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -24,6 +25,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.google.gson.Gson;
 import com.smsjuegos.quiz.R;
+import com.smsjuegos.quiz.activities.CompleteGameListAct;
 import com.smsjuegos.quiz.adapter.ListAdapter;
 import com.smsjuegos.quiz.databinding.FragmentListBinding;
 import com.smsjuegos.quiz.model.SuccessResGetMyEvents;
@@ -71,6 +73,15 @@ public class ListFragment extends Fragment {
                     booking();
                 }
         );
+
+
+        binding.ivCompleteEvent.setOnClickListener(view1 ->
+                {
+                   startActivity(new Intent(requireActivity(), CompleteGameListAct.class));
+                }
+        );
+
+
 
         binding.rlParent.setVisibility(View.GONE);
         Bundle bundle = getArguments();

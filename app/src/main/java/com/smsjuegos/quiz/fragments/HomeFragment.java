@@ -9,6 +9,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -45,6 +46,8 @@ import com.smsjuegos.quiz.utility.GPSTracker;
 import com.smsjuegos.quiz.utility.SharedPreferenceUtility;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -86,6 +89,12 @@ public class HomeFragment extends Fragment {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home,
                 container, false);
         cityList = SharedPreferenceUtility.getInstance(requireActivity()).getSuccessResCity("SuccessResCity");
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            Collections.sort(cityList, Comparator.comparing(SuccessResCity.Result::getName));
+        }
+       // System.out.println("Ascending Order: " + numbers);
+
+
         apiInterface = ApiClient.getClient().create(QuizInterface.class);
         gpsTracker = new GPSTracker(requireActivity());
         homeAdapter = new HomeAdapter(getActivity(), eventsList, "home");
@@ -141,6 +150,10 @@ public class HomeFragment extends Fragment {
             SuccessResGetEvents datadd = SharedPreferenceUtility.getInstance(getActivity())
                     .getSuccessResGetEvents("SuccessResGetEvents");
             city_id = cityList.get(i1).getId();
+            Log.e("TAG", "onItemSelected: "  + t1 + "   " + city_id);
+
+
+
             eventsList.clear();
             for (SuccessResGetEvents.Result result : datadd.result) {
                 if (result.city_id.equalsIgnoreCase(city_id)) {

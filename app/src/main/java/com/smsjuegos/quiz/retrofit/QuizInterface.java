@@ -248,4 +248,14 @@ public interface QuizInterface {
 
     @GET
     Call<ResponseBody> getURL(@Url String s);
+
+
+    @GET
+    Call<ResponseBody> getImageData(@Url String url);
+
+
+    @FormUrlEncoded
+    @POST("get_finish_event_by_event")
+    Call<ResponseBody> getAllFinishEventResultApi(@FieldMap Map<String, String> paramHashMap);
+
 }

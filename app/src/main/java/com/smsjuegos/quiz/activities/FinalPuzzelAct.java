@@ -10,6 +10,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.webkit.WebChromeClient;
@@ -52,7 +53,7 @@ public class FinalPuzzelAct extends AppCompatActivity {
     ActivityFinalPuzzelBinding binding;
     final String encoding = "UTF-8";
     final String mimeType = "image/html";
-    private String eventId, eventCode,FinalHTML = "",FinalImage="";
+    private String eventId, eventCode, FinalHTML = "", FinalImage = "";
     private QuizInterface apiInterface;
     private final ArrayList<SuccessResGetInventory.Result> peopleList = new ArrayList<>();
     private final ArrayList<SuccessResGetInventory.Result> placesList = new ArrayList<>();
@@ -98,12 +99,13 @@ public class FinalPuzzelAct extends AppCompatActivity {
         });
 
         apiInterface = ApiClient.getClient().create(QuizInterface.class);
-       eventId = getIntent().getExtras().getString("eventId");
-       eventCode = getIntent().getExtras().getString("eventCode");
-       //  eventId=   "18";
-      //   eventCode=   "604423";
+        eventId = getIntent().getExtras().getString("eventId");
+        eventCode = getIntent().getExtras().getString("eventCode");
+        //  eventId=   "18";
+        //   eventCode=   "604423";
         binding.rvObjects.setLayoutManager(new GridLayoutManager(FinalPuzzelAct.this, 3));
         binding.rvObjects.setAdapter(objectAdapter);
+
         binding.rvPeople.setLayoutManager(new GridLayoutManager(FinalPuzzelAct.this, 3));
         binding.rvPeople.setAdapter(peopleAdapter);
 
@@ -114,10 +116,21 @@ public class FinalPuzzelAct extends AppCompatActivity {
         getPeople();
         //  getPlaces();
 
+
+        binding.btnSubmit.setOnClickListener(view -> {
+            if (binding.etAnswer.getText().toString().equalsIgnoreCase("")) {
+                showToast(FinalPuzzelAct.this, getString(R.string.please_enter_answer));
+            } else {
+                puzzelComplete();
+            }
+        });
+
+
         binding.btnFinsh.setOnClickListener(v ->
                 {
                     //showCongrats();
-                   // showCongrats();
+                    // showCongrats();
+
                     if (placeSelected == -1) {
                         showToast(FinalPuzzelAct.this, "" + getString(R.string.select_places_image));
                     } else if (peopleSelected == -1) {
@@ -125,14 +138,18 @@ public class FinalPuzzelAct extends AppCompatActivity {
                     } else if (objectSelected == -1) {
                         showToast(FinalPuzzelAct.this, "" + getString(R.string.select_object_image));
                     } else {
-                        if (placesList.get(placeSelected).getFinalPuzzleStatus().equalsIgnoreCase("Yes")) {
-                            if (peopleList.get(peopleSelected).getFinalPuzzleStatus().equalsIgnoreCase("Yes")) {
+                        if (placesList.get(placeSelected).getFinalPuzzleStatus()
+                                .equalsIgnoreCase("Yes")) {
+                            if (peopleList.get(peopleSelected).getFinalPuzzleStatus()
+                                    .equalsIgnoreCase("Yes")) {
                                 if (objectList.get(objectSelected).getFinalPuzzleStatus().equalsIgnoreCase("Yes")) {
                                     puzzelComplete();
                                 } else {
                                     showToast(FinalPuzzelAct.this, getString(R.string.wrong_image));
                                     addPanalties(5);
                                 }
+
+
                             } else {
                                 showToast(FinalPuzzelAct.this, getString(R.string.wrong_image));
                                 addPanalties(5);
@@ -144,6 +161,7 @@ public class FinalPuzzelAct extends AppCompatActivity {
                             addPanalties(5);
 
                         }
+
                     }
                 }
         );
@@ -208,20 +226,20 @@ public class FinalPuzzelAct extends AppCompatActivity {
                     Log.e("data", data.status);
                     final String mimeType = "text/html";
                     final String encoding = "UTF-8";
-                     binding.tvContent.setWebViewClient(new WebViewClient());
-                  //  binding.tvContent.getSettings().setLoadWithOverviewMode(true);
-                  //  binding.tvContent.getSettings().setUseWideViewPort(true);
+                    binding.tvContent.setWebViewClient(new WebViewClient());
+                    //  binding.tvContent.getSettings().setLoadWithOverviewMode(true);
+                    //  binding.tvContent.getSettings().setUseWideViewPort(true);
                     binding.tvContent.getSettings().setJavaScriptEnabled(true);
-                     binding.tvContent.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
-                     binding.tvContent.getSettings().setPluginState(WebSettings.PluginState.ON);
-                     binding.tvContent.getSettings().setMediaPlaybackRequiresUserGesture(false);
-                     binding.tvContent.setWebChromeClient(new WebChromeClient());
-                     binding.tvContent.loadDataWithBaseURL(null, data.getNotice(), "text/html", "UTF-8", null);
-                     binding.tvContent.getSettings().setBuiltInZoomControls(true);
-                     binding.tvContent.getSettings().setDisplayZoomControls(false);
+                    binding.tvContent.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+                    binding.tvContent.getSettings().setPluginState(WebSettings.PluginState.ON);
+                    binding.tvContent.getSettings().setMediaPlaybackRequiresUserGesture(false);
+                    binding.tvContent.setWebChromeClient(new WebChromeClient());
+                    binding.tvContent.loadDataWithBaseURL(null, data.getNotice(), "text/html", "UTF-8", null);
+                    binding.tvContent.getSettings().setBuiltInZoomControls(true);
+                    binding.tvContent.getSettings().setDisplayZoomControls(false);
                     if (data.status.equals("1")) {
                         FinalHTML = data.getAfter_finish_text();
-                        FinalImage = data.getAfter_finish_image();
+                        FinalImage = data.getFinal_puzzle_image();
                         peopleList.clear();
                         placesList.clear();
                         objectList.clear();
@@ -233,14 +251,61 @@ public class FinalPuzzelAct extends AppCompatActivity {
                         if (ArrayListss.size() >= 1) {
                             for (int i = 0; i < ArrayListss.size(); i++) {
                                 SuccessResGetInventory.Result res = ArrayListss.get(i);
-                                if (res.getType().equalsIgnoreCase("Places")) {
 
-                                    if (!res.getFinalPuzzleImage().equalsIgnoreCase("http://appsmsjuegos.com/Quiz/uploads/images/")) placesList.add(res);
-                                } else if (res.getType().equalsIgnoreCase("People")) {
-                                    if (!res.getFinalPuzzleImage().equalsIgnoreCase("http://appsmsjuegos.com/Quiz/uploads/images/")) peopleList.add(res);
-                                } else if (res.getType().equalsIgnoreCase("Objects")) {
-                                    if (!res.getFinalPuzzleImage().equalsIgnoreCase("http://appsmsjuegos.com/Quiz/uploads/images/"))  objectList.add(res);
+                                if (res.getEventId().equalsIgnoreCase("1")
+                                        || res.getEventId().equalsIgnoreCase("5")
+                                        || res.getEventId().equalsIgnoreCase("20")
+                                        || res.getEventId().equalsIgnoreCase("25")
+                                        || res.getEventId().equalsIgnoreCase("26")
+                                        || res.getEventId().equalsIgnoreCase("27")
+                                        || res.getEventId().equalsIgnoreCase("37")
+                                ) {
+                                    binding.mainScroll.setVisibility(View.VISIBLE);
+                                    binding.btnFinsh.setVisibility(View.VISIBLE);
+                                    binding.llOther.setVisibility(View.GONE);
+                                    if (res.getType().equalsIgnoreCase("Places")) {
+
+                                        if (!res.getFinalPuzzleImage().equalsIgnoreCase("http://appsmsjuegos.com/Quiz/uploads/images/"))
+                                            placesList.add(res);
+                                    } else if (res.getType().equalsIgnoreCase("People")) {
+                                        if (!res.getFinalPuzzleImage().equalsIgnoreCase("http://appsmsjuegos.com/Quiz/uploads/images/"))
+                                            peopleList.add(res);
+                                    } else if (res.getType().equalsIgnoreCase("Objects")) {
+                                        if (!res.getFinalPuzzleImage().equalsIgnoreCase("http://appsmsjuegos.com/Quiz/uploads/images/"))
+                                            objectList.add(res);
+                                    }
+
+                                } else {
+                                    binding.mainScroll.setVisibility(View.GONE);
+                                    binding.btnFinsh.setVisibility(View.GONE);
+                                    binding.llOther.setVisibility(View.VISIBLE);
+                                    if (i == 0)
+                                        Glide.with(FinalPuzzelAct.this).load(ArrayListss.get(0).getImage()).into(binding.img1);
+                                    else if (i == 1)
+                                        Glide.with(FinalPuzzelAct.this).load(ArrayListss.get(1).getImage()).into(binding.img2);
+                                    else if (i == 2)
+                                        Glide.with(FinalPuzzelAct.this).load(ArrayListss.get(2).getImage()).into(binding.img3);
+                                    else if (i == 3)
+                                        Glide.with(FinalPuzzelAct.this).load(ArrayListss.get(3).getImage()).into(binding.img4);
                                 }
+
+
+
+/*
+                                if(res.getEventId().equalsIgnoreCase("39")){
+                                    binding.mainScroll.setVisibility(View.GONE);
+                                    binding.btnFinsh.setVisibility(View.GONE);
+                                    binding.llOther.setVisibility(View.VISIBLE);
+                                    if(i==0)    Glide.with(FinalPuzzelAct.this).load(ArrayListss.get(0).getImage()).into(binding.img1);
+                                    else if(i==1)   Glide.with(FinalPuzzelAct.this).load(ArrayListss.get(1).getImage()).into(binding.img2);
+                                    else if(i==2)    Glide.with(FinalPuzzelAct.this).load(ArrayListss.get(2).getImage()).into(binding.img3);
+                                    else if(i==3)    Glide.with(FinalPuzzelAct.this).load(ArrayListss.get(3).getImage()).into(binding.img4);
+
+
+                                }
+*/
+
+
                             }
 
                             peopleAdapter.notifyDataSetChanged();
@@ -294,7 +359,7 @@ public class FinalPuzzelAct extends AppCompatActivity {
                     if (data.equals("1")) {
                         showCongrats();
 
-                   } else if (data.equals("0")) {
+                    } else if (data.equals("0")) {
                         showToast(FinalPuzzelAct.this, message);
                     }
 
@@ -324,24 +389,27 @@ public class FinalPuzzelAct extends AppCompatActivity {
         WebView tv_intro = dialogq.findViewById(R.id.tv_intro);
         ImageView intro_image = dialogq.findViewById(R.id.image_intro);
         ImageView imgHeader = dialogq.findViewById(R.id.imgHeader);
-      //  tv_intro.loadDataWithBaseURL("", FinalHTML, mimeType, encoding, "");
+        //  tv_intro.loadDataWithBaseURL("", FinalHTML, mimeType, encoding, "");
         //tv_intro.getSettings().setLoadWithOverviewMode(true);
-       // tv_intro.getSettings().setUseWideViewPort(true);
-       tv_intro.setWebViewClient(new WebViewClient());
-       tv_intro.getSettings().setJavaScriptEnabled(true);
-       tv_intro.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
-       tv_intro.getSettings().setPluginState(WebSettings.PluginState.ON);
-       tv_intro.getSettings().setMediaPlaybackRequiresUserGesture(false);
-       tv_intro.setWebChromeClient(new WebChromeClient());
-       tv_intro.loadDataWithBaseURL(null, FinalHTML, "text/html", "UTF-8", null);
+        // tv_intro.getSettings().setUseWideViewPort(true);
+        tv_intro.setWebViewClient(new WebViewClient());
+        tv_intro.getSettings().setJavaScriptEnabled(true);
+        tv_intro.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+        tv_intro.getSettings().setPluginState(WebSettings.PluginState.ON);
+        tv_intro.getSettings().setMediaPlaybackRequiresUserGesture(false);
+        tv_intro.setWebChromeClient(new WebChromeClient());
+        tv_intro.loadDataWithBaseURL(null, FinalHTML, "text/html", "UTF-8", null);
         tv_intro.getSettings().setBuiltInZoomControls(true);
         tv_intro.getSettings().setDisplayZoomControls(false);
+
+        tv_intro.setVisibility(View.GONE);
+
         Glide.with(getApplicationContext()).load(FinalImage)
                 .into(intro_image);
         Button ivSubmit = dialogq.findViewById(R.id.btnDownload);
         imgHeader.setOnClickListener(D ->
                 {
-                   // dialogq.dismiss();
+                    // dialogq.dismiss();
                 }
         );
         ivSubmit.setOnClickListener(D ->
@@ -360,17 +428,14 @@ public class FinalPuzzelAct extends AppCompatActivity {
         window.setAttributes(lp);
         dialogq.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialogq.show();
-       dialogq.setOnDismissListener(dialog ->{
-                startActivity(new Intent(FinalPuzzelAct.this,
-                        FinishTeamInfo.class)
-                        .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK)
-                        .putExtra("from", "1")
-                        .putExtra("eventId", eventId)
-                        .putExtra("eventCode", eventCode));
+        dialogq.setOnDismissListener(dialog -> {
+            startActivity(new Intent(FinalPuzzelAct.this,
+                    FinishTeamInfo.class)
+                    .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK)
+                    .putExtra("from", "1")
+                    .putExtra("eventId", eventId)
+                    .putExtra("eventCode", eventCode));
         });
-
-
-
 
 
     }

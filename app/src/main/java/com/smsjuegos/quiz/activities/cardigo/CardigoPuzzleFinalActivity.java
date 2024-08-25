@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.webkit.WebView;
@@ -254,6 +255,9 @@ public class CardigoPuzzleFinalActivity extends AppCompatActivity {
         tv_intro.getSettings().setDisplayZoomControls(false);
         Glide.with(getApplicationContext()).load(FinalImage).into(intro_image);
         Button ivSubmit = dialogq.findViewById(R.id.btnDownload);
+
+        tv_intro.setVisibility(View.GONE);
+
         imgHeader.setOnClickListener(D ->
                 {
                     //    dialogq.dismiss();

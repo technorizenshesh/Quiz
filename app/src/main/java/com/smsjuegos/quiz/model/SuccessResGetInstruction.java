@@ -138,6 +138,33 @@ public class SuccessResGetInstruction implements Serializable {
         @Expose
         public String geolocation;
 
+
+        @SerializedName("Jigsaw_puzzle_status")
+        @Expose
+        public String JigsawPuzzleStatus;
+
+
+        @SerializedName("Jigsaw_puzzle_image")
+        @Expose
+        public String JigsawPuzzleImage;
+
+
+        public String getJigsawPuzzleStatus() {
+            return JigsawPuzzleStatus;
+        }
+
+        public void setJigsawPuzzleStatus(String jigsawPuzzleStatus) {
+            JigsawPuzzleStatus = jigsawPuzzleStatus;
+        }
+
+        public String getJigsawPuzzleImage() {
+            return JigsawPuzzleImage;
+        }
+
+        public void setJigsawPuzzleImage(String jigsawPuzzleImage) {
+            JigsawPuzzleImage = jigsawPuzzleImage;
+        }
+
         public String getGeolocation() {
             return geolocation;
         }
