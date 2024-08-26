@@ -80,7 +80,42 @@ class GestureDetectGridView : GridView {
                 return true
             }
 
+
             override fun onFling(
+                e1: MotionEvent?,
+                e2: MotionEvent,
+                velocityX: Float,
+                velocityY: Float
+            ): Boolean {
+
+                val position = pointToPosition(Math.round(e1!!.x), Math.round(e1.y))
+                if (abs(e1!!.y - e2.y) > SWIPE_MAX_OFF_PATH) {
+                    if (abs(e1!!.x - e2.x) > SWIPE_MAX_OFF_PATH || abs(velocityY) < SWIPE_THRESHOLD_VELOCITY) {
+                        return false
+                    }
+                    if (e1!!.y - e2.y > SWIPE_MIN_DISTANCE) {
+                        swipeListener?.onSwipe(SwipeDirections.UP, position)
+                    } else if (e2.y - e1!!.y > SWIPE_MIN_DISTANCE) {
+                        swipeListener?.onSwipe(SwipeDirections.DOWN, position)
+                    }
+                } else {
+                    if (abs(velocityX) < SWIPE_THRESHOLD_VELOCITY) {
+                        return false
+                    }
+                    if (e1!!.x - e2.x > SWIPE_MIN_DISTANCE) {
+                        swipeListener?.onSwipe(SwipeDirections.LEFT, position)
+                    } else if (e2.x - e1!!.x > SWIPE_MIN_DISTANCE) {
+                        swipeListener?.onSwipe(SwipeDirections.RIGHT, position)
+                    }
+                }
+
+                
+                return super.onFling(e1, e2, velocityX, velocityY)
+            }
+
+          //////////////////////////////////////////    26 Aug 2024
+
+      /*      override fun onFling(
                 e1: MotionEvent,
                 e2: MotionEvent,
                 velocityX: Float,
@@ -108,8 +143,9 @@ class GestureDetectGridView : GridView {
                 }
 
                 return super.onFling(e1, e2, velocityX, velocityY)
-            }
+            }*/
 
+            //////////////////////////////////////////////////
 
 
 /*

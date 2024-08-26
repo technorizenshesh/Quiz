@@ -26,6 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -68,6 +69,7 @@ import com.smsjuegos.quiz.utility.GPSTracker;
 import com.smsjuegos.quiz.utility.LocationUtil;
 import com.smsjuegos.quiz.utility.SharedPreferenceUtility;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -98,12 +100,14 @@ public class InstrutionActNew extends AppCompatActivity implements OnMapReadyCal
     Circle circle;
     private Handler handler;
     private Runnable runnable;
+    private boolean isRunning;
     private Long result;
     private Snackbar snackbar;
     private double MyLatitude = 0, MyLongitude = 0, MyAltitude = 0;
     LocationUtil mLocationUtil;
     LatLng location;
     String updateTime ="";
+    String pauseId="",gamePlayPauseStatus="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -162,6 +166,41 @@ public class InstrutionActNew extends AppCompatActivity implements OnMapReadyCal
         });
 
 
+        binding.imgPlayPause.setOnClickListener(v -> {
+           if(location!=null){
+             if(gamePlayPauseStatus.equalsIgnoreCase("START")){
+                 alertDialogPlayPause("Whenever you restart the game, you will have to be at around this location.","STOP",MyLatitude,MyLongitude,pauseId);
+             }
+             else {
+                 alertDialogPlayPause("Are you sure you're where you left it?","START",MyLatitude,MyLongitude,pauseId);
+
+             }
+           }
+        });
+
+        getTimer();
+
+    }
+
+    private void alertDialogPlayPause(String msg,String status,double lat,double lon,String pauseId) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Alert")
+                .setMessage(msg)
+                .setPositiveButton("Confirm", (dialog, which) -> {
+                    // Handle positive button click
+                    // You can add your code here
+                    dialog.dismiss();
+                    PlayPauseTimer(status,lat,lon,pauseId);
+
+                })
+                .setNegativeButton("Cancel", (dialog, which) -> {
+                    // Handle negative button click
+                    // You can add your code here
+                    dialog.dismiss();
+                });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     @Override
@@ -187,7 +226,7 @@ public class InstrutionActNew extends AppCompatActivity implements OnMapReadyCal
             Toast.makeText(getApplicationContext(), "Gps Off", Toast.LENGTH_SHORT).show();
 
         }
-        getTimer();
+
     }
 
 
@@ -353,10 +392,27 @@ public class InstrutionActNew extends AppCompatActivity implements OnMapReadyCal
                     String data = jsonObject.getString("status");
                     String message = jsonObject.getString("message");
                     result = jsonObject.getLong("result");
+                    pauseId = jsonObject.getString("pause_id");
+                    gamePlayPauseStatus = jsonObject.getString("pause_status");
+                    if (!jsonObject.getString("lat").equalsIgnoreCase("")) {
+                        MyLatitude = Double.parseDouble(jsonObject.getString("lat"));
+                        MyLongitude = Double.parseDouble(jsonObject.getString("lon"));
+                    }
                     result = result;
                     if (result == null & result <= 0) {
                     } else {
-                        startTimer();
+
+                       if(gamePlayPauseStatus.equalsIgnoreCase("START")) {
+                           binding.imgPlayPause.setImageResource(R.drawable.ic_play);
+                           isRunning = false;
+                           startTimer();
+                       }
+                       else {
+                           binding.imgPlayPause.setImageResource(R.drawable.ic_pause);
+                           isRunning = true;
+                           ShowStopTimer(result);
+
+                       }
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -372,41 +428,74 @@ public class InstrutionActNew extends AppCompatActivity implements OnMapReadyCal
     }
 
 
-    private void PlayPauseTimer(String status,String time) {
-        handler = new Handler();
+
+
+
+    private void PlayPauseTimer(String status,double lat,double lon,String pauseId) {
+        DataManager.getInstance().showProgressMessage(InstrutionActNew.this, getString(R.string.please_wait));
         String userId = SharedPreferenceUtility.getInstance(this).getString(USER_ID);
         Map<String, String> map = new HashMap<>();
         map.put("event_id", eventId);
         map.put("event_code", eventCode);
-        map.put("user_id", userId);
-      //  String level = SharedPreferenceUtility.getInstance(this).getString(GAME_LAVEL);
-      //  map.put("level", level);
         map.put("event_status", status);
-        map.put("time", time);
+        map.put("user_id", userId);
+        map.put("lat", lat+"");
+        map.put("lon", lon+"");
+        map.put("pause_id", pauseId);
+        map.put("total_time", result+"");
 
 
-        Call<ResponseBody> call = apiInterface.get_event_time(map);
+        Call<ResponseBody> call = apiInterface.eventTimePlayPause(map);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
+                DataManager.getInstance().hideProgressMessage();
                 try {
                     JSONObject jsonObject = new JSONObject(response.body().string());
-                    String data = jsonObject.getString("status");
+                    String status = jsonObject.getString("status");
                     String message = jsonObject.getString("message");
-                    result = jsonObject.getLong("result");
-                    result = result;
-                    if (result == null & result <= 0) {
-                    } else {
-                        startTimer();
+
+                    if(status.equalsIgnoreCase("1")){
+//                       /* JSONArray resultArray = jsonObject.getJSONArray("result");
+//                        JSONObject resultObj = resultArray.getJSONObject(0);
+//                        result = Long.parseLong(resultObj.getString("total_time"));
+//                        gamePlayPauseStatus = resultObj.getString("event_status");
+//                        MyLatitude = Double.parseDouble(resultObj.getString("lat"));
+//                        MyLongitude = Double.parseDouble(resultObj.getString("lon"));
+//
+//                        if (result == null & result <= 0) {
+//                        } else {
+//
+//                            if(gamePlayPauseStatus.equalsIgnoreCase("START")) {
+//                                binding.imgPlayPause.setImageResource(R.drawable.ic_play);
+//                                startTimer();
+//                            }
+//                            else {
+//                                binding.imgPlayPause.setImageResource(R.drawable.ic_pause);
+//                                ShowStopTimer(result);
+//
+//                            }
+//
+//                            mMap.clear();
+//                            getInstruction();*/
+
+
+  //                      }
+                        getTimer();
+
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
+                    DataManager.getInstance().hideProgressMessage();
+
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 call.cancel();
+                DataManager.getInstance().hideProgressMessage();
+
             }
         });
 
@@ -706,12 +795,14 @@ public class InstrutionActNew extends AppCompatActivity implements OnMapReadyCal
         runnable = new Runnable() {
             @Override
             public void run() {
-                Log.d(TAG, "millismillismillis: " + result);
-                updateTimer(result);
-                handler.postDelayed(this, 1000); // Update every second
+                if(isRunning) {
+                    Log.d(TAG, "millismillismillis: " + result);
+                    updateTimer(result);
+                    handler.postDelayed(this, 1000);
+                }// Update every second
             }
         };
-        handler.post(runnable); // Start the timer
+        startRunnable(); // Start the timer
     }
 
     private void updateTimer(long milliseconds) {
@@ -732,9 +823,46 @@ public class InstrutionActNew extends AppCompatActivity implements OnMapReadyCal
         result = result + 1000;
     }
 
+    private void ShowStopTimer(long milliseconds) {
+        Log.e(TAG, "ShowStopTimer: milliseconds ---  " + milliseconds);
+
+        long seconds = milliseconds / 1000;
+        long minutes = seconds / 60;
+        long hours = minutes / 60;
+        seconds %= 60;
+        minutes %= 60;
+        Log.e(TAG, "updateTimer: minutes ---  " + minutes);
+        Log.e(TAG, "updateTimer: seconds ---  " + seconds);
+        Log.e(TAG, "updateTimer: hours   ---  " + hours);
+
+        String time = String.format("%02d:%02d:%02d", hours, minutes, seconds);
+        updateTime = time;
+        binding.tvHeader.setText(time);
+        if(handler!=null){
+            result = result + 1000;
+            stopRunnable();
+        }
+    }
+
+
+    private void startRunnable() {
+        if (!isRunning) {
+            isRunning = true;
+            handler.post(runnable);
+        }
+    }
+
+    private void stopRunnable() {
+        if (isRunning) {
+            isRunning = false;
+            handler.removeCallbacks(runnable);
+        }
+    }
+
+
     @Override
     protected void onStop() {
-        handler.removeCallbacks(runnable);
+       // handler.removeCallbacks(runnable);
         super.onStop();
     }
 
@@ -742,7 +870,9 @@ public class InstrutionActNew extends AppCompatActivity implements OnMapReadyCal
     protected void onDestroy() {
         super.onDestroy();
         // Stop the timer and remove the handler callbacks
-        handler.removeCallbacks(runnable);
+       // handler.removeCallbacks(runnable);
+       // PlayPauseTimer("STOP",MyLatitude,MyLongitude,pauseId);
+
     }
 
     public String getDistanceBtTwoPoints(Context context, LatLng origin, LatLng destination) {

@@ -33,16 +33,18 @@
                 android:src="@drawable/ic_back"/>
 
             <ImageView
-                android:visibility="gone"
+                android:visibility="visible"
                 android:id="@+id/imgPlayPause"
                 android:layout_width="@dimen/_20sdp"
                 android:layout_height="@dimen/_20sdp"
                 android:layout_alignParentRight="true"
                 android:padding="@dimen/_2sdp"
-                android:src="@drawable/ic_play"
                 app:tint="@color/white"
                 />
 
+<!--
+            android:src="@drawable/ic_play"
+-->
 
 
             <ImageView

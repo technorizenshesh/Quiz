@@ -13,6 +13,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,6 +47,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.gson.Gson;
 import com.smsjuegos.quiz.R;
 import com.smsjuegos.quiz.activities.DeclimarActivity;
+import com.smsjuegos.quiz.activities.InstrutionActNew;
 import com.smsjuegos.quiz.adapter.LevelAdapter;
 import com.smsjuegos.quiz.databinding.FragmentEventLocationsBinding;
 import com.smsjuegos.quiz.model.SuccessResGetEventDetail;
@@ -57,6 +59,7 @@ import com.smsjuegos.quiz.utility.DataManager;
 import com.smsjuegos.quiz.utility.GPSTracker;
 import com.smsjuegos.quiz.utility.SharedPreferenceUtility;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -527,10 +530,10 @@ public class EventLocationsFragment extends Fragment
                         if (data.equals("1")) {
                             SharedPreferenceUtility.getInstance(getContext()).putString(GAME_LAVEL, mode);
                             Log.e("TAG", "onResponse: modemode " + mode);
-                            Bundle bundle = new Bundle();
-                            bundle.putSerializable("instructionID", eventDetails);
-                            startActivity(new Intent(getActivity(), DeclimarActivity.class).putExtras(bundle).putExtra("eventId", eventId).putExtra("eventCode", strCode));
-                            dialogq.dismiss();
+
+                            PlayPauseTimer("START",dialogq);
+
+
                         } else if (data.equals("0")) {
                             showToast(getActivity(), result);
                         } else if (data.equals("2")) {
@@ -557,6 +560,63 @@ public class EventLocationsFragment extends Fragment
         dialogq.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialogq.show();
     }
+
+
+
+
+
+
+    private void PlayPauseTimer(String status,Dialog dialogq) {
+        DataManager.getInstance().showProgressMessage(getActivity(), getString(R.string.please_wait));
+
+        String userId = SharedPreferenceUtility.getInstance(getActivity()).getString(USER_ID);
+        Map<String, String> map = new HashMap<>();
+        map.put("event_id", eventId);
+        map.put("event_code", event_code);
+        map.put("event_status", status);
+        map.put("user_id", userId);
+        map.put("pause_id", "0");
+
+        Call<ResponseBody> call = apiInterface.eventTimePlayPause(map);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
+                DataManager.getInstance().hideProgressMessage();
+                try {
+                    JSONObject jsonObject = new JSONObject(response.body().string());
+                    String status = jsonObject.getString("status");
+                    String message = jsonObject.getString("message");
+                    if(status.equalsIgnoreCase("1")){
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("instructionID", eventDetails);
+                        startActivity(new Intent(getActivity(), DeclimarActivity.class).putExtras(bundle).putExtra("eventId", eventId).putExtra("eventCode", strCode));
+                        dialogq.dismiss();
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    DataManager.getInstance().hideProgressMessage();
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                call.cancel();
+                DataManager.getInstance().hideProgressMessage();
+
+            }
+        });
+
+    }
+
+
+
+
+
+
+
+
 
     private void showDialog() {
         final Dialog dialogq = new Dialog(requireActivity());

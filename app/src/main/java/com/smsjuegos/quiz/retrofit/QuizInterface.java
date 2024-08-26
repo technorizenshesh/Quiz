@@ -258,4 +258,9 @@ public interface QuizInterface {
     @POST("get_finish_event_by_event")
     Call<ResponseBody> getAllFinishEventResultApi(@FieldMap Map<String, String> paramHashMap);
 
+
+    @FormUrlEncoded
+    @POST("event_pause_time")
+    Call<ResponseBody> eventTimePlayPause(@FieldMap Map<String, String> paramHashMap);
+
 }

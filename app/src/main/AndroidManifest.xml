@@ -31,6 +31,12 @@
 
 
 
+
+        <activity
+            android:name=".activities.BalloonAct"
+            android:exported="false" />
+
+
         <activity
             android:name=".activities.CompleteGameListAct"
             android:exported="false" />
