@@ -20,8 +20,8 @@ android {
         applicationId "com.smsjuegos.quiz"
         minSdkVersion 23
         targetSdkVersion 34
-        versionCode 29   // 28
-        versionName "1.10.15" // 1.10.14
+        versionCode 30   // 29
+        versionName "1.10.16" // 1.10.15
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
@@ -62,6 +62,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics'
     implementation 'com.google.firebase:firebase-crashlytics'
     implementation 'com.google.firebase:firebase-messaging:23.1.2'
+    implementation 'com.google.ar.sceneform.ux:sceneform-ux:1.17.1'
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
@@ -115,6 +116,9 @@ dependencies {
 
 
     //  implementation 'com.github.developeramit3:ApiCall:8f4053a663'
+
+    implementation 'com.google.ar:core:1.38.0'
+
 
 }
 //apply plugin: 'com.google.gms.google-services'

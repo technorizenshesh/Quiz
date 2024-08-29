@@ -11,9 +11,12 @@ import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -267,12 +270,19 @@ public class MapAct extends AppCompatActivity implements OnMapReadyCallback, Goo
                 }
                 else {
                     try {
-                        marker[i] = createMarker(i, Double.parseDouble(result.getLat()), Double.parseDouble(result.getLon()),
-                                "#" + i, "", R.drawable.flag_green,result.getEventId(),result.getId());
+                       // marker[i] = createMarker(i, Double.parseDouble(result.getLat()), Double.parseDouble(result.getLon()),
+                      //          "#" + i, "", R.drawable.flag_green,result.getEventId(),result.getId());
+                        int m = i + 1;
+                        marker[i] = addMarkerWithNumber(i,1,"",Double.parseDouble(result.getLat()), Double.parseDouble(result.getLon()),m+"",result.getEventId());
+
                     } catch (NumberFormatException e) {
 
-                       marker[i] = createMarker(i, convertDMSToDecimal(result.getLat()), convertDMSToDecimal(result.getLon()),
-                               "#" + i, "", R.drawable.flag_green,result.getEventId(),result.getId());
+                    //   marker[i] = createMarker(i, convertDMSToDecimal(result.getLat()), convertDMSToDecimal(result.getLon()),
+                    //           "#" + i, "", R.drawable.flag_green,result.getEventId(),result.getId());
+
+                        int m = i + 1;
+                        marker[i] = addMarkerWithNumber(i,1,"",Double.parseDouble(result.getLat()), Double.parseDouble(result.getLon()),m+"",result.getEventId());
+
 
                         continue;
                     }
@@ -284,13 +294,19 @@ public class MapAct extends AppCompatActivity implements OnMapReadyCallback, Goo
                 }
                 else {
                     try {
-                        marker[i] = createMarker(i, Double.parseDouble(result.getLat()),
-                                Double.parseDouble(result.getLon()),
-                                "#" + i, "", R.drawable.flag_red,result.getEventId(),result.getId());
+                     //   marker[i] = createMarker(i, Double.parseDouble(result.getLat()),
+                     //           Double.parseDouble(result.getLon()),
+                      //          "#" + i, "", R.drawable.flag_red,result.getEventId(),result.getId());
+                        int m = i + 1;
+                        marker[i] = addMarkerWithNumber(i,2,"",Double.parseDouble(result.getLat()), Double.parseDouble(result.getLon()),m+"",result.getEventId());
+
                     } catch (NumberFormatException e) {
-                        marker[i] = createMarker(i, convertDMSToDecimal(result.getLat()),
-                                convertDMSToDecimal(result.getLon()),
-                               "#" + i, "", R.drawable.flag_red,result.getEventId(),result.getId());
+                    //    marker[i] = createMarker(i, convertDMSToDecimal(result.getLat()),
+                      //          convertDMSToDecimal(result.getLon()),
+                      //         "#" + i, "", R.drawable.flag_red,result.getEventId(),result.getId());
+
+                        int m = i + 1;
+                        marker[i] = addMarkerWithNumber(i,2,"",Double.parseDouble(result.getLat()), Double.parseDouble(result.getLon()),m+"",result.getEventId());
 
                         continue;
                     }
@@ -431,16 +447,24 @@ public class MapAct extends AppCompatActivity implements OnMapReadyCallback, Goo
 
                             if (result.getAnswer_status().equalsIgnoreCase("1")) {
                                 if (result.getLat().equalsIgnoreCase("")) return;
-                                else
-                                    marker[i] = createMarker(i, Double.parseDouble(result.getLat()), Double.parseDouble(result.getLon()),
-                                            "#" + i, "", R.drawable.flag_green,result.getEventId(),result.getId());
+                                else {
+                                    //    marker[i] = createMarker(i, Double.parseDouble(result.getLat()), Double.parseDouble(result.getLon()),
+                                    //           "#" + i, "", R.drawable.flag_green,result.getEventId(),result.getId());
+
+                                    int m = i + 1;
+                                    marker[i] = addMarkerWithNumber(i, 1, "", Double.parseDouble(result.getLat()), Double.parseDouble(result.getLon()), m + "", result.getEventId());
+                                }
                             } else {
 
                                 if (result.getLat().equalsIgnoreCase("")) return;
-                                else
-                                    marker[i] = createMarker(i, Double.parseDouble(result.getLat()),
-                                            Double.parseDouble(result.getLon()),
-                                            "#" + i, "", R.drawable.flag_red,result.getEventId(),result.getId());
+                                else {
+                                 //   marker[i] = createMarker(i, Double.parseDouble(result.getLat()),
+                                 //           Double.parseDouble(result.getLon()),
+                                 //           "#" + i, "", R.drawable.flag_red, result.getEventId(), result.getId());
+                                    int m = i + 1;
+                                    marker[i] = addMarkerWithNumber(i,2,"",Double.parseDouble(result.getLat()), Double.parseDouble(result.getLon()),m+"",result.getEventId());
+                                }
+
                             }
                             i++;
                             if (SharedPreferenceUtility.getInstance(getApplicationContext()).getString("NevId").equalsIgnoreCase("")) {
@@ -580,6 +604,47 @@ public class MapAct extends AppCompatActivity implements OnMapReadyCallback, Goo
 
         return myMarker;
     }
+
+
+
+    private Marker addMarkerWithNumber(int position,int type, String title, double latitude, double longitude,String number,String eventId) {
+        // Inflate the custom marker view
+        View markerView=null;
+        if(type==1) markerView =    LayoutInflater.from(this).inflate(R.layout.marker_layout, null);
+        else markerView = LayoutInflater.from(this).inflate(R.layout.marker_layout_red, null);
+
+        TextView numberTextView = markerView.findViewById(R.id.marker_number);
+        Log.e("check marker number===",number);
+        if (eventId.equalsIgnoreCase("15")){
+            numberTextView.setVisibility(View.VISIBLE);
+            numberTextView.setText("#"+number);
+        }
+        else {
+            numberTextView.setVisibility(View.GONE);
+        }
+
+
+        // Create the marker options
+        MarkerOptions markerOptions = new MarkerOptions()
+                .position(new LatLng(latitude, longitude))
+                .title(title)
+                .icon(BitmapDescriptorFactory.fromBitmap(createBitmapFromView(markerView)));
+
+        // Add the marker to the map
+        myMarker =  mMap.addMarker(markerOptions);
+        myMarker.setTag(position);
+        return myMarker;
+    }
+
+    private Bitmap createBitmapFromView(View view) {
+        view.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
+        view.layout(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());
+        Bitmap bitmap = Bitmap.createBitmap(view.getMeasuredWidth(), view.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        view.draw(canvas);
+        return bitmap;
+    }
+
 
 
 

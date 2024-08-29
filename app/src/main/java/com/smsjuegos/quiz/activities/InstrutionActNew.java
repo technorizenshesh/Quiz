@@ -15,13 +15,19 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -554,14 +560,18 @@ public class InstrutionActNew extends AppCompatActivity implements OnMapReadyCal
 
                 } else {
                     try {
-                        marker[i] = createMarker(i, Double.parseDouble(result.getLat()), Double.parseDouble(result.getLon()),
-                                "#" + i, "", R.drawable.flag_green,result.getEventId(),result.getId());
+                     //   marker[i] = createMarker(i, Double.parseDouble(result.getLat()), Double.parseDouble(result.getLon()),
+                      //          "#" + i, "", R.drawable.flag_green,result.getEventId(),result.getId());
+                           int m = i + 1;
+                        marker[i] = addMarkerWithNumber(i,1,"",Double.parseDouble(result.getLat()), Double.parseDouble(result.getLon()),m+"",result.getEventId());
 
                         Log.e("Lat Lon Position === ", +i + "  " + result.getLat() + " , " + result.getLon());
                     } catch (NumberFormatException e) {
                         Log.e(TAG, "onMarkerClick: NumberFormatExceptionNumberFormatException" + result.getId());
-                        marker[i] = createMarker(i, convertDMSToDecimal(result.getLat()), convertDMSToDecimal(result.getLon()),
-                                "#" + i, "", R.drawable.flag_green,result.getEventId(),result.getId());
+                       // marker[i] = createMarker(i, convertDMSToDecimal(result.getLat()), convertDMSToDecimal(result.getLon()),
+                       //         "#" + i, "", R.drawable.flag_green,result.getEventId(),result.getId());
+                        int m = i + 1;
+                        marker[i] = addMarkerWithNumber(i,1,"",Double.parseDouble(result.getLat()), Double.parseDouble(result.getLon()),m+"",result.getEventId());
 
 
 
@@ -574,19 +584,22 @@ public class InstrutionActNew extends AppCompatActivity implements OnMapReadyCal
 
                 } else {
                     try {
-                        marker[i] = createMarker(i, Double.parseDouble(result.getLat()),
-                                Double.parseDouble(result.getLon()),
-                                "#" + i, "", R.drawable.flag_red,result.getEventId(),result.getId());
+                    //    marker[i] = createMarker(i, Double.parseDouble(result.getLat()),
+                     //           Double.parseDouble(result.getLon()),
+                             //   "#" + i, "", R.drawable.flag_red,result.getEventId(),result.getId());
+                        int m = i + 1;
+                        marker[i] = addMarkerWithNumber(i,2,"",Double.parseDouble(result.getLat()), Double.parseDouble(result.getLon()),m+"",result.getEventId());
 
                         Log.e("Lat Lon Position === ", +i + "  " + result.getLat() + " , " + result.getLon());
 
 
                     } catch (NumberFormatException e) {
                         Log.e(TAG, "onMarkerClick: NumberFormatExceptionNumberFormatException" + result.getId());
-                        marker[i] = createMarker(i, convertDMSToDecimal(result.getLat()),
-                                convertDMSToDecimal(result.getLon()),
-                              "#" + i, "", R.drawable.flag_red,result.getEventId(),result.getId());
-
+                      //  marker[i] = createMarker(i, convertDMSToDecimal(result.getLat()),
+                       //         convertDMSToDecimal(result.getLon()),
+                          //    "#" + i, "", R.drawable.flag_red,result.getEventId(),result.getId());
+                        int m = i + 1;
+                        marker[i] = addMarkerWithNumber(i,2,"",Double.parseDouble(result.getLat()), Double.parseDouble(result.getLon()),m+"",result.getEventId());
 
 
                         continue;
@@ -625,6 +638,14 @@ public class InstrutionActNew extends AppCompatActivity implements OnMapReadyCal
             }
 
         }
+
+
+
+
+
+
+
+
 
         try {
             if (strtlang.equalsIgnoreCase("")) {
@@ -696,6 +717,11 @@ public class InstrutionActNew extends AppCompatActivity implements OnMapReadyCal
         //getInstruction2();
     }
 
+
+
+
+
+
     public static double convertDMSToDecimal(String dmsCoordinate) {
         // Split degrees, minutes, and seconds
         String[] parts = dmsCoordinate.split("[°'\"NWE]");
@@ -766,30 +792,133 @@ public class InstrutionActNew extends AppCompatActivity implements OnMapReadyCal
 
 
     protected Marker createMarker(int position, double latitude, double longitude, String title, String snippet, int iconResID,String eventId,String id) {
-        BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(iconResID);
+        BitmapDescriptor icon = createCustomMarkerIconWithNumber(iconResID,id,this);     //BitmapDescriptorFactory.fromResource(iconResID);
         myMarker = mMap.addMarker(new MarkerOptions().position(new LatLng(latitude, longitude)).anchor(0.5f, 0.5f).title(id).icon(icon).snippet(snippet));
         myMarker.setTag(position);
+      //  getNumberedMarkerIcon(Integer.parseInt(eventId));
+        Log.e("marker event id====",eventId);
 
-        if(eventId.equalsIgnoreCase("15")) {
+       /* if(eventId.equalsIgnoreCase("15")) {
             // Set custom InfoWindowAdapter
-          //  mMap.setInfoWindowAdapter(new CustomInfoWindowAdapter(id));
+           // mMap.setInfoWindowAdapter(new CustomInfoWindowAdapter(id));
             // Show info window immediately
             if (myMarker != null) {
                 myMarker.showInfoWindow();
+                Log.e("marker event id222====",eventId);
+
             }
-        }
+        }*/
+
 
         return myMarker;
     }
 
-    private BitmapDescriptor bitmapDescriptorFromVector(int vectorResId) {
-        Drawable vectorDrawable = ContextCompat.getDrawable(InstrutionActNew.this, vectorResId);
-        vectorDrawable.setBounds(0, 0, vectorDrawable.getIntrinsicWidth(), vectorDrawable.getIntrinsicHeight());
-        Bitmap bitmap = Bitmap.createBitmap(vectorDrawable.getIntrinsicWidth(), vectorDrawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bitmap);
-        vectorDrawable.draw(canvas);
-        return BitmapDescriptorFactory.fromBitmap(bitmap);
+
+
+
+    private Marker addMarkerWithNumber(int position,int type, String title, double latitude, double longitude,String number,String eventId) {
+        // Inflate the custom marker view
+        View markerView=null;
+        if(type==1) markerView =    LayoutInflater.from(this).inflate(R.layout.marker_layout, null);
+         else markerView = LayoutInflater.from(this).inflate(R.layout.marker_layout_red, null);
+
+        TextView numberTextView = markerView.findViewById(R.id.marker_number);
+        Log.e("check marker number===",number);
+        if (eventId.equalsIgnoreCase("15")){
+            numberTextView.setVisibility(View.VISIBLE);
+            numberTextView.setText("#"+number);
+        }
+        else {
+            numberTextView.setVisibility(View.GONE);
+        }
+
+
+        // Create the marker options
+        MarkerOptions markerOptions = new MarkerOptions()
+                .position(new LatLng(latitude, longitude))
+                .title(title)
+                .icon(BitmapDescriptorFactory.fromBitmap(createBitmapFromView(markerView)));
+
+        // Add the marker to the map
+        myMarker =  mMap.addMarker(markerOptions);
+        myMarker.setTag(position);
+        return myMarker;
     }
+
+    private Bitmap createBitmapFromView(View view) {
+        view.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
+        view.layout(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());
+        Bitmap bitmap = Bitmap.createBitmap(view.getMeasuredWidth(), view.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        view.draw(canvas);
+        return bitmap;
+    }
+
+
+
+    private BitmapDescriptor createCustomMarkerIconWithNumber(int drawableResId, String number, Context context) {
+        // Load the base icon from resources
+        BitmapDrawable bitmapDrawable = (BitmapDrawable) ContextCompat.getDrawable(context, drawableResId);
+        if (bitmapDrawable == null) {
+            Log.e("CustomMarker", "Drawable resource not found: " + drawableResId);
+            return BitmapDescriptorFactory.defaultMarker(); // Return a default marker if the drawable is null
+        }
+
+        Bitmap baseBitmap = bitmapDrawable.getBitmap();
+        if (baseBitmap == null) {
+            Log.e("CustomMarker", "Bitmap from drawable is null.");
+            return BitmapDescriptorFactory.defaultMarker(); // Return a default marker if the bitmap is null
+        }
+
+        // Scale the base bitmap to a suitable size if needed
+        int scaledWidth = 80; // Width of the final icon
+        int scaledHeight = 80; // Height of the final icon
+        Bitmap scaledBitmap = Bitmap.createScaledBitmap(baseBitmap, scaledWidth, scaledHeight, true);
+        if (scaledBitmap.getWidth() <= 0 || scaledBitmap.getHeight() <= 0) {
+            Log.e("CustomMarker", "Scaled bitmap dimensions are invalid: " + scaledBitmap.getWidth() + "x" + scaledBitmap.getHeight());
+            return BitmapDescriptorFactory.defaultMarker(); // Return a default marker if the scaled bitmap dimensions are invalid
+        }
+
+        // Create a mutable bitmap to draw on
+        Bitmap mutableBitmap = scaledBitmap.copy(Bitmap.Config.ARGB_8888, true);
+        Canvas canvas = new Canvas(mutableBitmap);
+
+        // Define paint for the text
+        Paint textPaint = new Paint();
+        textPaint.setColor(Color.BLACK); // Text color
+        textPaint.setTextSize(20); // Text size (adjust as needed)
+        textPaint.setTextAlign(Paint.Align.LEFT);
+        textPaint.setAntiAlias(true);
+
+        // Define paint for the background
+        Paint backgroundPaint = new Paint();
+        backgroundPaint.setColor(Color.WHITE); // Background color
+        backgroundPaint.setAntiAlias(true);
+
+        // Calculate text size and background
+        Paint.FontMetrics fontMetrics = textPaint.getFontMetrics();
+        float textWidth = textPaint.measureText(number);
+        float textHeight = fontMetrics.descent - fontMetrics.ascent;
+
+        // Define padding for the background rectangle
+        int padding = 10;
+        float rectWidth = textWidth + padding * 2;
+        float rectHeight = textHeight + padding * 2;
+
+        // Calculate position for the text and background to be placed above the marker
+        float xPos = mutableBitmap.getWidth() / 2;
+        float yPos = -rectHeight / 2; // Position above the marker, adjust if needed
+
+        // Draw the background rectangle centered above the marker
+        canvas.drawRect(xPos - rectWidth / 2, yPos - rectHeight / 2, xPos + rectWidth / 2, yPos + rectHeight / 2, backgroundPaint);
+
+        // Draw the text on the bitmap, ensuring it is centered within the rectangle
+        canvas.drawText(number, xPos, yPos + rectHeight / 2 - (fontMetrics.ascent + fontMetrics.descent) / 2, textPaint);
+
+        // Convert the bitmap to a BitmapDescriptor
+        return BitmapDescriptorFactory.fromBitmap(mutableBitmap);
+    }
+
 
     private void startTimer() {
         runnable = new Runnable() {

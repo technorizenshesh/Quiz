@@ -1,0 +1,29 @@
+<!-- res/layout/marker_layout.xml -->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/_40sdp"
+    android:layout_height="wrap_content"
+    >
+
+    <ImageView
+        android:id="@+id/marker_icon"
+        android:layout_width="@dimen/_20sdp"
+        android:layout_height="@dimen/_20sdp"
+        android:src="@drawable/flag_red"
+        android:layout_marginTop="@dimen/_15sdp"
+     />
+
+    <TextView
+        android:id="@+id/marker_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_9sdp"
+        android:paddingStart="@dimen/_4sdp"
+        android:paddingEnd="@dimen/_4sdp"
+        android:paddingTop="@dimen/_2sdp"
+        android:paddingBottom="@dimen/_2sdp"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/marker_icon"
+        android:layout_marginStart="-6dp"
+        android:background="@drawable/custom_info_window_background" />
+</RelativeLayout>

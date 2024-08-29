@@ -65,8 +65,9 @@ public class SplashAct extends AppCompatActivity {
                // startActivity(new Intent(SplashAct.this, BalloonAct.class));
                 finish();
             } else {
-                startActivity(new Intent(SplashAct.this, ChooseLanguage.class)
+               startActivity(new Intent(SplashAct.this, ChooseLanguage.class)
                         .putExtra("from", "login"));
+              //  startActivity(new Intent(SplashAct.this, BalloonAct.class));
                 finish();
             }
         }, 3000);
