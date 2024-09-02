@@ -20,8 +20,8 @@ android {
         applicationId "com.smsjuegos.quiz"
         minSdkVersion 23
         targetSdkVersion 34
-        versionCode 30   // 29
-        versionName "1.10.16" // 1.10.15
+        versionCode 33   // 32
+        versionName "1.10.19" // 1.10.18
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
@@ -62,14 +62,13 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics'
     implementation 'com.google.firebase:firebase-crashlytics'
     implementation 'com.google.firebase:firebase-messaging:23.1.2'
-    implementation 'com.google.ar.sceneform.ux:sceneform-ux:1.17.1'
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
     implementation 'com.intuit.sdp:sdp-android:1.0.6'
     implementation 'de.hdodenhof:circleimageview:3.1.0'
-    implementation 'com.hbb20:ccp:2.3.9'
+    implementation 'com.hbb20:ccp:2.7.3'
     implementation 'androidx.navigation:navigation-fragment:2.5.3'
     implementation 'androidx.navigation:navigation-ui:2.5.3'
  //   implementation 'com.github.smarteist:autoimageslider:1.4.0-appcompat'
@@ -96,9 +95,9 @@ dependencies {
     implementation 'com.stripe:stripe-android:15.1.0'
 
     //Exo library
-    implementation 'com.google.android.exoplayer:exoplayer-core:2.18.3'
-    implementation 'com.google.android.exoplayer:exoplayer-ui:2.18.3'
-    implementation 'com.google.android.exoplayer:extension-ima:2.18.3'
+    implementation 'com.google.android.exoplayer:exoplayer-core:2.19.1'
+    implementation 'com.google.android.exoplayer:exoplayer-ui:2.19.1'
+    implementation 'com.google.android.exoplayer:extension-ima:2.19.1'
 
     implementation 'com.github.sharish:ShimmerRecyclerView:v1.3'
     implementation "com.github.skydoves:powerspinner:1.2.7"
@@ -117,7 +116,6 @@ dependencies {
 
     //  implementation 'com.github.developeramit3:ApiCall:8f4053a663'
 
-    implementation 'com.google.ar:core:1.38.0'
 
 
 }

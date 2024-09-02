@@ -89,7 +89,9 @@ public class HomeFragment extends Fragment {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home,
                 container, false);
         cityList = SharedPreferenceUtility.getInstance(requireActivity()).getSuccessResCity("SuccessResCity");
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+
+
+       if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             Collections.sort(cityList, Comparator.comparing(SuccessResCity.Result::getName));
         }
        // System.out.println("Ascending Order: " + numbers);

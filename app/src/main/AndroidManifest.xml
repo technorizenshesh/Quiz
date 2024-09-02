@@ -6,8 +6,15 @@
         android:name="android.hardware.camera"
         android:required="false" />
 
-    <uses-feature android:name="android.hardware.camera.ar"
-        android:required="true"/>
+
+
+    <!-- Supports screens configuration -->
+    <supports-screens
+        android:smallScreens="true"
+        android:normalScreens="true"
+        android:largeScreens="true"
+        android:xlargeScreens="true"
+        android:requiresSmallestWidthDp="320" />
 
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -35,10 +42,6 @@
 
 
 
-
-        <activity
-            android:name=".activities.BalloonAct"
-            android:exported="false" />
 
 
         <activity
@@ -259,12 +262,6 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-
-
-        <meta-data
-            android:name="com.google.ar.core"
-            android:value="required" />
-
 
     </application>
 

@@ -62,12 +62,10 @@ public class SplashAct extends AppCompatActivity {
         new Handler().postDelayed(() -> {
             if (isUserLoggedIn) {
                  startActivity(new Intent(SplashAct.this, HomeAct.class));
-               // startActivity(new Intent(SplashAct.this, BalloonAct.class));
                 finish();
             } else {
                startActivity(new Intent(SplashAct.this, ChooseLanguage.class)
                         .putExtra("from", "login"));
-              //  startActivity(new Intent(SplashAct.this, BalloonAct.class));
                 finish();
             }
         }, 3000);

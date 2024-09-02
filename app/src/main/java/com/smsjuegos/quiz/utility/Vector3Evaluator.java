@@ -1,4 +1,4 @@
-package com.smsjuegos.quiz.utility;
+/*package com.smsjuegos.quiz.utility;
 
 import android.animation.TypeEvaluator;
 
@@ -12,4 +12,4 @@ public class Vector3Evaluator implements TypeEvaluator<Vector3> {
         float z = startValue.z + (endValue.z - startValue.z) * fraction;
         return new Vector3(x, y, z);
     }
-}
+}*/

@@ -210,4 +210,23 @@ public class LoginAct extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode ==  Constant.LOCATION_REQUEST) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if (gpsTracker.canGetLocation()) {
+                    SharedPreferenceUtility.getInstance(LoginAct.this).putString(Constant.LATITUDE, gpsTracker.getLatitude() + "");
+                    SharedPreferenceUtility.getInstance(LoginAct.this).putString(Constant.LONGITUDE, gpsTracker.getLongitude() + "");
+                    String lon = SharedPreferenceUtility.getInstance(LoginAct.this).getString(LONGITUDE);
+                    String lat = SharedPreferenceUtility.getInstance(LoginAct.this).getString(LATITUDE);
+                    Log.e("TAG", "getLocation:  latlatlat  " + lat);
+                    Log.e("TAG", "getLocation:lonlon " + lon);
+                    getCities(LoginAct.this, gpsTracker.getLatitude(), gpsTracker.getLongitude());
+                }
+            }
+        }
+    }
+
 }
