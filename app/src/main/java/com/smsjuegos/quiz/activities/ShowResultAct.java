@@ -47,19 +47,26 @@ public class ShowResultAct extends AppCompatActivity {
     }
 
     private void initViews() {
-      if(getIntent()!=null){
-          eventId = getIntent().getExtras().getString("eventId");
-          eventCode = getIntent().getExtras().getString("eventCode");
+      try {
+          if(getIntent()!=null){
+            //  eventId = getIntent().getExtras().getString("eventId");
+            //  eventCode = getIntent().getExtras().getString("eventCode");
+              eventId = getIntent().getStringExtra("eventId");
+              eventCode = getIntent().getStringExtra("eventCode");
+          }
+
+          timePenalitiesList = new ArrayList<>();
+
+          binding.imgHeader.setOnClickListener(view -> finish());
+
+          penaltiesAdapter = new PanlaltiesAdapter(this, timePenalitiesList);
+          binding.rvTimePanalites.setAdapter(penaltiesAdapter);
+
+          getMyPuzzelFinishInfo();
+      }catch (Exception e){
+          e.printStackTrace();
       }
 
-        timePenalitiesList = new ArrayList<>();
-
-        binding.imgHeader.setOnClickListener(view -> finish());
-
-        penaltiesAdapter = new PanlaltiesAdapter(this, timePenalitiesList);
-        binding.rvTimePanalites.setAdapter(penaltiesAdapter);
-
-       getMyPuzzelFinishInfo();
     }
 
 

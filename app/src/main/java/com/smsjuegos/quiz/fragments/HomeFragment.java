@@ -88,7 +88,9 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home,
                 container, false);
-        cityList = SharedPreferenceUtility.getInstance(requireActivity()).getSuccessResCity("SuccessResCity");
+
+        try {
+            cityList = SharedPreferenceUtility.getInstance(requireActivity()).getSuccessResCity("SuccessResCity");
 
 
        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -225,6 +227,11 @@ public class HomeFragment extends Fragment {
         } else {
             Toast.makeText(getActivity(), getResources().getString(R.string.msg_noInternet), Toast.LENGTH_SHORT).show();
         }
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
         return binding.getRoot();
     }
 
