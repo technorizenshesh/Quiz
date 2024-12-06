@@ -20,10 +20,11 @@ android {
         applicationId "com.smsjuegos.quiz"
         minSdkVersion 23
         targetSdkVersion 34
-        versionCode 35  // 34
-        versionName "1.10.20" // 1.10.19
+        versionCode 41  // 40
+        versionName "1.10.26" // 1.10.25
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
+
     }
     buildFeatures {
         dataBinding true

@@ -106,13 +106,19 @@ class SamplePuzzleActivity : AppCompatActivity() {
             finish()
         }
 
-        if(intent!=null){
-            myData = intent.getSerializableExtra("myData") as SuccessResGetInstruction.Result?
-            eventCode = intent.getStringExtra("eventCode")!!
-            Log.e("check answer===",myData!!.getEventAns())
-            Log.e("check eventId===",eventCode)
+      try {
+          if(intent!=null){
+              myData = intent.getSerializableExtra("myData") as SuccessResGetInstruction.Result?
+              eventCode = intent.getStringExtra("eventCode")!!
+              //    Log.e("check answer===",myData!!.getEventAns())
+              //    Log.e("check eventId===",eventCode)
 
-        }
+          }
+      }catch(e:Exception){
+          e.printStackTrace()
+      }
+
+
 
        gesture_detect_grid_view!!.post {
            callGetBitmap()

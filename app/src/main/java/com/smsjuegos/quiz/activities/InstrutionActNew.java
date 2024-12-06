@@ -335,7 +335,7 @@ public class InstrutionActNew extends AppCompatActivity implements OnMapReadyCal
             Toast.makeText(getApplicationContext(), "" + distance, Toast.LENGTH_SHORT).show();
 
 
-       /*     if (instructionList.get(position).JigsawPuzzleStatus.equalsIgnoreCase("enable")) {
+        /*    if (instructionList.get(position).JigsawPuzzleStatus.equalsIgnoreCase("enable")) {
                 startActivity(new Intent(InstrutionActNew.this, SamplePuzzleActivity.class)
                         .putExtra("myData",instructionList.get(position))
                         .putExtra("eventCode",eventCode));
@@ -350,15 +350,15 @@ public class InstrutionActNew extends AppCompatActivity implements OnMapReadyCal
             if (distance > 100) {  //  if (distance >= 150)         {
                 showSimpleCancelBtnDialog(InstrutionActNew.this, R.layout.dialog_distance, distance + "");
             } else {
-                Log.e("TAG", "onMarkerClick: " + instructionList.get(position));
+               // Log.e("TAG", "onMarkerClick: " + instructionList.get(position));
                 if (instructionList.get(position).JigsawPuzzleStatus.equalsIgnoreCase("enable")) {
                     startActivity(new Intent(InstrutionActNew.this, SamplePuzzleActivity.class)
                             .putExtra("myData",instructionList.get(position))
                             .putExtra("eventCode",eventCode));
-                    String urlImg[] = instructionList.get(position).getJigsawPuzzleImage().split(".png");
+                   /* String urlImg[] = instructionList.get(position).getJigsawPuzzleImage().split(".png");
                       for(int i =0;i<urlImg.length;i++){
                           Log.e("split value====",i+"======="+urlImg[i]);
-                      }
+                      }*/
 
                 } else startQuestionAnswerActivity(position);
             }
@@ -563,7 +563,7 @@ public class InstrutionActNew extends AppCompatActivity implements OnMapReadyCal
                      //   marker[i] = createMarker(i, Double.parseDouble(result.getLat()), Double.parseDouble(result.getLon()),
                       //          "#" + i, "", R.drawable.flag_green,result.getEventId(),result.getId());
                            int m = i + 1;
-                        marker[i] = addMarkerWithNumber(i,1,"",Double.parseDouble(result.getLat()), Double.parseDouble(result.getLon()),m+"",result.getEventId());
+                        marker[i] = addMarkerWithNumber(i,1,"",Double.parseDouble(result.getLat()), Double.parseDouble(result.getLon()),result.getNumbering()+"",result.getEventId());
 
                         Log.e("Lat Lon Position === ", +i + "  " + result.getLat() + " , " + result.getLon());
                     } catch (NumberFormatException e) {
@@ -571,7 +571,7 @@ public class InstrutionActNew extends AppCompatActivity implements OnMapReadyCal
                        // marker[i] = createMarker(i, convertDMSToDecimal(result.getLat()), convertDMSToDecimal(result.getLon()),
                        //         "#" + i, "", R.drawable.flag_green,result.getEventId(),result.getId());
                         int m = i + 1;
-                        marker[i] = addMarkerWithNumber(i,1,"",Double.parseDouble(result.getLat()), Double.parseDouble(result.getLon()),m+"",result.getEventId());
+                        marker[i] = addMarkerWithNumber(i,1,"",Double.parseDouble(result.getLat()), Double.parseDouble(result.getLon()),result.getNumbering()+"",result.getEventId());
 
 
 
@@ -588,7 +588,7 @@ public class InstrutionActNew extends AppCompatActivity implements OnMapReadyCal
                      //           Double.parseDouble(result.getLon()),
                              //   "#" + i, "", R.drawable.flag_red,result.getEventId(),result.getId());
                         int m = i + 1;
-                        marker[i] = addMarkerWithNumber(i,2,"",Double.parseDouble(result.getLat()), Double.parseDouble(result.getLon()),m+"",result.getEventId());
+                        marker[i] = addMarkerWithNumber(i,2,"",Double.parseDouble(result.getLat()), Double.parseDouble(result.getLon()),result.getNumbering()+"",result.getEventId());
 
                         Log.e("Lat Lon Position === ", +i + "  " + result.getLat() + " , " + result.getLon());
 
@@ -599,7 +599,7 @@ public class InstrutionActNew extends AppCompatActivity implements OnMapReadyCal
                        //         convertDMSToDecimal(result.getLon()),
                           //    "#" + i, "", R.drawable.flag_red,result.getEventId(),result.getId());
                         int m = i + 1;
-                        marker[i] = addMarkerWithNumber(i,2,"",Double.parseDouble(result.getLat()), Double.parseDouble(result.getLon()),m+"",result.getEventId());
+                        marker[i] = addMarkerWithNumber(i,2,"",Double.parseDouble(result.getLat()), Double.parseDouble(result.getLon()),result.getNumbering()+"",result.getEventId());
 
 
                         continue;

@@ -149,6 +149,18 @@ public class SuccessResGetInstruction implements Serializable {
         public String JigsawPuzzleImage;
 
 
+        @SerializedName("numbering")
+        @Expose
+        public String numbering;
+
+        public String getNumbering() {
+            return numbering;
+        }
+
+        public void setNumbering(String numbering) {
+            this.numbering = numbering;
+        }
+
         public String getJigsawPuzzleStatus() {
             return JigsawPuzzleStatus;
         }

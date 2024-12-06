@@ -151,26 +151,30 @@ public class HomeFragment extends Fragment {
             Log.e("TAG", "onItemSelected: " + o);
             Log.e("TAG", "onItemSelected: " + i1);
             Log.e("TAG", "onItemSelected: " + t1);
-            SuccessResGetEvents datadd = SharedPreferenceUtility.getInstance(getActivity())
-                    .getSuccessResGetEvents("SuccessResGetEvents");
-            city_id = cityList.get(i1).getId();
-            Log.e("TAG", "onItemSelected: "  + t1 + "   " + city_id);
+
+            if(i1>=0 && t1!=null) {
+
+                SuccessResGetEvents datadd = SharedPreferenceUtility.getInstance(getActivity())
+                        .getSuccessResGetEvents("SuccessResGetEvents");
+                city_id = cityList.get(i1).getId();
+                Log.e("TAG", "onItemSelected: " + t1 + "   " + city_id);
 
 
-
-            eventsList.clear();
-            for (SuccessResGetEvents.Result result : datadd.result) {
-                if (result.city_id.equalsIgnoreCase(city_id)) {
-                    eventsList.add(result);
+                eventsList.clear();
+                for (SuccessResGetEvents.Result result : datadd.result) {
+                    if (result.city_id.equalsIgnoreCase(city_id)) {
+                        eventsList.add(result);
+                    }
                 }
-            }
-            if (eventsList.size()>=1){
-                homeAdapter.notifyDataSetChanged();
-                binding.noResultFound.setVisibility(View.GONE);
+                if (eventsList.size() >= 1) {
+                    homeAdapter.notifyDataSetChanged();
+                    binding.noResultFound.setVisibility(View.GONE);
 
-            }else {
-                showToast(getActivity(), "Coming Soon..");
-                binding.noResultFound.setVisibility(View.VISIBLE);
+                } else {
+                    showToast(getActivity(), "Coming Soon..");
+                    binding.noResultFound.setVisibility(View.VISIBLE);
+                }
+
             }
         });
         getLocation();

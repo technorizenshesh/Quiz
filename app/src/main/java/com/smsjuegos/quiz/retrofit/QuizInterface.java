@@ -263,4 +263,10 @@ public interface QuizInterface {
     @POST("event_pause_time")
     Call<ResponseBody> eventTimePlayPause(@FieldMap Map<String, String> paramHashMap);
 
+
+    @FormUrlEncoded
+    @POST("get_event_instructions_game_images")
+    Call<ResponseBody> getPuzzelFinalImageApi(@FieldMap Map<String, String> paramHashMap);
+
+
 }

@@ -221,7 +221,8 @@ public class LoginAct extends AppCompatActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
         if (requestCode ==  Constant.LOCATION_REQUEST) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED &&
+                    grantResults[1] == PackageManager.PERMISSION_GRANTED) {
                 try {
                     if (gpsTracker.canGetLocation()) {
                         SharedPreferenceUtility.getInstance(LoginAct.this).putString(Constant.LATITUDE, gpsTracker.getLatitude() + "");

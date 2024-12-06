@@ -152,8 +152,11 @@ public class ZombieQuestionAct extends AppCompatActivity {
         }
         apiInterface = ApiClient.getClient().create(QuizInterface.class);
         position = 0;
-        result = (SuccessResGetEvents.Result) getIntent().getSerializableExtra("instructionID");
-        getInstruction();
+        if( getIntent().getSerializableExtra("instructionID")!=null) {
+            result = (SuccessResGetEvents.Result) getIntent().getSerializableExtra("instructionID");
+            getInstruction();
+        }
+
         runTimer(0);
         binding.ivshare.setOnClickListener(v -> {
             startActivity(getOpenFacebookIntent());
@@ -211,7 +214,11 @@ public class ZombieQuestionAct extends AppCompatActivity {
                     // if (!binding.etAnswer.getText().toString().equalsIgnoreCase("")) {
                     // submitAnswer(binding.etAnswer.getText().toString());
                     // }
-                    showAnsDialog(instructionList.get(position), "");
+                   try {
+                       showAnsDialog(instructionList.get(position), "");
+                   }catch (Exception e){
+                       e.printStackTrace();
+                   }
                 }
         );
         binding.btnNext.setOnClickListener(v ->
@@ -310,6 +317,11 @@ public class ZombieQuestionAct extends AppCompatActivity {
     private void getInstruction() {
         boolean val = SharedPreferenceUtility.getInstance(getApplicationContext()).getBoolean(Constant.SELECTED_LANGUAGE);
         String lang = "";
+        String evtId ="";
+        if(result.getId()!=null || !result.getId().equals("")){
+            evtId = result.getId();
+        }
+
 
         if (!val) {
             lang = "en";
@@ -317,7 +329,7 @@ public class ZombieQuestionAct extends AppCompatActivity {
             lang = "sp";}
         DataManager.getInstance().showProgressMessage(this, getString(R.string.please_wait));
         Map<String, String> map = new HashMap<>();
-        map.put("event_id", result.getId());
+        map.put("event_id", evtId);
         map.put("lang", lang);
         Call<SuccessResGetVirusEvent> call = apiInterface.getVirusEvent(map);
         call.enqueue(new Callback<SuccessResGetVirusEvent>() {

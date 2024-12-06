@@ -66,7 +66,7 @@ public class SMSApp extends Application implements Application.ActivityLifecycle
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
-                    SharedPreferenceUtility.getInstance(context).putSuccessResCity("SuccessResCity", data[0].result);
+               //     SharedPreferenceUtility.getInstance(context).putSuccessResCity("SuccessResCity", data[0].result);
 
                 }
             }

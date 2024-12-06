@@ -28,8 +28,10 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.Target;
 import com.google.gson.Gson;
 import com.smsjuegos.quiz.R;
+import com.smsjuegos.quiz.adapter.FinalPuzzalAdapter;
 import com.smsjuegos.quiz.adapter.FinalPuzzelAdapter;
 import com.smsjuegos.quiz.databinding.ActivityFinalPuzzelBinding;
+import com.smsjuegos.quiz.model.FinalPuzzerlImageModel;
 import com.smsjuegos.quiz.model.SuccessResGetInventory;
 import com.smsjuegos.quiz.retrofit.ApiClient;
 import com.smsjuegos.quiz.retrofit.Constant;
@@ -38,6 +40,7 @@ import com.smsjuegos.quiz.utility.DataManager;
 import com.smsjuegos.quiz.utility.FinalPuzzelInterface;
 import com.smsjuegos.quiz.utility.SharedPreferenceUtility;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -279,14 +282,18 @@ public class FinalPuzzelAct extends AppCompatActivity {
                                     binding.mainScroll.setVisibility(View.GONE);
                                     binding.btnFinsh.setVisibility(View.GONE);
                                     binding.llOther.setVisibility(View.VISIBLE);
-                                    if (i == 0)
-                                        Glide.with(FinalPuzzelAct.this).load(ArrayListss.get(0).getImage()).into(binding.img1);
+
+
+
+                                   /* if (i == 0 && ArrayListss.get(0).finalPuzzleStatus.equals("Yes"))
+                                        Glide.with(FinalPuzzelAct.this).load(ArrayListss.get(0).getFinalPuzzleImage()).into(binding.img1);
                                     else if (i == 1)
                                         Glide.with(FinalPuzzelAct.this).load(ArrayListss.get(1).getImage()).into(binding.img2);
                                     else if (i == 2)
                                         Glide.with(FinalPuzzelAct.this).load(ArrayListss.get(2).getImage()).into(binding.img3);
                                     else if (i == 3)
                                         Glide.with(FinalPuzzelAct.this).load(ArrayListss.get(3).getImage()).into(binding.img4);
+                              */
                                 }
 
 
@@ -303,10 +310,13 @@ public class FinalPuzzelAct extends AppCompatActivity {
 
 
                                 }
-*/
+*/                                if(res.getEventId().equalsIgnoreCase("39")) {
+
+                                      getPuzzwlImage();
+}
 
 
-                            }
+                                }
 
                             peopleAdapter.notifyDataSetChanged();
                             placesAdapter.notifyDataSetChanged();
@@ -330,6 +340,67 @@ public class FinalPuzzelAct extends AppCompatActivity {
                 DataManager.getInstance().hideProgressMessage();
             }
         });
+    }
+
+    private void getPuzzwlImage() {
+        DataManager.getInstance().showProgressMessage(this, getString(R.string.please_wait));
+        String userId = SharedPreferenceUtility.getInstance(this).getString(USER_ID);
+      //  DataManager.getInstance().showProgressMessage(this, getString(R.string.please_wait));
+        boolean val = SharedPreferenceUtility.getInstance(getApplicationContext()).getBoolean(Constant.SELECTED_LANGUAGE);
+        String lang = "";
+
+        if (!val) {
+            lang = "en";
+        } else {
+            lang = "sp";
+        }
+
+        Map<String, String> map = new HashMap<>();
+       // map.put("user_id", userId);
+        map.put("event_id", eventId);
+        map.put("event_code", eventCode);
+        map.put("lang", lang);
+        String level = SharedPreferenceUtility.getInstance(this).getString(GAME_LAVEL);
+        map.put("level", level);
+        Call<ResponseBody> call = apiInterface.getPuzzelFinalImageApi(map);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+
+                DataManager.getInstance().hideProgressMessage();
+
+                try {
+                    String responseData = response.body() != null ? response.body().string() : "";
+                    JSONObject object = new JSONObject(responseData);
+                    Log.e("check data====", "Final puzzel RESPONSE" + object);
+                    if (object.getString("status").equals("1")) {
+                        FinalPuzzerlImageModel data11 = new Gson().fromJson(responseData, FinalPuzzerlImageModel.class);
+                        ArrayList<FinalPuzzerlImageModel.Result> arrayList = new ArrayList<>();
+                        for(int i =0;i<data11.getResult().size();i++){
+                           if (data11.getResult().get(i).getAnswerStatus()==1)
+                            arrayList.add(data11.getResult().get(i));
+                        }
+                        binding.rvImage.setAdapter(new FinalPuzzalAdapter(FinalPuzzelAct.this, arrayList));
+
+
+
+                    } else if (object.getInt("status")==0) {
+                        showToast(FinalPuzzelAct.this, object.getString("message"));
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                call.cancel();
+                DataManager.getInstance().hideProgressMessage();
+            }
+        });
+
     }
 
     public void puzzelComplete() {

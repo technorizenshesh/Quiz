@@ -2,18 +2,24 @@ package com.smsjuegos.quiz.activities;
 
 
 import static com.smsjuegos.quiz.SMSApp.getCities;
+import static com.smsjuegos.quiz.retrofit.Constant.LATITUDE;
+import static com.smsjuegos.quiz.retrofit.Constant.LONGITUDE;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.core.app.ActivityCompat;
 
 import com.smsjuegos.quiz.R;
 import com.smsjuegos.quiz.retrofit.Constant;
@@ -51,11 +57,39 @@ public class SplashAct extends AppCompatActivity {
             updateResources(SplashAct.this, "es");
         }
         if (isUserLoggedIn) {
-            gpsTracker = new GPSTracker(SplashAct.this);
-            getCities(SplashAct.this, gpsTracker.getLatitude(), gpsTracker.getLongitude());
+            getLocation();
         }
             finds();
     }
+
+
+    public void getLocation() {
+        if (ActivityCompat.checkSelfPermission(SplashAct.this,
+                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(SplashAct.this,
+                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(SplashAct.this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
+                            Manifest.permission.ACCESS_COARSE_LOCATION},
+                    Constant.LOCATION_REQUEST);
+        } else {
+
+            try {
+                gpsTracker = new GPSTracker(SplashAct.this);
+                getCities(SplashAct.this, gpsTracker.getLatitude(), gpsTracker.getLongitude());
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+
+
+        }
+    }
+
+
+
+
+
+
 
     private void finds() {
 
@@ -69,6 +103,26 @@ public class SplashAct extends AppCompatActivity {
                 finish();
             }
         }, 3000);
+    }
+
+
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode ==  Constant.LOCATION_REQUEST) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED &&
+                    grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+                try {
+                    gpsTracker = new GPSTracker(SplashAct.this);
+                    getCities(SplashAct.this, gpsTracker.getLatitude(), gpsTracker.getLongitude());
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
 }

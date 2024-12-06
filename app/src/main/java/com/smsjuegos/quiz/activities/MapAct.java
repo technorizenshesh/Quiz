@@ -204,7 +204,7 @@ public class MapAct extends AppCompatActivity implements OnMapReadyCallback, Goo
             if (distance > 100) {   // (distance > 150)    {
                 showSimpleCancelBtnDialog(MapAct.this, R.layout.dialog_distance, distance + "");
             } else {
-                Log.e("TAG", "onMarkerClick: " + instructionList.get(position));
+               // Log.e("TAG", "onMarkerClick: " + instructionList.get(position));
                 if (instructionList.get(position).JigsawPuzzleStatus.equalsIgnoreCase("enable")) {
                     startActivity(new Intent(MapAct.this, SamplePuzzleActivity.class)
                             .putExtra("myData",instructionList.get(position))
@@ -273,7 +273,7 @@ public class MapAct extends AppCompatActivity implements OnMapReadyCallback, Goo
                        // marker[i] = createMarker(i, Double.parseDouble(result.getLat()), Double.parseDouble(result.getLon()),
                       //          "#" + i, "", R.drawable.flag_green,result.getEventId(),result.getId());
                         int m = i + 1;
-                        marker[i] = addMarkerWithNumber(i,1,"",Double.parseDouble(result.getLat()), Double.parseDouble(result.getLon()),m+"",result.getEventId());
+                        marker[i] = addMarkerWithNumber(i,1,"",Double.parseDouble(result.getLat()), Double.parseDouble(result.getLon()),result.getNumbering()+"",result.getEventId());
 
                     } catch (NumberFormatException e) {
 
@@ -281,7 +281,7 @@ public class MapAct extends AppCompatActivity implements OnMapReadyCallback, Goo
                     //           "#" + i, "", R.drawable.flag_green,result.getEventId(),result.getId());
 
                         int m = i + 1;
-                        marker[i] = addMarkerWithNumber(i,1,"",Double.parseDouble(result.getLat()), Double.parseDouble(result.getLon()),m+"",result.getEventId());
+                        marker[i] = addMarkerWithNumber(i,1,"",Double.parseDouble(result.getLat()), Double.parseDouble(result.getLon()),result.getNumbering()+"",result.getEventId());
 
 
                         continue;
@@ -298,7 +298,7 @@ public class MapAct extends AppCompatActivity implements OnMapReadyCallback, Goo
                      //           Double.parseDouble(result.getLon()),
                       //          "#" + i, "", R.drawable.flag_red,result.getEventId(),result.getId());
                         int m = i + 1;
-                        marker[i] = addMarkerWithNumber(i,2,"",Double.parseDouble(result.getLat()), Double.parseDouble(result.getLon()),m+"",result.getEventId());
+                        marker[i] = addMarkerWithNumber(i,2,"",Double.parseDouble(result.getLat()), Double.parseDouble(result.getLon()),result.getNumbering()+"",result.getEventId());
 
                     } catch (NumberFormatException e) {
                     //    marker[i] = createMarker(i, convertDMSToDecimal(result.getLat()),
@@ -306,7 +306,7 @@ public class MapAct extends AppCompatActivity implements OnMapReadyCallback, Goo
                       //         "#" + i, "", R.drawable.flag_red,result.getEventId(),result.getId());
 
                         int m = i + 1;
-                        marker[i] = addMarkerWithNumber(i,2,"",Double.parseDouble(result.getLat()), Double.parseDouble(result.getLon()),m+"",result.getEventId());
+                        marker[i] = addMarkerWithNumber(i,2,"",Double.parseDouble(result.getLat()), Double.parseDouble(result.getLon()),result.getNumbering()+"",result.getEventId());
 
                         continue;
                     }
