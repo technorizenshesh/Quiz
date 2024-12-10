@@ -152,10 +152,15 @@ public class ZombieQuestionAct extends AppCompatActivity {
         }
         apiInterface = ApiClient.getClient().create(QuizInterface.class);
         position = 0;
-        if( getIntent().getSerializableExtra("instructionID")!=null) {
-            result = (SuccessResGetEvents.Result) getIntent().getSerializableExtra("instructionID");
-            getInstruction();
-        }
+         try {
+             if( getIntent().getSerializableExtra("instructionID")!=null) {
+                 result = (SuccessResGetEvents.Result) getIntent().getSerializableExtra("instructionID");
+                 getInstruction();
+             }
+         }catch (Exception e){
+             e.printStackTrace();
+         }
+
 
         runTimer(0);
         binding.ivshare.setOnClickListener(v -> {
@@ -187,8 +192,13 @@ public class ZombieQuestionAct extends AppCompatActivity {
                     Button ivSubmit = dialogq.findViewById(R.id.btnSubmit);
                     ivSubmit.setOnClickListener(D ->
                             {
-                                addHintPanalties(5, "1");
-                                dialogq.dismiss();
+                               try {
+                                   addHintPanalties(5, "1");
+                                   dialogq.dismiss();
+                               }catch (Exception e){
+                                   e.printStackTrace();
+                               }
+
                             }
                     );
                     Button ivCancel = dialogq.findViewById(R.id.btncncel);
@@ -223,14 +233,18 @@ public class ZombieQuestionAct extends AppCompatActivity {
         );
         binding.btnNext.setOnClickListener(v ->
                 {
-                    if (position == instructionList.size() - 1) {
-                        startActivity(new Intent(ZombieQuestionAct.this,
-                                MissionCompletedAct.class).putExtra("instructionID", result));
-                        finishAffinity();
-                    } else {
-                        position = position + 1;
+                    try {
+                        if (position == instructionList.size() - 1) {
+                            startActivity(new Intent(ZombieQuestionAct.this,
+                                    MissionCompletedAct.class).putExtra("instructionID", result));
+                            finishAffinity();
+                        } else {
+                            position = position + 1;
 
-                        setEventQuestions(position);
+                            setEventQuestions(position);
+                        }
+                    }catch (Exception e){
+                        e.printStackTrace();
                     }
                 }
         );
@@ -472,7 +486,8 @@ public class ZombieQuestionAct extends AppCompatActivity {
         submit.setOnClickListener(v ->
                 {
 
-                    selectedAnswer = "";
+                    try {
+                        selectedAnswer = "";
                     int selectedId = radioGroup.getCheckedRadioButtonId();
                     RadioButton
                             selectedRadioButton = (RadioButton) dialog.findViewById(selectedId);
@@ -498,6 +513,10 @@ public class ZombieQuestionAct extends AppCompatActivity {
                             custom = true;
                             submitAnswer(selectedAnswer);
                         }
+                    }
+
+                    }catch (Exception e){
+                        e.printStackTrace();
                     }
                 }
         );
@@ -545,12 +564,22 @@ public class ZombieQuestionAct extends AppCompatActivity {
         }
         tvSHowHint1.setOnClickListener(v ->
                 {
-                    addHintPanalties(1, "");
+                    try {
+                        addHintPanalties(1, "");
+
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
                 }
         );
         tvSHowHint2.setOnClickListener(v ->
                 {
-                    addHintPanalties(2, "");
+                    try {
+                        addHintPanalties(2, "");
+
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
                 }
         );
         tvSHowHint3.setVisibility(View.GONE);

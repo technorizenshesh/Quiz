@@ -112,7 +112,10 @@ class SamplePuzzleActivity : AppCompatActivity() {
               eventCode = intent.getStringExtra("eventCode")!!
               //    Log.e("check answer===",myData!!.getEventAns())
               //    Log.e("check eventId===",eventCode)
+              gesture_detect_grid_view!!.post {
+                  callGetBitmap()
 
+              }
           }
       }catch(e:Exception){
           e.printStackTrace()
@@ -120,10 +123,7 @@ class SamplePuzzleActivity : AppCompatActivity() {
 
 
 
-       gesture_detect_grid_view!!.post {
-           callGetBitmap()
 
-       }
       //  tilesList = mutableListOf()
 
 
