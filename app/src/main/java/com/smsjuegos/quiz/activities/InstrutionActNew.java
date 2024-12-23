@@ -290,7 +290,7 @@ public class InstrutionActNew extends AppCompatActivity implements OnMapReadyCal
                     || eventId.equalsIgnoreCase("40") // riddle (Mexico)
 
             ) {
-                handleEventWithLocation(position);
+                  handleEventWithLocation(position);
             } else {
                 startQuestionAnswerActivity(position);
 
@@ -819,29 +819,35 @@ public class InstrutionActNew extends AppCompatActivity implements OnMapReadyCal
     private Marker addMarkerWithNumber(int position,int type, String title, double latitude, double longitude,String number,String eventId) {
         // Inflate the custom marker view
         View markerView=null;
-        if(type==1) markerView =    LayoutInflater.from(this).inflate(R.layout.marker_layout, null);
-         else markerView = LayoutInflater.from(this).inflate(R.layout.marker_layout_red, null);
+       try {
 
-        TextView numberTextView = markerView.findViewById(R.id.marker_number);
-        Log.e("check marker number===",number);
-        if (eventId.equalsIgnoreCase("15")){
-            numberTextView.setVisibility(View.VISIBLE);
-            numberTextView.setText("#"+number);
-        }
-        else {
-            numberTextView.setVisibility(View.GONE);
-        }
+           if(type==1) markerView =    LayoutInflater.from(this).inflate(R.layout.marker_layout, null);
+           else markerView = LayoutInflater.from(this).inflate(R.layout.marker_layout_red, null);
+
+           TextView numberTextView = markerView.findViewById(R.id.marker_number);
+           Log.e("check marker number===",number);
+           if (eventId.equalsIgnoreCase("15")){
+               numberTextView.setVisibility(View.VISIBLE);
+               numberTextView.setText("#"+number);
+           }
+           else {
+               numberTextView.setVisibility(View.GONE);
+           }
 
 
-        // Create the marker options
-        MarkerOptions markerOptions = new MarkerOptions()
-                .position(new LatLng(latitude, longitude))
-                .title(title)
-                .icon(BitmapDescriptorFactory.fromBitmap(createBitmapFromView(markerView)));
+           // Create the marker options
+           MarkerOptions markerOptions = new MarkerOptions()
+                   .position(new LatLng(latitude, longitude))
+                   .title(title)
+                   .icon(BitmapDescriptorFactory.fromBitmap(createBitmapFromView(markerView)));
 
-        // Add the marker to the map
-        myMarker =  mMap.addMarker(markerOptions);
-        myMarker.setTag(position);
+           // Add the marker to the map
+           myMarker =  mMap.addMarker(markerOptions);
+           myMarker.setTag(position);
+
+       }catch (Exception e){
+           e.printStackTrace();
+       }
         return myMarker;
     }
 

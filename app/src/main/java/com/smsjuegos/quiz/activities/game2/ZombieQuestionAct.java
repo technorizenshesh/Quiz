@@ -173,8 +173,12 @@ public class ZombieQuestionAct extends AppCompatActivity {
             binding.ivshare.setVisibility(View.GONE);
         }
         binding.tvHint.setOnClickListener(v ->
-                {
+                {  try {
                     showHints();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+
                 }
         );
 
@@ -544,9 +548,16 @@ public class ZombieQuestionAct extends AppCompatActivity {
         tvHint1 = dialog.findViewById(R.id.tvHint1);
         tvHint2 = dialog.findViewById(R.id.tvHint2);
         tvHint3 = dialog.findViewById(R.id.tvHint3);
-        tvHint1.setText(instructionList.get(position).getInstructionsHint1());
-        tvHint2.setText(instructionList.get(position).getInstructionsHint2());
-        tvHint3.setText(instructionList.get(position).getInstructionsHint3());
+        try {
+            if(instructionList.get(position)!=null) {
+                tvHint1.setText(instructionList.get(position).getInstructionsHint1());
+                tvHint2.setText(instructionList.get(position).getInstructionsHint2());
+                tvHint3.setText(instructionList.get(position).getInstructionsHint3());
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
         btnCancel = dialog.findViewById(R.id.btnSubmit);
         btnCancel.setOnClickListener(v ->
                 {
