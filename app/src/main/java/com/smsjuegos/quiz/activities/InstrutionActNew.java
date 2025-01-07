@@ -335,7 +335,7 @@ public class InstrutionActNew extends AppCompatActivity implements OnMapReadyCal
             Toast.makeText(getApplicationContext(), "" + distance, Toast.LENGTH_SHORT).show();
 
 
-        /*    if (instructionList.get(position).JigsawPuzzleStatus.equalsIgnoreCase("enable")) {
+          /*  if (instructionList.get(position).JigsawPuzzleStatus.equalsIgnoreCase("enable")) {
                 startActivity(new Intent(InstrutionActNew.this, SamplePuzzleActivity.class)
                         .putExtra("myData",instructionList.get(position))
                         .putExtra("eventCode",eventCode));
@@ -345,6 +345,9 @@ public class InstrutionActNew extends AppCompatActivity implements OnMapReadyCal
                 }
 
             } else startQuestionAnswerActivity(position);*/
+
+
+
 
 
             if (distance > 100) {  //  if (distance >= 150)         {
@@ -362,6 +365,9 @@ public class InstrutionActNew extends AppCompatActivity implements OnMapReadyCal
 
                 } else startQuestionAnswerActivity(position);
             }
+
+
+
 
         } else {
             startQuestionAnswerActivity(position);

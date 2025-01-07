@@ -454,6 +454,7 @@ class SamplePuzzleActivity : AppCompatActivity() {
         }
     }
 
+/*
     private fun swapTile(currentPosition: Int, swap: Int) {
         val newPosition = tileListIndexes[currentPosition + swap]
         tileListIndexes[currentPosition + swap] = tileListIndexes[currentPosition]
@@ -467,6 +468,36 @@ class SamplePuzzleActivity : AppCompatActivity() {
             submitAnswer(myData!!.getOptionAns())
         }
     }
+*/
+
+
+    private fun swapTile(currentPosition: Int, swap: Int) {
+        // Calculate the new position
+        val newPosition = currentPosition + swap
+
+        // Check if the new position is valid (i.e., within the bounds of the array)
+        if (newPosition in 0 until DIMENSIONS) {
+            // Perform the swap if valid
+            val temp = tileListIndexes[currentPosition]
+            tileListIndexes[currentPosition] = tileListIndexes[newPosition]
+            tileListIndexes[newPosition] = temp
+
+            // Update the board display
+            displayTileBoard()
+
+            // Check if the puzzle is solved
+            if (isSolved) {
+                displayToast(R.string.winner)
+                submitAnswer(myData!!.getOptionAns())
+            }
+        } else {
+            // Display an invalid move message if the new position is out of bounds
+            displayToast(R.string.invalid_move)
+        }
+    }
+
+
+
 
 
     override fun onPause() {

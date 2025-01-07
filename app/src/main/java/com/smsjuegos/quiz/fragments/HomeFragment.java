@@ -146,6 +146,7 @@ public class HomeFragment extends Fragment {
         }
 
         binding.spinner.setLifecycleOwner(HomeFragment.this);
+/*
         binding.spinner.setOnSpinnerItemSelectedListener((i, o, i1, t1) -> {
             Log.e("TAG", "onItemSelected: " + i);
             Log.e("TAG", "onItemSelected: " + o);
@@ -177,6 +178,48 @@ public class HomeFragment extends Fragment {
 
             }
         });
+*/
+
+            binding.spinner.setOnSpinnerItemSelectedListener((i, o, i1, t1) -> {
+                Log.e("TAG", "onItemSelected: " + i);
+                Log.e("TAG", "onItemSelected: " + o);
+                Log.e("TAG", "onItemSelected: " + i1);
+                Log.e("TAG", "onItemSelected: " + t1);
+
+                if (i1 >= 0 && t1 != null) {
+
+                    SuccessResGetEvents datadd = SharedPreferenceUtility.getInstance(getActivity())
+                            .getSuccessResGetEvents("SuccessResGetEvents");
+
+                    // Check if 'datadd' or 'datadd.result' is null
+                    if (datadd != null && datadd.result != null) {
+                        city_id = cityList.get(i1).getId();
+                        Log.e("TAG", "onItemSelected: " + t1 + "   " + city_id);
+
+                        eventsList.clear();
+                        for (SuccessResGetEvents.Result result : datadd.result) {
+                            if (result.city_id.equalsIgnoreCase(city_id)) {
+                                eventsList.add(result);
+                            }
+                        }
+
+                        if (eventsList.size() >= 1) {
+                            homeAdapter.notifyDataSetChanged();
+                            binding.noResultFound.setVisibility(View.GONE);
+                        } else {
+                            showToast(getActivity(), "Coming Soon..");
+                            binding.noResultFound.setVisibility(View.VISIBLE);
+                        }
+                    } else {
+                        // Handle the case when 'datadd' or 'datadd.result' is null
+                        Log.e("TAG", "Error: Data is null!");
+                        showToast(getActivity(), "No events data available.");
+                        binding.noResultFound.setVisibility(View.VISIBLE);
+                    }
+                }
+            });
+
+
         getLocation();
         if (NetworkAvailablity.getInstance(getActivity()).checkNetworkStatus()) {
             if (SharedPreferenceUtility.getInstance(getActivity())

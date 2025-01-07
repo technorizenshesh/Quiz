@@ -48,13 +48,25 @@ public class FinalPuzzalAdapter extends RecyclerView.Adapter<FinalPuzzalAdapter.
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
 
            // holder.binding.img2.setVisibility(View.VISIBLE);
-        Glide.with(context)
-                      .load(arrayList.get(position).getFinalPuzzleImage())
-                      .override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
-                      .placeholder(R.drawable.default_error)
-                      .diskCacheStrategy(DiskCacheStrategy.ALL)
-                      .centerCrop()
-                      .into(holder.binding.img2);
+
+         if(arrayList.get(position).getAnswerStatus()==1){
+             holder.binding.img2.setVisibility(View.VISIBLE);
+             holder.binding.rlImage.setVisibility(View.GONE);
+
+             Glide.with(context)
+                     .load(arrayList.get(position).getFinalPuzzleImage())
+                     .override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
+                     .placeholder(R.drawable.default_error)
+                     .diskCacheStrategy(DiskCacheStrategy.ALL)
+                     .centerCrop()
+                     .into(holder.binding.img2);
+         }
+         else {
+             holder.binding.img2.setVisibility(View.GONE);
+             holder.binding.rlImage.setVisibility(View.VISIBLE);
+
+         }
+
 
 
 

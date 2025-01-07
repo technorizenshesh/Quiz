@@ -12,6 +12,7 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.net.Uri;
 import android.provider.Settings;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -69,7 +70,17 @@ public class LocationUtil {
                 if (locationResult != null && locationResult.getLastLocation() != null) {
                     Location location = locationResult.getLastLocation();
                     final LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-                    mListener.get().onLocationReceived(latLng);
+
+
+                   // mListener.get().onLocationReceived(latLng);
+
+                    // Check if mListener is not null before calling onLocationReceived
+                    if (mListener != null && mListener.get() != null) {
+                        mListener.get().onLocationReceived(latLng);
+                    } else {
+                        Log.e("LocationUtil", "Listener is null, cannot notify onLocationReceived.");
+                    }
+
 
                 }
             }
@@ -85,7 +96,7 @@ public class LocationUtil {
 
     public void fetchApproximateLocation(LocationListener listener) {
 
-        mListener = new WeakReference<>(listener);
+       /* mListener = new WeakReference<>(listener);
 
         String neverAskMessage = "";
         if (mActivity.get() != null) {
@@ -93,7 +104,17 @@ public class LocationUtil {
         }
         String rationaleMessage = mActivity.get().getString(R.string.msg_never_ask_sharing);
 
-        fetchLocation(neverAskMessage, rationaleMessage, false);
+        fetchLocation(neverAskMessage, rationaleMessage, false);*/
+
+        if (listener != null) {
+            mListener = new WeakReference<>(listener);
+            // Proceed with fetching the location
+            String neverAskMessage = mActivity.get().getString(R.string.msg_request_location_message);
+            String rationaleMessage = mActivity.get().getString(R.string.msg_never_ask_sharing);
+            fetchLocation(neverAskMessage, rationaleMessage, false);
+        } else {
+            Log.e("LocationUtil", "Listener is null, cannot proceed with fetching location.");
+        }
 
     }
 
@@ -120,6 +141,7 @@ public class LocationUtil {
 
 
 
+/*
     public void fetchLocation(String neverAskMessage, String rationaleMessage, boolean isCompleteAddressRequired) {
         mIsAddressRequired = isCompleteAddressRequired;
         //Permission is granted.
@@ -149,6 +171,71 @@ public class LocationUtil {
                         dialogInterface.dismiss();
                     }
                 }).create().show();
+
+            } else if (AppPermissionsUtil.shouldShowPermissionRationaleForLocation(mActivity.get())) {
+                // Permission has been denied once.
+                new AlertDialog.Builder(mActivity.get())
+                        .setTitle(R.string.msg_location_permission_title)
+                        .setMessage(rationaleMessage)
+                        .setPositiveButton(mActivity.get().getString(R.string.ok), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                                AppPermissionsUtil.requestForLocationPermission(mActivity.get(), LOCATION_PERMISSION_REQUEST_CODE);
+                            }
+                        })
+                        .setNegativeButton(mActivity.get().getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        })
+                        .create().show();
+            } else //Ask for permission
+                AppPermissionsUtil.requestForLocationPermission(mActivity.get(), LOCATION_PERMISSION_REQUEST_CODE);
+        }
+    }
+*/
+
+
+    public void fetchLocation(String neverAskMessage, String rationaleMessage, boolean isCompleteAddressRequired) {
+        mIsAddressRequired = isCompleteAddressRequired;
+        if (mActivity.get() == null) {
+            Log.e("LocationUtil", "Activity is null, cannot fetch location.");
+            return;
+        }
+
+        // Check if the listener is set and valid
+        if (mListener != null && mListener.get() == null) {
+            Log.e("LocationUtil", "Listener is null, cannot fetch location.");
+            return;
+        }
+
+        // Permission is granted.
+        if (AppPermissionsUtil.checkIfLocationPermissionIsGiven(mActivity.get()))
+            createLocationRequest();
+        else {
+            // Never Ask scenario
+            if (AppPermissionsUtil.shouldShowPermissionRationaleForLocation(mActivity.get())) {
+                new AlertDialog.Builder(mActivity.get())
+                        .setTitle(R.string.msg_location_permission_title)
+                        .setMessage(neverAskMessage)
+                        .setPositiveButton(mActivity.get().getString(R.string.txt_open_settings), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                                Intent intent = new Intent();
+                                intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                                Uri uri = Uri.fromParts("package", mActivity.get().getPackageName(), null);
+                                intent.setData(uri);
+                                mActivity.get().startActivity(intent);
+                            }
+                        }).setNegativeButton(mActivity.get().getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        }).create().show();
 
             } else if (AppPermissionsUtil.shouldShowPermissionRationaleForLocation(mActivity.get())) {
                 // Permission has been denied once.

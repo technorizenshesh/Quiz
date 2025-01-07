@@ -179,11 +179,12 @@
 
 
 
+
                   <androidx.recyclerview.widget.RecyclerView
                       android:id="@+id/rvImage"
                       android:layout_width="match_parent"
                       android:layout_height="wrap_content"
-                      app:spanCount="2"
+                      app:spanCount="4"
                       app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                       tools:listitem="@layout/item_final_puzzal"/>
 

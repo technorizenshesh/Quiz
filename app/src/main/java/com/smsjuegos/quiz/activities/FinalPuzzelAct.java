@@ -70,6 +70,7 @@ public class FinalPuzzelAct extends AppCompatActivity {
     private int objectSelected = -1;
     private int placeSelected = -1;
 
+    FinalPuzzerlImageModel data11;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -123,7 +124,11 @@ public class FinalPuzzelAct extends AppCompatActivity {
         binding.btnSubmit.setOnClickListener(view -> {
             if (binding.etAnswer.getText().toString().equalsIgnoreCase("")) {
                 showToast(FinalPuzzelAct.this, getString(R.string.please_enter_answer));
-            } else {
+            }
+            else if( data11!=null &&  !data11.getFinalAnswer().trim().equals(binding.etAnswer.getText().toString().trim())){
+                showToast(FinalPuzzelAct.this, getString(R.string.wrong_answere));
+            }
+            else {
                 puzzelComplete();
             }
         });
@@ -294,6 +299,7 @@ public class FinalPuzzelAct extends AppCompatActivity {
                                     else if (i == 3)
                                         Glide.with(FinalPuzzelAct.this).load(ArrayListss.get(3).getImage()).into(binding.img4);
                               */
+                                    getPuzzwlImage();
                                 }
 
 
@@ -310,10 +316,10 @@ public class FinalPuzzelAct extends AppCompatActivity {
 
 
                                 }
-*/                                if(res.getEventId().equalsIgnoreCase("39")) {
-
-                                      getPuzzwlImage();
-}
+*/
+                             /*   if(res.getEventId().equalsIgnoreCase("39")) {
+                                    getPuzzwlImage();
+                              }*/
 
 
                                 }
@@ -374,10 +380,10 @@ public class FinalPuzzelAct extends AppCompatActivity {
                     JSONObject object = new JSONObject(responseData);
                     Log.e("check data====", "Final puzzel RESPONSE" + object);
                     if (object.getString("status").equals("1")) {
-                        FinalPuzzerlImageModel data11 = new Gson().fromJson(responseData, FinalPuzzerlImageModel.class);
+                        data11 = new Gson().fromJson(responseData, FinalPuzzerlImageModel.class);
                         ArrayList<FinalPuzzerlImageModel.Result> arrayList = new ArrayList<>();
                         for(int i =0;i<data11.getResult().size();i++){
-                           if (data11.getResult().get(i).getAnswerStatus()==1)
+                         //  if (data11.getResult().get(i).getAnswerStatus()==1)
                             arrayList.add(data11.getResult().get(i));
                         }
                         binding.rvImage.setAdapter(new FinalPuzzalAdapter(FinalPuzzelAct.this, arrayList));

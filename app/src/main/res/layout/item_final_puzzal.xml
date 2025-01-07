@@ -3,7 +3,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_140sdp"
+        android:layout_height="@dimen/_100sdp"
         >
 
 
@@ -14,6 +14,13 @@
             android:layout_weight="1"
             android:scaleType="fitXY"
             android:src="@drawable/ic_anser"/>
+
+        <RelativeLayout
+            android:id="@+id/rlImage"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/grayLight"/>
 
 
     </LinearLayout>

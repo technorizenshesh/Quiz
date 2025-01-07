@@ -17,4 +17,7 @@
     <color name="green">#00AE69</color>
     <color name="blue">#0000ff</color>
     <color name="trans">#000000FF</color>
+    <color name="grayLight">#D7CCC8</color>
+
+
 </resources>
