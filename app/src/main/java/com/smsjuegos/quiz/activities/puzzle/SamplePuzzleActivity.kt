@@ -146,20 +146,23 @@ class SamplePuzzleActivity : AppCompatActivity() {
         }
 
         val apiInterface = ApiClient3.getClient().create(QuizInterface::class.java)
-        val call = apiInterface.getImageData("uploads/images/"+urlImg[6])
-        //    val call = apiInterface.getImageData("uploads/images/Jigsaw_puzzle_image_53185.png")
-        call.enqueue(object : Callback<ResponseBody> {
-            @SuppressLint("SuspiciousIndentation")
-            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
-                DataManager.getInstance().hideProgressMessage()
-                try {
-                    if (response.isSuccessful) {
-                        val bitmap = BitmapFactory.decodeStream(
-                            response.body()!!.byteStream()
-                        )
 
-                          originalBitmap = bitmap
-                   //     init()
+
+        if (urlImg != null && urlImg.size > 6) {
+            val call = apiInterface.getImageData("uploads/images/"+urlImg[6])
+            //    val call = apiInterface.getImageData("uploads/images/Jigsaw_puzzle_image_53185.png")
+            call.enqueue(object : Callback<ResponseBody> {
+                @SuppressLint("SuspiciousIndentation")
+                override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                    DataManager.getInstance().hideProgressMessage()
+                    try {
+                        if (response.isSuccessful) {
+                            val bitmap = BitmapFactory.decodeStream(
+                                response.body()!!.byteStream()
+                            )
+
+                            originalBitmap = bitmap
+                            //     init()
 
 // Code to load and display Bitmaps here
 
@@ -169,23 +172,34 @@ class SamplePuzzleActivity : AppCompatActivity() {
                             alertInstructions()
                             onPause()
 
-                            }
+                        }
 
 
 
 
 
 
-                } catch (e: Exception) {
-                    e.printStackTrace()
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
                 }
-            }
 
-            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
 // Handle failure
-                DataManager.getInstance().hideProgressMessage()
-            }
-        })
+                    DataManager.getInstance().hideProgressMessage()
+                }
+            })
+
+
+        } else {
+            Log.e("Null or Invalid Data", "myData or urlImg is invalid or has insufficient elements.")
+            // Handle the error
+
+            Toast.makeText(this@SamplePuzzleActivity,"Invalid image url",Toast.LENGTH_LONG).show()
+        }
+
+
+
     }
 
     private fun alertInstructions() {

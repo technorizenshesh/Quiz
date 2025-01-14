@@ -119,7 +119,12 @@ public class EventLocationsFragment extends Fragment
             event_code = bundle.getString("event_code");
         }
 
-        getEventDetails();
+
+       try {
+           getEventDetails();
+       }catch (Exception e){
+           e.printStackTrace();
+       }
         binding.tvStatus.setOnClickListener(v -> {
                    /* if (Distanc>5){
                         Toast.makeText(requireActivity(), Distanc.toString(), Toast.LENGTH_SHORT).show();
