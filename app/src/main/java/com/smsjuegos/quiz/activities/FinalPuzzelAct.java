@@ -381,6 +381,7 @@ public class FinalPuzzelAct extends AppCompatActivity {
                     Log.e("check data====", "Final puzzel RESPONSE" + object);
                     if (object.getString("status").equals("1")) {
                         data11 = new Gson().fromJson(responseData, FinalPuzzerlImageModel.class);
+                        FinalImage = data11.getAfterFinishImage();
                         ArrayList<FinalPuzzerlImageModel.Result> arrayList = new ArrayList<>();
                         for(int i =0;i<data11.getResult().size();i++){
                          //  if (data11.getResult().get(i).getAnswerStatus()==1)

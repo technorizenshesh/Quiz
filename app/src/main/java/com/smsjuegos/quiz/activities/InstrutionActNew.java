@@ -1,5 +1,6 @@
 package com.smsjuegos.quiz.activities;
 
+import static com.smsjuegos.quiz.SMSApp.getCities;
 import static com.smsjuegos.quiz.retrofit.Constant.GAME_LAVEL;
 import static com.smsjuegos.quiz.retrofit.Constant.USER_ID;
 import static com.smsjuegos.quiz.retrofit.Constant.showToast;
@@ -37,6 +38,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
+import androidx.work.Data;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.WorkManager;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -73,6 +77,7 @@ import com.smsjuegos.quiz.utility.DataParser2;
 import com.smsjuegos.quiz.utility.DrawPollyLine;
 import com.smsjuegos.quiz.utility.GPSTracker;
 import com.smsjuegos.quiz.utility.LocationUtil;
+import com.smsjuegos.quiz.utility.PlayPauseWorker;
 import com.smsjuegos.quiz.utility.SharedPreferenceUtility;
 
 import org.json.JSONArray;
@@ -121,7 +126,7 @@ public class InstrutionActNew extends AppCompatActivity implements OnMapReadyCal
         gpsTracker = new GPSTracker(this);
         handler = new Handler();
         apiInterface = ApiClient.getClient().create(QuizInterface.class);
-        binding.imgHeader.setOnClickListener(v -> finish());
+        binding.imgHeader.setOnClickListener(v -> onBackPressed());
         eventId = getIntent().getExtras().getString("eventId");
         eventCode = getIntent().getExtras().getString("eventCode");
         //  eventId = "5";
@@ -233,7 +238,10 @@ public class InstrutionActNew extends AppCompatActivity implements OnMapReadyCal
 
         }
 
+      //  startRunnable();
+
     }
+
 
 
     @Override
@@ -242,11 +250,50 @@ public class InstrutionActNew extends AppCompatActivity implements OnMapReadyCal
         mLocationUtil.fetchApproximateLocation(this);
         mLocationUtil.fetchPreciseLocation(this);
 
-        // mMap.setMyLocationEnabled(true);
-        // googleMap.setLocationSource();
 
+        // googleMap.setLocationSource();
+         getLocation();
 
     }
+
+    public void getLocation() {
+        if (ActivityCompat.checkSelfPermission(InstrutionActNew.this,
+                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(InstrutionActNew.this,
+                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(InstrutionActNew.this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
+                            Manifest.permission.ACCESS_COARSE_LOCATION},
+                    Constant.LOCATION_REQUEST);
+        } else {
+
+            try {
+                mMap.setMyLocationEnabled(true);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+
+
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode ==  Constant.LOCATION_REQUEST) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED &&
+                    grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+                try {
+                    mMap.setMyLocationEnabled(true);
+
+                } catch (SecurityException e){
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
 
     @Override
     public boolean onMarkerClick(@NonNull Marker marker) {
@@ -335,7 +382,7 @@ public class InstrutionActNew extends AppCompatActivity implements OnMapReadyCal
             Toast.makeText(getApplicationContext(), "" + distance, Toast.LENGTH_SHORT).show();
 
 
-          /*  if (instructionList.get(position).JigsawPuzzleStatus.equalsIgnoreCase("enable")) {
+           /* if (instructionList.get(position).JigsawPuzzleStatus.equalsIgnoreCase("enable")) {
                 startActivity(new Intent(InstrutionActNew.this, SamplePuzzleActivity.class)
                         .putExtra("myData",instructionList.get(position))
                         .putExtra("eventCode",eventCode));
@@ -411,7 +458,7 @@ public class InstrutionActNew extends AppCompatActivity implements OnMapReadyCal
                         MyLongitude = Double.parseDouble(jsonObject.getString("lon"));
                     }
                     result = result;
-                    if (result == null & result <= 0) {
+                    if (result == null && result <= 0) {
                     } else {
 
                        if(gamePlayPauseStatus.equalsIgnoreCase("START")) {
@@ -1000,6 +1047,11 @@ public class InstrutionActNew extends AppCompatActivity implements OnMapReadyCal
         }
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+      //  stopRunnable();
+    }
 
     @Override
     protected void onStop() {
@@ -1012,8 +1064,37 @@ public class InstrutionActNew extends AppCompatActivity implements OnMapReadyCal
         super.onDestroy();
         // Stop the timer and remove the handler callbacks
        // handler.removeCallbacks(runnable);
-       // PlayPauseTimer("STOP",MyLatitude,MyLongitude,pauseId);
+     //   PlayPauseTimer("START",MyLatitude,MyLongitude,pauseId);
 
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        String status="";
+        // Create input data to pass to the worker
+         if(gamePlayPauseStatus.equalsIgnoreCase("STOP")){
+             status = "STOP";
+         }
+         else  status = "START";
+        Data inputData = new Data.Builder()
+                .putString(PlayPauseWorker.STATUS_KEY, status) // Example status
+                .putDouble(PlayPauseWorker.LAT_KEY, MyLatitude)
+                .putDouble(PlayPauseWorker.LON_KEY, MyLongitude)
+                .putString(PlayPauseWorker.PAUSE_ID_KEY, pauseId)
+                .putString(PlayPauseWorker.EVENT_ID_KEY, eventId)
+                .putString(PlayPauseWorker.EVENT_CODE_KEY, eventCode)
+                .putString(PlayPauseWorker.USER_ID_KEY, SharedPreferenceUtility.getInstance(this).getString(USER_ID))
+                .putLong(PlayPauseWorker.RESULT_KEY, result) // Example time value
+                .build();
+        // Create a OneTimeWorkRequest to run the worker
+        OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(PlayPauseWorker.class)
+                .setInputData(inputData)
+                .build();
+
+        // Enqueue the work request
+        WorkManager.getInstance(this).enqueue(workRequest);
     }
 
     public String getDistanceBtTwoPoints(Context context, LatLng origin, LatLng destination) {
