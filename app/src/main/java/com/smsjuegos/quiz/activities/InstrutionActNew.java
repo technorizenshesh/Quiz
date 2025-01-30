@@ -335,6 +335,9 @@ public class InstrutionActNew extends AppCompatActivity implements OnMapReadyCal
 
 
                     || eventId.equalsIgnoreCase("40") // riddle (Mexico)
+                    || eventId.equalsIgnoreCase("25") // crime game (Monterrey city)
+
+
 
             ) {
                   handleEventWithLocation(position);
@@ -382,7 +385,7 @@ public class InstrutionActNew extends AppCompatActivity implements OnMapReadyCal
             Toast.makeText(getApplicationContext(), "" + distance, Toast.LENGTH_SHORT).show();
 
 
-           /* if (instructionList.get(position).JigsawPuzzleStatus.equalsIgnoreCase("enable")) {
+            /*if (instructionList.get(position).JigsawPuzzleStatus.equalsIgnoreCase("enable")) {
                 startActivity(new Intent(InstrutionActNew.this, SamplePuzzleActivity.class)
                         .putExtra("myData",instructionList.get(position))
                         .putExtra("eventCode",eventCode));
@@ -405,7 +408,7 @@ public class InstrutionActNew extends AppCompatActivity implements OnMapReadyCal
                     startActivity(new Intent(InstrutionActNew.this, SamplePuzzleActivity.class)
                             .putExtra("myData",instructionList.get(position))
                             .putExtra("eventCode",eventCode));
-                   /* String urlImg[] = instructionList.get(position).getJigsawPuzzleImage().split(".png");
+                 /*   String urlImg[] = instructionList.get(position).getJigsawPuzzleImage().split(".png");
                       for(int i =0;i<urlImg.length;i++){
                           Log.e("split value====",i+"======="+urlImg[i]);
                       }*/
@@ -417,6 +420,26 @@ public class InstrutionActNew extends AppCompatActivity implements OnMapReadyCal
 
 
         } else {
+          /*  double distance = GPSTracker.getDistanceFromPointWithoutAlt(
+                    Double.parseDouble(instructionList.get(position).getLat()),
+                    Double.parseDouble(instructionList.get(position).getLon()),
+                    MyLatitude, MyLongitude);
+            if (distance > 100) {  //  if (distance >= 150)         {
+                showSimpleCancelBtnDialog(InstrutionActNew.this, R.layout.dialog_distance, distance + "");
+            } else {
+                // Log.e("TAG", "onMarkerClick: " + instructionList.get(position));
+                if (instructionList.get(position).JigsawPuzzleStatus.equalsIgnoreCase("enable")) {
+                    startActivity(new Intent(InstrutionActNew.this, SamplePuzzleActivity.class)
+                            .putExtra("myData",instructionList.get(position))
+                            .putExtra("eventCode",eventCode));
+                 *//*   String urlImg[] = instructionList.get(position).getJigsawPuzzleImage().split(".png");
+                      for(int i =0;i<urlImg.length;i++){
+                          Log.e("split value====",i+"======="+urlImg[i]);
+                      }*//*
+
+                } else startQuestionAnswerActivity(position);
+            }*/
+
             startQuestionAnswerActivity(position);
 
 
