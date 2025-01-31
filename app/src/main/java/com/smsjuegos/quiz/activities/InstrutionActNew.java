@@ -336,7 +336,7 @@ public class InstrutionActNew extends AppCompatActivity implements OnMapReadyCal
 
                     || eventId.equalsIgnoreCase("40") // riddle (Mexico)
                     || eventId.equalsIgnoreCase("25") // crime game (Monterrey city)
-
+                    || eventId.equalsIgnoreCase("66") //MUSEO 1 (Mexico city)
 
 
             ) {
@@ -400,7 +400,7 @@ public class InstrutionActNew extends AppCompatActivity implements OnMapReadyCal
 
 
 
-            if (distance > 100) {  //  if (distance >= 150)         {
+            if (distance > 30) {  //  if (distance >= 100)         {
                 showSimpleCancelBtnDialog(InstrutionActNew.this, R.layout.dialog_distance, distance + "");
             } else {
                // Log.e("TAG", "onMarkerClick: " + instructionList.get(position));
@@ -902,7 +902,7 @@ public class InstrutionActNew extends AppCompatActivity implements OnMapReadyCal
 
            TextView numberTextView = markerView.findViewById(R.id.marker_number);
            Log.e("check marker number===",number);
-           if (eventId.equalsIgnoreCase("15")){
+           if (eventId.equalsIgnoreCase("15") || eventId.equalsIgnoreCase("66")){
                numberTextView.setVisibility(View.VISIBLE);
                numberTextView.setText("#"+number);
            }

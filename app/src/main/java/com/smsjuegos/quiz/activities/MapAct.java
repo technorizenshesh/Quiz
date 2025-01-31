@@ -165,6 +165,8 @@ public class MapAct extends AppCompatActivity implements OnMapReadyCallback, Goo
 
 
                     || eventId.equalsIgnoreCase("40") // riddle (Mexico)
+                    || eventId.equalsIgnoreCase("25") // crime game (Monterrey city)
+                    || eventId.equalsIgnoreCase("66") // MUSEO 1 (Mexico city)
 
             ) {
 
@@ -201,7 +203,7 @@ public class MapAct extends AppCompatActivity implements OnMapReadyCallback, Goo
 
 
             Log.e("TAG", "onMarkerClick: distancedistancedistancedistance" + distance);
-            if (distance > 100) {   // (distance > 150)    {
+            if (distance > 30) {   // (distance > 100)    {
                 showSimpleCancelBtnDialog(MapAct.this, R.layout.dialog_distance, distance + "");
             } else {
                // Log.e("TAG", "onMarkerClick: " + instructionList.get(position));
@@ -616,7 +618,7 @@ public class MapAct extends AppCompatActivity implements OnMapReadyCallback, Goo
 
            TextView numberTextView = markerView.findViewById(R.id.marker_number);
            Log.e("check marker number===",number);
-           if (eventId.equalsIgnoreCase("15")){
+           if (eventId.equalsIgnoreCase("15") || eventId.equalsIgnoreCase("66")){
                numberTextView.setVisibility(View.VISIBLE);
                numberTextView.setText("#"+number);
            }
