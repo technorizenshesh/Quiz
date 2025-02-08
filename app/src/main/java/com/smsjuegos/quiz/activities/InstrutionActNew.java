@@ -308,7 +308,7 @@ public class InstrutionActNew extends AppCompatActivity implements OnMapReadyCal
             Log.e(TAG, "onMarkerClick: " + instructionList.get(position).getGeolocation());
             Log.e(TAG, "onMarkerClick: " + instructionList.get(position).getEventId());
             Log.e(TAG, "onMarkerClick: " + eventId);
-            if (eventId.equalsIgnoreCase("19")  // Rescate Gaudalajara
+       /*     if (eventId.equalsIgnoreCase("19")  // Rescate Gaudalajara
                     || eventId.equalsIgnoreCase("18")
                     || eventId.equalsIgnoreCase("28")
 
@@ -337,6 +337,7 @@ public class InstrutionActNew extends AppCompatActivity implements OnMapReadyCal
                     || eventId.equalsIgnoreCase("40") // riddle (Mexico)
                     || eventId.equalsIgnoreCase("25") // crime game (Monterrey city)
                     || eventId.equalsIgnoreCase("66") //MUSEO 1 (Mexico city)
+                    || eventId.equalsIgnoreCase("67") //MUSEO 2 (Mexico city)
 
 
             ) {
@@ -344,7 +345,10 @@ public class InstrutionActNew extends AppCompatActivity implements OnMapReadyCal
             } else {
                 startQuestionAnswerActivity(position);
 
-            }
+            }*/
+
+            handleEventWithLocation(position);
+
 
         }
         return false;
@@ -902,7 +906,7 @@ public class InstrutionActNew extends AppCompatActivity implements OnMapReadyCal
 
            TextView numberTextView = markerView.findViewById(R.id.marker_number);
            Log.e("check marker number===",number);
-           if (eventId.equalsIgnoreCase("15") || eventId.equalsIgnoreCase("66")){
+           if (eventId.equalsIgnoreCase("15") || eventId.equalsIgnoreCase("66") || eventId.equalsIgnoreCase("67")){
                numberTextView.setVisibility(View.VISIBLE);
                numberTextView.setText("#"+number);
            }
@@ -1096,6 +1100,16 @@ public class InstrutionActNew extends AppCompatActivity implements OnMapReadyCal
     public void onBackPressed() {
         super.onBackPressed();
         String status="";
+        long value;
+        // This could be null
+
+        if (result != null) {
+            // Perform operations on result
+             value = result; // Auto-unboxing Long to long
+        } else {
+            // Handle the null case (e.g., assign a default value)
+             value = 0; // Default value
+        }
         // Create input data to pass to the worker
          if(gamePlayPauseStatus.equalsIgnoreCase("STOP")){
              status = "STOP";
@@ -1109,7 +1123,7 @@ public class InstrutionActNew extends AppCompatActivity implements OnMapReadyCal
                 .putString(PlayPauseWorker.EVENT_ID_KEY, eventId)
                 .putString(PlayPauseWorker.EVENT_CODE_KEY, eventCode)
                 .putString(PlayPauseWorker.USER_ID_KEY, SharedPreferenceUtility.getInstance(this).getString(USER_ID))
-                .putLong(PlayPauseWorker.RESULT_KEY, result) // Example time value
+                .putLong(PlayPauseWorker.RESULT_KEY, value) // Example time value
                 .build();
         // Create a OneTimeWorkRequest to run the worker
         OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(PlayPauseWorker.class)

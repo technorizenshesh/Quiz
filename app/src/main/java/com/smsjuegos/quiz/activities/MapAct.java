@@ -138,7 +138,7 @@ public class MapAct extends AppCompatActivity implements OnMapReadyCallback, Goo
             Log.e("TAG", "onMarkerClick: " + instructionList.get(position).getGeolocation());
             Log.e("TAG", "onMarkerClick: " + instructionList.get(position).getEventId());
             Log.e("TAG", "onMarkerClick: " + eventId);
-            if (eventId.equalsIgnoreCase("19")  // Rescate Gaudalajara
+         /*   if (eventId.equalsIgnoreCase("19")  // Rescate Gaudalajara
                     || eventId.equalsIgnoreCase("18")
                     || eventId.equalsIgnoreCase("28")
 
@@ -167,13 +167,16 @@ public class MapAct extends AppCompatActivity implements OnMapReadyCallback, Goo
                     || eventId.equalsIgnoreCase("40") // riddle (Mexico)
                     || eventId.equalsIgnoreCase("25") // crime game (Monterrey city)
                     || eventId.equalsIgnoreCase("66") // MUSEO 1 (Mexico city)
-
+                    || eventId.equalsIgnoreCase("67") //MUSEO 2 (Mexico city)
             ) {
 
                 handleEventWithLocation(position);
             } else {
                 startQuestionAnswerActivity(position);
-            }
+            }*/
+
+            handleEventWithLocation(position);
+
         }
         return false;
     }
@@ -618,7 +621,7 @@ public class MapAct extends AppCompatActivity implements OnMapReadyCallback, Goo
 
            TextView numberTextView = markerView.findViewById(R.id.marker_number);
            Log.e("check marker number===",number);
-           if (eventId.equalsIgnoreCase("15") || eventId.equalsIgnoreCase("66")){
+           if (eventId.equalsIgnoreCase("15") || eventId.equalsIgnoreCase("66") || eventId.equalsIgnoreCase("67")){
                numberTextView.setVisibility(View.VISIBLE);
                numberTextView.setText("#"+number);
            }

@@ -221,7 +221,11 @@ class SamplePuzzleActivity : AppCompatActivity() {
             numColumns = TOTAL_COLUMNS
             setOnSwipeListener(object : OnSwipeListener {
                 override fun onSwipe(direction: SwipeDirections, position: Int) {
-                    moveTiles(direction, position)
+                   try{
+                       moveTiles(direction, position)
+                   }catch (e:Exception){
+                       e.printStackTrace()
+                   }
                 }
             })
         }
@@ -394,78 +398,84 @@ class SamplePuzzleActivity : AppCompatActivity() {
     }
 
     private fun moveTiles(direction: SwipeDirections, position: Int) {
-        // Upper-left-corner tile
-        Log.e("position=====",position.toString()+"");
-        if (position == 0) {
-            when (direction) {
-                SwipeDirections.RIGHT -> swapTile(position, 1)
-                SwipeDirections.DOWN -> swapTile(position, TOTAL_COLUMNS)
-                else -> displayToast(R.string.invalid_move)
-            }
-            // Upper-center tiles
-        } else if (position > 0 && position < TOTAL_COLUMNS - 1) {
-            when (direction) {
-                SwipeDirections.LEFT -> swapTile(position, -1)
-                SwipeDirections.DOWN -> swapTile(position, TOTAL_COLUMNS)
-                SwipeDirections.RIGHT -> swapTile(position, 1)
-                else -> displayToast(R.string.invalid_move)
-            }
-            // Upper-right-corner tile
-        } else if (position == TOTAL_COLUMNS - 1) {
-            when (direction) {
-                SwipeDirections.LEFT -> swapTile(position, -1)
-                SwipeDirections.DOWN -> swapTile(position, TOTAL_COLUMNS)
-                else -> displayToast(R.string.invalid_move)
-            }
-            // Left-side tiles
-        } else if (position > TOTAL_COLUMNS - 1 && position < DIMENSIONS - TOTAL_COLUMNS && position % TOTAL_COLUMNS == 0) {
-            when (direction) {
-                SwipeDirections.UP -> swapTile(position, -TOTAL_COLUMNS)
-                SwipeDirections.RIGHT -> swapTile(position, 1)
-                SwipeDirections.DOWN -> swapTile(position, TOTAL_COLUMNS)
-                else -> displayToast(R.string.invalid_move)
-            }
-            // Right-side AND bottom-right-corner tiles
-        } else if (position == TOTAL_COLUMNS * 2 - 1 || position == TOTAL_COLUMNS * 3 - 1) {
-            when (direction) {
-                SwipeDirections.UP -> swapTile(position, -TOTAL_COLUMNS)
-                SwipeDirections.LEFT -> swapTile(position, -1)
-                SwipeDirections.DOWN -> {
-                    // Tolerates only the right-side tiles to swap downwards as opposed to the bottom-
-                    // right-corner tile.
-                    if (position <= DIMENSIONS - TOTAL_COLUMNS - 1) {
-                        swapTile(position, TOTAL_COLUMNS)
-                    } else {
-                        displayToast(R.string.invalid_move)
-                    }
-                }
+       try {
 
-                else -> displayToast(R.string.invalid_move)
-            }
-            // Bottom-left corner tile
-        } else if (position == DIMENSIONS - TOTAL_COLUMNS) {
-            when (direction) {
-                SwipeDirections.UP -> swapTile(position, -TOTAL_COLUMNS)
-                SwipeDirections.RIGHT -> swapTile(position, 1)
-                else -> displayToast(R.string.invalid_move)
-            }
-            // Bottom-center tiles
-        } else if (position < DIMENSIONS - 1 && position > DIMENSIONS - TOTAL_COLUMNS) {
-            when (direction) {
-                SwipeDirections.UP -> swapTile(position, -TOTAL_COLUMNS)
-                SwipeDirections.LEFT -> swapTile(position, -1)
-                SwipeDirections.RIGHT -> swapTile(position, 1)
-                else -> displayToast(R.string.invalid_move)
-            }
-            // Center tiles
-        } else {
-            when (direction) {
-                SwipeDirections.UP -> swapTile(position, -TOTAL_COLUMNS)
-                SwipeDirections.LEFT -> swapTile(position, -1)
-                SwipeDirections.RIGHT -> swapTile(position, 1)
-                else -> swapTile(position, TOTAL_COLUMNS)
-            }
-        }
+           // Upper-left-corner tile
+           Log.e("position=====", position.toString() + "");
+           if (position == 0) {
+               when (direction) {
+                   SwipeDirections.RIGHT -> swapTile(position, 1)
+                   SwipeDirections.DOWN -> swapTile(position, TOTAL_COLUMNS)
+                   else -> displayToast(R.string.invalid_move)
+               }
+               // Upper-center tiles
+           } else if (position > 0 && position < TOTAL_COLUMNS - 1) {
+               when (direction) {
+                   SwipeDirections.LEFT -> swapTile(position, -1)
+                   SwipeDirections.DOWN -> swapTile(position, TOTAL_COLUMNS)
+                   SwipeDirections.RIGHT -> swapTile(position, 1)
+                   else -> displayToast(R.string.invalid_move)
+               }
+               // Upper-right-corner tile
+           } else if (position == TOTAL_COLUMNS - 1) {
+               when (direction) {
+                   SwipeDirections.LEFT -> swapTile(position, -1)
+                   SwipeDirections.DOWN -> swapTile(position, TOTAL_COLUMNS)
+                   else -> displayToast(R.string.invalid_move)
+               }
+               // Left-side tiles
+           } else if (position > TOTAL_COLUMNS - 1 && position < DIMENSIONS - TOTAL_COLUMNS && position % TOTAL_COLUMNS == 0) {
+               when (direction) {
+                   SwipeDirections.UP -> swapTile(position, -TOTAL_COLUMNS)
+                   SwipeDirections.RIGHT -> swapTile(position, 1)
+                   SwipeDirections.DOWN -> swapTile(position, TOTAL_COLUMNS)
+                   else -> displayToast(R.string.invalid_move)
+               }
+               // Right-side AND bottom-right-corner tiles
+           } else if (position == TOTAL_COLUMNS * 2 - 1 || position == TOTAL_COLUMNS * 3 - 1) {
+               when (direction) {
+                   SwipeDirections.UP -> swapTile(position, -TOTAL_COLUMNS)
+                   SwipeDirections.LEFT -> swapTile(position, -1)
+                   SwipeDirections.DOWN -> {
+                       // Tolerates only the right-side tiles to swap downwards as opposed to the bottom-
+                       // right-corner tile.
+                       if (position <= DIMENSIONS - TOTAL_COLUMNS - 1) {
+                           swapTile(position, TOTAL_COLUMNS)
+                       } else {
+                           displayToast(R.string.invalid_move)
+                       }
+                   }
+
+                   else -> displayToast(R.string.invalid_move)
+               }
+               // Bottom-left corner tile
+           } else if (position == DIMENSIONS - TOTAL_COLUMNS) {
+               when (direction) {
+                   SwipeDirections.UP -> swapTile(position, -TOTAL_COLUMNS)
+                   SwipeDirections.RIGHT -> swapTile(position, 1)
+                   else -> displayToast(R.string.invalid_move)
+               }
+               // Bottom-center tiles
+           } else if (position < DIMENSIONS - 1 && position > DIMENSIONS - TOTAL_COLUMNS) {
+               when (direction) {
+                   SwipeDirections.UP -> swapTile(position, -TOTAL_COLUMNS)
+                   SwipeDirections.LEFT -> swapTile(position, -1)
+                   SwipeDirections.RIGHT -> swapTile(position, 1)
+                   else -> displayToast(R.string.invalid_move)
+               }
+               // Center tiles
+           } else {
+               when (direction) {
+                   SwipeDirections.UP -> swapTile(position, -TOTAL_COLUMNS)
+                   SwipeDirections.LEFT -> swapTile(position, -1)
+                   SwipeDirections.RIGHT -> swapTile(position, 1)
+                   else -> swapTile(position, TOTAL_COLUMNS)
+               }
+           }
+
+       } catch (e:Exception)  {
+           e.printStackTrace()
+       }
     }
 
 /*
