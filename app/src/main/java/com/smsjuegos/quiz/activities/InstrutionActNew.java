@@ -906,7 +906,7 @@ public class InstrutionActNew extends AppCompatActivity implements OnMapReadyCal
 
            TextView numberTextView = markerView.findViewById(R.id.marker_number);
            Log.e("check marker number===",number);
-           if (eventId.equalsIgnoreCase("15") || eventId.equalsIgnoreCase("66") || eventId.equalsIgnoreCase("67")){
+           if (eventId.equalsIgnoreCase("15") || eventId.equalsIgnoreCase("66") || eventId.equalsIgnoreCase("67")|| eventId.equalsIgnoreCase("68")){
                numberTextView.setVisibility(View.VISIBLE);
                numberTextView.setText("#"+number);
            }
